@@ -16,10 +16,11 @@ angular.module('contractualClienteApp')
             'Karma'
 
         ];
-        console.info(token_service.getHeader());
+        console.info('header', token_service.getHeader());
+        console.info('payload', token_service.getPayload());
         $http.get('https://autenticacion.udistrital.edu.co:8244/configuracion_crud_api/v1/aplicacion/?limit=-1', token_service.getHeader())
         .then(function(response) {
-           console.log(response.data);
+           console.log('response', response.data);
         });
         
     });
