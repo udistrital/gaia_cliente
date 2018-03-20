@@ -27,13 +27,13 @@ angular.module('adminMidService', [])
                 }
             },
             post: function(tabla, elemento) {
-                return $http.post(path + tabla, elemento, token_service.setting_bearer.headers);
+                return $http.post(path + tabla, elemento, token_service.getHeader());
             },
             put: function(tabla, id, elemento) {
-                return $http.put(path + tabla + "/" + id, elemento, token_service.setting_bearer.headers);
+                return $http.put(path + tabla + "/" + id, elemento, token_service.getHeader());
             },
             delete: function(tabla, id) {
-                return $http.delete(path + tabla + "/" + id, token_service.setting_bearer.headers);
+                return $http.delete(path + tabla + "/" + id, token_service.getHeader());
             },
             cancel: function() {
                 return cancelSearch.resolve('search aborted');
