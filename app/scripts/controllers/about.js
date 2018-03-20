@@ -9,7 +9,6 @@
  */
 angular.module('contractualClienteApp')
     .controller('AboutCtrl', function(token_service, cookie, $scope, $sessionStorage, $http) {
-        $scope.token_service = token_service;
         $scope.sesion = $sessionStorage.expires_at;
         this.awesomeThings = [
             'HTML5 Boilerplate',
@@ -17,8 +16,8 @@ angular.module('contractualClienteApp')
             'Karma'
 
         ];
-        console.info($scope.token_service.setting_bearer);
-        $http.get('https://autenticacion.udistrital.edu.co:8244/configuracion_crud_api/v1/aplicacion/?limit=-1', $scope.token_service.setting_bearer)
+        console.info(token_service.getHeader());
+        $http.get('https://autenticacion.udistrital.edu.co:8244/configuracion_crud_api/v1/aplicacion/?limit=-1', token_service.getHeader())
         .then(function(response) {
            console.log(response.data);
         });

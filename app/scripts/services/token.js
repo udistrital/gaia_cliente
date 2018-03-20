@@ -97,6 +97,7 @@ angular.module('tokenService', [])
           } else {}
         }
       },
+      
       logout: function () {
         window.location = $location.absUrl();
         var url = service.config.SIGN_OUT_URL;
@@ -106,6 +107,7 @@ angular.module('tokenService', [])
         $sessionStorage.$reset();
         window.location.replace(url);
       },
+
       refresh: function () {
         var url = CONF.GENERAL.TOKEN.REFRESH_TOKEN;
         var data = {};
@@ -123,6 +125,7 @@ angular.module('tokenService', [])
             service.setExpiresAt();
           });
       },
+
       get_id_token: function () {
         if ((!angular.isUndefined($sessionStorage.code)) && (angular.isUndefined($sessionStorage.id_token))) {
           var url = CONF.GENERAL.TOKEN.REFRESH_TOKEN;
@@ -141,6 +144,7 @@ angular.module('tokenService', [])
         }
         service.timer();
       },
+      
       setExpiresAt: function () {
         if (angular.isUndefined($sessionStorage.expires_at) || $sessionStorage.expires_at === null) {
           var expires_at = new Date();
@@ -148,8 +152,14 @@ angular.module('tokenService', [])
           $sessionStorage.expires_at = expires_at;
         }
       },
+
       expired: function () {
         return (new Date($sessionStorage.expires_at) < new Date());
+      },
+
+      getPayload: function () {
+        service.token = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(service.session.id_token.split(".")[1]));
+        return service.token;
       },
 
       getHeader: function () {
