@@ -33,16 +33,16 @@ var conf_cloud = {
     TOKEN: {
         AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",
         URL_USER_INFO: "https://autenticacion.udistrital.edu.co/oauth2/userinfo",
-        CLIENTE_ID: "XdBq4QOfEZYT0cl_8qDh3fmF5_Qa",
-        REDIRECT_URL: "http://administrativa.portaloas.udistrital.edu.co/",
+        CLIENTE_ID: "pszmROXqfec4pTShgF_fn2DAAX0a",
+        REDIRECT_URL: "http://localhost:9000/",
         RESPONSE_TYPE: "code",
         SCOPE: "openid email",
         BUTTON_CLASS: "btn btn-warning btn-sm",
         SIGN_OUT_URL: "https://autenticacion.udistrital.edu.co/oidc/logout",
-        SIGN_OUT_REDIRECT_URL: "http://administrativa.portaloas.udistrital.edu.co/",
+        SIGN_OUT_REDIRECT_URL: "http://localhost:9000/",
         SIGN_OUT_APPEND_TOKEN: "true",
         REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
-        CLIENT_SECRET: "lrVuDATX1o8TfXxz_jrEzBA2iIoa"
+        CLIENT_SECRET: "2crHq2IRkFHEVTBfpznLhKHyKVIa"
     },
 };
 var conf_presentacion = {

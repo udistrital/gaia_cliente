@@ -73,9 +73,8 @@ angular.module('contractualClienteApp')
                         service.token = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(service.session.id_token.split(".")[1]));
                         service.setting_bearer = {
                             headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                'Accept': 'application/json',
                                 "Authorization": "Bearer " + $sessionStorage.access_token,
-                                "cache-control": "no-cache",
                             }
                         };
                         return true;
