@@ -303,7 +303,7 @@ angular.module('contractualClienteApp')
 
     if (self.mes !== undefined && self.anio !== undefined) {
       //Petición para obtener id de estado pago mensual
-      administrativaRequest.get("estado_pago_mensual", $.param({
+      administrativaRequest.get('estado_pago_mensual', $.param({
           query: "CodigoAbreviacion:CD",
           limit: 0
         })).then(function (response) {
@@ -323,7 +323,7 @@ angular.module('contractualClienteApp')
       };
 
 
-      administrativaRequest.get("pago_mensual", $.param({
+      administrativaRequest.get('pago_mensual', $.param({
         query: "NumeroContrato:" + self.contrato.NumeroContratoSuscrito +
           ",VigenciaContrato:" + self.contrato.Vigencia +
           ",Mes:" + self.mes +
@@ -333,7 +333,7 @@ angular.module('contractualClienteApp')
 
         if (response.data == null) {
 
-          administrativaRequest.post("pago_mensual", pago_mensual).then(function(response) {
+          administrativaRequest.post('pago_mensual', pago_mensual).then(function(response) {
             swal(
               'Solicitud registrada',
               'Por favor cargue los soportes correspondientes',
@@ -378,7 +378,7 @@ angular.module('contractualClienteApp')
       self.gridOptions2.data = [];
       self.contrato = contrato;
       //self.obtener_informacion_coordinador(self.contrato.IdDependencia);
-      administrativaRequest.get("pago_mensual", $.param({
+      administrativaRequest.get('pago_mensual', $.param({
         query: "NumeroContrato:" + self.contrato.NumeroContratoSuscrito + ",VigenciaContrato:" + self.contrato.Vigencia,
         limit: 0
       })).then(function(response) {
@@ -389,7 +389,7 @@ angular.module('contractualClienteApp')
 
           console.log(self.tipo_contrato);
 
-          administrativaRequest.get("item_informe_tipo_contrato", $.param({
+          administrativaRequest.get('item_informe_tipo_contrato', $.param({
             query: "TipoContrato:" + self.tipo_contrato,
             limit: 0
           })).then(function(response_iitc) {
