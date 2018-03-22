@@ -169,7 +169,7 @@ angular.module('contractualClienteApp')
 
       self.obtener_informacion_supervisor(self.Documento);
       //Petición para obtener el Id de la relación de acuerdo a los campos
-      adminMidRequest.get('aprobacion_pago/solicitudes_supervisor_contratistas/'+self.Documento).then(function (response) {
+      adminMidRequest.get('aprobacion_pago/solicitudes_supervisor_contratistas/' + self.Documento).then(function (response) {
         self.documentos = response.data;
         console.log(self.documentos);
         //self.obtener_informacion_docente();
