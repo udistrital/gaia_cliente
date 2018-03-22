@@ -389,10 +389,8 @@ angular.module('contractualClienteApp')
 
           console.log(self.tipo_contrato);
 
-          administrativaRequest.get('item_informe_tipo_contrato', $.param({
-            query: "TipoContrato:" + self.tipo_contrato,
-            limit: 0
-          })).then(function(response_iitc) {
+          administrativaRequest.get('item_informe_tipo_contrato', "query:TipoContrato:" + self.tipo_contrato + "&limit=-1")
+          .then(function(response_iitc) {
 
             self.items = response_iitc.data;
 
