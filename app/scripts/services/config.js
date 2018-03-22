@@ -64,7 +64,7 @@ var conf_preproduccion = {
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.210/titan_api_crud/v1/",
     SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
-    CONTRATO_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/contratoSuscritoProxyService/",
+    CONTRATO_SERVICE: "https://autenticacion.udistrital.edu.co:8244/administrativa_jbpm/v1/",
     NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
     HOMOLOGACION_SERVICE:"https://autenticacion.udistrital.edu.co:8244/dependencias_api/v1/",
     TOKEN: {
@@ -103,7 +103,7 @@ var conf_pruebas = {
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
-    CONTRATO_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/contratoSuscritoProxyService/",
+    CONTRATO_SERVICE: "https://autenticacion.udistrital.edu.co:8244/administrativa_jbpm/v1/",
     NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
     HOMOLOGACION_SERVICE:"https://autenticacion.udistrital.edu.co:8244/dependencias_api/v1/",
     TOKEN: {
@@ -163,5 +163,5 @@ var conf_local = {
 
 angular.module('contractualClienteApp')
     .constant('CONF', {
-        GENERAL: conf_preproduccion
+        GENERAL: conf_pruebas
     });
