@@ -476,7 +476,7 @@ angular.module('contractualClienteApp')
         name: nombre,
         properties: 'dc:title=' + nombre + ' \ndc:description=' + descripcion
       })
-      .input('/default-domain/workspaces/Titán')
+      .input('/default-domain/workspaces/oas/oas_app/soportes_pagos')
       .execute()
       .then(function(doc) {
         var nuxeoBlob = new Nuxeo.Blob({
