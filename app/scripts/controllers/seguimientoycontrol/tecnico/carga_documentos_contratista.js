@@ -24,11 +24,7 @@ angular.module('contractualClienteApp')
   var self = this;
   self.mostrar_boton= true;
 
-console.log(token_service.getPayload().documento);
-
   self.Documento = token_service.getPayload().documento;
-
-  console.log(self.Documento);
 
   self.anios = [];
 
@@ -161,7 +157,7 @@ console.log(token_service.getPayload().documento);
       {
         field: 'Acciones',
         displayName: $translate.instant('ACC'),
-        cellTemplate: '<a type="button" title="{{\'CARGAR_LISTAS\'| translate }}" type="button" class="fa fa-upload fa-lg  faa-shake animated-hover" ng-click="grid.appScope.cargaDocumentosContratista.solicitar_pago(row.entity);grid.appScope.cargaDocumentosContratista.cargar_soportes(row.entity)"  data-toggle="modal" data-target="#modal_carga_listas_docente">',
+        cellTemplate: '<a type="button" title="CARGAR SOPORTES" type="button" class="fa fa-upload fa-lg  faa-shake animated-hover" ng-click="grid.appScope.cargaDocumentosContratista.solicitar_pago(row.entity);grid.appScope.cargaDocumentosContratista.cargar_soportes(row.entity)"  data-toggle="modal" data-target="#modal_carga_listas_docente">',
         width: "10%"
       }
     ]
@@ -275,7 +271,7 @@ console.log(token_service.getPayload().documento);
         field: 'Acciones',
         displayName: $translate.instant('ACC'),
         cellTemplate: '<a type="button" title="{{\'VER_SOP\'| translate }}" type="button" class="fa fa-folder-open-o fa-lg  faa-shake animated-hover" ng-click="grid.appScope.cargaDocumentosContratista.obtener_doc(row.entity)" data-toggle="modal" data-target="#modal_ver_soportes">' +
-          '</a>&nbsp;' + ' <a ng-if="row.entity.EstadoPagoMensual.CodigoAbreviacion === \'CD\' || row.entity.EstadoPagoMensual.CodigoAbreviacion === \'RS\' || row.entity.EstadoPagoMensual.CodigoAbreviacion === \'RO\'" type="button" title="{{\'ENV_REV\'| translate }}" type="button" class="fa fa-send-o fa-lg  faa-shake animated-hover" ng-click="grid.appScope.cargaDocumentosContratista.enviar_revision(row.entity)"  >',
+          '</a>&nbsp;' + ' <a ng-if="row.entity.EstadoPagoMensual.CodigoAbreviacion === \'CD\' || row.entity.EstadoPagoMensual.CodigoAbreviacion === \'RS\' || row.entity.EstadoPagoMensual.CodigoAbreviacion === \'RO\'" type="button" title="ENVIAR A REVISION SUPERVISOR" type="button" class="fa fa-send-o fa-lg  faa-shake animated-hover" ng-click="grid.appScope.cargaDocumentosContratista.enviar_revision(row.entity)"  >',
         width: "10%"
       }
     ]
@@ -344,6 +340,12 @@ console.log(token_service.getPayload().documento);
               'success'
             )
 
+
+            self.cargar_soportes(self.contrato);
+
+
+            self.gridApi2.core.refresh();
+
             self.contrato = {};
             self.mes = {};
             self.anio = {};
@@ -393,8 +395,10 @@ console.log(token_service.getPayload().documento);
 
           console.log(self.tipo_contrato);
 
-          administrativaRequest.get('item_informe_tipo_contrato', "query:TipoContrato:" + self.tipo_contrato + "&limit=-1")
-          .then(function(response_iitc) {
+          administrativaRequest.get("item_informe_tipo_contrato", $.param({
+            query: "TipoContrato:" + self.tipo_contrato,
+            limit: 0
+          })).then(function(response_iitc) {
 
             self.items = response_iitc.data;
 

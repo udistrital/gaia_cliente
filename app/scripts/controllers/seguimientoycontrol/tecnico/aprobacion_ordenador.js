@@ -14,8 +14,7 @@ angular.module('contractualClienteApp')
 
     //Se utiliza la variable self estandarizada
     var self = this;
-    self.Documento = '19400342';
-
+    self.Documento = token_service.getPayload().documento;
     self.contratistas = [];
 
     self.mes = '';
@@ -93,7 +92,7 @@ angular.module('contractualClienteApp')
         {
           field: 'NombreDependencia',
           cellTemplate: tmpl,
-          displayName: $translate.instant('PRO_CURR'),
+          displayName: 'DEPENDENCIA',
           sort: {
             direction: uiGridConstants.ASC,
             priority: 1
@@ -113,7 +112,7 @@ angular.module('contractualClienteApp')
         {
           field: 'NombrePersona',
           cellTemplate: tmpl,
-          displayName: $translate.instant('NAME_TEACHER'),
+          displayName: 'NOMBRE PERSONA',
           sort: {
             direction: uiGridConstants.ASC,
             priority: 1
@@ -123,7 +122,7 @@ angular.module('contractualClienteApp')
         {
           field: 'PagoMensual.NumeroContrato',
           cellTemplate: tmpl,
-          displayName: $translate.instant('NUM_VIN'),
+          displayName: 'NUMERO CONTRATO',
           sort: {
             direction: uiGridConstants.ASC,
             priority: 1
