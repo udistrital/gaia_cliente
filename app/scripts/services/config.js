@@ -53,7 +53,7 @@ var conf_preproduccion = {
     ADMINISTRATIVA_PRUEBAS_SERVICE: "https://autenticacion.udistrital.edu.co:8244/administrativa_amazon_api/v1/",
     ARKA_SERVICE: "http://10.20.0.210/arka_api_crud/v1/",
     CONFIGURACION_SERVICE: "https://autenticacion.udistrital.edu.co:8244/configuracion_crud_api/v1/",
-    CORE_SERVICE: "https://autenticacion.udistrital.edu.co:8244/core_api/v1/",
+    CORE_SERVICE: "https://tuleap.udistrital.edu.co/go_api/core_api/v1/",
     CORE_AMAZON_SERVICE: "https://autenticacion.udistrital.edu.co:8244/core_api/v1/",
     FINANCIERA_MID_SERVICE: "http://10.20.0.210/financiera_mid_api/v1/",
     FINANCIERA_SERVICE: "http://10.20.0.210/financiera_api/v1/",
