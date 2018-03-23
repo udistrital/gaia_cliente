@@ -25,7 +25,7 @@ angular.module('contractualClienteApp')
   self.mostrar_boton= true;
 
   self.Documento = token_service.getPayload().documento;
-
+  console.log(self.Documento);
   self.anios = [];
 
   self.meses_aux = [{

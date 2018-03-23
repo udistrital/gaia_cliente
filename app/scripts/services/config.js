@@ -104,21 +104,21 @@ var conf_pruebas = {
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
     CONTRATO_SERVICE: "https://autenticacion.udistrital.edu.co:8244/administrativa_jbpm/v1/",
-    NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
+    NUXEO_SERVICE: "https://documental.udistrital.edu.co/nuxeo/",
     HOMOLOGACION_SERVICE:"https://autenticacion.udistrital.edu.co:8244/dependencias_api/v1/",
     TOKEN: {
         AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",
         URL_USER_INFO: "https://autenticacion.udistrital.edu.co/oauth2/userinfo",
-        CLIENTE_ID: "OkoqitCdbVHCFdFfpEBjQHn0zVIa",
-        REDIRECT_URL: "http:",
+        CLIENTE_ID: "pszmROXqfec4pTShgF_fn2DAAX0a",
+        REDIRECT_URL: "http://localhost:9000/",
         RESPONSE_TYPE: "code",
         SCOPE: "openid email",
         BUTTON_CLASS: "btn btn-warning btn-sm",
         SIGN_OUT_URL: "https://autenticacion.udistrital.edu.co/oidc/logout",
-        SIGN_OUT_REDIRECT_URL: "https://pruebasadministrativa.portaloas.udistrital.edu.co/",
+        SIGN_OUT_REDIRECT_URL: "http://localhost:9000/",
         SIGN_OUT_APPEND_TOKEN: "true",
         REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
-        CLIENT_SECRET: "w_288oYqoQ_Tz5DUrqRVNLkcV1Ea"
+        CLIENT_SECRET: "2crHq2IRkFHEVTBfpznLhKHyKVIa"
     },
 };
 
