@@ -346,7 +346,7 @@ angular.module('contractualClienteApp')
 
             self.gridApi2.core.refresh();
 
-            self.contrato = {};
+            //self.contrato = {};
             self.mes = {};
             self.anio = {};
 
@@ -389,7 +389,8 @@ angular.module('contractualClienteApp')
         limit: 0
       })).then(function(response) {
 
-        contratoRequest.get('contrato', self.contrato.NumeroContratoSuscrito + '/' + self.contrato.Vigencia).then(function(response_ce) {
+        contratoRequest.get('contrato', self.contrato.NumeroContratoSuscrito + '/' + self.contrato.Vigencia)
+        .then(function(response_ce) {
 
           self.tipo_contrato = response_ce.data.contrato.tipo_contrato;
 
