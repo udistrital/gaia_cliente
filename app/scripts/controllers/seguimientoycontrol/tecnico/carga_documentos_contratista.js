@@ -8,7 +8,7 @@
  * Controller of the contractualClienteApp
  */
 angular.module('contractualClienteApp')
-  .controller('cargaDocumentosContratistaCtrl', function ($scope, $http, $translate, uiGridConstants, contratoRequest, administrativaRequest, nuxeo, $q, coreRequest, $window,$sce, adminMidRequest,$routeParams, wso2GeneralService, amazonAdministrativaRequest) {
+  .controller('cargaDocumentosContratistaCtrl', function (token_service, cookie, $sessionStorage, $http$scope, $http, $translate, uiGridConstants, contratoRequest, administrativaRequest, nuxeo, $q, coreRequest, $window,$sce, adminMidRequest,$routeParams, wso2GeneralService, amazonAdministrativaRequest) {
 
     //Variable de template que permite la edición de las filas de acuerdo a la condición ng-if
   var tmpl = '<div ng-if="!row.entity.editable">{{COL_FIELD}}</div><div ng-if="row.entity.editable"><input ng-model="MODEL_COL_FIELD"</div>';
@@ -24,7 +24,11 @@ angular.module('contractualClienteApp')
   var self = this;
   self.mostrar_boton= true;
 
-  self.Documento = '52896764';
+console.log(token_service.getPayload().documento);
+
+  self.Documento = token_service.getPayload().documento;
+
+  console.log(self.Documento);
 
   self.anios = [];
 
