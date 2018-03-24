@@ -100,7 +100,7 @@
           <br>
 
           <!--Div que se visualiza al seleccionar una vinculación y muestra los tipos de adjuntos que el usuario puede hacer-->
-          <div class="col-md-12" ng-if="cargaDocumentosContratista.seleccionado && (cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion == 'RD' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RC' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RP')">
+          <div class="col-md-12" ng-if="cargaDocumentosContratista.seleccionado && (cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RO')">
             <p>{{'DESC_ADJ' | translate}}</p>
             <!--Campo que pinta la opción archivo-->
             <fieldset class="form-group">
@@ -145,7 +145,7 @@
       </div>
 
 
-      <button ng-if="cargaDocumentosContratista.seleccionado && (cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion == 'RD' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RC' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RP') " ng-show="cargaDocumentosContratista.mostrar_boton" class="btn btn-success" ng-click="cargaDocumentosContratista.subir_documento()">
+      <button ng-if="cargaDocumentosContratista.seleccionado && (cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion == 'RS' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RO') " ng-show="cargaDocumentosContratista.mostrar_boton" class="btn btn-success" ng-click="cargaDocumentosContratista.subir_documento()">
         {{'CAR_SOP' | translate }}
       </button>
     </div>
