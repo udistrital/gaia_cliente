@@ -24,8 +24,9 @@ angular.module('contractualClienteApp')
   var self = this;
   self.mostrar_boton= true;
 
-  self.Documento = token_service.getPayload().documento;
-  console.log(self.Documento);
+  self.Documento = '1030619892';
+
+  //self.Documento = token_service.getPayload().documento;
   self.anios = [];
 
   self.meses_aux = [{
@@ -179,7 +180,7 @@ angular.module('contractualClienteApp')
       adminMidRequest.get('aprobacion_pago/contratos_contratista/' + self.Documento)
       .then(function(response) {
         console.log(response.data);
-        if(response.data !== null || response.data !== undefined){
+        if(response.data){
           //Contiene la respuesta de la petición
           self.informacion_contratos = response.data;
           //Se envia la data a la tabla
@@ -187,9 +188,12 @@ angular.module('contractualClienteApp')
           //Contiene el numero de documento del Responsable
           self.responsable = self.informacion_contratos[0].NumDocumentoSupervisor;
         }else{
-          alert("No se encontraron contratos vigentes asociadas a su número de documento");
+          swal(
+            'Error',
+            'No se encontraron contratos vigentes asociadas a su número de documento',
+            'error'
+          )
         }
-
       });
     //self.gridApi2.core.refresh();
   };
