@@ -24,9 +24,8 @@ angular.module('contractualClienteApp')
   var self = this;
   self.mostrar_boton= true;
 
-  self.Documento = '1030619892';
-
-  //self.Documento = token_service.getPayload().documento;
+  self.Documento = token_service.getPayload().documento;
+  console.log(self.Documento);
   self.anios = [];
 
   self.meses_aux = [{
@@ -230,19 +229,11 @@ angular.module('contractualClienteApp')
         field: 'NumeroContrato',
         cellTemplate: tmpl,
         displayName: $translate.instant('NUMERO_CONTRATO'),
-        sort: {
-          direction: uiGridConstants.ASC,
-          priority: 1
-        },
       },
       {
         field: 'VigenciaContrato',
         cellTemplate: tmpl,
         displayName: $translate.instant('VIGENCIA'),
-        sort: {
-          direction: uiGridConstants.ASC,
-          priority: 1
-        },
       },
       {
         field: 'Mes',
@@ -257,26 +248,18 @@ angular.module('contractualClienteApp')
         field: 'Ano',
         cellTemplate: tmpl,
         displayName: $translate.instant('ANO'),
-        sort: {
-          direction: uiGridConstants.ASC,
-          priority: 1
-        },
       },
       {
         field: 'EstadoPagoMensual.Nombre',
         cellTemplate: tmpl,
         displayName: $translate.instant('EST_SOL'),
-        sort: {
-          direction: uiGridConstants.ASC,
-          priority: 1
-        },
       },
       {
         field: 'Acciones',
         displayName: $translate.instant('ACC'),
         cellTemplate: '<a type="button" title="{{\'VER_SOP\'| translate }}" type="button" class="fa fa-folder-open-o fa-lg  faa-shake animated-hover" ng-click="grid.appScope.cargaDocumentosContratista.obtener_doc(row.entity)" data-toggle="modal" data-target="#modal_ver_soportes">' +
           '</a>&nbsp;' + ' <a ng-if="row.entity.EstadoPagoMensual.CodigoAbreviacion === \'CD\' || row.entity.EstadoPagoMensual.CodigoAbreviacion === \'RS\' || row.entity.EstadoPagoMensual.CodigoAbreviacion === \'RO\'" type="button" title="ENVIAR A REVISION SUPERVISOR" type="button" class="fa fa-send-o fa-lg  faa-shake animated-hover" ng-click="grid.appScope.cargaDocumentosContratista.enviar_revision(row.entity)"  >',
-        width: "10%"
+      //  width: "10%"
       }
     ]
   };
@@ -689,32 +672,18 @@ angular.module('contractualClienteApp')
   self.borrar_doc = function(){
 
    var documento = self.doc;
-     swal({
-        title: '¿Está seguro(a) de eliminar el soporte?',
-        text: "No podrá revertir esta acción",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Aceptar'
-      }).then(function () {
-       documento.Contenido = JSON.stringify(documento.Contenido)
-       documento.Activo = false;
-       coreRequest.put('documento', documento.Id, documento).
-       then(function(response){
+   documento.Contenido = JSON.stringify(documento.Contenido)
+   documento.Activo = false;
+   coreRequest.put('documento', documento.Id, documento).
+  then(function(response){
             self.obtener_doc(self.fila_sol_pago);
       });
-
-     });
-
-
   };
 
   self.set_doc = function (doc){
 
     self.doc = doc;
-  }
+  };
 
 
 
