@@ -158,14 +158,14 @@ angular.module('contractualClienteApp')
         $scope.perfil = "ADMINISTRADOR ARGO";
 
         if(token_service.live_token()){
-          //console.log(token_service.token.role.pop());
-          console.log(token_service.token.role);
+          ////console.log(token_service.token.role.pop());
+          //console.log(token_service.token.role);
             token_service.token.role.pop();
             var roles = token_service.token.role.toString();
             //var e_roles = roles.replace(',', '%2C');
             configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo', '').then(function(response) {
-              console.log(roles);
-                console.log(response.data);
+              //console.log(roles);
+                //console.log(response.data);
                 $rootScope.my_menu = response.data;
                 /*configuracionRequest.update_menu(https://10.20.0.162:9443/store/apis/authenticate response.data);
                 $scope.menu_service = configuracionRequest.get_menu();*/

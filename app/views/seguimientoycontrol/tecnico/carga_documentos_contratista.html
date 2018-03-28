@@ -76,7 +76,7 @@
             </select>
           </div>
 
-          <button class="col-md-2 btn btn-success" ng-click="cargaDocumentosContratista.enviar_solicitud()">
+          <button class="col-md-2 btn btn-success" ng-click="cargaDocumentosContratista.enviar_solicitud()" ng-show="cargaDocumentosContratista.mostrar_boton">
             {{'ENVIAR' | translate }}
           </button>
 
@@ -94,7 +94,7 @@
 
         <div class="panel-body">
 
-          <div style="height: {{gridHeight}}px;width:{{gridWidth}}px" ui-grid="cargaDocumentosContratista.gridOptions2" align='center' ui-grid-auto-resize></div>
+          <div class="mi-grid" style="height: {{gridHeight}}px;width:{{gridWidth}}px" ui-grid="cargaDocumentosContratista.gridOptions2" align='center' ui-grid-auto-resize></div>
 
           <br>
           <br>
@@ -135,11 +135,11 @@
     <div class="modal-body">
 
       <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading" nf-if="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RO'">
           <h3 class="panel-title">CARGAR SOPORTES</h3>
         </div>
 
-        <div class="panel-body" id="panel_carga">
+        <div class="panel-body" id="panel_carga" ng-if="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RO'">
               <p>Por favor seleccione el item correspondiente del soporte que va a cargar, digite
               las observaciones acerca del soporte, sí las hay y proceda a seleccionar el soporte a cargar</p>
               <div class="col-md-3">

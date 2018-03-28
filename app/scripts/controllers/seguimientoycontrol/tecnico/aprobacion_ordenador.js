@@ -219,25 +219,22 @@ angular.module('contractualClienteApp')
           administrativaRequest.put('pago_mensual', self.aux_pago_mensual.Id, self.aux_pago_mensual)
           .then(function (response) {
 
-            if(response.data==="OK"){
-
-              swal(
-                'Pago aprobado',
-                'Se ha registrado la aprobación del pago por parte del ordenador',
-                'success'
-              )
-              self.obtener_informacion_ordenador();
-              self.gridApi.core.refresh();
-             }else{
-
-
-              swal(
+            swal(
                 'Error',
                 'No se ha podido registrar la aprobación del pago',
                 'error'
               );
-             }
+          })//Fin promesa THEN
 
+          //Manejo de excepciones
+          .catch(function(response) {
+                swal(
+                  'Pago aprobado',
+                  'Se ha registrado la aprobación del pago por parte del ordenador',
+                  'success'
+                )
+                self.obtener_informacion_ordenador();
+                self.gridApi.core.refresh();
           });
 
         })
@@ -263,27 +260,21 @@ angular.module('contractualClienteApp')
 
           administrativaRequest.put('pago_mensual', self.aux_pago_mensual.Id, self.aux_pago_mensual)
           .then(function (response) {
-
-            if(response.data==="OK"){
-
-              swal(
-                'Pago rechazado',
-                'Se ha registrado el rechazo del pago',
-                'success'
-              )
-              self.obtener_informacion_ordenador();
-              self.gridApi.core.refresh();
-             }else{
-
-
               swal(
                 'Error',
                 'No se ha podido registrar el rechazo del pago',
                 'error'
               );
-             }
-
-          });
+          })//Fin promesa then
+          .catch(function(response) {
+            swal(
+              'Pago rechazado',
+              'Se ha registrado el rechazo del pago',
+              'success'
+            )
+            self.obtener_informacion_ordenador();
+            self.gridApi.core.refresh();
+          }); //Fin catch
 
         })
       });

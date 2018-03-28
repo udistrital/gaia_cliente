@@ -280,6 +280,7 @@ angular.module('contractualClienteApp')
 
     if (self.mes !== undefined && self.anio !== undefined) {
       //Petición para obtener id de estado pago mensual
+      self.mostrar_boton= false;
       administrativaRequest.get('estado_pago_mensual', $.param({
           query: "CodigoAbreviacion:CD",
           limit: 0
@@ -308,11 +309,20 @@ angular.module('contractualClienteApp')
           ",Ano:" + self.anio,
         limit: 0
       })).then(function(responsePago) {
-      //  //console.log("Hizo el segundo");
-        ////console.log(responsePago.data + " Hola soy la respuesta del post");
+          //SweetAlert si la solicitud ya esta creada
+          swal(
+            'Error',
+            $translate.instant('YA_EXISTE'),
+            'error'
+          );
 
-        if (responsePago.data === null || responsePago.data === {}) {
+          self.mostrar_boton= true;
 
+
+      })
+      //Si responde con un error 500 de WSO2, procede a crear la solicitud
+      .catch(function(responsePago) {
+          //console.error('Error 500 WSO2: ', responsePago.status, responsePago.data);
           administrativaRequest.post("pago_mensual", pago_mensual)
           .then(function(responsePagoPost) {
 
@@ -326,7 +336,7 @@ angular.module('contractualClienteApp')
             self.cargar_soportes(self.contrato);
 
 
-            self.gridApi2.core.refresh();
+            //self.gridApi2.core.refresh();
 
          //   self.contrato = {};
             self.mes = {};
@@ -334,19 +344,8 @@ angular.module('contractualClienteApp')
             self.mostrar_boton= true;
 
           });
-
-        } else {
-
-          swal(
-            'Error',
-            $translate.instant('YA_EXISTE'),
-            'error'
-          );
-
-          self.mostrar_boton= true;
-        }
-
-      }); //Segundo get
+        });
+       //Segundo get
 
     }); // Primer get
   }else {
@@ -355,6 +354,8 @@ angular.module('contractualClienteApp')
         'Debe seleccionar un mes y un año',
         'error'
       );
+      self.mostrar_boton= true;
+
     }
 
   };
@@ -420,8 +421,7 @@ angular.module('contractualClienteApp')
 
     self.obtener_doc(solicitud);
 
-
-        if(self.documentos!== null){
+        if(self.documentos){
           solicitud.EstadoPagoMensual = {"Id":11};
           solicitud.Responsable = self.responsable;
           solicitud.CargoResponsable = "SUPERVISOR " + self.contrato.NombreDependencia;
@@ -429,18 +429,30 @@ angular.module('contractualClienteApp')
           solicitud.CargoResponsable = solicitud.CargoResponsable.substring(0,69);
           administrativaRequest.put('pago_mensual', solicitud.Id, solicitud).
           then(function(response){
-            swal(
-              'Solicitud enviada',
-              'Su solicitud se encuentra a la espera de revisión',
-              'success'
-            )
+
           })
-          //self.cargar_soportes(self.contrato);
+
+          //Manejo de excepcion para el put
+          .catch(function(response) {
+              //console.error('Error 500 WSO2: ', response.status, response.data);
+              swal(
+                'Solicitud enviada',
+                'Su solicitud se encuentra a la espera de revisión',
+                'success'
+              )
+
+              self.cargar_soportes(self.contrato);
+          });
+
+
+
+
 
 
       //  self.gridApi2.core.refresh();
 
       }else{
+
         swal(
           'Error',
           'No puede enviar a revisión sin cargar algún documento',
@@ -572,7 +584,7 @@ angular.module('contractualClienteApp')
                   self.item = undefined;
                   self.fileModel = undefined;
                   self.mostrar_boton= true;
-                  self.obtenerDoc(self.fila_sol_pago);
+                  self.obtener_doc(self.fila_sol_pago);
 
                 });
             });
@@ -654,11 +666,17 @@ angular.module('contractualClienteApp')
       limit:0
     })).then(function(response){
       self.documentos = response.data;
+      //self.doc_status = response.status;
       angular.forEach(self.documentos, function(value) {
         self.descripcion_doc = value.Descripcion;
         value.Contenido = JSON.parse(value.Contenido);
       });
     })
+
+    //Manejo de null en la tabla documento
+    .catch(function(response) {
+        //console.error('Error 500 WSO2: ', response.status, response.data);
+    });
   };
 
   /*
