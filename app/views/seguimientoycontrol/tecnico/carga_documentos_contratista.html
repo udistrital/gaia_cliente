@@ -20,7 +20,7 @@
 
               <div class="row"><!--Inicio row-->
 
-                <div style="height: {{gridHeight}}px;" ui-grid="cargaDocumentosContratista.gridOptions1" align='center' ui-grid-auto-resize></div>
+                <div class="mi-grid" style="height: {{gridHeight}}px;" ui-grid="cargaDocumentosContratista.gridOptions1" align='center' ui-grid-auto-resize></div>
 
               </div><!--Fin row-->
 
@@ -94,7 +94,7 @@
 
         <div class="panel-body">
 
-          <div style="height: {{gridHeight}}px;width:{{gridWidth}}px" ui-grid="cargaDocumentosContratista.gridOptions2" align='center' ui-grid-selection ui-grid-auto-resize></div>
+          <div style="height: {{gridHeight}}px;width:{{gridWidth}}px" ui-grid="cargaDocumentosContratista.gridOptions2" align='center' ui-grid-auto-resize></div>
 
           <br>
           <br>
@@ -110,33 +110,18 @@
 
             <!--Div que se visualiza al seleccionar el check archivo-->
             <div ng-if="cargaDocumentosContratista.archivo">
-              <div class="col-md-3">
-                <input type="file" angular-bfi="{'showUpload':false, allowedFileExtensions:['pdf'], language:'es'}" file-model="cargaDocumentosContratista.fileModel" required> </input>
-              </div>
+
             </div>
 
             <!--Div que se visualiza al seleccionar el check link-->
             <div class="row">
-              <div class="col-md-1">
-                <label for="select_item" class="col-form-label">Item</label>
-              </div>
-              <div class="col-md-5">
-                <select ng-model="cargaDocumentosContratista.item" class="form-control">
-                  <option value="">--Seleccione el item del cual cargará el soporte--</option>
-                  <option ng-repeat="iItem in cargaDocumentosContratista.items" ng-value="iItem">{{iItem.ItemInforme.Nombre}} </option>
-                </select>
-              </div>
+
             </div>
 
             <br>
 
             <div class="row">
-              <div class="col-md-3">
-                <label for="observacion" class="col-form-label">{{'OBSER' | translate}}</label>
-              </div>
-              <div class="col-md-6">
-                <textarea rows="3" cols="50" ng-model="cargaDocumentosContratista.observaciones"></textarea>
-              </div>
+              <
             </div>
           </div>
 
@@ -145,9 +130,7 @@
       </div>
 
 
-      <button ng-if="cargaDocumentosContratista.seleccionado && (cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion == 'RS' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RO') " ng-show="cargaDocumentosContratista.mostrar_boton" class="btn btn-success" ng-click="cargaDocumentosContratista.subir_documento()">
-        {{'CAR_SOP' | translate }}
-      </button>
+
     </div>
   </div>
 </div>
@@ -169,13 +152,53 @@
 
       <div class="panel panel-default">
         <div class="panel-heading">
+          <h3 class="panel-title">CARGAR SOPORTES</h3>
+        </div>
+
+        <div class="panel-body" id="panel_carga">
+              <p>Por favor seleccione el item correspondiente del soporte que va a cargar, digite
+              las observaciones acerca del soporte, sí las hay y proceda a seleccionar el soporte a cargar</p>
+              <div class="col-md-3">
+                <label for="select_item" class="form-control">Item</label>
+              </div>
+              <div class="col-md-9">
+                <select ng-model="cargaDocumentosContratista.item" class="form-control">
+                  <option value="">--Seleccione el item del cual cargará el soporte--</option>
+                  <option ng-repeat="iItem in cargaDocumentosContratista.items" ng-value="iItem">{{iItem.ItemInforme.Nombre}} </option>
+                </select>
+              </div>
+
+              <br><br><br>
+              <div class="form-group">
+                  <div class="col-md-3">
+                    <label for="observacion" class="form-control">{{'OBSER' | translate}}</label>
+                  </div>
+                  <div class="col-md-9">
+                    <textarea class="form-control" rows="3" ng-model="cargaDocumentosContratista.observaciones"></textarea>
+                  </div>
+              </div>
+
+              <br><br><br><br>
+              <div class="form-group">
+                  <div class="file-loading">
+                    <input class="form-control" type="file" angular-bfi="{showPreview:false, showUpload:false, allowedFileExtensions:['pdf'], language:'es', maxFileSize: 1000, elErrorContainer: '#errorBlock'}" file-model="cargaDocumentosContratista.fileModel" required> </input>
+                  </div>
+                  <div id="errorBlock" class="help-block"></div>
+
+              </div>
+
+  <br><br><br>
+              <button ng-if="cargaDocumentosContratista.mostrar_boton" class="btn btn-success" ng-click="cargaDocumentosContratista.subir_documento()" ng-show="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RO'"">
+                {{'CAR_SOP' | translate }}
+              </button>
+
+        </div><!--Cierra panel Body-->
+
+
+        <div class="panel-heading">
           <h3 class="panel-title">{{'VER_SOP' | translate}}</h3>
         </div>
-        <div class="panel-body">
-
-
-
-          </div>
+        <div class="panel-body" id="panel_ver">
 
           <div class="col-md-12">
             <p>{{'PARRA_VER_SOP' | translate }}</p>
@@ -197,10 +220,15 @@
               <md-card-actions layout="row" layout-align="end center">
                 <md-button ng-if="iDoc.Contenido.Tipo === 'Archivo'" ng-click="cargaDocumentosContratista.getDocumento(iDoc.Contenido.IdNuxeo)" class="md-primary">VER DOCUMENTO</md-button>
                   <md-button ng-if="iDoc.Contenido.Tipo === 'Enlace'" ng-click="cargaDocumentosContratista.getDocumento(iDoc.Contenido.IdNuxeo); cargaDocumentosContratista.visualizar_enlace(iDoc.Contenido.Enlace)" class="md-primary">VER DOCUMENTO</md-button>
-                <md-button class="md-warn" ng-if="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RP' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion ==='RC'" ng-click="cargaDocumentosContratista.set_doc(iDoc)" data-toggle="modal" data-target="#modal_borrar_soportes">BORRAR</md-button>
+                <md-button class="md-warn" ng-if="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RO'" ng-click="cargaDocumentosContratista.set_doc(iDoc)" data-toggle="modal" data-target="#modal_borrar_soportes">BORRAR</md-button>
               </md-card-actions>
             </md-card>
           </div>
+
+
+          </div>
+
+
         </div>
       </div>
     </div>
