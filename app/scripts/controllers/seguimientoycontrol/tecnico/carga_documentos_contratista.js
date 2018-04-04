@@ -267,7 +267,7 @@ angular.module('contractualClienteApp')
         field: 'Acciones',
         displayName: $translate.instant('ACC'),
         cellTemplate: '<a type="button" title="{{\'VER_SOP\'| translate }}" type="button" class="fa fa-folder-open-o fa-lg  faa-shake animated-hover" ng-click="grid.appScope.cargaDocumentosContratista.obtener_doc(row.entity)" data-toggle="modal" data-target="#modal_ver_soportes">' +
-          '</a>&nbsp;' + ' <a ng-if="row.entity.EstadoPagoMensual.CodigoAbreviacion === \'CD\' || row.entity.EstadoPagoMensual.CodigoAbreviacion === \'RS\' || row.entity.EstadoPagoMensual.CodigoAbreviacion === \'RP\'" type="button" title="ENVIAR A REVISION SUPERVISOR" type="button" class="fa fa-send-o fa-lg  faa-shake animated-hover" ng-click="grid.appScope.cargaDocumentosContratista.enviar_revision(row.entity)"  >',
+          '</a>&nbsp;' + ' <a ng-if="row.entity.EstadoPagoMensual.CodigoAbreviacion === \'CD\' || row.entity.EstadoPagoMensual.CodigoAbreviacion === \'RS\' || row.entity.EstadoPagoMensual.CodigoAbreviacion === \'RO\'" type="button" title="ENVIAR A REVISION SUPERVISOR" type="button" class="fa fa-send-o fa-lg  faa-shake animated-hover" ng-click="grid.appScope.cargaDocumentosContratista.enviar_revision(row.entity)"  >',
         //width:'*'
       }
     ]
@@ -672,7 +672,6 @@ angular.module('contractualClienteApp')
         self.descripcion_doc = value.Descripcion;
         value.Contenido = JSON.parse(value.Contenido);
       });
-      self.documento
     })
 
     //Manejo de null en la tabla documento
@@ -692,9 +691,15 @@ angular.module('contractualClienteApp')
    documento.Activo = false;
    coreRequest.put('documento', documento.Id, documento).
   then(function(response){
-            self.obtener_doc(self.fila_sol_pago);
-      });
-  };
+
+  })
+
+  .catch(function(response){
+    self.obtener_doc(self.fila_sol_pago);
+
+  })
+
+}
 
   self.set_doc = function (doc){
 
