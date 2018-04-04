@@ -100,7 +100,7 @@
           <br>
 
           <!--Div que se visualiza al seleccionar una vinculación y muestra los tipos de adjuntos que el usuario puede hacer-->
-          <div class="col-md-12" ng-if="cargaDocumentosContratista.seleccionado && (cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RO')">
+          <div class="col-md-12" ng-if="cargaDocumentosContratista.seleccionado && (cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_seleccionada.EstadoPagoMensual.CodigoAbreviacion === 'RP')">
             <p>{{'DESC_ADJ' | translate}}</p>
             <!--Campo que pinta la opción archivo-->
             <fieldset class="form-group">
@@ -204,7 +204,7 @@
               <md-card-actions layout="row" layout-align="end center">
                 <md-button ng-if="iDoc.Contenido.Tipo === 'Archivo'" ng-click="cargaDocumentosContratista.getDocumento(iDoc.Contenido.IdNuxeo)" class="md-primary">VER DOCUMENTO</md-button>
                   <md-button ng-if="iDoc.Contenido.Tipo === 'Enlace'" ng-click="cargaDocumentosContratista.getDocumento(iDoc.Contenido.IdNuxeo); cargaDocumentosContratista.visualizar_enlace(iDoc.Contenido.Enlace)" class="md-primary">VER DOCUMENTO</md-button>
-                <md-button class="md-warn" ng-if="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RO'" ng-click="cargaDocumentosContratista.set_doc(iDoc)" data-toggle="modal" data-target="#modal_borrar_soportes">BORRAR</md-button>
+                <md-button class="md-warn" ng-if="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RP'" ng-click="cargaDocumentosContratista.set_doc(iDoc)" data-toggle="modal" data-target="#modal_borrar_soportes">BORRAR</md-button>
               </md-card-actions>
             </md-card>
           </div>
