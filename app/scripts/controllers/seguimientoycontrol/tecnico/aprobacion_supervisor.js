@@ -382,6 +382,11 @@ angular.module('contractualClienteApp')
              coreRequest.put('documento', documento.Id, documento).
              then(function(response){
                   self.obtener_doc(self.fila_sol_pago);
+            })
+
+            //Manejo de error
+            .catch(function(response) {
+                console.log('se murio');
             });
 
         });

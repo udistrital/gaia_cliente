@@ -339,8 +339,8 @@ angular.module('contractualClienteApp')
             //self.gridApi2.core.refresh();
 
          //   self.contrato = {};
-            self.mes = {};
-            self.anio = {};
+            self.mes = undefined;
+            self.anio = undefined;
             self.mostrar_boton= true;
 
           });
@@ -420,7 +420,7 @@ angular.module('contractualClienteApp')
     //  })).then(function(responseVal){
 
     self.obtener_doc(solicitud);
-
+    console.log(self.documentos);
         if(self.documentos){
           solicitud.EstadoPagoMensual = {"Id":11};
           solicitud.Responsable = self.responsable;
@@ -429,7 +429,7 @@ angular.module('contractualClienteApp')
           solicitud.CargoResponsable = solicitud.CargoResponsable.substring(0,69);
           administrativaRequest.put('pago_mensual', solicitud.Id, solicitud).
           then(function(response){
-
+              //self.documentos = {};
           })
 
           //Manejo de excepcion para el put
@@ -523,11 +523,9 @@ angular.module('contractualClienteApp')
     Función que permite cargar un documentos
   */
   self.subir_documento = function() {
-
+      //Se arma el nombre del documento
       var nombre_doc = self.contrato.Vigencia + self.contrato.NumeroContratoSuscrito + self.Documento + self.fila_sol_pago.Mes + self.fila_sol_pago.Ano;
-      //Si seleccionan el check de archivo
-    //  if (self.archivo) {
-    //console.log(self.fileModel);
+
         //Condicional del item y del file model
         if (self.fileModel!== undefined && self.item!==undefined && self.fileModel.type === 'application/pdf' && self.fileModel.size <= 1000000) {
           //console.log(self.fileModel);
@@ -581,11 +579,15 @@ angular.module('contractualClienteApp')
                     type: 'success',
                     target: document.getElementById('modal_ver_soportes')
                   });
+
                   self.item = undefined;
                   self.fileModel = undefined;
-                  self.mostrar_boton= true;
+
+                  self.mostrar_boton = true;
                   self.obtener_doc(self.fila_sol_pago);
 
+                  //Limpieza Variable
+                  self.observaciones = "";
                 });
             });
         });
@@ -666,16 +668,17 @@ angular.module('contractualClienteApp')
       limit:0
     })).then(function(response){
       self.documentos = response.data;
-      //self.doc_status = response.status;
       angular.forEach(self.documentos, function(value) {
         self.descripcion_doc = value.Descripcion;
         value.Contenido = JSON.parse(value.Contenido);
       });
+      self.documento
     })
 
     //Manejo de null en la tabla documento
     .catch(function(response) {
-        //console.error('Error 500 WSO2: ', response.status, response.data);
+      //Se deja vacia la variable para que no quede pegada
+      self.documentos = undefined;
     });
   };
 

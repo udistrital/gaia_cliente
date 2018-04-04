@@ -135,11 +135,11 @@
     <div class="modal-body">
 
       <div class="panel panel-default">
-        <div class="panel-heading" nf-if="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RO'">
+        <div class="panel-heading" nf-if="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RP'">
           <h3 class="panel-title">CARGAR SOPORTES</h3>
         </div>
 
-        <div class="panel-body" id="panel_carga" ng-if="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RO'">
+        <div class="panel-body" id="panel_carga" ng-if="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RP'">
               <p>Por favor seleccione el item correspondiente del soporte que va a cargar, digite
               las observaciones acerca del soporte, sí las hay y proceda a seleccionar el soporte a cargar</p>
               <div class="col-md-3">
@@ -165,14 +165,14 @@
               <br><br><br><br>
               <div class="form-group">
                   <div class="file-loading">
-                    <input class="form-control" type="file" angular-bfi="{showPreview:false, showUpload:false, allowedFileExtensions:['pdf'], language:'es', maxFileSize: 1000, elErrorContainer: '#errorBlock'}" file-model="cargaDocumentosContratista.fileModel" required> </input>
+                    <input class="form-control" type="file" angular-bfi="{showPreview:false, showUpload:false, allowedFileExtensions:['pdf'], language:'es', maxFileSize: 1000, elErrorContainer: '#errorBlock'}" file-model="cargaDocumentosContratista.fileModel" required title=''> </input>
                   </div>
                   <div id="errorBlock" class="help-block"></div>
 
               </div>
 
   <br><br><br>
-              <button ng-if="cargaDocumentosContratista.mostrar_boton" class="btn btn-success" ng-click="cargaDocumentosContratista.subir_documento()" ng-show="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RO'">
+              <button ng-if="cargaDocumentosContratista.mostrar_boton" class="btn btn-success" ng-click="cargaDocumentosContratista.subir_documento()" ng-show="cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'CD' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RS' || cargaDocumentosContratista.fila_sol_pago.EstadoPagoMensual.CodigoAbreviacion === 'RP'">
                 {{'CAR_SOP' | translate }}
               </button>
 
