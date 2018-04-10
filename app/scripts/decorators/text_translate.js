@@ -633,7 +633,7 @@ var text_es = {
   ENLACE_GUARDADO: "Enlace guardado",
   ENLACE_SE_HA_GUARDADO: "Se ha guardado el enlace",
   DEBE_PEGAR_ENLACE: "Debe pegar el enlace y seleccionar un item",
-  
+
 
   //Modal informe de gestión docente
   TITULO_MODAL_INFORME_DOC:"INFORME DE GESTIÓN DOCENTE",
@@ -660,6 +660,18 @@ var text_es = {
   NUMERO_CONTRATO:"NUMERO CONTRATO",
   RP:"RP",
   CDP:"CDP",
+  TITULO_MOD : "CARGAR SOPORTES",
+  SEL_ANO: "Seleccione el año de la solicitud de pago",
+  SEL_MES: "Seleccione el mes de la solicitud de pago",
+  PARRA_SOP: "Por favor seleccione el item correspondiente del soporte que va a cargar, digite las observaciones acerca del soporte, sí las hay y proceda a seleccionar el soporte a cargar",
+  ITEM: "Item",
+  SEL_ITEM: "Seleccione el item del cual cargará el soporte",
+  SEE_DOC: "VER DOCUMENTO",
+  DEL_DOC: "BORRAR",
+  DEL_SOP:"BORRAR SOPORTE",
+  SEG_BO: "¿Está seguro que desea borrar el soporte?",
+  NO_ACT: "No podrá revertir esta acción",
+  CANCEL: "Cancelar",
 };
 
 var text_en = {
@@ -1066,7 +1078,19 @@ var text_en = {
   NOM_CONTRATISTA: "NOMBRE CONTRATISTA",
   NUMERO_CONTRATO:"CONTRACT NUMBER",
   RP:"RP",
-  CDP:"CDP"
+  CDP:"CDP",
+  TITULO_MOD : "LOAD SUPPORTS",
+  SEL_ANO: "Select year for request payment",
+  SEL_MES: "Select month for request payment",
+  PARRA_SOP: "Please select item of support to load",
+  ITEM: "Item",
+  SEL_ITEM: "Select item for support",
+  SEE_DOC: "SEE DOC",
+  DEL_DOC: "DELETE",
+  DEL_SOP:"DELETE SUPPORT",
+  SEG_BO: "¿Are you sure that you want to delete support?",
+  NO_ACT: "You can´t revert this action",
+  CANCEL: "Cancel"
 };
 
 angular.module('contractualClienteApp')
