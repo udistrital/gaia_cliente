@@ -8,7 +8,7 @@
  * Controller of the contractualClienteApp
  */
 angular.module('contractualClienteApp')
-  .controller('AprobacionOrdenadorCtrl', function (token_service, cookie, $sessionStorage, $scope, oikosRequest, $http, uiGridConstants, contratoRequest, $translate, administrativaRequest,$routeParams,adminMidRequest) {
+  .controller('AprobacionOrdenadorCtrl', function (token_service, cookie, $sessionStorage, $scope, oikosRequest, $http, uiGridConstants, contratoRequest, $translate, administrativaRequest,$routeParams,adminMidRequest, coreRequest, nuxeo, $q, $sce, $window) {
     //Variable de template que permite la edición de las filas de acuerdo a la condición ng-if
     var tmpl = '<div ng-if="!row.entity.editable">{{COL_FIELD}}</div><div ng-if="row.entity.editable"><input ng-model="MODEL_COL_FIELD"</div>';
 
@@ -150,7 +150,9 @@ angular.module('contractualClienteApp')
         {
           field: 'Acciones',
           displayName: $translate.instant('ACC'),
-          cellTemplate:  ' <a type="button" title="Aprobar pago" type="button" class="fa fa-check fa-lg  faa-shake animated-hover"  ng-click="grid.appScope.aprobacionOrdenador.aprobarPago(row.entity.PagoMensual)">'+
+          cellTemplate:  '<a type="button" title="Ver soportes" type="button" class="fa fa-eye fa-lg  faa-shake animated-hover"' +
+          'ng-click="grid.appScope.aprobacionOrdenador.obtener_doc(row.entity.PagoMensual)" data-toggle="modal" data-target="#modal_ver_soportes"</a>&nbsp;' +
+          ' <a type="button" title="Aprobar pago" type="button" class="fa fa-check fa-lg  faa-shake animated-hover"  ng-click="grid.appScope.aprobacionOrdenador.aprobarPago(row.entity.PagoMensual)">'+
           '<a type="button" title="Rechazar" type="button" class="fa fa-close fa-lg  faa-shake animated-hover"' +
           'ng-click="grid.appScope.aprobacionOrdenador.rechazarPago(row.entity.PagoMensual)"></a>',
           width: "10%"
@@ -403,9 +405,103 @@ angular.module('contractualClienteApp')
         }
       });
     });
+  };
 
 
-  }
+    /*
+      Función para ver los soportes de los contratistas a cargo
+    */
+    self.obtener_doc = function (fila){
+      self.fila_sol_pago = fila;
+      var nombre_docs = self.fila_sol_pago.VigenciaContrato + self.fila_sol_pago.NumeroContrato + self.fila_sol_pago.Persona + self.fila_sol_pago.Mes + self.fila_sol_pago.Ano;
+      coreRequest.get('documento', $.param ({
+       query: "Nombre:" + nombre_docs + ",Activo:true",
+       limit:0
+     })).then(function(response){
+       //console.log(self.documentos);
+       self.documentos = response.data;
+       angular.forEach(self.documentos, function(value) {
+         self.descripcion_doc = value.Descripcion;
+         value.Contenido = JSON.parse(value.Contenido);
+       });
+     })
+   };
+
+   /*
+     Función que permite obtener un documento de nuxeo por el Id
+   */
+   self.getDocumento = function(docid){
+    nuxeo.header('X-NXDocumentProperties', '*');
+
+    self.obtenerDoc = function () {
+      var defered = $q.defer();
+
+      nuxeo.request('/id/'+docid)
+          .get()
+          .then(function(response) {
+            self.doc=response;
+            var aux=response.get('file:content');
+            self.document=response;
+            defered.resolve(response);
+          })
+          .catch(function(error){
+              defered.reject(error)
+          });
+      return defered.promise;
+    };
+
+    self.obtenerFetch = function (doc) {
+      var defered = $q.defer();
+
+      doc.fetchBlob()
+        .then(function(res) {
+          defered.resolve(res.blob());
+
+        })
+        .catch(function(error){
+              defered.reject(error)
+          });
+      return defered.promise;
+    };
+
+      self.obtenerDoc().then(function(){
+
+         self.obtenerFetch(self.document).then(function(r){
+             self.blob=r;
+             var fileURL = URL.createObjectURL(self.blob);
+             self.content = $sce.trustAsResourceUrl(fileURL);
+             $window.open(fileURL, 'Soporte', 'resizable=yes,status=no,location=no,toolbar=no,menubar=no,fullscreen=yes,scrollbars=yes,dependent=no,width=700,height=900', true);
+          });
+      });
+    };
+
+
+    /*
+      Función para enviar un comentario en el soporte    */
+    self.enviar_comentario = function(documento){
+
+        swal({
+          title: '¿Está seguro(a) de enviar la observación?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Aceptar'
+        }).then(function () {
+          documento.Contenido = JSON.stringify(documento.Contenido);
+             coreRequest.put('documento', documento.Id, documento).
+             then(function(response){
+                  self.obtener_doc(self.fila_sol_pago);
+            })
+
+            //Manejo de error
+            .catch(function(response) {
+                console.log('se murio');
+            });
+
+        });
+    };
 
 
   });

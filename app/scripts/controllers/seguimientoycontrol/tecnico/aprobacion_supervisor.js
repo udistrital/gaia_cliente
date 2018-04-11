@@ -378,7 +378,7 @@ angular.module('contractualClienteApp')
           cancelButtonText: 'Cancelar',
           confirmButtonText: 'Aceptar'
         }).then(function () {
-             documento.contenido = JSON.stringify(documento.contenido);
+             documento.Contenido = JSON.stringify(documento.Contenido);
              coreRequest.put('documento', documento.Id, documento).
              then(function(response){
                   self.obtener_doc(self.fila_sol_pago);
