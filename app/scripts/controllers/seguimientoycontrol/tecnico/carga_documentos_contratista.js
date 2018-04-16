@@ -22,6 +22,7 @@ angular.module('contractualClienteApp')
 
   //Se utiliza la variable self estandarizada
   var self = this;
+  self.existe= true;
 
   //Variable que indica el estado del boton cargar soporte
   self.mostrar_boton= true;
@@ -582,6 +583,7 @@ angular.module('contractualClienteApp')
 
                   self.item = undefined;
                   self.fileModel = undefined;
+                  $('#input-id').fileinput('clear');
 
                   self.mostrar_boton = true;
                   self.obtener_doc(self.fila_sol_pago);
@@ -707,7 +709,31 @@ angular.module('contractualClienteApp')
   };
 
 
+self.prueba = function(){
+  console.log(self.existe);
 
+if(self.fileModel === undefined){
 
+  swal({
+    title: '',
+    text: 'No hay archivos para remover',
+    type: 'warning',
+    target: document.getElementById('modal_ver_soportes')
+  })
+
+}else{
+
+  $('#input-id').fileinput('clear');
+  self.fileModel = undefined;
+
+  swal({
+    title: '',
+    text: 'Se ha removido el archivo',
+    type: 'success',
+    target: document.getElementById('modal_ver_soportes')
+  })  
+
+}
+};
 
   });

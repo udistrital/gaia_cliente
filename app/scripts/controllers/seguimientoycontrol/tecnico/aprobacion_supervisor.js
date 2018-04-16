@@ -386,7 +386,7 @@ angular.module('contractualClienteApp')
 
             //Manejo de error
             .catch(function(response) {
-                console.log('se murio');
+                console.log(response);
             });
 
         });

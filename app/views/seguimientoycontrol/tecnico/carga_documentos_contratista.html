@@ -164,8 +164,10 @@
               <br><br><br><br>
               <div class="form-group">
                   <div class="file-loading">
-                    <input class="form-control" type="file" angular-bfi="{showPreview:false, showUpload:false, allowedFileExtensions:['pdf'], language:'es', maxFileSize: 1000, elErrorContainer: '#errorBlock'}" file-model="cargaDocumentosContratista.fileModel" required title=''> </input>
+                    <input class="form-control" id="input-id" type="file" angular-bfi="{showPreview:false, showUpload:false, showRemove:false ,allowedFileExtensions:['pdf'], language:'es', maxFileSize: 1000, elErrorContainer: '#errorBlock'}" file-model="cargaDocumentosContratista.fileModel"  required title=''> </input>
                   </div>
+                  <button class="btn btn-danger" ng-click="cargaDocumentosContratista.prueba()" >Remover</button>
+
                   <div id="errorBlock" class="help-block"></div>
 
               </div>
@@ -194,7 +196,7 @@
                   <span class="md-headline"> {{iDoc.Contenido.NombreArchivo}}</span>
                   <span class="md-subhead">{{iDoc.Contenido.FechaCreacion}}</span>
                   <span class="md-subhead">{{iDoc.Descripcion}}</span>
-                  <span class="md-subhead">{{iDoc.Contenido.Observaciones}}</span>
+                  <textarea class="form-control" rows="3" ng-model="iDoc.Contenido.Observaciones" disabled="true"></textarea>
                 </md-card-title-text>
                 <md-card-title-media>
                   <div class="md-media-sm card-media"></div>
