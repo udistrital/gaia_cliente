@@ -492,12 +492,26 @@ angular.module('contractualClienteApp')
           documento.Contenido = JSON.stringify(documento.Contenido);
              coreRequest.put('documento', documento.Id, documento).
              then(function(response){
-                  self.obtener_doc(self.fila_sol_pago);
+              swal({
+                title: 'Error',
+                text: 'No se ha podido guardar el comentario',
+                type: 'error',
+                target: document.getElementById('modal_ver_soportes')
+              });
+
             })
 
             //Manejo de error
             .catch(function(response) {
-                console.log('se murio');
+
+              swal({
+                title: 'Comentario guardado',
+                text: 'Se ha guardado el comentario del documento',
+                type: 'success',
+                target: document.getElementById('modal_ver_soportes')
+              });
+              self.obtener_doc(self.fila_sol_pago);
+
             });
 
         });
