@@ -166,6 +166,8 @@ angular.module('contractualClienteApp')
     Función que al recibir el número de documento del coordinador cargue los correspondientes
     */
     self.obtener_contratistas_supervisor = function () {
+      self.gridOptions1.data = [];
+
 
       self.obtener_informacion_supervisor(self.Documento);
       //Petición para obtener el Id de la relación de acuerdo a los campos
@@ -174,6 +176,8 @@ angular.module('contractualClienteApp')
         //console.log(self.documentos);
         //self.obtener_informacion_docente();
         self.gridOptions1.data = self.documentos;
+        self.gridApi.core.refresh();
+
       });
 };
 
@@ -237,6 +241,9 @@ angular.module('contractualClienteApp')
               'No se ha podido registrar la validación del supervisor',
               'error'
             );
+
+
+
          })//Termina promesa then
 
          //Manejo de error
@@ -279,6 +286,9 @@ angular.module('contractualClienteApp')
                 'No se ha podido registrar el rechazo',
                 'error'
               );
+
+
+
 
           })//Termina promesa then
 
