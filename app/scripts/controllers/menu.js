@@ -7,51 +7,13 @@
  * Controller of the contractualClienteApp
  */
 angular.module('contractualClienteApp')
-  .controller('menuCtrl', function ($location, $http, $window, $q, $scope, $rootScope, token_service, configuracionRequest, notificacion, $translate, $route, $mdSidenav) {
+  .controller('menuCtrl', function ($location, CONF, $http, $window, $q, $scope, $rootScope, token_service, configuracionRequest, notificacion, $translate, $route, $mdSidenav) {
     var paths = [];
     $scope.language = {
       es: "btn btn-primary btn-circle btn-outline active",
       en: "btn btn-primary btn-circle btn-outline"
     };
-    $scope.menu_app = [{
-        id: "kronos",
-        title: "KRONOS",
-        url: "http://10.20.0.254/kronos"
-      },
-      {
-        id: "agora",
-        title: "AGORA",
-        url: "https://pruebasfuncionarios.intranetoas.udistrital.edu.co/agora"
-      }, {
-        id: "argo",
-        title: "ARGO",
-        url: "https://pruebasfuncionarios.intranetoas.udistrital.edu.co/argo"
-      }, {
-        id: "arka",
-        title: "ARKA",
-        url: "https://pruebasfuncionarios.intranetoas.udistrital.edu.co/arka"
-      }, {
-        id: "temis",
-        title: "TEMIS",
-        url: "https://pruebasfuncionarios.intranetoas.udistrital.edu.co/gefad"
-      }, {
-        id: "polux",
-        title: "POLUX",
-        url: "http://10.20.0.254/polux"
-      }, {
-        id: "jano",
-        title: "JANO",
-        url: "http://10.20.0.254/kronos"
-      }, {
-        id: "kyron",
-        title: "KYRON",
-        url: "http://10.20.0.254/kronos"
-      }, {
-        id: "sga",
-        title: "SGA",
-        url: "http://10.20.0.254/kronos"
-      }
-    ];
+    $scope.menu_app = CONF.GENERAL.MENU_APP;
     $scope.notificacion = notificacion;
     $scope.actual = "";
     $scope.token_service = token_service;
@@ -141,7 +103,10 @@ angular.module('contractualClienteApp')
       }
     ];
     $scope.signIn = function () {
-      console.log(token_service.login());
+      token_service.login();
+    };
+    $scope.logout = function () {
+      token_service.logout();
     };
     var recorrerArbol = function (item, padre) {
       var padres = "";
@@ -159,10 +124,19 @@ angular.module('contractualClienteApp')
       return padres;
     };
     $scope.perfil = "ADMINISTRADOR ARGO";
-
+    var clear_profiles = function (array, profile) {
+      console.log(array);
+      for (var i = 0; i < array.length; i++) {
+        var element = array[i];
+        if (element.indexOf(profile) !== -1) {
+          array.splice(i, 1);
+        }
+      }
+      console.log(array);
+    };
     if (token_service.live_token()) {
       $scope.payload = token_service.getPayload();
-      $scope.payload.role.pop();
+      clear_profiles($scope.payload.role, 'Internal');
       var roles = $scope.payload.role.toString();
       //var e_roles = roles.replace(',', '%2C');
       configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo', '').then(function (response) {
@@ -173,14 +147,7 @@ angular.module('contractualClienteApp')
       });
     }
 
-    var clear_profiles = function (array, profile) {
-        for (var i = 0; i < array.length; i++) {
-            var element = array[i];
-            if(element.indexOf(profile) !== -1){
-                
-            } 
-        }
-    };
+
     /*
     configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + "ADMINISTRADOR_ARGO" + '/Argo', '').then(function(response) {
         $rootScope.my_menu = response.data;

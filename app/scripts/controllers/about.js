@@ -17,9 +17,4 @@ angular.module('contractualClienteApp')
             'Karma'
 
         ];
-        $scope.cookie = {
-            urano: cookie.get('aplicativo_urano'),
-            Condor_ud_user: cookie.get('condorUDUser'),
-            aplicativo: cookie.get('aplicativo')
-        };
     });
