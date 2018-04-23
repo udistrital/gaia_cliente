@@ -11,12 +11,10 @@
     "angular-sanitize": "^1.6.10",
     "angular-touch": "^1.6.10",
     "angular-ui-grid": "*",
-    "AngularJS-OAuth2": "angularjs-oauth2#^1.2.1",
     "angular-material": "*",
     "angular-tree-control": "*",
     "pdfmake": "*",
     "ngstorage": "^0.3.11",
-    "kjur-jsrsasign": "jsrsasign#^7.0.0",
     "angular-websocket": "^2.0.0",
     "angular-input-masks": "^2.5.0",
     "angular-moment": "^1.0.1",
@@ -35,7 +33,8 @@
     "angular-file-model": "^0.3.1",
     "angular-bootstrap-fileinput": "^0.1.0",
     "nuxeo": "^3.5.0",
-    "colombia-holidays": "^0.0.4"
+    "colombia-holidays": "^0.0.4",
+    "angular-md5": "^0.1.10"
   },
   "resolutions": {
     "angular": "1.6.10",

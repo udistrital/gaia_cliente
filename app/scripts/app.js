@@ -13,13 +13,13 @@ angular
         // Librerias
         'ngCookies',
         'angular-loading-bar',
+        'angular-md5',
         'ngAnimate',
         'ngCookies',
         'ngMessages',
         'ngResource',
         'ngRoute',
         'ngSanitize',
-        'afOAuth2',
         'treeControl',
         'ngMaterial',
         'ui.grid',
@@ -60,6 +60,7 @@ angular
         'gridOptionsService',
         'configuracionService',
         'requestService',
+        'implicitToken',
     ])
     .run(function(amMoment) {
         amMoment.changeLocale('es');

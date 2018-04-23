@@ -149,8 +149,8 @@ var conf_local = {
         URL_USER_INFO: "https://autenticacion.udistrital.edu.co/oauth2/userinfo",
         CLIENTE_ID: "pszmROXqfec4pTShgF_fn2DAAX0a",
         REDIRECT_URL: "http://localhost:9000/",
-        RESPONSE_TYPE: "code",
-        SCOPE: "openid email",
+        RESPONSE_TYPE: "id_token token",
+        SCOPE: "openid email profile document",
         BUTTON_CLASS: "btn btn-warning btn-sm",
         SIGN_OUT_URL: "https://autenticacion.udistrital.edu.co/oidc/logout",
         SIGN_OUT_REDIRECT_URL: "http://localhost:9000/",
@@ -162,7 +162,7 @@ var conf_local = {
 
 angular.module('contractualClienteApp')
     .constant('CONF', {
-        GENERAL: conf_cloud
+        GENERAL: conf_local
     });
 
 //Probando merge de nuevo rererererererere
