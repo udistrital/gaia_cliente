@@ -171,7 +171,8 @@ angular.module('contractualClienteApp')
               roles = token_service.token.role;
             }
 
-            roles = roles.replace(',', '%2C');
+            roles = roles.replace(/,/g, '%2C');
+            console.log(roles);
             configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo', '').then(function(response) {
               //console.log(roles);
                 //console.log(response.data);
