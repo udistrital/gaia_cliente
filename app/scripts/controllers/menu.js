@@ -172,10 +172,8 @@ angular.module('contractualClienteApp')
             }
 
             roles = roles.replace(/,/g, '%2C');
-            console.log(roles);
             configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo', '').then(function(response) {
-              //console.log(roles);
-                //console.log(response.data);
+
                 $rootScope.my_menu = response.data;
                 /*configuracionRequest.update_menu(https://10.20.0.162:9443/store/apis/authenticate response.data);
                 $scope.menu_service = configuracionRequest.get_menu();*/

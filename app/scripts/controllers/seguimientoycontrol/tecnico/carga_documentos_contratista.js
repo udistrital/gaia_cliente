@@ -421,7 +421,6 @@ angular.module('contractualClienteApp')
     //  })).then(function(responseVal){
 
     self.obtener_doc(solicitud);
-    console.log(self.documentos);
         if(self.documentos){
           solicitud.EstadoPagoMensual = {"Id":11};
           solicitud.Responsable = self.responsable;
@@ -710,7 +709,6 @@ angular.module('contractualClienteApp')
 
 
 self.prueba = function(){
-  console.log(self.existe);
 
 if(self.fileModel === undefined){
 
