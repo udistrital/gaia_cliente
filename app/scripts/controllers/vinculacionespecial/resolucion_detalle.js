@@ -236,11 +236,12 @@ return numeros;
 
 self.getCuerpoTabla=function(idProyecto, datos, columnas) {
   var cuerpo=[];
+  var encabezado=[];
   if(self.resolucion.NivelAcademico_nombre === 'POSGRADO'){
-    var encabezado=[{ text: $translate.instant('NOMBRE'), style: 'encabezado' },  { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado'},{ text: $translate.instant('CEDULA'), style: 'encabezado'},  { text:  $translate.instant('EXPEDICION'), style: 'encabezado'},{ text:  $translate.instant('CATEGORIA'), style: 'encabezado'},{ text:  $translate.instant('DEDICACION'), style: 'encabezado'},{ text:  $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado'},{ text:  $translate.instant('VALOR_CONTRATO'), style: 'encabezado'},{ text:  $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado'}];
+    encabezado=[{ text: $translate.instant('NOMBRE'), style: 'encabezado' },  { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado'},{ text: $translate.instant('CEDULA'), style: 'encabezado'},  { text:  $translate.instant('EXPEDICION'), style: 'encabezado'},{ text:  $translate.instant('CATEGORIA'), style: 'encabezado'},{ text:  $translate.instant('DEDICACION'), style: 'encabezado'},{ text:  $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado'},{ text:  $translate.instant('VALOR_CONTRATO'), style: 'encabezado'},{ text:  $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado'}];
   }
   if(self.resolucion.NivelAcademico_nombre === 'PREGRADO'){
-    var encabezado=[{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado'},  { text: $translate.instant('CEDULA'), style: 'encabezado'},  { text:  $translate.instant('EXPEDICION'), style: 'encabezado'},{ text:  $translate.instant('CATEGORIA'), style: 'encabezado'},{ text:  $translate.instant('DEDICACION'), style: 'encabezado'},{ text:  $translate.instant('HORAS_SEMANALES'), style: 'encabezado'},{ text:  $translate.instant('PERIODO_VINCULACION'), style: 'encabezado'},{ text:  $translate.instant('VALOR_CONTRATO'), style: 'encabezado'},{ text:  $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado'}];
+    encabezado=[{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado'},  { text: $translate.instant('CEDULA'), style: 'encabezado'},  { text:  $translate.instant('EXPEDICION'), style: 'encabezado'},{ text:  $translate.instant('CATEGORIA'), style: 'encabezado'},{ text:  $translate.instant('DEDICACION'), style: 'encabezado'},{ text:  $translate.instant('HORAS_SEMANALES'), style: 'encabezado'},{ text:  $translate.instant('PERIODO_VINCULACION'), style: 'encabezado'},{ text:  $translate.instant('VALOR_CONTRATO'), style: 'encabezado'},{ text:  $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado'}];
   }
 
 
@@ -515,6 +516,20 @@ self.numeroALetras = function(numero) {
   }else{
     return self.getDecenas(numero);
   }
+};
+
+self.volver = function() {
+  swal({
+    text: $translate.instant('CAMBIOS_NO_GUARDADOS'),
+    type: 'warning',
+    confirmButtonText: $translate.instant('ACEPTAR'),
+    cancelButtonText: $translate.instant('CANCELAR'),
+    showCancelButton: true,
+    cancelButtonColor: '#d33',
+    allowOutsideClick: false
+  }).then(function() {
+    $window.location.href = '#/vinculacionespecial/resolucion_gestion';
+  });
 };
 
 self.FormatoNumero=function(amount, decimals) {

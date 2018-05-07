@@ -9,7 +9,6 @@ angular.module('contractualClienteApp')
         self.estado = false;
         self.proyectos = [];
         self.fecha = new Date();
-        self.datosResolucion;
         var desvinculacionesData = [];
         var vacio = true;
 
@@ -61,7 +60,7 @@ angular.module('contractualClienteApp')
             adminMidRequest.get("gestion_previnculacion/docentes_previnculados/?id_resolucion=" + response.data[0].ResolucionAnterior).then(function(response) {
                 self.precontratados.data = response.data;
                 self.estado = false;
-                if(self.precontratados.data!=null){
+                if(self.precontratados.data!==null){
                     vacio = true;
                 } else {
                     vacio = false;
@@ -95,9 +94,8 @@ angular.module('contractualClienteApp')
                 self.precontratados.data = response.data;
                 self.estado = false;
             });
-            //self.precontratados.columnDefs[11].filter.term = self.term;
-            if(self.personasSeleccionadas && self.personasSeleccionadas!=[]){
-                self.personasSeleccionadas.push(self.personasSeleccionadas[0])
+            if(self.personasSeleccionadas && self.personasSeleccionadas!==[]){
+                self.personasSeleccionadas.push(self.personasSeleccionadas[0]);
             }
 
         };
@@ -116,7 +114,8 @@ angular.module('contractualClienteApp')
                 cancelButtonText: $translate.instant('CANCELAR'),
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false
+                buttonsStyling: false,
+                allowOutsideClick: false
             }).then(function() {
                 self.desvincularDocente(row);
             }, function(dismiss) {
@@ -168,7 +167,8 @@ angular.module('contractualClienteApp')
                     swal({
                         text: $translate.instant('ALERTA_DESVIN_EXITOSA'),
                         type: 'success',
-                        confirmButtonText: $translate.instant('ACEPTAR')
+                        confirmButtonText: $translate.instant('ACEPTAR'),
+                        allowOutsideClick: false
 
                     });
                     $window.location.reload();
@@ -177,7 +177,8 @@ angular.module('contractualClienteApp')
                         title: $translate.instant('ERROR'),
                         text: $translate.instant('ALERTA_ERROR_DESVIN'),
                         type: 'error',
-                        confirmButtonText: $translate.instant('ACEPTAR')
+                        confirmButtonText: $translate.instant('ACEPTAR'),
+                        allowOutsideClick: false
                     });
 
                 }
@@ -185,6 +186,10 @@ angular.module('contractualClienteApp')
 
 
         };
+
+        self.volver = function(){
+            $window.location.href = '#/vinculacionespecial/resolucion_gestion';
+          }
 
 
 

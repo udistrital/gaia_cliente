@@ -21,11 +21,11 @@ angular.module('contractualClienteApp')
         var dias = 0;
         var decimal = 0;
         var semanasDecimal = 0;
-        self.fechaActa;
-        var fechaFinal;
+        self.fechaActa = new Date();
         var diasTotales = 0;
         self.fecha_actual = new Date();
         self.fechaFinal = new Date();
+        self.esconderBoton = false;
 
         administrativaRequest.get('resolucion/' +  self.idResolucion).then(function(response) {
             self.resolucionActual = response.data;
@@ -60,6 +60,10 @@ angular.module('contractualClienteApp')
             });
         });
 
+        self.cancelarExpedicion = function(){
+            $mdDialog.hide();
+        };
+
 
         self.asignarValoresDefecto = function() {
             self.contratoCanceladoBase.Usuario = "";
@@ -72,45 +76,53 @@ angular.module('contractualClienteApp')
 
         self.cancelarContrato = function() {
             self.asignarValoresDefecto();
-            self.fechaCancelacion = self.fechaActaInicio(self.semanasRev);
-            
-            swal({
-                title: $translate.instant('EXPEDIR'),
-                text: $translate.instant('SEGURO_EXPEDIR'),
-                html: '<p><b>' + $translate.instant('NUMERO') + ': </b>' + resolucion.Numero.toString() + '</p>' +
-                    '<p><b>' + $translate.instant('FACULTAD') + ': </b>' + resolucion.Facultad + '</p>' +
-                    '<p><b>' + $translate.instant('NIVEL_ACADEMICO') + ': </b>' + resolucion.NivelAcademico + '</p>' +
-                    '<p><b>' + $translate.instant('DEDICACION') + ': </b>' + resolucion.Dedicacion + '</p>' +
-                    '<p><b>' + $translate.instant('NUMERO_CANCELACIONES') + ': </b>' + self.cantidad + '</p>' +
-                    '<p><b>' + $translate.instant('FECHA_FIN_ACTA') + ': </b>' + self.fechaCancelacion + '</p>',
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonText: $translate.instant('ACEPTAR'),
-                cancelButtonText: $translate.instant('CANCELAR'),
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false
-            }).then(function() {
-                if(self.FechaExpedicion && self.semanasReversar && self.contratoCanceladoBase.MotivoCancelacion){
-                    self.expedirCancelar();
-                } else {
-                    swal({
-                        text: $translate.instant('COMPLETE_CAMPOS'),
-                        type: 'error'
-                    });
-                }                
-            }, function(dismiss) {
-                if (dismiss === 'cancel') {
-                    swal({
-                        text: $translate.instant('EXPEDICION_NO_REALIZADA'),
-                        type: 'error'
-                    });
-                }
-            });
+            self.fechaCancelacion = self.fechaActaInicio();
+            if(self.FechaExpedicion && self.semanasReversar && self.contratoCanceladoBase.MotivoCancelacion){
+                swal({
+                    title: $translate.instant('EXPEDIR'),
+                    text: $translate.instant('SEGURO_EXPEDIR'),
+                    html: '<p><b>' + $translate.instant('NUMERO') + ': </b>' + resolucion.Numero.toString() + '</p>' +
+                        '<p><b>' + $translate.instant('FACULTAD') + ': </b>' + resolucion.Facultad + '</p>' +
+                        '<p><b>' + $translate.instant('NIVEL_ACADEMICO') + ': </b>' + resolucion.NivelAcademico + '</p>' +
+                        '<p><b>' + $translate.instant('DEDICACION') + ': </b>' + resolucion.Dedicacion + '</p>' +
+                        '<p><b>' + $translate.instant('NUMERO_CANCELACIONES') + ': </b>' + self.cantidad + '</p>' +
+                        '<p><b>' + $translate.instant('FECHA_FIN_ACTA') + ': </b>' + self.fechaCancelacion + '</p>',
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: $translate.instant('ACEPTAR'),
+                    cancelButtonText: $translate.instant('CANCELAR'),
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                    allowOutsideClick: false
+                }).then(function() {
+                    if(self.FechaExpedicion && self.semanasReversar && self.contratoCanceladoBase.MotivoCancelacion){
+                        self.expedirCancelar();
+                    } else {
+                        swal({
+                            text: $translate.instant('COMPLETE_CAMPOS'),
+                            type: 'error'
+                        });
+                    }                
+                }, function(dismiss) {
+                    if (dismiss === 'cancel') {
+                        swal({
+                            text: $translate.instant('EXPEDICION_NO_REALIZADA'),
+                            type: 'error'
+                        });
+                    }
+                });
+            } else {
+                swal({
+                    text: $translate.instant('COMPLETE_CAMPOS'),
+                    type: 'warning'
+                  });
+            }
         };
 
         self.expedirCancelar = function() {
             self.estado = true;
+            self.esconderBoton = true;
             var conjuntoContratos = [];
             if (self.contratados) {
                 self.contratados.forEach(function(contratado) {
@@ -129,13 +141,14 @@ angular.module('contractualClienteApp')
                     idResolucion: self.idResolucion,
                     FechaExpedicion: self.FechaExpedicion
                 };
-                adminMidRequest.post("expedir_resolucion/cancelar", expedicionResolucion).then(function(response) {
+                adminMidRequest.post("expedir_resolucion/cancelar", expedicionResolucion).then(function() {
                     self.estado = false;
                     swal({
                         title: $translate.instant('EXPEDIDA'),
                         text: $translate.instant('DATOS_CANCELADOS'),
                         type: 'success',
-                        confirmButtonText: $translate.instant('ACEPTAR')
+                        confirmButtonText: $translate.instant('ACEPTAR'),
+                        allowOutsideClick: false
                     }).then(function() {
                         $window.location.reload();
                     });
@@ -147,6 +160,7 @@ angular.module('contractualClienteApp')
                     type: "warning",
                     confirmButtonText: $translate.instant('ACEPTAR'),
                     showLoaderOnConfirm: true,
+                    allowOutsideClick: false
                 });
             }
         };
@@ -181,7 +195,7 @@ angular.module('contractualClienteApp')
                     self.acta = response.data[0];
                     self.fechaIni = new Date(self.acta.FechaInicio);
                     self.fechaActa = self.fechaUtc(self.fechaIni);
-                    self.calculoSemanas(self.fechaActa);  
+                    self.calculoSemanas();  
                     self.maximoSemanas = self.maximoSemanas - self.semanasTranscurridas;
                     self.estado = false;
                 });
@@ -197,7 +211,7 @@ angular.module('contractualClienteApp')
           };
 
         //Función para hacer el cálculo de semanas para la vinculación docente
-        self.calculoSemanas = function(fecha){
+        self.calculoSemanas = function(){
             dias = (self.fechaUtc(self.fecha_actual)-self.fechaActa)  / 1000 / 60 / 60 / 24 ;
             semanasDecimal = dias / 7;
             decimal = semanasDecimal % 1;
@@ -208,7 +222,7 @@ angular.module('contractualClienteApp')
         };
 
         //Se calcula la fecha de cancelación (fin) del acta inicio a partir de la fecha inicio de la misma y las semanas insertadas
-        self.fechaActaInicio = function(semanasAReversar){
+        self.fechaActaInicio = function(){
             self.semanasRev = self.resolucionActual.NumeroSemanas - self.semanasReversar;
             diasTotales = self.semanasRev*7 ;
             self.fechaFinal = new Date(self.acta.FechaInicio);

@@ -16,6 +16,7 @@ angular.module('contractualClienteApp')
         self.acta = {};
         self.estado = false;
         self.CurrentDate = new Date();
+        self.esconderBoton = false;
 
         self.idResolucion = idResolucion;
 
@@ -124,34 +125,48 @@ angular.module('contractualClienteApp')
                 self.contratoGeneralBase.Contrato.TipoContrato = { Id: 18 };
                 self.contratoGeneralBase.Contrato.ObjetoContrato = "Docente de Vinculación Especial - Medio Tiempo Ocasional (MTO) - Tiempo Completo Ocasional (TCO)";
             }
-            swal({
-                title: $translate.instant('EXPEDIR'),
-                text: $translate.instant('SEGURO_EXPEDIR'),
-                html: '<p><b>' + $translate.instant('NUMERO') + ': </b>' + resolucion.Numero.toString() + '</p>' +
-                    '<p><b>' + $translate.instant('FACULTAD') + ': </b>' + resolucion.Facultad + '</p>' +
-                    '<p><b>' + $translate.instant('NIVEL_ACADEMICO') + ': </b>' + resolucion.NivelAcademico + '</p>' +
-                    '<p><b>' + $translate.instant('DEDICACION') + ': </b>' + resolucion.Dedicacion + '</p>',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonText: $translate.instant('ACEPTAR'),
-                cancelButtonText: $translate.instant('CANCELAR'),
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false
-            }).then(function () {
-                self.guardarContratos();
-            }, function (dismiss) {
-                if (dismiss === 'cancel') {
-                    swal({
-                        text: $translate.instant('EXPEDICION_NO_REALIZADA'),
-                        type: 'error'
-                    });
-                }
-            });
+            if(self.FechaExpedicion && self.acta.FechaInicio){
+                swal({
+                    title: $translate.instant('EXPEDIR'),
+                    text: $translate.instant('SEGURO_EXPEDIR'),
+                    html: '<p><b>' + $translate.instant('NUMERO') + ': </b>' + resolucion.Numero.toString() + '</p>' +
+                        '<p><b>' + $translate.instant('FACULTAD') + ': </b>' + resolucion.Facultad + '</p>' +
+                        '<p><b>' + $translate.instant('NIVEL_ACADEMICO') + ': </b>' + resolucion.NivelAcademico + '</p>' +
+                        '<p><b>' + $translate.instant('DEDICACION') + ': </b>' + resolucion.Dedicacion + '</p>',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: $translate.instant('ACEPTAR'),
+                    cancelButtonText: $translate.instant('CANCELAR'),
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                    allowOutsideClick: false
+                }).then(function () {
+                    self.guardarContratos();
+                }, function (dismiss) {
+                    if (dismiss === 'cancel') {
+                        swal({
+                            text: $translate.instant('EXPEDICION_NO_REALIZADA'),
+                            type: 'error',
+                            allowOutsideClick: false
+                        });
+                    }
+                });
+            } else {
+                swal({
+                    text: $translate.instant('COMPLETE_CAMPOS'),
+                    type: 'warning'
+                  });
+            }
+        };
+
+        self.cancelarExpedicion = function(){
+            $mdDialog.hide();
         };
 
         self.guardarContratos = function () {
             self.estado = true;
+            self.esconderBoton = true;
             var conjuntoContratos = [];
             if (self.contratados) {
                 self.contratados.forEach(function (contratado) {
@@ -180,17 +195,18 @@ angular.module('contractualClienteApp')
                     FechaExpedicion: self.FechaExpedicion
                 };
                 adminMidRequest.post("expedir_resolucion/validar_datos_expedicion", expedicionResolucion).then(function (response) {
-                    if (response.status == 201) {
+                    if (response.status === 201) {
 
                         adminMidRequest.post("expedir_resolucion/expedir", expedicionResolucion).then(function (response) {
                             self.estado = false;
-                            if (response.status == 233) {
+                            if (response.status === 233) {
                                 swal({
                                     text: response.data,
                                     title: "Alerta",
                                     type: "error",
                                     confirmButtonText: $translate.instant('ACEPTAR'),
                                     showLoaderOnConfirm: true,
+                                    allowOutsideClick: false
                                 });
                             } else {
 
@@ -198,6 +214,7 @@ angular.module('contractualClienteApp')
                                     title: $translate.instant('EXPEDIDA'),
                                     text: $translate.instant('DATOS_REGISTRADOS'),
                                     type: 'success',
+                                    allowOutsideClick: false,
                                     confirmButtonText: $translate.instant('ACEPTAR')
                                 }).then(function () {
                                     $window.location.reload();
@@ -212,6 +229,7 @@ angular.module('contractualClienteApp')
                             type: "error",
                             confirmButtonText: $translate.instant('ACEPTAR'),
                             showLoaderOnConfirm: true,
+                            allowOutsideClick: false
                         });
                     }
                 });
@@ -222,18 +240,19 @@ angular.module('contractualClienteApp')
                     type: "warning",
                     confirmButtonText: $translate.instant('ACEPTAR'),
                     showLoaderOnConfirm: true,
+                    allowOutsideClick: false
                 });
             }
         };
         self.validarFecha = function (date) {
 
-            if (date.getDay() == 0 || date.getDay() == 6) {
+            if (date.getDay() === 0 || date.getDay() === 6) {
                 return false;
             }
             var myHolidays = holidays.getColombiaHolidaysByYear(date.getFullYear());
             var strDate = date.toJSON().split('T')[0];
             for (var i = 0; i < myHolidays.length; i++) {
-                if (myHolidays[i].holiday == strDate) {
+                if (myHolidays[i].holiday === strDate) {
                     return false;
                 }
             }

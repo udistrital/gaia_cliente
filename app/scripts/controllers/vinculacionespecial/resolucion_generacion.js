@@ -51,7 +51,7 @@ angular.module('contractualClienteApp')
                     displayName: $translate.instant('PERIODO')
                 },
                 {
-                    field: 'Facultad',
+                    field: 'NombreFacultad',
                     width: '27%',
                     displayName: $translate.instant('FACULTAD')
                 },
@@ -89,8 +89,8 @@ angular.module('contractualClienteApp')
             });
 
         };
-        //CALCULAR EN QUÉ PERIODO SE ESTÁ
-        administrativaRequest.get("resolucion_vinculacion/expedidas_vigencia_periodo_vinculacion", "vigencia="+self.anioPeriodo+"&periodo=1").then(function(response) {
+        
+        administrativaRequest.get("resolucion_vinculacion/expedidas_vigencia_periodo_vinculacion", "vigencia="+self.anioPeriodo).then(function(response) {
             self.resolucionesExpedidasPeriodo.data = response.data;
             if (self.resolucionesExpedidasPeriodo.data !== null) {
                 self.resolucionesExpedidasPeriodo.data.forEach(function(resolucion) {
@@ -114,7 +114,7 @@ angular.module('contractualClienteApp')
                         }
                     }
                     oikosRequest.get("dependencia/"+resolucion.Facultad).then(function(response){
-                        resolucion.Facultad = response.data.Nombre;
+                        resolucion.NombreFacultad = response.data.Nombre;
                       });
                 });
             }
@@ -150,7 +150,8 @@ angular.module('contractualClienteApp')
                     cancelButtonText: $translate.instant('CANCELAR_GUARDAR_RESOLUCION'),
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
-                    buttonsStyling: false
+                    buttonsStyling: false,
+                    allowOutsideClick: false
                 }).then(function() {
                     self.guardarResolucion();
                 }, function( /*dismiss*/ ) {});
@@ -195,7 +196,8 @@ angular.module('contractualClienteApp')
                     swal({
                         text: $translate.instant('ALERTA_RESOLUCION_EXITOSA'),
                         type: 'success',
-                        confirmButtonText: $translate.instant('ACEPTAR')
+                        confirmButtonText: $translate.instant('ACEPTAR'),
+                        allowOutsideClick: false
                     }).then(function() {
                         $window.location.href = '#/vinculacionespecial/resolucion_gestion';
                     });

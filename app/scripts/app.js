@@ -61,6 +61,7 @@ angular
         'configuracionService',
         'requestService',
         'implicitToken',
+        'gridApiService'
     ])
     .run(function(amMoment) {
         amMoment.changeLocale('es');
