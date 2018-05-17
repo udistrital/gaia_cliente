@@ -59,8 +59,14 @@ angular.module('implicitToken', [])
       setting_bearer: {
         headers: {}
       },
-      getHeader: function(){
-        return this.setting_bearer;
+      getHeader: function () {
+        service.setting_bearer = {
+          headers: {
+            'Accept': 'application/json',
+            "Authorization": "Bearer " + window.localStorage.getItem('access_token'),
+          }
+        };
+        return service.setting_bearer;
       },
       login: function () {
         if (!CONF.GENERAL.TOKEN.nonce) {
@@ -83,28 +89,27 @@ angular.module('implicitToken', [])
       },
       live_token: function () {
         if (window.localStorage.getItem('id_token') === 'undefined' || window.localStorage.getItem('id_token') === null) {
-            service.login();
+          service.login();
           return false;
         } else {
-            service.setting_bearer = {
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                  "Authorization": "Bearer " + window.localStorage.getItem('access_token'),
-                  "cache-control": "no-cache",
-                }
-              };
-                service.logout_url = CONF.GENERAL.TOKEN.SIGN_OUT_URL;
-                service.logout_url += '?id_token_hint=' + window.localStorage.getItem('id_token');
-                service.logout_url += '&post_logout_redirect_uri=' + CONF.GENERAL.TOKEN.SIGN_OUT_REDIRECT_URL;
-                service.logout_url += '&state=' + window.localStorage.getItem('state');
+          service.setting_bearer = {
+            headers: {
+              'Accept': 'application/json',              
+              "Authorization": "Bearer " + window.localStorage.getItem('access_token'),
+            }
+          };
+          service.logout_url = CONF.GENERAL.TOKEN.SIGN_OUT_URL;
+          service.logout_url += '?id_token_hint=' + window.localStorage.getItem('id_token');
+          service.logout_url += '&post_logout_redirect_uri=' + CONF.GENERAL.TOKEN.SIGN_OUT_REDIRECT_URL;
+          service.logout_url += '&state=' + window.localStorage.getItem('state');
           return true;
         }
       },
-      getPayload: function() {
+      getPayload: function () {
         const id_token = window.localStorage.getItem('id_token').split('.');
         return JSON.parse(atob(id_token[1]));
       },
-      logout: function(){
+      logout: function () {
         // console.log(service.logout_url);
         window.location.replace(service.logout_url);
         window.localStorage.clear();

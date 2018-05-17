@@ -160,19 +160,19 @@ angular.module('contractualClienteApp')
             token_service.logout();
         };
         if(token_service.live_token()){
-            var token = token_service.getPayload();
-            if (!angular.isUndefined(token.role)){
+            $scope.token = token_service.getPayload();
+            if (!angular.isUndefined($scope.token.role)){
                 var roles="";
-                if ( typeof token.role === "object" ) {
+                if ( typeof $scope.token.role === "object" ) {
                   var rl = [];
-                  for (var index = 0; index < token.role.length; index++) {
-                    if (token.role[index].indexOf("/") < 0 ){
-                      rl.push(token.role[index]);
+                  for (var index = 0; index < $scope.token.role.length; index++) {
+                    if ($scope.token.role[index].indexOf("/") < 0 ){
+                      rl.push($scope.token.role[index]);
                     }
                   }
                   roles = rl.toString();
                 } else {
-                  roles = token.role;
+                  roles = $scope.token.role;
                 }
     
                 roles = roles.replace(/,/g, '%2C');
