@@ -1,13 +1,12 @@
 'use strict';
 
 /**
- * @ngdoc service
- * @name contractualClienteApp.token
+ * @ngdoc overview
+ * @name implicitToken
  * @description
- * # token
- * Factory in the contractualClienteApp.
+ * # implicitToken
+ * Service in the implicitToken.
  */
-
 // First, parse the query string
 if (window.localStorage.getItem('access_token') === null ||
   window.localStorage.getItem('access_token') === undefined) {
@@ -59,6 +58,9 @@ angular.module('implicitToken', [])
       },
       setting_bearer: {
         headers: {}
+      },
+      getHeader: function(){
+        return this.setting_bearer;
       },
       login: function () {
         if (!CONF.GENERAL.TOKEN.nonce) {

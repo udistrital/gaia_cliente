@@ -43,7 +43,6 @@ angular
         'file-model',
         'angularBootstrapFileinput',
         // Servicios
-        'tokenService',
         'financieraService',
         'coreService',
         'coreAmazonService',
