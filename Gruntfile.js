@@ -434,6 +434,28 @@ module.exports = function(grunt) {
             ]
         },
 
+        //sonar
+sonarRunner: {
+    analysis: {
+      options: {
+        debug: true,
+        separator: '\n',
+        dryRun: false,
+        sonar: {
+          host: {
+            url: 'http://localhost:9000'
+          },
+          projectKey: 'grunt:administrativa-cliente:0.01',
+          projectName: 'Grunt: Administrativa Cliente 0.01',
+          projectVersion: '0.01',
+          sources: ['app','test'].join(','),
+          language: 'js',
+          sourceEncoding: 'UTF-8'
+        }
+      }
+    }
+   },
+   // fin sonar
         // Test settings
         karma: {
             unit: {
@@ -443,7 +465,7 @@ module.exports = function(grunt) {
         }
     });
 
-
+    grunt.loadNpmTasks('grunt-sonar-runner');
     grunt.registerTask('serve', 'Compile then start a connect web server', function(target) {
         if (target === 'dist') {
             return grunt.task.run(['build', 'connect:dist:keepalive']);

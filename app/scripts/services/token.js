@@ -1,11 +1,12 @@
 'use strict';
 
+
 /**
- * @ngdoc service
- * @name contractualClienteApp.token
+ * @ngdoc overview
+ * @name tokenService
  * @description
- * # token
- * Factory in the contractualClienteApp.
+ * # tokenService
+ * Service in the tokenService.
  */
 
 
@@ -34,7 +35,22 @@ req.onreadystatechange = function (e) {
   }
 };
 
-angular.module('contractualClienteApp')
+angular.module('tokenService', [])
+
+  /**
+   * @ngdoc service
+   * @name tokenService.service:configuracionRequest
+   * @requires $http
+   * @param {injector} $http componente http de angular para peticiones
+   * @requires $websocket
+   * @param {injector} $location componente para redireccionamientos 
+   * @param {injector} $sessionStorage componente para almacenado en sessionStorage
+   * @param {interval} $interval componente para uso de timer
+   * @param {CONF} CONF componente de variables de configuración
+   * @description
+   * # tokenService
+   * Factory que permite soportar el flujo de trabajo del token basado en oauth2 con wso2
+   */
   .factory('token_service', function ($location, $http, $sessionStorage, CONF, $interval) {
 
     var service = {
@@ -62,28 +78,6 @@ angular.module('contractualClienteApp')
         SIGN_OUT_REDIRECT_URL: CONF.GENERAL.TOKEN.SIGN_OUT_REDIRECT_URL,
         SIGN_OUT_APPEND_TOKEN: CONF.GENERAL.TOKEN.SIGN_OUT_APPEND_TOKEN
       },
-      getToken: function () {
-        if (window.sessionStorage.getItem('code') !== null &&
-          window.sessionStorage.getItem('id_token') === null) {
-          let url = Config.LOCAL.TOKEN.REFRESH_TOKEN;
-          const dato = {};
-          url += '?grant_type=authorization_code';
-          url += '&code=' + window.sessionStorage.getItem('code');
-          url += '&redirect_uri=' + Config.LOCAL.TOKEN.REDIRECT_URL;
-          this.post(url, dato, this.setting_basic).subscribe(
-            data => {
-              for (const i in data) {
-                if (data.hasOwnProperty(i)) {
-                  window.sessionStorage.setItem(i, data[i]);
-                }
-              }
-              this.session = data;
-              this.setExpiresAt();
-              this.clearUrl();
-            });
-        }
-        this.timer();
-      },
 
       live_token: function () {
         if (service.session === null) {
@@ -95,15 +89,15 @@ angular.module('contractualClienteApp')
             service.token = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(service.session.id_token.split(".")[1]));
             service.setting_bearer = {
               headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'Accept': 'application/json',
                 "Authorization": "Bearer " + $sessionStorage.access_token,
-                "cache-control": "no-cache",
               }
             };
             return true;
           } else {}
         }
       },
+      
       logout: function () {
         window.location = $location.absUrl();
         var url = service.config.SIGN_OUT_URL;
@@ -113,6 +107,7 @@ angular.module('contractualClienteApp')
         $sessionStorage.$reset();
         window.location.replace(url);
       },
+
       refresh: function () {
         var url = CONF.GENERAL.TOKEN.REFRESH_TOKEN;
         var data = {};
@@ -130,6 +125,7 @@ angular.module('contractualClienteApp')
             service.setExpiresAt();
           });
       },
+
       get_id_token: function () {
         if ((!angular.isUndefined($sessionStorage.code)) && (angular.isUndefined($sessionStorage.id_token))) {
           var url = CONF.GENERAL.TOKEN.REFRESH_TOKEN;
@@ -148,6 +144,7 @@ angular.module('contractualClienteApp')
         }
         service.timer();
       },
+      
       setExpiresAt: function () {
         if (angular.isUndefined($sessionStorage.expires_at) || $sessionStorage.expires_at === null) {
           var expires_at = new Date();
@@ -155,8 +152,24 @@ angular.module('contractualClienteApp')
           $sessionStorage.expires_at = expires_at;
         }
       },
+
       expired: function () {
         return (new Date($sessionStorage.expires_at) < new Date());
+      },
+
+      getPayload: function () {
+        service.token = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(service.session.id_token.split(".")[1]));
+        return service.token;
+      },
+
+      getHeader: function () {
+        service.setting_bearer = {
+          headers: {
+            'Accept': 'application/json',
+            "Authorization": "Bearer " + $sessionStorage.access_token,
+          }
+        };
+        return service.setting_bearer;
       },
 
       timer: function () {

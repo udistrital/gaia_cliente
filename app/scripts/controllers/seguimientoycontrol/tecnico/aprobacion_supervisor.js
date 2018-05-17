@@ -8,13 +8,13 @@
  * Controller of the contractualClienteApp
  */
 angular.module('contractualClienteApp')
-  .controller('AprobacionSupervisorCtrl', function ($scope, $http, $translate, uiGridConstants, contratoRequest, administrativaRequest, nuxeo, $q, coreRequest, $window,$sce, adminMidRequest,$routeParams, wso2GeneralService, amazonAdministrativaRequest) {
+  .controller('AprobacionSupervisorCtrl', function (token_service, cookie, $sessionStorage, $scope, $http, $translate, uiGridConstants, contratoRequest, administrativaRequest, nuxeo, $q, coreRequest, $window,$sce, adminMidRequest,$routeParams, wso2GeneralService, amazonAdministrativaRequest) {
     //Variable de template que permite la edición de las filas de acuerdo a la condición ng-if
     var tmpl = '<div ng-if="!row.entity.editable">{{COL_FIELD}}</div><div ng-if="row.entity.editable"><input ng-model="MODEL_COL_FIELD"</div>';
 
     //Se utiliza la variable self estandarizada
     var self = this;
-    self.Documento = '79513808';
+    self.Documento = token_service.getPayload().documento;
     self.objeto_docente = [];
     self.nombres_docentes_incumplidos = '';
     self.mes = '';
@@ -114,7 +114,7 @@ angular.module('contractualClienteApp')
         {
           field: 'PagoMensual.NumeroContrato',
           cellTemplate: tmpl,
-          displayName: $translate.instant('NUM_VIN'),
+          displayName: 'NUMERO CONTRATO',
           sort: {
             direction: uiGridConstants.ASC,
             priority: 1
@@ -166,14 +166,18 @@ angular.module('contractualClienteApp')
     Función que al recibir el número de documento del coordinador cargue los correspondientes
     */
     self.obtener_contratistas_supervisor = function () {
+      self.gridOptions1.data = [];
+
 
       self.obtener_informacion_supervisor(self.Documento);
       //Petición para obtener el Id de la relación de acuerdo a los campos
-      adminMidRequest.get('aprobacion_pago/solicitudes_supervisor_contratistas/'+self.Documento).then(function (response) {
+      adminMidRequest.get('aprobacion_pago/solicitudes_supervisor_contratistas/' + self.Documento).then(function (response) {
         self.documentos = response.data;
-        console.log(self.documentos);
+        //console.log(self.documentos);
         //self.obtener_informacion_docente();
         self.gridOptions1.data = self.documentos;
+        self.gridApi.core.refresh();
+
       });
 };
 
@@ -187,11 +191,11 @@ angular.module('contractualClienteApp')
         query: "NumDocumento:" + documento,
         limit: 0
       })).then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         //Información contratista
         self.info_supervisor = response.data;
         self.nombre_supervisor = self.info_supervisor[0].NomProveedor;
-        console.log(self.nombre_supervisor);
+        //console.log(self.nombre_supervisor);
     });
   };
 
@@ -204,8 +208,8 @@ angular.module('contractualClienteApp')
       contratoRequest.get('contrato', pago_mensual.NumeroContrato + '/' + pago_mensual.VigenciaContrato)
       .then(function (response) {
         self.aux_pago_mensual = pago_mensual;
-        //console.log(self.aux_pago_mensual);
-        console.log(response.data);
+        ////console.log(self.aux_pago_mensual);
+        //console.log(response.data);
         self.contrato = response.data.contrato;
 
         //Obtiene la información correspondiente del ordenador
@@ -224,34 +228,34 @@ angular.module('contractualClienteApp')
         })).then(function (responseCod) {
 
           var sig_estado = responseCod.data;
-          console.log(sig_estado);
+          //console.log(sig_estado);
           self.aux_pago_mensual.EstadoPagoMensual.Id = sig_estado[0].Id;
 
-          console.log(self.aux_pago_mensual);
+          //console.log(self.aux_pago_mensual);
 
 
           administrativaRequest.put('pago_mensual', self.aux_pago_mensual.Id, self.aux_pago_mensual)
           .then(function (response) {
-
-           if(response.data==="OK"){
-
-                swal(
-                  'Aprobación soportes ',
-                  'Tiene la validación del supervisor del contrato',
-                  'success'
-                )
-                self.obtener_contratistas_supervisor();
-                self.gridApi.core.refresh();
-
-           }else{
             swal(
               'Error',
               'No se ha podido registrar la validación del supervisor',
               'error'
             );
-           }
 
-          });
+
+
+         })//Termina promesa then
+
+         //Manejo de error
+         .catch(function(response) {
+             swal(
+               'Visto bueno ',
+               'Tiene la validación del supervisor del contrato',
+               'success'
+             )
+             self.obtener_contratistas_supervisor();
+             self.gridApi.core.refresh();
+           });
 
         })
      });
@@ -277,27 +281,27 @@ angular.module('contractualClienteApp')
 
           administrativaRequest.put('pago_mensual', self.aux_pago_mensual.Id, self.aux_pago_mensual)
           .then(function (response) {
-
-            if(response.data==="OK"){
-
-              swal(
-                'Rechazo registrado',
-                'Se ha registrado el rechazo de los soportes',
-                'success'
-              )
-              self.obtener_contratistas_supervisor();
-              self.gridApi.core.refresh();
-             }else{
-
-
               swal(
                 'Error',
                 'No se ha podido registrar el rechazo',
                 'error'
               );
-             }
 
-          });
+
+
+
+          })//Termina promesa then
+
+          //Manejo de error
+          .catch(function(response) {
+                swal(
+                  'Rechazo registrado',
+                  'Se ha registrado el rechazo de los soportes',
+                  'success'
+                )
+                self.obtener_contratistas_supervisor();
+                self.gridApi.core.refresh();
+            });
 
         })
       });
@@ -314,7 +318,7 @@ angular.module('contractualClienteApp')
        query: "Nombre:" + nombre_docs + ",Activo:true",
        limit:0
      })).then(function(response){
-       console.log(self.documentos);
+       //console.log(self.documentos);
        self.documentos = response.data;
        angular.forEach(self.documentos, function(value) {
          self.descripcion_doc = value.Descripcion;
@@ -384,10 +388,29 @@ angular.module('contractualClienteApp')
           cancelButtonText: 'Cancelar',
           confirmButtonText: 'Aceptar'
         }).then(function () {
-             documento.contenido = JSON.stringify(documento.contenido);
+             documento.Contenido = JSON.stringify(documento.Contenido);
              coreRequest.put('documento', documento.Id, documento).
              then(function(response){
-                  self.obtener_doc(self.fila_sol_pago);
+              swal({
+                title: 'Error',
+                text: 'No se ha podido guardar el comentario',
+                type: 'error',
+                target: document.getElementById('modal_ver_soportes')
+              });
+
+            })
+
+            //Manejo de error
+            .catch(function(response) {
+
+              swal({
+                title: 'Comentario guardado',
+                text: 'Se ha guardado el comentario del documento',
+                type: 'success',
+                target: document.getElementById('modal_ver_soportes')
+              });
+              self.obtener_doc(self.fila_sol_pago);
+
             });
 
         });

@@ -34,7 +34,7 @@ var text_es = {
   RECHAZAR:"Rechazar",
   SOLICITAR_CDP:"Solicitar CDP",
   GENERAR_RESOLUCION:"Generar Resolución",
-  REALIZAR_EXPEDICION:"Realizar expedición de la resolución",
+  REALIZAR_EXPEDICION:"Realizar expedición de la resolución con los datos introducidos",
   INFORMACION_PERSONA_NATURAL:"Información persona natural",
   FORMACION_ACADEMICA:"Formación académica",
   EXPERIENCIA_LABORAL_DOCENTE:"Experiencia laboral docente",
@@ -140,6 +140,7 @@ var text_es = {
   INSERCION_RP:"Se insertó correctamente la solicitud del registro presupuestal con los siguientes datos",
   VIGENCIA_SOLICITUD:"Vigencia solicitud",
   FECHA_SOLICITUD:"Fecha solicitud",
+  NUMERO_CONTRATO:"Número contrato",
   SELECCIONE_UNA_VIGENCIA:"Seleccione la Vigencia",
   RESPONSABLE_DOCUMENTO:"Responsable documento",
   RESPONSABLE:"Responsable",
@@ -165,6 +166,7 @@ var text_es = {
   VALOR:"Valor",
   COMPROMISO:"Compromiso",
   NUMERO:"Número",
+  VIGENCIA:"Vigencia",
   COMPROMISO_TIPO:"Tipo",
   VALOR_RP:"Valor registro presupuestal",
   SALDO_AP:"Saldo apropiación",
@@ -186,7 +188,6 @@ var text_es = {
   TIPO_DOCUMENTO:"Tipo documento",
   NUMERO_DOCUMENTO :"No documento",
   FECHA_INICIO:"Fecha inicio",
-  FECHA_INICIO_VALIDA:"Fecha inicio válida",
   FECHA_FIN:"Fecha fin",
   FECHA:"Fecha",
   TIPO:"Tipo",
@@ -238,6 +239,7 @@ var text_es = {
   OBJETO_CDP:"Objeto del CDP",
   JUSTIFICACION:"Justificación",
   DESCRIPCION_FORMA_PAGO:"Descripción forma de pago",
+  OBSERVACIONES:"Observaciones",
   //CONTRATO_RESUMEN
   DOCENTES_CONTRATADOS:"Docentes contratados - periodo actual",
   CEDULA:"Cédula",
@@ -245,6 +247,7 @@ var text_es = {
   CATEGORIA:"Categoría",
   DEDICACION:"Dedicación",
   HORAS_SEMANALES:"Horas semanales",
+  PERIODO_VINCULACION:"Periodo vinculación",
   VINCULACION:"Vinculación",
   VALOR_CONTRATO:"Valor del contrato",
   DOCENTES_CONTRATADOS_ACTUAL:"DOCENTES CONTRATADOS - PERIODO ACTUAL",
@@ -275,11 +278,9 @@ var text_es = {
       DOCENTE_VINCULADOS:"Docentes vinculados",
       SELECCIONE_PROY:"Seleccione el proyecto curricular",
       TITULO_DISP: "Disponibilidad",
-      VINCULAR_DOCENTES: "Vincular Docentes",
+      VINCULAR_DOCENTES_SELECCIONADOS: "Vincular docentes seleccionados",
       ELEGIR_DISP: "Elegir disponibilidad",
       LABEL_TOTAL_X_RESOLUCION: "Valor total de contratación:\n(Docentes vinculados) ",
-      VOLVER: "Volver",
-      DOCENTES_SELECCIONADOS_REVERSAR: "Docentes Seleccionados Para Reversar",
       /*---Script---*/
       APELLIDO_DOCENTES:"Apellidos",
       NOMBRES_DOCENTES: "Nombres",
@@ -312,7 +313,6 @@ var text_es = {
       ALERTA_ERROR_CATEGORIA: "Debe seleccionar docentes con categoria asignada",
       LABEL_TOTAL_CONTRATACION: "Valor total de contratos para docentes seleccionados",
       ALERTA_SELEC_DOC: "Seleccione docentes",
-      CAMBIOS_NO_GUARDADOS: "Los Cambios no guardados se perderan",
   //RESOLUCION_ADICION_DETALLE
       /*---HTML---*/
       TITULO_DOC_VIN_RES_AD: "Docentes vinculados a resolución de adicion",
@@ -323,7 +323,6 @@ var text_es = {
       ALERTA_ERROR_ANULACION:"Error en anulación",
       ANULAR_BTN: "Anular",
       ANULADA_BTN: "Anular",
-      CANCELAR_BTN: "Cancelar",
 
   //RESOLUCION_ADICION
       /*---HTML---*/
@@ -401,7 +400,6 @@ var text_es = {
       SELECCIONE:"Seleccione",
       SELECCIONE_TIPO_RES: "Seleccione el tipo de resolución a crear",
       ASOCIAR_RESOLUCION: "Asociar resolución",
-      VIGENCIA:"Vigencia",
       /*---Script---*/
       INFORMACION_CONTENIDO: "Los artículos son creados por defecto y pueden ser editados",
       CONFIRMAR_GUARDAR_RESOLUCION: "Guardar resolución",
@@ -410,12 +408,6 @@ var text_es = {
       ALERTA_ERROR_RESOLUCION: "Error al insertar resolución",
       ALERTA_SELEC_RESOLUCION:"Seleccione una resolución para cancelar",
       DATOS_RESOLUCION: "Datos de la resolución",
-      CANCELACION: "Cancelación",
-      SEMANAS_REVERSAR: "Número de Semanas a Reversar",
-      ELIJA_SEMANAS_MINIMO: "Elija un número de semanas -> Mínimo: ",
-      ELIJA_SEMANAS_MAXIMO: " Máximo: ",
-      COMPLETE_CAMPOS: "Complete Todos Los Campos",
-      FECHA_FIN_ACTA: "Fecha fin de acuerdo a la reversión: ",
 
   //RESOLUCION_GESTION
       /*---HTML---*/
@@ -521,9 +513,7 @@ var text_es = {
   NUMERO_CANCELACIONES: "Número de vinculaciones canceladas",
   DATOS_CANCELADOS:"Las vinculaciones asociadas a esta resolución de cancelación han sido removidas",
   DATOS_EXPEDICION: "Datos de Expedición",
-  FECHA_INVALIDA: "Por favor escoja otra fecha. La fecha escojida es un Sábado, Domingo o un día festivo",
   FECHA_EXPEDICION: "Fecha de Expedición",
-  FECHA_EXPEDICION_VALIDA: "Fecha de Expedición válida",
   NUMERO_SEMANAS: "Número de Semanas",
   TITULO_RESOLUCION: "Título de la Resolución",
   INFORMACION_CANCELAR: "Información de la cancelación",
@@ -535,12 +525,17 @@ var text_es = {
   TITULO_REG_CUMPLIDO: "CUMPLIDO",
   NUM_DOC_IDENTIDAD:"NUMERO DOCUMENTO DE IDENTIDAD",
   NAME_CONTRATISTA:"NOMBRE",
+  TIPO_DOC:"TIPO DOCUMENTO",
   CIUDAD_DOC:"CIUDAD",
+  NUM_CONTRAC:"NÚMERO CONTRATO",
   FECH_SUSC_CONT:"FECHA SUSCRIPCIÓN CONTRATO",
   UNIDAD_EJE:"UNIDAD EJECUTORA",
+  VIGENCIA:"VIGENCIA",
   TIPO_CUENTA:"TIPO CUENTA",
   BANCO:"BANCO",
   NUM_CUENTA:"NÚMERO CUENTA",
+  DEPENDENCIA:"DEPENDENCIA",
+  SUPERVISOR:"SUPERVISOR DEL CONTRATO",
   CARGO_SUP:"CARGO SUPERVISOR DEL CONTRATO",
   CUMPLIDO_MES:"CUMPLIDO DEL MES",
   DIAS_LABORADOS:"DÍAS LABORADOS",
@@ -593,6 +588,7 @@ var text_es = {
   NOM_DOCENTE:"NOMBRE DEL DOCENTE",
   PRO_CURR:"PROYECTO CURRICULAR",
   NUM_VINC:"NÚMERO DE VINCULACIÓN",
+  RESOLUCION:"RESOLUCIÓN",
   SOLICITAR_CUM:"SOLICITAR CUMPLIDO",
   CARGAR_LISTAS:"CARGAR LISTAS",
   SELECCIONAR_DOCUMENTO:"Seleccione el documento",
@@ -637,7 +633,7 @@ var text_es = {
   ENLACE_GUARDADO: "Enlace guardado",
   ENLACE_SE_HA_GUARDADO: "Se ha guardado el enlace",
   DEBE_PEGAR_ENLACE: "Debe pegar el enlace y seleccionar un item",
-  
+
 
   //Modal informe de gestión docente
   TITULO_MODAL_INFORME_DOC:"INFORME DE GESTIÓN DOCENTE",
@@ -663,6 +659,19 @@ var text_es = {
   NOM_CONTRATISTA: "NOMBRE CONTRATISTA",
   NUMERO_CONTRATO:"NUMERO CONTRATO",
   RP:"RP",
+  CDP:"CDP",
+  TITULO_MOD : "CARGAR SOPORTES",
+  SEL_ANO: "Seleccione el año de la solicitud de pago",
+  SEL_MES: "Seleccione el mes de la solicitud de pago",
+  PARRA_SOP: "Por favor seleccione el item correspondiente del soporte que va a cargar, digite las observaciones acerca del soporte, sí las hay y proceda a seleccionar el soporte a cargar",
+  ITEM: "Item",
+  SEL_ITEM: "Seleccione el item del cual cargará el soporte",
+  SEE_DOC: "VER DOCUMENTO",
+  DEL_DOC: "BORRAR",
+  DEL_SOP:"BORRAR SOPORTE",
+  SEG_BO: "¿Está seguro que desea borrar el soporte?",
+  NO_ACT: "No podrá revertir esta acción",
+  CANCEL: "Cancelar",
 };
 
 var text_en = {
@@ -695,9 +704,9 @@ var text_en = {
   VER_SEGUIMIENTO_FINANCIERO: "See financial monitoring",
   CREAR_RESOLUCION: "Create new special entailment resolution",
   GENERAR_RESOLUCION: "Generate Resolution",
-  REALIZAR_EXPEDICION: "Issue the resolution",
+  REALIZAR_EXPEDICION: "Issue the resolution with the data entered",
   INFORMACION_PERSONA_NATURAL: "Information natural person",
-  VINCULAR_DOCENTES: "Entailment teachers",
+  VINCULAR_DOCENTES_SELECCIONADOS: "Entailment selected teachers to resolution",
   FORMACION_ACADEMICA: "Academic training",
   EXPERIENCIA_LABORAL_DOCENTE: "Teaching work experience",
   TRABAJOS_INVESTIGACION: "Investigation work",
@@ -708,7 +717,6 @@ var text_en = {
   SOLICITUD_NECESIDAD_CONTRATACION_DOCENTES: "Need Request Teacher Recruitment",
   SOLICITUD_NECESIDAD_EXTERNA: "Extern Need Request",
   PRECIO_MAS_IVA: "Value + IVA",
-  CANCELAR_BTN: "Cancel",
   //SOLICITUD RP
   TIPO_PERSONA:"Kind of person",
   TIPO_RESOLUCION:"Kind of resolution",
@@ -721,6 +729,7 @@ var text_en = {
   INSERCION_RP:"The budget register request was insert correctly with the following data:",
   VIGENCIA_SOLICITUD: "Request validity",
   FECHA_SOLICITUD: "Request date",
+  NUMERO_CONTRATO: "Contract number",
   RUBRO:"Item",
   SOLICITUD: "Request",
   SOLICITUD_NECESIDAD: "Need Request",
@@ -826,6 +835,7 @@ var text_en = {
   VALOR: "Value",
   COMPROMISO: "Agreement",
   NUMERO:"Number",
+  VIGENCIA:"Validity",
   COMPROMISO_TIPO:"Tipe",
   VALOR_RP:"Budget register value",
   SALDO_AP:"Appropiation reminder",
@@ -888,9 +898,6 @@ var text_en = {
   TOTAL:"Total",
   UNITARIO:"Unit",
   NO_HAY_DATOS_REDIRIGIR:"There are no data to show you will be redirected to the previous menu",
-  CAMBIOS_NO_GUARDADOS: "Unsaved changes wiil be lost",
-  VOLVER: "Back",
-  DOCENTES_SELECCIONADOS_REVERSAR: "Teachers selected to be reversed",
 
 
 
@@ -947,6 +954,8 @@ var text_en = {
   TIPO_CUENTA:"ACCOUNT TYPE",
   BANCO:"BANK",
   NUM_CUENTA:"ACCOUNT NUMBER",
+  DEPENDENCIA:"DEPENDENCE",
+  SUPERVISOR:"CONTRACT SUPERVISOR",
   CARGO_SUP:"CONTRACT SUPERVISORY CHARGE",
   CUMPLIDO_MES:"MONTH COMPLIMENT",
   DIAS_LABORADOS:"WORKING DAYS",
@@ -965,6 +974,7 @@ var text_en = {
 
   //MODULO INFORME DE GESTIÓN
   TITULO_REG_INFORME:"MANAGEMENT REPORT",
+  NUM_CONTRAC:"CONTRACT NUMBER",
   INFORME_MES:"MONTH REPORT",
   FECHA_INI_CONTRACT:"START DATE OF CONTRACT",
   FECHA_FIN_CONTRACT:"END DATE OF CONTRACT",
@@ -1067,7 +1077,20 @@ var text_en = {
   TITULO_CARGA_CONTRATISTA: "CARGA SOPORTES CONTRATISTA",
   NOM_CONTRATISTA: "NOMBRE CONTRATISTA",
   NUMERO_CONTRATO:"CONTRACT NUMBER",
-  RP:"RP"
+  RP:"RP",
+  CDP:"CDP",
+  TITULO_MOD : "LOAD SUPPORTS",
+  SEL_ANO: "Select year for request payment",
+  SEL_MES: "Select month for request payment",
+  PARRA_SOP: "Please select item of support to load",
+  ITEM: "Item",
+  SEL_ITEM: "Select item for support",
+  SEE_DOC: "SEE DOC",
+  DEL_DOC: "DELETE",
+  DEL_SOP:"DELETE SUPPORT",
+  SEG_BO: "¿Are you sure that you want to delete support?",
+  NO_ACT: "You can´t revert this action",
+  CANCEL: "Cancel"
 };
 
 angular.module('contractualClienteApp')
