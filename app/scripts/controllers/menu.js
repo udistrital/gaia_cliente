@@ -156,25 +156,28 @@ angular.module('contractualClienteApp')
             return padres;
         };
         $scope.perfil = "ADMINISTRADOR ARGO";
-
+        $scope.logout = function(){
+            token_service.logout();
+        };
         if(token_service.live_token()){
-            if (!angular.isUndefined(token_service.role)){
+            var token = token_service.getPayload();
+            if (!angular.isUndefined(token.role)){
                 var roles="";
-                if ( typeof token_service.token.role === "object" ) {
+                if ( typeof token.role === "object" ) {
                   var rl = [];
-                  for (var index = 0; index < token_service.token.role.length; index++) {
-                    if (token_service.token.role[index].indexOf("/") < 0 ){
-                      rl.push(token_service.token.role[index]);
+                  for (var index = 0; index < token.role.length; index++) {
+                    if (token.role[index].indexOf("/") < 0 ){
+                      rl.push(token.role[index]);
                     }
                   }
                   roles = rl.toString();
                 } else {
-                  roles = token_service.token.role;
+                  roles = token.role;
                 }
     
                 roles = roles.replace(/,/g, '%2C');
                 configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo', '').then(function(response) {
-    
+                    console.log(response);
                     $rootScope.my_menu = response.data;
     
                 });

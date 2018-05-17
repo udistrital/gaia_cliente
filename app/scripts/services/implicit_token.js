@@ -103,7 +103,8 @@ angular.module('implicitToken', [])
         return JSON.parse(atob(id_token[1]));
       },
       logout: function(){
-        window.location = service.logout_url;
+        // console.log(service.logout_url);
+        window.location.replace(service.logout_url);
         window.localStorage.clear();
       },
       logoutValid: function () {
