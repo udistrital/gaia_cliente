@@ -130,6 +130,15 @@ angular.module('contractualClienteApp')
           },
         },
         {
+          field: 'PagoMensual.VigenciaContrato',
+          cellTemplate: tmpl,
+          displayName: 'VIGENCIA CONTRATO',
+          sort: {
+            direction: uiGridConstants.ASC,
+            priority: 1
+          },
+        },
+        {
           field: 'PagoMensual.Mes',
           cellTemplate: tmpl,
           displayName: $translate.instant('MES_SOLICITUD'),
@@ -466,7 +475,7 @@ angular.module('contractualClienteApp')
                   style: 'tableExample',
                   table: {
                     body: [
-                      ['Documento', 'Nombre', 'Contrato', 'Vigencia']
+                      ['Documento', 'Nombre', 'Contrato', 'Vigencia', 'Rubro' ]
                     ]
                   }
                 }
@@ -477,7 +486,7 @@ angular.module('contractualClienteApp')
                 if(self.docentes_incumplidos){
                 contenido.push({text:'Los contratos de prestación de servicios bajo esta supervisión listados a continuación cumplieron a satisfacción con el objeto establecido en el contrato y con el pago reglamentario de los aportes al sistema de seguridad social del Mes de '  +self.mes.Nombre+ ' de ' +self.anio+ '.', style:'general_font'}, '\n\n')
                   angular.forEach(self.docentes_incumplidos, function(value) {
-                   tabla.table.body.push([ value.NumDocumento , value.Nombre, value.NumeroContrato , value.Vigencia]);
+                   tabla.table.body.push([ value.NumDocumento , value.Nombre, value.NumeroContrato , value.Vigencia, value.Rubro]);
                  });
                  contenido.push(tabla);
                 }else{

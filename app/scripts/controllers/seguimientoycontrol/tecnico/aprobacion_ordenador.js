@@ -100,6 +100,15 @@ angular.module('contractualClienteApp')
           width: "15%"
         },
         {
+          field: 'Rubro',
+          cellTemplate: tmpl,
+          displayName: 'RUBRO',//$translate.instant('NAME_TEACHER'),
+          sort: {
+            direction: uiGridConstants.ASC,
+            priority: 1
+          },
+        },
+        {
           field: 'PagoMensual.Persona',
           cellTemplate: tmpl,
           displayName: $translate.instant('DOCUMENTO'),
@@ -123,6 +132,15 @@ angular.module('contractualClienteApp')
           field: 'PagoMensual.NumeroContrato',
           cellTemplate: tmpl,
           displayName: 'NUMERO CONTRATO',
+          sort: {
+            direction: uiGridConstants.ASC,
+            priority: 1
+          },
+        },
+        {
+          field: 'PagoMensual.VigenciaContrato',
+          cellTemplate: tmpl,
+          displayName: 'VIGENCIA',
           sort: {
             direction: uiGridConstants.ASC,
             priority: 1
