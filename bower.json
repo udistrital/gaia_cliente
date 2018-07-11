@@ -20,7 +20,7 @@
     "angular-websocket": "^2.0.0",
     "angular-input-masks": "^2.5.0",
     "angular-moment": "^1.0.1",
-    "angular-translate": "^2.15.1",
+    "angular-translate": "^2.18.1",
     "sweetalert2": "^6.4.4",
     "angular-timelinejs3": "^0.2.3",
     "chart.js": "^2.6.0",
