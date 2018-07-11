@@ -39,7 +39,10 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "karma start test/karma.conf.js"
+    "test": "karma start test/karma.conf.js",
+    "install": "bower install -F",
+    "serve": "grunt serve",
+    "build": "grunt build"
   },
   "dependencies": {
     "angular-cookies": "^1.6.9"
