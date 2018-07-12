@@ -27,6 +27,7 @@ if (window.localStorage.getItem('access_token') === null ||
     window.localStorage.setItem('access_token', params['access_token']);
     window.localStorage.setItem('id_token', params['id_token']);
     window.localStorage.setItem('state', params['state']);
+    window.localStorage.setItem('expires_in', params['expires_in']);
   } else {
     window.localStorage.clear();
   }
@@ -45,7 +46,7 @@ if (window.localStorage.getItem('access_token') === null ||
 }
 
 angular.module('implicitToken', [])
-  .factory('token_service', function (CONF, md5) {
+  .factory('token_service', function (CONF, md5, $interval) {
 
     var service = {
       //session: $localStorage.default(params),
@@ -110,10 +111,31 @@ angular.module('implicitToken', [])
         return JSON.parse(atob(id_token[1]));
       },
       logout: function () {
-        // console.log(service.logout_url);
         window.location.replace(service.logout_url);
         window.localStorage.clear();
       },
+      expired: function () {
+        return (new Date(window.localStorage.getItem('expires_at')) < new Date());
+      },
+
+      setExpiresAt: function () {
+        if (angular.isUndefined(window.localStorage.getItem('expires_at')) || window.localStorage.getItem('expires_at') === null) {
+          var expires_at = new Date();
+          expires_at.setSeconds(expires_at.getSeconds() + parseInt(window.localStorage.getItem('expires_in')) - 60); // 60 seconds less to secure browser and response latency
+          window.localStorage.setItem('expires_at', expires_at);
+        }
+      },
+
+      timer: function () {
+        if (!angular.isUndefined(window.localStorage.getItem('expires_at')) || window.localStorage.getItem('expires_at') === null) {
+          $interval(function () {
+            if (service.expired()) {
+              window.localStorage.clear();
+            }
+          }, 5000);
+        }
+      },
+
       logoutValid: function () {
         var state;
         var valid = true;
@@ -132,5 +154,7 @@ angular.module('implicitToken', [])
         return valid;
       }
     };
+    service.setExpiresAt();
+    service.timer();
     return service;
   });

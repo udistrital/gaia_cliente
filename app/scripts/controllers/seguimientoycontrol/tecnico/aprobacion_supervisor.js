@@ -18,6 +18,7 @@ angular.module('contractualClienteApp')
     self.objeto_docente = [];
     self.nombres_docentes_incumplidos = '';
     self.mes = '';
+    self.dependencias_supervisor = {};
 
     self.meses = [{
         Id: 1,
@@ -72,8 +73,16 @@ angular.module('contractualClienteApp')
     self.d = new Date();
     self.anios = [(self.d.getFullYear()), (self.d.getFullYear() + 1)];
 
+        /*
+      Función para obtener la imagen del escudo de la universidad
+    */
+    $http.get("scripts/models/imagen_ud.json")
+     .then(function(response) {
+       self.imagen = response.data;
+    });
+
     /*
-      Creación tabla que tendrá todos los docentes relacionados al coordinador
+      Creación tabla que tendrá todos los docentes relacionados al supervisor
     */
     self.gridOptions1 = {
       enableSorting: true,
@@ -115,6 +124,15 @@ angular.module('contractualClienteApp')
           field: 'PagoMensual.NumeroContrato',
           cellTemplate: tmpl,
           displayName: 'NUMERO CONTRATO',
+          sort: {
+            direction: uiGridConstants.ASC,
+            priority: 1
+          },
+        },
+        {
+          field: 'PagoMensual.VigenciaContrato',
+          cellTemplate: tmpl,
+          displayName: 'VIGENCIA CONTRATO',
           sort: {
             direction: uiGridConstants.ASC,
             priority: 1
@@ -203,13 +221,11 @@ angular.module('contractualClienteApp')
 
     self.obtener_contratistas_supervisor();
 
-
     self.dar_visto_bueno = function (pago_mensual) {
       contratoRequest.get('contrato', pago_mensual.NumeroContrato + '/' + pago_mensual.VigenciaContrato)
       .then(function (response) {
         self.aux_pago_mensual = pago_mensual;
-        ////console.log(self.aux_pago_mensual);
-        //console.log(response.data);
+
         self.contrato = response.data.contrato;
 
         //Obtiene la información correspondiente del ordenador
@@ -415,4 +431,122 @@ angular.module('contractualClienteApp')
 
         });
     };
-});
+
+    /*
+      Función que obtiene las dependencias que se encuentran a cargo del supervisor
+    */
+    self.obtenerDependenciasSupervisor = function (){
+      contratoRequest.get('dependencias_supervisor', self.Documento)
+      .then(function (response) {
+        self.dependencias_supervisor= response.data;
+        console.log(self.dependencias_supervisor);
+      });
+
+
+    };
+    self.obtenerDependenciasSupervisor();
+
+    /*
+      Función que genera el documento de quienes cumplieron con sus obligaciones
+    */
+    self.generarPDF = function (){
+
+
+            if(self.mes.Id/10<1){
+
+              self.mes.Id = '0'+self.mes.Id.toString();
+
+            }
+
+            //adminMidRequest.get('aprobacion_pago/certificacion_visto_bueno/*/**/*').
+            adminMidRequest.get('/aprobacion_pago/certificacion_cumplidos_contratistas/'+ self.dependencia.codigo+'/' + self.mes.Id + '/' + self.anio).
+              then(function(responseMid){
+               self.docentes_incumplidos = responseMid.data;
+
+       
+               // self.facultad = responseHom.data[0];
+
+                var date = new Date()
+                var dia = moment(date).format('D');
+                var mes = moment(date).format('M');
+                var anio = moment(date).format('YYYY');
+                var contenido = [];
+                var tabla = 	{
+                  style: 'tableExample',
+                  table: {
+                    body: [
+                      ['Documento', 'Nombre', 'Contrato', 'Vigencia', 'Rubro' ]
+                    ]
+                  }
+                }
+                //console.log(self.contenido);
+                contenido.push( {text:'EL JEFE DE LA DEPENDENCIA ' +  self.dependencia.nombre  + ' DE LA UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS', bold: true,  alignment: 'center', style:'top_space'}, '\n\n\n\n');
+                //console.log(self.contenido);
+                contenido.push({text:'CERTIFICA QUE: ', bold: true,  alignment: 'center', style:'top_space'}, '\n\n\n\n');
+                if(self.docentes_incumplidos){
+                contenido.push({text:'Los contratos de prestación de servicios bajo esta supervisión listados a continuación cumplieron a satisfacción con el objeto establecido en el contrato y con el pago reglamentario de los aportes al sistema de seguridad social del Mes de '  +self.mes.Nombre+ ' de ' +self.anio+ '.', style:'general_font'}, '\n\n')
+                  angular.forEach(self.docentes_incumplidos, function(value) {
+                   tabla.table.body.push([ value.NumDocumento , value.Nombre, value.NumeroContrato , value.Vigencia, value.Rubro]);
+                 });
+                 contenido.push(tabla);
+                }else{
+                contenido.push({text:'Ninguno de los contratos de prestación de servicios bajo esta supervisión cumplió con las actividades del objeto establecido en el contrato o con el pago reglamentario de los aportes al sistema de seguridad social del Mes de '  +self.mes.Nombre+ ' de ' +self.anio+ '.', style:'general_font'}, '\n\n')
+
+                  
+                }
+                //contenido.push(	);
+                contenido.push('\n',{text:'Se expide para el trámite de pago ante la DIVISIÓN DE RECURSOS FINANCIEROS al mes de ' + self.meses[mes-1].Nombre + ' de ' + anio +'.',  style:'general_font'}, '\n\n\n\n\n\n');
+                contenido.push({text:'' + self.nombre_supervisor, style:'bottom_space'});
+                contenido.push({text:'JEFE DE', style:'bottom_space'});
+                contenido.push({text: self.dependencia.nombre , style:'bottom_space'});
+
+
+                //Generación documento
+                var docDefinition = {
+                  pageMargins: [30, 140, 40, 40],
+                  header: {
+                   height: 120,
+                   width: 120,
+                   image: self.imagen.imagen,
+                   margin: [100, 15,5,5],
+                   alignment: 'center'
+                 },
+                 content: contenido,
+                 styles: {
+                   top_space: {
+                     fontSize: 11,
+                     marginTop: 30
+                   },
+                   bottom_space: {
+                     fontSize: 12,
+                     bold: true,
+                     alignment:'center'
+                     //marginBottom: 30
+                   },
+                   general_font:{
+                     fontSize: 11,
+                     alignment: 'justify'
+                   },
+                   lista:{
+                     fontSize: 9,
+                     alignment:'justify'
+                   }
+                 }
+                }
+
+                //Variable para obtener la fecha y hora que se genera el dcoumento
+                var date = new Date();
+                date = moment(date).format('DD_MMM_YYYY_HH_mm_ss');
+                pdfMake.createPdf(docDefinition).download('Certificación cumplido ' + date + '.pdf');
+
+
+
+
+
+              //  pdfMake.createPdf(docDefinition).download('Certificación cumplido coordinación ' + date + '.pdf');
+               });
+          
+    };
+
+
+  });
