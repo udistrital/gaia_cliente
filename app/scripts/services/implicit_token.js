@@ -10,17 +10,17 @@
 // First, parse the query string
 if (window.localStorage.getItem('access_token') === null ||
   window.localStorage.getItem('access_token') === undefined) {
-  const params = {},
+  var params = {},
     queryString = location.hash.substring(1),
     regex = /([^&=]+)=([^&]*)/g;
-  let m;
+  var m;
   while (m = regex.exec(queryString)) {
     params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
   }
   // And send the token over to the server
-  const req = new XMLHttpRequest();
+  var req = new XMLHttpRequest();
   // consider using POST so query isn't logged
-  const query = 'https://' + window.location.host + '?' + queryString;
+  var query = 'https://' + window.location.host + '?' + queryString;
   // console.log(query);
   req.open('GET', query, true);
   if (params['id_token'] !== null && params['id_token'] !== undefined) {
@@ -54,7 +54,7 @@ angular.module('implicitToken', [])
       token: null,
       logout_url: null,
       generateState: function () {
-        const text = ((Date.now() + Math.random()) * Math.random()).toString().replace('.', '');
+        var text = ((Date.now() + Math.random()) * Math.random()).toString().replace('.', '');
         return md5.createHash(text);
       },
       setting_bearer: {
@@ -76,7 +76,7 @@ angular.module('implicitToken', [])
         if (!CONF.GENERAL.TOKEN.state) {
           CONF.GENERAL.TOKEN.state = service.generateState();
         }
-        let url = CONF.GENERAL.TOKEN.AUTORIZATION_URL + '?' +
+        var url = CONF.GENERAL.TOKEN.AUTORIZATION_URL + '?' +
           'client_id=' + encodeURIComponent(CONF.GENERAL.TOKEN.CLIENTE_ID) + '&' +
           'redirect_uri=' + encodeURIComponent(CONF.GENERAL.TOKEN.REDIRECT_URL) + '&' +
           'response_type=' + encodeURIComponent(CONF.GENERAL.TOKEN.RESPONSE_TYPE) + '&' +
@@ -107,7 +107,7 @@ angular.module('implicitToken', [])
         }
       },
       getPayload: function () {
-        const id_token = window.localStorage.getItem('id_token').split('.');
+        var id_token = window.localStorage.getItem('id_token').split('.');
         return JSON.parse(atob(id_token[1]));
       },
       logout: function () {
@@ -141,7 +141,7 @@ angular.module('implicitToken', [])
         var valid = true;
         var queryString = location.search.substring(1);
         var regex = /([^&=]+)=([^&]*)/g;
-        let m;
+        var m;
         while (!!(m = regex.exec(queryString))) {
           state = decodeURIComponent(m[2]);
         }
