@@ -116,7 +116,7 @@ var conf_preproduccion = {
       CLIENTE_ID: "4wAiTLoHWH3oxhzJegmfmfRukCUa",
       REDIRECT_URL: "https://pruebasadministrativa.portaloas.udistrital.edu.co/",
       RESPONSE_TYPE: "id_token token",
-      SCOPE: "openid email",
+      SCOPE: "openid email role documento",
       BUTTON_CLASS: "btn btn-warning btn-sm",
       SIGN_OUT_URL: "https://autenticacion.portaloas.udistrital.edu.co/oidc/logout",
       SIGN_OUT_REDIRECT_URL: "https://pruebasadministrativa.portaloas.udistrital.edu.co/",
