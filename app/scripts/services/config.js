@@ -334,5 +334,5 @@ var conf_local = {
 
 angular.module('contractualClienteApp')
     .constant('CONF', {
-        GENERAL: conf_cloud
+        GENERAL: conf_preproduccion
     });
