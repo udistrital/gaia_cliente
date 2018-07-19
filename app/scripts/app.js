@@ -19,7 +19,6 @@ angular
         'ngMessages',
         'ngResource',
         'ngRoute',
-        'ngSanitize',
         'treeControl',
         'ngMaterial',
         'ui.grid',
