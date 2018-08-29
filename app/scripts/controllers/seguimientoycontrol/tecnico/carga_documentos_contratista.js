@@ -380,7 +380,6 @@ angular.module('contractualClienteApp')
 
           self.tipo_contrato = response_ce.data.contrato.tipo_contrato;
 
-          //console.log(self.tipo_contrato);
 
           administrativaRequest.get("item_informe_tipo_contrato", $.param({
             query: "TipoContrato:" + self.tipo_contrato,
@@ -394,8 +393,29 @@ angular.module('contractualClienteApp')
         });
 
         self.gridOptions2.data = response.data;
-        //console.log(response.data);
 
+      })
+
+      .catch(function(response) {
+
+        contratoRequest.get('contrato', self.contrato.NumeroContratoSuscrito + '/' + self.contrato.Vigencia)
+        .then(function(response_ce) {
+
+          self.tipo_contrato = response_ce.data.contrato.tipo_contrato;
+
+
+          administrativaRequest.get("item_informe_tipo_contrato", $.param({
+            query: "TipoContrato:" + self.tipo_contrato,
+            limit: 0
+          })).then(function(response_iitc) {
+
+            self.items = response_iitc.data;
+
+          });
+
+        });
+
+        self.gridOptions2.data = response.data;
       });
     };
 
