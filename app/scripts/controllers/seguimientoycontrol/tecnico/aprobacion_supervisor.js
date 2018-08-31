@@ -450,7 +450,7 @@ angular.module('contractualClienteApp')
       Función que genera el documento de quienes cumplieron con sus obligaciones
     */
     self.generarPDF = function (){
-
+       self.mes.Id =  parseInt(self.mes.Id);
 
             if(self.mes.Id/10<1){
 
@@ -458,8 +458,7 @@ angular.module('contractualClienteApp')
 
             }
 
-            //adminMidRequest.get('aprobacion_pago/certificacion_visto_bueno/*/**/*').
-            adminMidRequest.get('/aprobacion_pago/certificacion_cumplidos_contratistas/'+ self.dependencia.codigo+'/' + self.mes.Id + '/' + self.anio).
+            adminMidRequest.get('aprobacion_pago/certificacion_cumplidos_contratistas/'+ self.dependencia.codigo+'/' + self.mes.Id + '/' + self.anio).
               then(function(responseMid){
                self.docentes_incumplidos = responseMid.data;
 
