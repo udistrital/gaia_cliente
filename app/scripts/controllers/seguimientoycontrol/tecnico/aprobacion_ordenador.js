@@ -423,7 +423,33 @@ angular.module('contractualClienteApp')
           );
 
         }
-      });
+      })
+      .catch(function(response){ // en caso de nulos
+
+        //if (response.data === 'OK'){
+          swal(
+            'Pagos Aprobados',
+            'Se han aprobado los pagos de las solicitudes seleccionadas',
+            'success'
+          )
+          self.obtener_informacion_ordenador();
+          self.gridApi.core.refresh();
+
+
+        // }else{
+
+        //   swal(
+        //     'Error',
+        //     'No se han podido aprobar los pagos de las solicitudes seleccionadas',
+        //     'error'
+        //   );
+
+        // }
+      }
+
+
+
+      );
     });
   };
 
