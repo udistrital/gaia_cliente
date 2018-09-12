@@ -89,7 +89,7 @@ angular.module('implicitToken', [])
         return url;
       },
       live_token: function () {
-        if (window.localStorage.getItem('id_token') === 'undefined' || window.localStorage.getItem('id_token') === null) {
+        if (window.localStorage.getItem('id_token') === 'undefined' || window.localStorage.getItem('id_token') === null || service.logoutValid()) {
           service.login();
           return false;
         } else {
@@ -112,7 +112,6 @@ angular.module('implicitToken', [])
       },
       logout: function () {
         window.location.replace(service.logout_url);
-        window.localStorage.clear();
       },
       expired: function () {
         return (new Date(window.localStorage.getItem('expires_at')) < new Date());
