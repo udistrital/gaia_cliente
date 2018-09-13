@@ -527,12 +527,10 @@ angular.module('contractualClienteApp')
           })
           .catch(function(error) {
             throw error;
-            defered.reject(error)
           });
       })
       .catch(function(error) {
         throw error;
-        defered.reject(error)
       });
 
     return promise;
