@@ -63,7 +63,7 @@ module.exports = function(config) {
       // endbower
       'app/scripts/**/*.js',
       //'test/mock/**/*.js',
-      'test/spec/controllers/seguimientoycontrol/financiero/contrato.js'
+      'test/spec/controllers/seguimientoycontrol/tecnico/carga_documentos_contratista.js'
     ],
 
     // list of files / patterns to exclude
@@ -82,12 +82,12 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-      'PhantomJS'
+      'Chrome'
     ],
 
     // Which plugins to enable
     plugins: [
-      'karma-phantomjs-launcher',
+      'karma-chrome-launcher',
       'karma-jasmine'
     ],
 
