@@ -97,7 +97,7 @@ describe('Controller: CargaDocumentosContratistaCtrl', function () {
     expect(cargaDocumentosContratistaCtrl.meses.length).toBe(12);
   });
 
-  it('Debe obtener una lista con los 9 primeros meses del año', function () {
+  it('Debe obtener una lista con los meses desde el inicio de año hasta el actual', function () {
     cargaDocumentosContratistaCtrl.getMeses(2018);
     expect(cargaDocumentosContratistaCtrl.meses.length).toBe(10);
   });
