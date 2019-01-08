@@ -21,7 +21,7 @@ angular.module('contractualClienteApp')
       enableRowSelection: false,
       enableRowHeaderSelection: false,
       useExternalPagination: true,
-      useExternalSorting: true,
+      useExternalFiltering: true,
       columnDefs: [
         {
           field: 'Id',
@@ -29,10 +29,6 @@ angular.module('contractualClienteApp')
         },
         {
           field: 'FechaExpedicion',
-          visible: false
-        },
-        {
-          field: 'Estado',
           visible: false
         },
         {
@@ -65,6 +61,7 @@ angular.module('contractualClienteApp')
         },
         {
           field: 'FacultadNombre',
+          enableFiltering: false,
           cellClass: function (grid, row/*, col, rowRenderIndex, colRenderIndex*/) {
             if (row.entity.Estado === "Cancelada") {
               return 'resolucionCancelada';
@@ -152,26 +149,20 @@ angular.module('contractualClienteApp')
       onRegisterApi: function (gridApi) {
         self.gridApi = gridApi;
         self.gridApi = gridApiService.pagination(self.gridApi, self.cargarDatosResolucion, $scope);
+        self.gridApi = gridApiService.filter(self.gridApi, self.cargarDatosResolucion, $scope);
       }
     };
 
     //Funcion para cargar los datos de las resoluciones creadas y almacenadas dentro del sistema
     self.cargarDatosResolucion = function (offset, query) {
-
-      adminMidRequest.get("gestion_resoluciones/get_resoluciones_aprobadas", $.param({
+      if (query == undefined) query = "";
+      var req = adminMidRequest.get("gestion_resoluciones/get_resoluciones_aprobadas", $.param({
         limit: self.resolucionesAprobadas.paginationPageSize,
         offset: offset,
-        query: query
-      })).then(function (response) {
-        if (response.data === null) {
-          self.resolucionesAprobadas.data = [];
-        } else {
-          //console.log(response.data);
-          self.resolucionesAprobadas.data = response.data;
-          if (response.data.length == self.resolucionesAprobadas.paginationPageSize)
-            self.resolucionesAprobadas.totalItems = offset + self.resolucionesAprobadas.paginationPageSize + 5;
-        }
-      });
+        query: typeof (query) === "string" ? query : query.join(",")
+      }), true)
+      req.then(gridApiService.paginationFunc(self.resolucionesAprobadas, offset));
+      return req;
     };
 
     //Función para asignar controlador de la vista contrato_registro.html (expedición de la resolución), donde se pasa por parámetro el id de la resolucion seleccionada, la lista de resoluciones paraque sea recargada y los datos completos de la resolución con ayuda de $mdDialog
@@ -270,15 +261,6 @@ angular.module('contractualClienteApp')
     //Función para asignar controlador de la vista resolucion_vista.html, donde se pasa por parámetro el id de la resolucion seleccionada con ayuda de $mdDialog
     $scope.verVisualizarResolucion = function (row) {
 
-      if (row.entity.FechaExpedicion === null || row.entity.FechaExpedicion.toString() === "0001-01-01T00:00:00Z") {
-        self.FechaParaPDF = "Fecha de expedición pendiente";
-      } else {
-        var string1 = row.entity.FechaExpedicion;
-        string1 = string1.split('T')[0];
-        self.FechaParaPDF = string1;
-      }
-
-
       var resolucion = {
         Id: row.entity.Id,
         Numero: row.entity.Numero,
@@ -289,7 +271,11 @@ angular.module('contractualClienteApp')
         NumeroSemanas: row.entity.NumeroSemanas,
         Dedicacion: row.entity.Dedicacion,
         FacultadNombre: row.entity.FacultadNombre,
-        FechaExpedicion: self.FechaParaPDF
+        FechaExpedicion: row.entity.FechaExpedicion,
+        TipoResolucion: row.entity.TipoResolucion,
+        IdDependenciaFirma: row.entity.IdDependenciaFirma,
+        FacultadFirmaNombre: row.entity.FacultadFirmaNombre,
+        Estado: row.entity.Estado
       };
 
       var local = JSON.stringify(resolucion);
