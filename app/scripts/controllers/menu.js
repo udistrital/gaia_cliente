@@ -22,7 +22,7 @@ angular.module('contractualClienteApp')
         $scope.perfil = "ADMINISTRADOR ARGO";
 
         //Rama cumplidos
-        /* $scope.logout = function(){
+        $scope.logout = function(){
             token_service.logout();
         };
         if(token_service.live_token()){
@@ -54,15 +54,15 @@ angular.module('contractualClienteApp')
         
                     });
             }
-        } */
+        }
 
-        // obtiene los menús segun el rol
+        /* // obtiene los menús segun el rol
         var roles = rolesService.roles().toString().replace(/,/g, '%2C');
         configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo', '').then(function (response) {
 
             $rootScope.my_menu = response.data;
 
-        });
+        }); */
 
         /*
         configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + "ADMINISTRADOR_ARGO" + '/Argo', '').then(function(response) {
