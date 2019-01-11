@@ -312,7 +312,9 @@ angular.module('contractualClienteApp')
 
         administrativaRequest.get("vinculacion_docente/get_total_contratos_x_resolucion/" + self.resolucion.Id + "/" + self.resolucion.Dedicacion, "").then(function (response) {
             self.total_contratos_x_vin = response.data;
-        });
+        }).catch(function (response) {
+            self.total_contratos_x_vin = 0;
+        }) ;
 
         oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
             self.proyectos = response.data;

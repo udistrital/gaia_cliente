@@ -131,6 +131,8 @@ angular.module('contractualClienteApp')
                     });
                 });
             }
+        }).catch(function (response) { // en caso de nulos    
+            self.resolucionesExpedidasPeriodo.data = []
         });
 
 
@@ -236,6 +238,28 @@ angular.module('contractualClienteApp')
                     });
                 }
 
+            }).catch(function (response) { //esto está mal hecho, hay que corregir el manejo de errores desde los APIs
+                if (response.data) {
+                    self.resolucion_creada = response.data;
+                    swal({
+                        text: $translate.instant('ALERTA_RESOLUCION_EXITOSA'),
+                        type: 'success',
+                        confirmButtonText: $translate.instant('ACEPTAR'),
+                        allowOutsideClick: false
+                    }).then(function () {
+                        $window.location.href = '#/vinculacionespecial/resolucion_gestion';
+                    });
+
+                } else {
+                    swal({
+                        title: $translate.instant('ERROR'),
+                        text: $translate.instant('ALERTA_ERROR_RESOLUCION'),
+                        type: 'error',
+                        confirmButtonText: $translate.instant('ACEPTAR')
+                    }).then(function () {
+                        $window.location.href = '#/vinculacionespecial/resolucion_gestion';
+                    });
+                }
             });
 
 
