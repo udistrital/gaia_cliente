@@ -231,7 +231,6 @@ angular.module('contractualClienteApp')
       
         //Petición para obtener el Id de la relación de acuerdo a los campos
         if (((self.dependencia) && Object.keys(self.dependencia).length === 0)  || self.validador === 1) {
-           
 
             adminMidRequest.get('aprobacion_pago/solicitudes_ordenador_contratistas/' + self.Documento, $.param({
             limit: self.gridOptions1.paginationPageSize,
@@ -239,7 +238,6 @@ angular.module('contractualClienteApp')
             // query: typeof(query) === "string" ? query : query.join(",")
              }, true)).then(gridApiService.paginationFunc(self.gridOptions1, offset));
             self.offset=offset;
-
             
         }
        else{ 
@@ -260,6 +258,9 @@ angular.module('contractualClienteApp')
 
     $scope.$watch('aprobacionOrdenador.dependencia', function(offset,query) {
         
+        self.gridOptions1.data = [];
+        self.contratistas = [];
+        
         if (typeof self.dependencia === 'undefined') {
 
             adminMidRequest.get('aprobacion_pago/solicitudes_ordenador_contratistas/' + self.Documento, $.param({
@@ -279,13 +280,13 @@ angular.module('contractualClienteApp')
 
             }else{
 
-                self.gridApi = gridApiService.pagination(self.gridApi,adminMidRequest.get('aprobacion_pago/solicitudes_ordenador_contratistas_dependencia/' + self.Documento + '/' + self.dependencia.ESFCODIGODEP, $.param({
+               self.gridApi = gridApiService.pagination(self.gridApi,adminMidRequest.get('aprobacion_pago/solicitudes_ordenador_contratistas_dependencia/' + self.Documento + '/' + self.dependencia.ESFCODIGODEP, $.param({
                     limit: self.gridOptions1.paginationPageSize,
                     offset: self.offset,
                     // query: typeof(query) === "string" ? query : query.join(",")
                  }, true)).then(gridApiService.paginationFunc(self.gridOptions1, self.offset)), $scope); 
                   self.gridOptions1.paginationCurrentPage=1;
-                  self.validador=0;   
+                  self.validador=0;              
             }
        }
 
