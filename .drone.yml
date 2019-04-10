@@ -19,15 +19,15 @@ pipeline:
       branch: [cumplidos_cps_pruebas, pruebas, cumplidos_cps_prod]
       event: push
 
-  # build and test the go program
-  nodejs:
-    image: node:9.5.0
+  # install the AngularJS program
+  nodejs-build:
+    image: node:10.7.0
     commands:
-     - apt-get update -y
-     - apt-get install -y zip
+     - npm install -g grunt-cli bower
+     - npm install natives
      - npm install
-     - npm run lint:ci
-     - npm run build:prod
+     - bower install --allow-root
+     - grunt build
     when:
       branch: [cumplidos_cps_pruebas, master, develop]
       event: push
