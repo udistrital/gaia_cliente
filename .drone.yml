@@ -8,16 +8,16 @@ workspace:
 pipeline:
 
   # run grunt sonar runner
-  grunt-sonar-runner:
-    image: timbru31/java-node
-    commands:
-     - npm install -g grunt-cli bower
-     - npm install grunt --save-dev
-     - npm install grunt-sonar-runner --save-dev
-     - grunt sonarRunner:analysis
-    when:
-      branch: [cumplidos_cps_pruebas, pruebas, cumplidos_cps_prod]
-      event: push
+  # grunt-sonar-runner:
+  #   image: timbru31/java-node
+  #   commands:
+  #    - npm install -g grunt-cli bower
+  #    - npm install grunt --save-dev
+  #    - npm install grunt-sonar-runner --save-dev
+  #    - grunt sonarRunner:analysis
+  #   when:
+  #     branch: [cumplidos_cps_pruebas, pruebas, cumplidos_cps_prod]
+  #     event: push
 
   # install the AngularJS program
   nodejs-build:
@@ -27,6 +27,7 @@ pipeline:
      - npm install natives
      - npm install
      - bower install --allow-root
+     - bower install angular-route --force
      - grunt build
     when:
       branch: [cumplidos_cps_pruebas, master, develop]
