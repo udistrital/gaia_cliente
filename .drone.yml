@@ -27,7 +27,6 @@ pipeline:
      - npm install natives
      - npm install
      - bower install --allow-root
-     - bower install angular-route --force
      - grunt build
     when:
       branch: [cumplidos_cps_pruebas, master, develop]

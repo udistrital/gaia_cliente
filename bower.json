@@ -37,8 +37,8 @@
     "angular-md5": "^0.1.10"
   },
   "resolutions": {
-    "angular": "1.7.2",
-    "angular-route": "1.7.2"
+    "angular": "1.4 - 1.7.0 || ^1.7.2",
+    "angular-route": "^1.6.10"
   },
   "devDependencies": {
     "angular-mocks": "^1.6.10"
