@@ -16,7 +16,7 @@ pipeline:
      - npm install grunt-sonar-runner --save-dev
      - grunt sonarRunner:analysis
     when:
-      branch: [cumplidos_cps_pruebas, cumplidos_cps_prod]
+      branch: [cumplidos_cps_pruebas, pruebas, cumplidos_cps_prod]
       event: push
 
   # build and test the go program
@@ -29,7 +29,7 @@ pipeline:
      - npm run lint:ci
      - npm run build:prod
     when:
-      branch: [master, develop]
+      branch: [cumplidos_cps_pruebas, master, develop]
       event: push
 
   # upload app.zip to s3 bucket for CodePipline

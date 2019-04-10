@@ -451,8 +451,8 @@ module.exports = function(grunt) {
             host: {
               url: 'http://10.20.0.77:9000'
             },
-            projectKey: 'administrativa_cliente:cumplidos_cps_pruebas',
-            projectName: 'administrativa_cliente:cumplidos_cps_pruebas',
+            projectKey: 'administrativa_cliente:cumplidos_cps',
+            projectName: 'administrativa_cliente:cumplidos_cps',
             projectVersion: '0.1',
             sources: ['app', 'test'].join(','),
             language: 'js',
