@@ -49,7 +49,6 @@
     "build": "grunt build"
   },
   "dependencies": {
-    "angular-cookies": "^1.6.9",
     "natives": "^1.1.6",
     "rimraf": "^2.2.8"
   }
