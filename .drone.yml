@@ -8,16 +8,17 @@ workspace:
 pipeline:
 
   # build and test the go program
-  nodejs-build:
-    image: node:11.15.0
+  nodejs:
+    image: node:9.5.0
     commands:
-     - npm install -g grunt-cli bower
-     - npm install natives
+     - apt-get update -y
+     - apt-get install -y zip
      - npm install
-     - bower install --allow-root
-     - grunt build
+     - npm run lint:ci
+     - npm run build:prod
+
     when:
-      branch: [cumplidos_cps_pruebas, develop]
+      branch: [master, develop]
       event: push
 
   # upload app.zip to s3 bucket for CodePipline
