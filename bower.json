@@ -4,11 +4,11 @@
   "dependencies": {
     "angular": "^1.7.2",
     "bootstrap": "^3.2.0",
-    "angular-animate": "^1.7.8",
-    "angular-cookies": "^1.7.8",
-    "angular-resource": "^1.7.8",
-    "angular-route": "^1.7.8",
-    "angular-touch": "^1.7.8",
+    "angular-animate": "^1.6.10",
+    "angular-cookies": "^1.6.10",
+    "angular-resource": "^1.6.10",
+    "angular-route": "^1.6.10",
+    "angular-touch": "^1.6.10",
     "angular-ui-grid": "4.6",
     "AngularJS-OAuth2": "angularjs-oauth2#^1.2.1",
     "angular-material": "1.1",
@@ -37,16 +37,11 @@
     "angular-md5": "^0.1.10"
   },
   "resolutions": {
-<<<<<<< HEAD
-    "angular": "1.4 - 1.7.0 || ^1.7.2",
-    "angular-route": "^1.7.8"
-=======
     "angular": "1.7.2",
     "angular-route": "1.7.2"
->>>>>>> b95309e8c55ae1b6ad4301c3fd94103fdaae1557
   },
   "devDependencies": {
-    "angular-mocks": "^1.7.8"
+    "angular-mocks": "^1.6.10"
   },
   "appPath": "app",
   "moduleName": "contractualClienteApp",
