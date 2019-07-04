@@ -2,7 +2,7 @@
   "name": "administrativa-cliente",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "^1.7.2",
+    "angular": "latest",
     "bootstrap": "^3.2.0",
     "angular-animate": "^1.6.10",
     "angular-cookies": "^1.6.10",
@@ -15,10 +15,10 @@
     "angular-tree-control": "0.2",
     "pdfmakeoas": "0.0.2",
     "ngstorage": "^0.3.11",
-    "angular-websocket": "^2.0.0",
-    "angular-input-masks": "^2.5.0",
-    "angular-moment": "^1.0.1",
-    "angular-translate": "^2.18.1",
+    "angular-websocket": "latest",
+    "angular-input-masks": "latest",
+    "angular-moment": "latest",
+    "angular-translate": "latest",
     "sweetalert2": "^6.4.4",
     "angular-timelinejs3": "^0.2.3",
     "chart.js": "^2.6.0",
@@ -38,8 +38,8 @@
     "excel-builder-js": "excelbuilder#^2.0.2"
   },
   "resolutions": {
-    "angular": "1.7.2",
-    "angular-route": "1.7.2"
+    "angular": "1.7.8",
+    "angular-route": "1.7.8"
   },
   "devDependencies": {
     "angular-mocks": "^1.6.10"
