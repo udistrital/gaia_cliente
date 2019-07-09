@@ -206,21 +206,6 @@ angular
                 controller: 'ListaPlantillasCtrl',
                 controllerAs: 'listaPlantillas'
             })
-            .when('/seguimientoycontrol/legal/novedad_otro_si_aclaratorio', {
-              templateUrl: 'views/seguimientoycontrol/legal/novedad_otro_si_aclaratorio.html',
-              controller: 'SeguimientoycontrolLegalNovedadOtroSiAclaratorioCtrl',
-              controllerAs: 'sLotroSiAclaratorio'
-            })
-            .when('/seguimientoycontrol/legal/novedad_otro_si_modificatorio', {
-              templateUrl: 'views/seguimientoycontrol/legal/novedad_otro_si_modificatorio.html',
-              controller: 'SeguimientoycontrolLegalNovedadOtroSiModificatorioCtrl',
-              controllerAs: 'sLotroSiModificatorio'
-            })
-            .when('/seguimientoycontrol/tecnico/aprobacion_coordinador/:docid', {
-              templateUrl: 'views/seguimientoycontrol/tecnico/aprobacion_coordinador.html',
-              controller: 'AprobacionCoordinadorCtrl',
-              controllerAs: 'aprobacionCoordinador'
-            })
             .when('/seguimientoycontrol/tecnico/aprobacion_documentos/:docid', {
               templateUrl: 'views/seguimientoycontrol/tecnico/aprobacion_documentos.html',
               controller: 'AprobacionDocumentosCtrl',
