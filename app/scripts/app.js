@@ -206,11 +206,6 @@ angular
                 controller: 'ListaPlantillasCtrl',
                 controllerAs: 'listaPlantillas'
             })
-            .when('/necesidad/necesidad_contratacion_docente', {
-                templateUrl: 'views/necesidad/necesidad_contratacion_docente.html',
-                controller: 'NecesidadContratacionDocenteCtrl',
-                controllerAs: 'necesidadContratacionDocente'
-            })
             .when('/seguimientoycontrol/legal', {
               templateUrl: 'views/seguimientoycontrol/legal.html',
               controller: 'SeguimientoycontrolLegalCtrl',
