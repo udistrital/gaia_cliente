@@ -111,11 +111,6 @@ angular
                 controller: 'RpSolicitudCtrl',
                 controllerAs: 'rpSolicitud'
             })
-            .when('/seguimientoycontrol/financiero/contrato', {
-                templateUrl: 'views/seguimientoycontrol/financiero/contrato.html',
-                controller: 'SeguimientoycontrolFinancieroContratoCtrl',
-                controllerAs: 'sFcontrato'
-            })
             .when('/seguimientoycontrol/financiero/ordenes_pago', {
                 templateUrl: 'views/seguimientoycontrol/financiero/ordenes_pago.html',
                 controller: 'SeguimientoycontrolFinancieroOrdenesPagoCtrl',
