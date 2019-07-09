@@ -206,11 +206,6 @@ angular
                 controller: 'ListaPlantillasCtrl',
                 controllerAs: 'listaPlantillas'
             })
-            .when('/necesidad/necesidad_externa', {
-                templateUrl: 'views/necesidad/necesidad_externa.html',
-                controller: 'NecesidadExternaCtrl',
-                controllerAs: 'necesidadExterna'
-            })
             .when('/necesidad/necesidad_contratacion_docente', {
                 templateUrl: 'views/necesidad/necesidad_contratacion_docente.html',
                 controller: 'NecesidadContratacionDocenteCtrl',
