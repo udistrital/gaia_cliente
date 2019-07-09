@@ -111,11 +111,6 @@ angular
                 controller: 'RpSolicitudCtrl',
                 controllerAs: 'rpSolicitud'
             })
-            .when('/seguimientoycontrol/financiero/estadisticas', {
-                templateUrl: 'views/seguimientoycontrol/financiero/estadisticas.html',
-                controller: 'SeguimientoycontrolFinancieroEstadisticasCtrl',
-                controllerAs: 'sFestadisticas'
-            })
             .when('/vinculacionespecial/resolucion_generacion', {
                 templateUrl: 'views/vinculacionespecial/resolucion_generacion.html',
                 controller: 'ResolucionGeneracionCtrl',
