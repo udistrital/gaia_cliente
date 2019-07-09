@@ -206,11 +206,6 @@ angular
                 controller: 'ListaPlantillasCtrl',
                 controllerAs: 'listaPlantillas'
             })
-            .when('/seguimientoycontrol/legal/acta_terminacion_liquidacion_bilateral/:contrato_id/:contrato_vigencia', {
-              templateUrl: 'views/seguimientoycontrol/legal/acta_terminacion_liquidacion_bilateral.html',
-              controller: 'SeguimientoycontrolLegalActaTerminacionLiquidacionBilateralCtrl',
-              controllerAs: 'sLactaTerminacionAnticipada'
-            })
             .when('/seguimientoycontrol/legal/novedad_otro_si_aclaratorio', {
               templateUrl: 'views/seguimientoycontrol/legal/novedad_otro_si_aclaratorio.html',
               controller: 'SeguimientoycontrolLegalNovedadOtroSiAclaratorioCtrl',
