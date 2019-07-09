@@ -101,11 +101,6 @@ angular
                 controller: 'AboutCtrl',
                 controllerAs: 'about'
             })
-            .when('/necesidad/necesidad-pdf/:IdNecesidad?', {
-                templateUrl: 'views/necesidad/pdfnecesidad.html',
-                controller: 'PdfnecesidadCtrl',
-                controllerAs: 'necesidadPdf'
-            })
             .when('/necesidad/necesidad_reportes', {
                 templateUrl: 'views/necesidad/necesidad_reportes.html',
                 controller: 'NecesidadReportesCtrl',
