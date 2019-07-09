@@ -91,7 +91,7 @@ angular
                 controllerAs: 'main'
             })
             .when('/notificaciones', {
-                templateUrl: 'views/notificaciones.html',
+                templateUrl: 'views/notificacisones.html',
                 controller: 'NotificacionesCtrl',
                 controllerAs: 'notificaciones'
 
@@ -100,16 +100,6 @@ angular
                 templateUrl: 'views/about.html',
                 controller: 'AboutCtrl',
                 controllerAs: 'about'
-            })
-            .when('/necesidad/solicitud_necesidad/:IdNecesidad?', {
-                templateUrl: 'views/necesidad/solicitud_necesidad.html',
-                controller: 'SolicitudNecesidadCtrl',
-                controllerAs: 'solicitudNecesidad'
-            })
-            .when('/necesidades', {
-                templateUrl: 'views/necesidad/necesidades.html',
-                controller: 'NecesidadesCtrl',
-                controllerAs: 'necesidades'
             })
             .when('/necesidad/necesidad-pdf/:IdNecesidad?', {
                 templateUrl: 'views/necesidad/pdfnecesidad.html',
