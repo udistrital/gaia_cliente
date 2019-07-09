@@ -206,11 +206,6 @@ angular
                 controller: 'ListaPlantillasCtrl',
                 controllerAs: 'listaPlantillas'
             })
-            .when('/seguimientoycontrol/legal/acta_reinicio/:contrato_id/:contrato_vigencia', {
-              templateUrl: 'views/seguimientoycontrol/legal/acta_reinicio.html',
-              controller: 'SeguimientoycontrolLegalActaReinicioCtrl',
-              controllerAs: 'sLactaReinicio'
-            })
             .when('/seguimientoycontrol/legal/acta_cesion/:contrato_id/:contrato_vigencia', {
               templateUrl: 'views/seguimientoycontrol/legal/acta_cesion.html',
               controller: 'SeguimientoycontrolLegalActaCesionCtrl',
