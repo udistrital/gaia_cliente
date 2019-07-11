@@ -11,7 +11,9 @@ angular.module('contractualClienteApp')
   .controller('ResolucionVistaCtrl', function (administrativaRequest, oikosRequest, coreRequest, adminMidRequest, pdfMakerService, nuxeoClient, $mdDialog, $scope, $http, $translate) {
 
     var self = this;
+    var docentes_contratados = this;
     self.resolucion = JSON.parse(localStorage.getItem("resolucion"));
+    
 
     /**
      * @name generarDocumentoPdfMake
@@ -19,6 +21,8 @@ angular.module('contractualClienteApp')
      * Realiza las consultas necesarias para armar el pdf con la información de las tablas resolucion y vinculacion_docente
      */
     self.generarDocumentoPdfMake = function () {
+      
+
       if (self.resolucion.FechaExpedicion != undefined && self.resolucion.FechaExpedicion !== "0001-01-01T00:00:00Z") {
         self.resolucion.FechaExpedicion = new Date(self.resolucion.FechaExpedicion);
       }
@@ -27,16 +31,39 @@ angular.module('contractualClienteApp')
       oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
         self.proyectos = response.data;
       });
-  
       adminMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucion.Id + "&id_facultad=" + self.resolucion.IdDependenciaFirma).then(function (response) {
         self.contenidoResolucion = response.data;
         adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
           self.contratados = response.data;
+          self.incluirDesagregacion();  
+          console.log(self.contratados)
           self.generarResolucion();
         });
       });
     };
 
+    /**
+    * @name incluirDesagregacion
+    * @description 
+    * Función que agrega los campos de la desagregación del salario de los docentes
+    */
+    self.incluirDesagregacion = function()
+    {
+      var contador = 0;
+      self.contratados.forEach(function(docentes){
+        self.contratados[contador].NSueldoBasico="Sueldo básico";
+        self.contratados[contador].SueldoBasico=contador;
+        self.contratados[contador].NPrimaNavidad="Prima de navidad";
+        self.contratados[contador].PrimaNavidad=contador;
+        self.contratados[contador].NPrimaVacaciones="Prima de vacaciones";
+        self.contratados[contador].PrimaVacaciones=contador;
+        self.contratados[contador].NPrimaServicios="Prima de servicios";
+        self.contratados[contador].PrimaServicios=contador;
+        self.contratados[contador].NAportesCesantias="Aportes de cesantías de fondos públicos";
+        self.contratados[contador].AportesCesantias=contador;
+        contador=contador+1;
+      });
+    };
     
     /**
      * @name generarResolucion
