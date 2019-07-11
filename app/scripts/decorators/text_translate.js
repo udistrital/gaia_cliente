@@ -426,7 +426,7 @@ var text_es = {
     PERIODO_VINCULACION:"Periodo vinculación",
     VINCULACION: "Vinculación",
     VALOR_CONTRATO: "Valor del contrato",
-    PRESTACION: "Prestacion",
+    PRESTACION: "Prestación",
     VALOR_PRESTACION: "Valor",
     DOCENTES_CONTRATADOS_ACTUAL: "DOCENTES CONTRATADOS - PERIODO ACTUAL",
     BTN: {
