@@ -60,6 +60,7 @@ angular.module('contractualClienteApp')
             if (datos) {
                 //console.log(datos)
                 datos.forEach(function (fila) {
+                    //console.log(fila)
                     //Se veriica que el docente este asociado al proyecto curricular actual
                     if (fila.IdProyectoCurricular === idProyecto) {
                         //Si la resolución es de cancelación, adición o reducción la tabla es diferente
@@ -84,6 +85,8 @@ angular.module('contractualClienteApp')
                             //La fila es agregada a la tabla con los datos correspondientes
                             //console.log(datoFila)
                             cuerpo.push(datoFila);
+                            //cuerpo.push(encabezado);
+                            //cuerpo.push(datoFila);
                         }
                     }
                 });
@@ -194,6 +197,7 @@ angular.module('contractualClienteApp')
                                     style: 'texto'
                                 });
                                 contenido.push(self.getTabla(proyecto.Id, resolucion.NivelAcademico_nombre, contratados, resolucion.TipoResolucion));
+                                //contenido.push(self.getTabla(proyecto.Id, resolucion.NivelAcademico_nombre, contratados, resolucion.TipoResolucion));
                             }
 
                         });

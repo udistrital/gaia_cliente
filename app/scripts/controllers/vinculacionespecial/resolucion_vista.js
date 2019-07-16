@@ -8,7 +8,7 @@
 * Controller of the clienteApp
 */
 angular.module('contractualClienteApp')
-  .controller('ResolucionVistaCtrl', function (administrativaRequest, oikosRequest, coreRequest, adminMidRequest, pdfMakerService, nuxeoClient, $mdDialog, $scope, $http, $translate) {
+  .controller('ResolucionVistaCtrl', function (administrativaRequest, oikosRequest,titandesagregRequest, coreRequest, adminMidRequest, pdfMakerService, nuxeoClient, $mdDialog, $scope, $http, $translate) {
 
     var self = this;
     var docentes_contratados = this;
@@ -36,12 +36,12 @@ angular.module('contractualClienteApp')
         adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
           self.contratados = response.data;
           self.incluirDesagregacion();  
-          console.log(self.contratados)
-          self.generarResolucion();
+          //console.log(self.contratados)
+          
         });
       });
     };
-
+ 
     /**
     * @name incluirDesagregacion
     * @description 
@@ -51,18 +51,40 @@ angular.module('contractualClienteApp')
     {
       var contador = 0;
       self.contratados.forEach(function(docentes){
-        self.contratados[contador].NSueldoBasico="Sueldo básico";
-        self.contratados[contador].SueldoBasico=contador;
-        self.contratados[contador].NPrimaNavidad="Prima de navidad";
-        self.contratados[contador].PrimaNavidad=contador;
-        self.contratados[contador].NPrimaVacaciones="Prima de vacaciones";
-        self.contratados[contador].PrimaVacaciones=contador;
-        self.contratados[contador].NPrimaServicios="Prima de servicios";
-        self.contratados[contador].PrimaServicios=contador;
-        self.contratados[contador].NAportesCesantias="Aportes de cesantías de fondos públicos";
-        self.contratados[contador].AportesCesantias=contador;
-        contador=contador+1;
+        
+        var datosDocenteSalario = new Object();
+        
+        datosDocenteSalario.cedula = docentes.IdPersona;
+        datosDocenteSalario.salario = docentes.ValorContrato;
+        datosDocenteSalario.vigencia = '';
+        datosDocenteSalario.inicioresolucion = docentes.FechaInicio;
+        datosDocenteSalario.finalizacionresolucion = '';
+
+
+
+        console.log(JSON.stringify(datosDocenteSalario))
+        //console.log(docentes)
+
+        titandesagregRequest.post('operaciones/desagregacion', JSON.stringify(datosDocenteSalario)).then(function(response) {
+          var SalarioDesagreg = response.data;
+          console.log(SalarioDesagreg)
+          self.contratados[contador].NSueldoBasico="Sueldo básico";
+          self.contratados[contador].SueldoBasico=SalarioDesagreg.sueldo_Basico;
+          self.contratados[contador].NPrimaNavidad="Prima de navidad";
+          self.contratados[contador].PrimaNavidad=SalarioDesagreg.prima_Navidad;
+          self.contratados[contador].NPrimaVacaciones="Prima de vacaciones";
+          self.contratados[contador].PrimaVacaciones=SalarioDesagreg.prima_Servicios;
+          self.contratados[contador].NPrimaServicios="Prima de servicios";
+          self.contratados[contador].PrimaServicios=SalarioDesagreg.prima_Vacaciones;
+          self.contratados[contador].NAportesCesantias="Aportes de cesantías de fondos públicos";
+          self.contratados[contador].AportesCesantias=SalarioDesagreg.aportes_Cesantias;
+          contador=contador+1;
+          
+        });
+
+
       });
+      self.generarResolucion();
     };
     
     /**
