@@ -51,7 +51,6 @@ angular.module('contractualClienteApp')
     {
       var contador = 0;
       self.contratados.forEach(function(docentes){
-        
         var datosDocenteSalario = new Object();
         
         datosDocenteSalario.cedula = docentes.IdPersona;
@@ -59,8 +58,6 @@ angular.module('contractualClienteApp')
         datosDocenteSalario.vigencia = '';
         datosDocenteSalario.inicioresolucion = docentes.FechaInicio;
         datosDocenteSalario.finalizacionresolucion = '';
-
-
 
         console.log(JSON.stringify(datosDocenteSalario))
         //console.log(docentes)
@@ -78,13 +75,17 @@ angular.module('contractualClienteApp')
           self.contratados[contador].PrimaServicios=SalarioDesagreg.prima_Vacaciones;
           self.contratados[contador].NAportesCesantias="Aportes de cesantías de fondos públicos";
           self.contratados[contador].AportesCesantias=SalarioDesagreg.aportes_Cesantias;
-          contador=contador+1;
-          
-        });
-
+          contador++;
+          console.log(contador)
+          console.log(self.contratados.length)
+          if (contador == self.contratados.length)
+          {
+            console.log('Generando Resolución')
+            self.generarResolucion();
+          }
+         });
 
       });
-      self.generarResolucion();
     };
     
     /**
