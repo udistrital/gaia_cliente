@@ -58,9 +58,7 @@ angular.module('contractualClienteApp')
             
             cuerpo.push(encabezado);
             if (datos) {
-                //console.log(datos)
                 datos.forEach(function (fila) {
-                    //console.log(fila)
                     //Se veriica que el docente este asociado al proyecto curricular actual
                     if (fila.IdProyectoCurricular === idProyecto) {
                         //Si la resolución es de cancelación, adición o reducción la tabla es diferente
@@ -82,71 +80,34 @@ angular.module('contractualClienteApp')
                             //datoFila.push([{rowSpan:3, text: 'Hola'}]);
                             columnas.forEach(function (columna) {
                                 contador_columna++;
-                                console.log(contador_columna);
-                                //console.log(fila)
                                 //Cada dato es almacenado como un String dentro de la matriz de la tabla
                                 if (fila[columna]=='Sueldo básico')
                                 {
-                                    var columna_sueldo = contador_columna+1;
                                     datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
-                                    console.log(fila[columna] != undefined ? fila[columna].toString() : '')
-                                    console.log(columna_sueldo)
                                 }else{
                                     if (contador_columna == 10)
                                     {
-                                        console.log('Entra al if')
                                         datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
-                                        console.log(fila[columna] != undefined ? fila[columna].toString() : '')
                                     }else{
                                         datoFila.push({rowSpan: 6, text: fila[columna] != undefined ? fila[columna].toString() : ''});
-                                        console.log([{rowSpan: 6, text: fila[columna] != undefined ? fila[columna].toString() : ''}]);
                                     }
                                 }
-                                
-                                //datoFila.push([{rowSpan: 6, text: fila[columna] != undefined ? fila[columna].toString() : ''}]);
-                                //console.log([{rowSpan: 6, text: fila[columna] != undefined ? fila[columna].toString() : ''}]);
-                                //datoFila.push([{rowSpan: 3, text: 'hola'},'1.1','1.2']);
-                                //console.log([{rowSpan: 3, text: 'hola'},'1.1','1.2'])
-                                //datoFila.push({ rowSpan: 3, text: 'rowSpan set to 3\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor' }, 'Sample value 2', 'Sample value 3');
                             });
                             //La fila es agregada a la tabla con los datos correspondientes
-                            //console.log(datoFila)
-                            //cuerpo.push([{rowSpan: 3, text: 'hola'},'1.1','1.2']);
                             cuerpo.push(datoFila);
+                            //Se añaden los campos de desagregación
                             cuerpo.push(
-                                ['','','','','','','','','Prima de Navidad',datos[0].PrimaNavidad,''],
-                                ['','','','','','','','','Prima de Vacaciones',datos[0].PrimaVacaciones,''],
-                                ['','','','','','','','','Prima de Servicios',datos[0].PrimaServicios,''],
-                                ['','','','','','','','','Aportes Cesantias Fondos Púbicos',datos[0].AportesCesantias,''],
-                                ['','','','','','','','','Total',datos[0].ValorContratoFormato,'']
+                                ['','','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
+                                ['','','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
+                                ['','','','','','','','','Prima de Servicios',fila['PrimaServicios'],''],
+                                ['','','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
+                                ['','','','','','','','','Total',fila['ValorContratoFormato'],'']
                             );
-                            console.log(datoFila)
-                            //cuerpo.push(encabezado);
-                            //cuerpo.push(datoFila);
                         }
                     }
                 });
             }
-            //console.log(cuerpo)
-            //console.log(datos)
-            var cuerpo_prueba = [encabezado,
-                [{rowSpan: 6, text: datos[0].NombreCompleto},{rowSpan: 6, text:datos[0].TipoDocumento},{rowSpan: 6, text:datos[0].IdPersona},{rowSpan: 6, text:datos[0].LugarExpedicionCedula},{rowSpan: 6, text:datos[0].Categoria},{rowSpan: 6, text:datos[0].Dedicacion},{rowSpan: 6, text:datos[0].NumeroHorasSemanales},{rowSpan: 6, text:datos[0].NumeroMeses},'Sueldo Básico',datos[0].SueldoBasico,{rowSpan: 6, text:datos[0].NumeroDisponibilidad}],
-                ['','','','','','','','','Prima de Navidad',datos[0].PrimaNavidad,''],
-                ['','','','','','','','','Prima de Vacaciones',datos[0].PrimaVacaciones,''],
-                ['','','','','','','','','Prima de Servicios',datos[0].PrimaServicios,''],
-                ['','','','','','','','','Aportes Cesantias Fondos Púbicos',datos[0].AportesCesantias,''],
-                ['','','','','','','','','Total',datos[0].ValorContratoFormato,''],
-                [{rowSpan: 6, text: datos[1].NombreCompleto},{rowSpan: 6, text:datos[1].TipoDocumento},{rowSpan: 6, text:datos[1].IdPersona},{rowSpan: 6, text:datos[1].LugarExpedicionCedula},{rowSpan: 6, text:datos[1].Categoria},{rowSpan: 6, text:datos[1].Dedicacion},{rowSpan: 6, text:datos[1].NumeroHorasSemanales},{rowSpan: 6, text:datos[1].NumeroMeses},'Sueldo Básico',datos[1].SueldoBasico,{rowSpan: 6, text:datos[1].NumeroDisponibilidad}],
-                ['','','','','','','','','Prima de Navidad',datos[1].PrimaNavidad,''],
-                ['','','','','','','','','Prima de Vacaciones',datos[1].PrimaVacaciones,''],
-                ['','','','','','','','','Prima de Servicios',datos[1].PrimaServicios,''],
-                ['','','','','','','','','Aportes Cesantias Fondos Púbicos',datos[1].AportesCesantias,''],
-                ['','','','','','','','','Total',datos[1].ValorContratoFormato,''],
-            ]
-            console.log(cuerpo_prueba)
             return cuerpo;
-            
-            //return cuerpo_prueba
         };
 
         self.tablaModificacionHoras = function (columnas, fila, segundaFila, terceraFila) {
@@ -412,16 +373,6 @@ angular.module('contractualClienteApp')
                 table: {
                     headerRows: 1,
                     body: self.getCuerpoTabla(idProyecto, nivelAcademico, datos, tipoResolucion)
-                    //body: [
-                    //    [{text: 'Header with Colspan = 2', style: 'tableHeader', colSpan: 2, alignment: 'center'}, {}, {text: 'Header 3', style: 'tableHeader', alignment: 'center'}],
-                    //    [{text: 'Header 1', style: 'tableHeader', alignment: 'center'}, {text: 'Header 2', style: 'tableHeader', alignment: 'center'}, {text: 'Header 3', style: 'tableHeader', alignment: 'center'}],
-                    //    ['Sample value 1.1', 'Sample value 1.2', 'Sample value 1.3'],
-                    //    [{rowSpan: 3, text: 'rowSpan set to 3\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor'}, 'Sample value 2.1', 'Sample value 2.2'],
-                    //    ['', 'Sample value 3.1', 'Sample value 3.2'],
-                    //    ['Sample value 4.1', 'Sample value 4.2', 'Sample value 4.3'],
-                    //    ['Sample value 5.1', {colSpan: 2, rowSpan: 2, text: 'Both:\nrowSpan and colSpan\ncan be defined at the same time'}, ''],
-                    //    ['Sample value 6.1', '', ''],
-                    //]
                 }
             };
         };
