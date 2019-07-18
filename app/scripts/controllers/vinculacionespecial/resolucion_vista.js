@@ -36,7 +36,14 @@ angular.module('contractualClienteApp')
         adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
           self.contratados = response.data;
           self.incluirDesagregacion();  
-          //console.log(self.contratados)
+          // Si existen valores dentro de contratados se ejecuta la desagregación, de lo contratio no
+          if (self.contratados.length > 0)
+          {
+            self.incluirDesagregacion(); 
+          }else{
+            self.generarResolucion();
+          }
+          console.log(self.contratados)
           
         });
       });
