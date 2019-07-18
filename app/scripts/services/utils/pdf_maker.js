@@ -24,6 +24,7 @@ angular.module('contractualClienteApp')
             }
 
             columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses','NSueldoBasico', 'SueldoBasico'];
+            console.log(columnas)
             encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' }, { text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('PRESTACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_PRESTACION'), style: 'encabezado' }];
 
             switch (tipoResolucion) {
@@ -31,7 +32,12 @@ angular.module('contractualClienteApp')
                     columnas.push('NumeroDisponibilidad');
                     encabezado.push({ text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' });
                     if (nivelAcademico === 'POSGRADO'){
+                        //columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses','NSueldoBasico', 'SueldoBasico'];
+                        //console.log(columnas)
+                        //encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' }, { text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('PRESTACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_PRESTACION'), style: 'encabezado' }];
+
                         columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
+                        console.log(columnas)
                         encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];            
                     }
                     modificacion = false;

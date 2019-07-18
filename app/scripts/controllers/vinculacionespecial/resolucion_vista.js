@@ -36,7 +36,7 @@ angular.module('contractualClienteApp')
         adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
           self.contratados = response.data;
           self.incluirDesagregacion();  
-          // Si existen valores dentro de contratados se ejecuta la desagregación, de lo contratio no
+          // Si existen valores dentro de contratados se ejecuta la desagregación
           if (self.contratados.length > 0)
           {
             self.incluirDesagregacion(); 
@@ -83,8 +83,8 @@ angular.module('contractualClienteApp')
           self.contratados[contador].NAportesCesantias="Aportes de cesantías de fondos públicos";
           self.contratados[contador].AportesCesantias=SalarioDesagreg.aportes_Cesantias;
           contador++;
-          console.log(contador)
-          console.log(self.contratados.length)
+          //console.log(contador)
+          //console.log(self.contratados.length)
           if (contador == self.contratados.length)
           {
             console.log('Generando Resolución')
