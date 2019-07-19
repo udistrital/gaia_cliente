@@ -11,7 +11,7 @@ angular.module('contractualClienteApp')
 
             });
         //Función para obtener el contenido de las tablas por proyecto currícular de los docentes asociados a la resolución
-        self.getCuerpoTabla = function (idProyecto, nivelAcademico, datos, tipoResolucion) {
+        self.getCuerpoTabla = function (idProyecto, nivelAcademico, datos, tipoResolucion, dedicacionResolucion) {
             var cuerpo = [];
             var encabezado = [];
             var modificacion = true;
@@ -22,12 +22,16 @@ angular.module('contractualClienteApp')
             if (nivelAcademico === 'POSGRADO') {
                 tituloHoras = 'HORAS_SEMESTRALES'
             }
-
-            console.log(datos)
-            columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses','NSueldoBasico', 'SueldoBasico'];
-            //console.log(columnas)
-            encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' }, { text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('PRESTACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_PRESTACION'), style: 'encabezado' }];
-
+            if ((dedicacionResolucion == 'HCH'))
+            {
+                //console.log('Entro al metodo de resolucion tipo HCH')
+                columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
+                encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' }, { text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }];
+            }else{
+                columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses','NSueldoBasico', 'SueldoBasico'];
+                encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' }, { text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('PRESTACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_PRESTACION'), style: 'encabezado' }];
+            }
+            
             switch (tipoResolucion) {
                 case "Vinculación": 
                     columnas.push('NumeroDisponibilidad');
@@ -241,7 +245,7 @@ angular.module('contractualClienteApp')
                                     text: proyecto.Nombre,
                                     style: 'texto'
                                 });
-                                contenido.push(self.getTabla(proyecto.Id, resolucion.NivelAcademico_nombre, contratados, resolucion.TipoResolucion));
+                                contenido.push(self.getTabla(proyecto.Id, resolucion.NivelAcademico_nombre, contratados, resolucion.TipoResolucion, resolucion.Dedicacion));
                                 //contenido.push(self.getTabla(proyecto.Id, resolucion.NivelAcademico_nombre, contratados, resolucion.TipoResolucion));
                             }
 
@@ -396,12 +400,12 @@ angular.module('contractualClienteApp')
         };
 
         //Función para obtener la estructura de la tabla de contratados
-        self.getTabla = function (idProyecto, nivelAcademico, datos, tipoResolucion) {
+        self.getTabla = function (idProyecto, nivelAcademico, datos, tipoResolucion, dedicacionResolucion) {
             return {
                 style: 'tabla',
                 table: {
                     headerRows: 1,
-                    body: self.getCuerpoTabla(idProyecto, nivelAcademico, datos, tipoResolucion)
+                    body: self.getCuerpoTabla(idProyecto, nivelAcademico, datos, tipoResolucion, dedicacionResolucion)
                 }
             };
         };
