@@ -34,11 +34,10 @@ angular.module('contractualClienteApp')
                     if (nivelAcademico === 'POSGRADO'){
                         //columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses','NSueldoBasico', 'SueldoBasico'];
                         //console.log(columnas)
-                        //encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' }, { text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('PRESTACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_PRESTACION'), style: 'encabezado' }];
-
-                        columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
-                        console.log(columnas)
-                        encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];            
+                        encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('PRESTACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_PRESTACION'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];
+                        columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NSueldoBasico', 'SueldoBasico','NumeroDisponibilidad'];
+                        //console.log(columnas)
+                        //encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];            
                     }
                     modificacion = false;
                     break;
@@ -75,8 +74,10 @@ angular.module('contractualClienteApp')
                             } else {
                                 tablaModificacion = self.tablaModificacionHoras(columnas, fila, segundaFila, terceraFila);
                             }
+
                             cuerpo.push(tablaModificacion[0]);
                             cuerpo.push(tablaModificacion[1]);
+
                             if (tablaModificacion[2] != undefined) {
                                 cuerpo.push(tablaModificacion[2]); 
                             }
@@ -91,24 +92,49 @@ angular.module('contractualClienteApp')
                                 {
                                     datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
                                 }else{
-                                    if (contador_columna == 10)
+                                    if(nivelAcademico == 'POSGRADO')
                                     {
-                                        datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
+                                        if(contador_columna == 9)
+                                        {
+                                            datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
+                                        }else{
+                                            datoFila.push({rowSpan: 6, text: fila[columna] != undefined ? fila[columna].toString() : ''});
+                                        }
                                     }else{
-                                        datoFila.push({rowSpan: 6, text: fila[columna] != undefined ? fila[columna].toString() : ''});
+                                        if (contador_columna == 10)
+                                        {
+                                            datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
+                                        }else{
+                                            datoFila.push({rowSpan: 6, text: fila[columna] != undefined ? fila[columna].toString() : ''});
+                                        }
                                     }
                                 }
                             });
                             //La fila es agregada a la tabla con los datos correspondientes
                             cuerpo.push(datoFila);
-                            //Se añaden los campos de desagregación
-                            cuerpo.push(
-                                ['','','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
-                                ['','','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
-                                ['','','','','','','','','Prima de Servicios',fila['PrimaServicios'],''],
-                                ['','','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
-                                ['','','','','','','','','Total',fila['ValorContratoFormato'],'']
-                            );
+
+                            if (nivelAcademico == 'POSGRADO')
+                            {
+                                console.log('Entro al IF de posgrado')
+                                //Se añaden los campos de desagregación
+                                cuerpo.push(
+                                    ['','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
+                                    ['','','','','','','','Prisma de Vacaciones',fila['PrimaVacaciones'],''],
+                                    ['','','','','','','','Prima de Servicios',fila['PrimaServicios'],''],
+                                    ['','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
+                                    ['','','','','','','','Total',fila['ValorContratoFormato'],'']
+                                );
+                            }else{
+                                //Se añaden los campos de desagregación
+                                cuerpo.push(
+                                    ['','','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
+                                    ['','','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
+                                    ['','','','','','','','','Prima de Servicios',fila['PrimaServicios'],''],
+                                    ['','','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
+                                    ['','','','','','','','','Total',fila['ValorContratoFormato'],'']
+                                );
+                            }
+                            
                         }
                     }
                 });
