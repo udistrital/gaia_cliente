@@ -23,8 +23,9 @@ angular.module('contractualClienteApp')
                 tituloHoras = 'HORAS_SEMESTRALES'
             }
 
+            console.log(datos)
             columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses','NSueldoBasico', 'SueldoBasico'];
-            console.log(columnas)
+            //console.log(columnas)
             encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' }, { text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('PRESTACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_PRESTACION'), style: 'encabezado' }];
 
             switch (tipoResolucion) {
@@ -32,13 +33,9 @@ angular.module('contractualClienteApp')
                     columnas.push('NumeroDisponibilidad');
                     encabezado.push({ text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' });
                     if (nivelAcademico === 'POSGRADO'){
-                        //columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses','NSueldoBasico', 'SueldoBasico'];
-                        //console.log(columnas)
                         encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('PRESTACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_PRESTACION'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];
                         columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NSueldoBasico', 'SueldoBasico','NumeroDisponibilidad'];
-                        //console.log(columnas)
-                        //encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];            
-                    }
+                     }
                     modificacion = false;
                     break;
                 case "Adición":
@@ -119,7 +116,7 @@ angular.module('contractualClienteApp')
                                 //Se añaden los campos de desagregación
                                 cuerpo.push(
                                     ['','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
-                                    ['','','','','','','','Prisma de Vacaciones',fila['PrimaVacaciones'],''],
+                                    ['','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
                                     ['','','','','','','','Prima de Servicios',fila['PrimaServicios'],''],
                                     ['','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
                                     ['','','','','','','','Total',fila['ValorContratoFormato'],'']
