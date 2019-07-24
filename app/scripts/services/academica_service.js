@@ -31,7 +31,7 @@ angular.module('academicaService', [])
              * @description Metodo GET del servicio
              */
             get: function(params) {
-                return $http.get(path + "&" + params, token_service.setting_bearer.headers);
+                return $http.get(path + "&" + params, token_service.getHeader());
             },
 
             /**
@@ -43,7 +43,7 @@ angular.module('academicaService', [])
              * @description Metodo POST del servicio
              */
             post: function(elemento) {
-                return $http.post(path, elemento, token_service.setting_bearer.headers);
+                return $http.post(path, elemento, token_service.getHeader());
             }
         };
     });

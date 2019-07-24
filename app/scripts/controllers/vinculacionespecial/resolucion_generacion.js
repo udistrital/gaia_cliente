@@ -8,10 +8,11 @@
  * Controller of the clienteApp
  */
 angular.module('contractualClienteApp')
-    .controller('ResolucionGeneracionCtrl', function (adminMidRequest, administrativaRequest, oikosRequest, $mdDialog, $scope, $routeParams, $window, $translate) {
+    .controller('ResolucionGeneracionCtrl', function (adminMidRequest, administrativaRequest, oikosRequest, $mdDialog, $scope, $routeParams, $window, $translate, token_service) {
 
         var self = this;
-
+        
+        self.token_service = token_service;
         self.CurrentDate = new Date();
         self.anioPeriodo = new Date().getFullYear();
         self.objeto_facultad = {};
@@ -83,6 +84,10 @@ angular.module('contractualClienteApp')
             ]
         };
 
+        if(token_service.live_token()){
+            self.token = token_service.getPayload();
+        }
+
         self.resolucionesExpedidasPeriodo.multiSelect = false;
 
         self.resolucionesExpedidasPeriodo.onRegisterApi = function (gridApi) {
@@ -131,7 +136,8 @@ angular.module('contractualClienteApp')
                     });
                 });
             }
-        });
+});
+
 
 
         self.resolucion = {};
@@ -210,6 +216,7 @@ angular.module('contractualClienteApp')
                 ResolucionVinculacionDocente: resolucionVinculacionDocenteData,
                 ResolucionVieja: self.resolucion_a_cancelar_seleccionada.Id,
                 NomDependencia: self.objeto_facultad.Nombre,
+                Usuario: self.token.sub,
             };
             
 
@@ -264,4 +271,4 @@ angular.module('contractualClienteApp')
 
         };
 
-    });
+});
