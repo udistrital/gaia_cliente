@@ -91,7 +91,7 @@ angular
                 controllerAs: 'main'
             })
             .when('/notificaciones', {
-                templateUrl: 'views/notificaciones.html',
+                templateUrl: 'views/notificacisones.html',
                 controller: 'NotificacionesCtrl',
                 controllerAs: 'notificaciones'
 
@@ -100,26 +100,6 @@ angular
                 templateUrl: 'views/about.html',
                 controller: 'AboutCtrl',
                 controllerAs: 'about'
-            })
-            .when('/necesidad/solicitud_necesidad/:IdNecesidad?', {
-                templateUrl: 'views/necesidad/solicitud_necesidad.html',
-                controller: 'SolicitudNecesidadCtrl',
-                controllerAs: 'solicitudNecesidad'
-            })
-            .when('/necesidades', {
-                templateUrl: 'views/necesidad/necesidades.html',
-                controller: 'NecesidadesCtrl',
-                controllerAs: 'necesidades'
-            })
-            .when('/necesidad/necesidad-pdf/:IdNecesidad?', {
-                templateUrl: 'views/necesidad/pdfnecesidad.html',
-                controller: 'PdfnecesidadCtrl',
-                controllerAs: 'necesidadPdf'
-            })
-            .when('/necesidad/necesidad_reportes', {
-                templateUrl: 'views/necesidad/necesidad_reportes.html',
-                controller: 'NecesidadReportesCtrl',
-                controllerAs: 'necesidadReportes'
             })
             .when('/rp_solicitud_personas', {
                 templateUrl: 'views/rp/rp_solicitud_personas.html',
@@ -130,26 +110,6 @@ angular
                 templateUrl: 'views/rp/rp_solicitud.html',
                 controller: 'RpSolicitudCtrl',
                 controllerAs: 'rpSolicitud'
-            })
-            .when('/seguimientoycontrol/financiero', {
-                templateUrl: 'views/seguimientoycontrol/financiero.html',
-                controller: 'SeguimientoycontrolFinancieroCtrl',
-                controllerAs: 'sFinanciero'
-            })
-            .when('/seguimientoycontrol/financiero/contrato', {
-                templateUrl: 'views/seguimientoycontrol/financiero/contrato.html',
-                controller: 'SeguimientoycontrolFinancieroContratoCtrl',
-                controllerAs: 'sFcontrato'
-            })
-            .when('/seguimientoycontrol/financiero/ordenes_pago', {
-                templateUrl: 'views/seguimientoycontrol/financiero/ordenes_pago.html',
-                controller: 'SeguimientoycontrolFinancieroOrdenesPagoCtrl',
-                controllerAs: 'sFordenesPago'
-            })
-            .when('/seguimientoycontrol/financiero/estadisticas', {
-                templateUrl: 'views/seguimientoycontrol/financiero/estadisticas.html',
-                controller: 'SeguimientoycontrolFinancieroEstadisticasCtrl',
-                controllerAs: 'sFestadisticas'
             })
             .when('/vinculacionespecial/resolucion_generacion', {
                 templateUrl: 'views/vinculacionespecial/resolucion_generacion.html',
@@ -245,101 +205,6 @@ angular
                 templateUrl: 'views/plantillas/lista_plantillas.html',
                 controller: 'ListaPlantillasCtrl',
                 controllerAs: 'listaPlantillas'
-            })
-            .when('/necesidad/necesidad_externa', {
-                templateUrl: 'views/necesidad/necesidad_externa.html',
-                controller: 'NecesidadExternaCtrl',
-                controllerAs: 'necesidadExterna'
-            })
-            .when('/necesidad/necesidad_contratacion_docente', {
-                templateUrl: 'views/necesidad/necesidad_contratacion_docente.html',
-                controller: 'NecesidadContratacionDocenteCtrl',
-                controllerAs: 'necesidadContratacionDocente'
-            })
-            .when('/seguimientoycontrol/legal', {
-              templateUrl: 'views/seguimientoycontrol/legal.html',
-              controller: 'SeguimientoycontrolLegalCtrl',
-              controllerAs: 'sLegal'
-            })
-            .when('/seguimientoycontrol/legal/acta_inicio/:contrato_id/:contrato_vigencia', {
-              templateUrl: 'views/seguimientoycontrol/legal/acta_inicio.html',
-              controller: 'SeguimientoycontrolLegalActaInicioCtrl',
-              controllerAs: 'sLactaInicio'
-            })
-            .when('/seguimientoycontrol/legal/acta_suspension/:contrato_id/:contrato_vigencia', {
-              templateUrl: 'views/seguimientoycontrol/legal/acta_suspension.html',
-              controller: 'SeguimientoycontrolLegalActaSuspensionCtrl',
-              controllerAs: 'sLactaSuspension'
-            })
-            .when('/seguimientoycontrol/legal/acta_reinicio/:contrato_id/:contrato_vigencia', {
-              templateUrl: 'views/seguimientoycontrol/legal/acta_reinicio.html',
-              controller: 'SeguimientoycontrolLegalActaReinicioCtrl',
-              controllerAs: 'sLactaReinicio'
-            })
-            .when('/seguimientoycontrol/legal/acta_cesion/:contrato_id/:contrato_vigencia', {
-              templateUrl: 'views/seguimientoycontrol/legal/acta_cesion.html',
-              controller: 'SeguimientoycontrolLegalActaCesionCtrl',
-              controllerAs: 'sLactaCesion'
-            })
-            .when('/seguimientoycontrol/legal/acta_adicion_prorroga/:contrato_id/:contrato_vigencia', {
-              templateUrl: 'views/seguimientoycontrol/legal/acta_adicion_prorroga.html',
-              controller: 'SeguimientoycontrolLegalActaAdicionProrrogaCtrl',
-              controllerAs: 'sLactaAdicionProrroga'
-            })
-            .when('/seguimientoycontrol/legal/acta_liquidacion', {
-              templateUrl: 'views/seguimientoycontrol/legal/acta_liquidacion.html',
-              controller: 'SeguimientoycontrolLegalActaLiquidacionCtrl',
-              controllerAs: 'sLactaLiquidacion'
-            })
-            .when('/seguimientoycontrol/legal/acta_terminacion_liquidacion_bilateral/:contrato_id/:contrato_vigencia', {
-              templateUrl: 'views/seguimientoycontrol/legal/acta_terminacion_liquidacion_bilateral.html',
-              controller: 'SeguimientoycontrolLegalActaTerminacionLiquidacionBilateralCtrl',
-              controllerAs: 'sLactaTerminacionAnticipada'
-            })
-            .when('/seguimientoycontrol/legal/novedad_otro_si_aclaratorio', {
-              templateUrl: 'views/seguimientoycontrol/legal/novedad_otro_si_aclaratorio.html',
-              controller: 'SeguimientoycontrolLegalNovedadOtroSiAclaratorioCtrl',
-              controllerAs: 'sLotroSiAclaratorio'
-            })
-            .when('/seguimientoycontrol/legal/novedad_otro_si_modificatorio', {
-              templateUrl: 'views/seguimientoycontrol/legal/novedad_otro_si_modificatorio.html',
-              controller: 'SeguimientoycontrolLegalNovedadOtroSiModificatorioCtrl',
-              controllerAs: 'sLotroSiModificatorio'
-            })
-            .when('/seguimientoycontrol/tecnico/aprobacion_coordinador/:docid', {
-              templateUrl: 'views/seguimientoycontrol/tecnico/aprobacion_coordinador.html',
-              controller: 'AprobacionCoordinadorCtrl',
-              controllerAs: 'aprobacionCoordinador'
-            })
-            .when('/seguimientoycontrol/tecnico/aprobacion_documentos/:docid', {
-              templateUrl: 'views/seguimientoycontrol/tecnico/aprobacion_documentos.html',
-              controller: 'AprobacionDocumentosCtrl',
-              controllerAs: 'aprobacionDocumentos'
-            })
-            .when('/seguimientoycontrol/tecnico/aprobacion_pago/:docid', {
-              templateUrl: 'views/seguimientoycontrol/tecnico/aprobacion_pago.html',
-              controller: 'AprobacionPagoCtrl',
-              controllerAs: 'aprobacionPago'
-            })
-            .when('/seguimientoycontrol/tecnico/carga_documentos_docente/:docid', {
-              templateUrl: 'views/seguimientoycontrol/tecnico/carga_documentos_docente.html',
-              controller: 'CargaDocumentosDocenteCtrl',
-              controllerAs: 'cargaDocumentosDocente'
-            })
-            .when('/seguimientoycontrol/tecnico/carga_documentos_contratista', {
-              templateUrl: 'views/seguimientoycontrol/tecnico/carga_documentos_contratista.html',
-              controller: 'cargaDocumentosContratistaCtrl',
-              controllerAs: 'cargaDocumentosContratista'
-            })
-            .when('/seguimientoycontrol/tecnico/aprobacion_supervisor', {
-              templateUrl: 'views/seguimientoycontrol/tecnico/aprobacion_supervisor.html',
-              controller: 'AprobacionSupervisorCtrl',
-              controllerAs: 'aprobacionSupervisor'
-            })
-            .when('/seguimientoycontrol/tecnico/aprobacion_ordenador', {
-              templateUrl: 'views/seguimientoycontrol/tecnico/aprobacion_ordenador.html',
-              controller: 'AprobacionOrdenadorCtrl',
-              controllerAs: 'aprobacionOrdenador'
             })
             .otherwise({
                 redirectTo: '/'

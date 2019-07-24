@@ -8,10 +8,11 @@
  * Controller of the clienteApp
  */
 angular.module('contractualClienteApp')
-    .controller('ResolucionGeneracionCtrl', function (adminMidRequest, administrativaRequest, oikosRequest, $mdDialog, $scope, $routeParams, $window, $translate) {
+    .controller('ResolucionGeneracionCtrl', function (adminMidRequest, administrativaRequest, oikosRequest, $mdDialog, $scope, $routeParams, $window, $translate, token_service) {
 
         var self = this;
-
+        
+        self.token_service = token_service;
         self.CurrentDate = new Date();
         self.anioPeriodo = new Date().getFullYear();
         self.objeto_facultad = {};
@@ -83,6 +84,10 @@ angular.module('contractualClienteApp')
             ]
         };
 
+        if(token_service.live_token()){
+            self.token = token_service.getPayload();
+        }
+
         self.resolucionesExpedidasPeriodo.multiSelect = false;
 
         self.resolucionesExpedidasPeriodo.onRegisterApi = function (gridApi) {
@@ -131,9 +136,8 @@ angular.module('contractualClienteApp')
                     });
                 });
             }
-        }).catch(function (response) { // en caso de nulos    
-            self.resolucionesExpedidasPeriodo.data = []
-        });
+});
+
 
 
         self.resolucion = {};
@@ -212,6 +216,7 @@ angular.module('contractualClienteApp')
                 ResolucionVinculacionDocente: resolucionVinculacionDocenteData,
                 ResolucionVieja: self.resolucion_a_cancelar_seleccionada.Id,
                 NomDependencia: self.objeto_facultad.Nombre,
+                Usuario: self.token.sub,
             };
             
 
@@ -238,28 +243,6 @@ angular.module('contractualClienteApp')
                     });
                 }
 
-            }).catch(function (response) { //esto está mal hecho, hay que corregir el manejo de errores desde los APIs
-                if (response.data) {
-                    self.resolucion_creada = response.data;
-                    swal({
-                        text: $translate.instant('ALERTA_RESOLUCION_EXITOSA'),
-                        type: 'success',
-                        confirmButtonText: $translate.instant('ACEPTAR'),
-                        allowOutsideClick: false
-                    }).then(function () {
-                        $window.location.href = '#/vinculacionespecial/resolucion_gestion';
-                    });
-
-                } else {
-                    swal({
-                        title: $translate.instant('ERROR'),
-                        text: $translate.instant('ALERTA_ERROR_RESOLUCION'),
-                        type: 'error',
-                        confirmButtonText: $translate.instant('ACEPTAR')
-                    }).then(function () {
-                        $window.location.href = '#/vinculacionespecial/resolucion_gestion';
-                    });
-                }
             });
 
 
@@ -288,4 +271,4 @@ angular.module('contractualClienteApp')
 
         };
 
-    });
+});
