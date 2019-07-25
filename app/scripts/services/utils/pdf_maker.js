@@ -17,12 +17,19 @@ angular.module('contractualClienteApp')
             var modificacion = true;
             var segundaFila = [];
             var terceraFila = [];
+            var cuartaFila = [];
+            var quintaFila = [];
+            var sextaFila = [];
+            var septFila = [];
+            var octFila = [];
+            var novFila = [];
+            var decFila = [];
             var columnas = [];
             var tituloHoras = 'HORAS_SEMANALES';
             if (nivelAcademico === 'POSGRADO') {
                 tituloHoras = 'HORAS_SEMESTRALES'
             }
-            if ((dedicacionResolucion == 'HCH'))
+            if ((dedicacionResolucion == 'HCH')||(tipoResolucion == 'Adición'))
             {
                 //console.log('Entro al metodo de resolucion tipo HCH')
                 columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
@@ -54,11 +61,26 @@ angular.module('contractualClienteApp')
                     modificacion = false;
                     break;
                 case "Adición":
-                    columnas.push('ValorContratoInicialFormato', '', 'NumeroDisponibilidad');
-                    segundaFila.push('NumeroHorasModificacion', 'NumeroMesesNuevos', '', 'ValorModificacionFormato');
-                    terceraFila.push('NumeroHorasNuevas', '', 'ValorContratoFormato', '');                    
-                    encabezado.push({ text: $translate.instant('LABEL_VALOR_ADICIONAR'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' });
-                    break;
+                    if(dedicacionResolucion == 'HCH')
+                    {    
+                        columnas.push('ValorContratoInicialFormato', '', 'NumeroDisponibilidad');
+                        segundaFila.push('NumeroHorasModificacion', 'NumeroMesesNuevos', '', 'ValorModificacionFormato');
+                        terceraFila.push('NumeroHorasNuevas', '', 'ValorContratoFormato', '');                    
+                        encabezado.push({ text: $translate.instant('LABEL_VALOR_ADICIONAR'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' });
+                    }else{
+                        columnas.push('ValorContratoInicialFormato', '', 'NumeroDisponibilidad');
+                        segundaFila.push('NumeroHorasModificacion', 'NumeroMesesNuevos', '', 'ValorModificacionFormato');
+                        terceraFila.push('NumeroHorasNuevas', '', '', '');
+                        cuartaFila.push('','PRESTACION','VALOR_PRESTACION','');
+                        quintaFila.push('','NSueldoBasico','SueldoBasico','');
+                        sextaFila.push('','NPrimaNavidad','PrimaNavidad','');
+                        septFila.push('','NPrimaVacaciones','PrimaVacaciones',''); 
+                        octFila.push('','NPrimaServicios','PrimaServicios',''); 
+                        novFila.push('','NAportesCesantias','AportesCesantias',''); 
+                        decFila.push('','Total','ValorContratoFormato','');                 
+                        encabezado.push({ text: $translate.instant('LABEL_VALOR_ADICIONAR'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' });
+                    }
+                        break;
                 case "Reducción":
                     columnas.push('ValorContratoInicialFormato', '', 'NumeroRp');
                     segundaFila.push('NumeroHorasModificacion', 'NumeroMesesNuevos', '', 'ValorModificacionFormato');
@@ -84,7 +106,7 @@ angular.module('contractualClienteApp')
                             if (tipoResolucion == 'Cancelación'){
                                 tablaModificacion = self.tablaCancelacion(columnas, fila, segundaFila);                            
                             } else {
-                                tablaModificacion = self.tablaModificacionHoras(columnas, fila, segundaFila, terceraFila);
+                                tablaModificacion = self.tablaModificacionHoras(columnas, fila, segundaFila, terceraFila, cuartaFila, quintaFila, sextaFila, septFila, octFila, novFila, decFila);
                             }
 
                             cuerpo.push(tablaModificacion[0]);
@@ -93,6 +115,28 @@ angular.module('contractualClienteApp')
                             if (tablaModificacion[2] != undefined) {
                                 cuerpo.push(tablaModificacion[2]); 
                             }
+                            if (tablaModificacion[3] != undefined) {
+                                cuerpo.push(tablaModificacion[3]); 
+                            }
+                            if (tablaModificacion[4] != undefined) {
+                                cuerpo.push(tablaModificacion[4]); 
+                            }
+                            if (tablaModificacion[5] != undefined) {
+                                cuerpo.push(tablaModificacion[5]); 
+                            }
+                            if (tablaModificacion[6] != undefined) {
+                                cuerpo.push(tablaModificacion[6]); 
+                            }
+                            if (tablaModificacion[7] != undefined) {
+                                cuerpo.push(tablaModificacion[7]); 
+                            }
+                            if (tablaModificacion[8] != undefined) {
+                                cuerpo.push(tablaModificacion[8]); 
+                            }
+                            if (tablaModificacion[9] != undefined) {
+                                cuerpo.push(tablaModificacion[9]); 
+                            }
+                            
                         } else {
                             var datoFila = [];
                             var contador_columna = 0;
@@ -101,7 +145,7 @@ angular.module('contractualClienteApp')
                                 contador_columna++;
                                 //Cada dato es almacenado como un String dentro de la matriz de la tabla
                                 //console.log(dedicacionResolucion)
-                                if (dedicacionResolucion == 'HCH')
+                                if (dedicacionResolucion == 'HCH'||(tipoResolucion = 'Adición'))
                                 {
                                     datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
                                 } else {
@@ -131,7 +175,7 @@ angular.module('contractualClienteApp')
                             //La fila es agregada a la tabla con los datos correspondientes
                             cuerpo.push(datoFila);
 
-                            if (dedicacionResolucion == 'HCH')
+                            if (dedicacionResolucion == 'HCH'||tipoResolucion == 'Adición')
                             {
 
                             }else{
@@ -165,25 +209,66 @@ angular.module('contractualClienteApp')
             return cuerpo;
         };
 
-        self.tablaModificacionHoras = function (columnas, fila, segundaFila, terceraFila) {
+        self.tablaModificacionHoras = function (columnas, fila, segundaFila, terceraFila, cuartaFila, quintaFila, sextaFila, septFila, octFila, novFila,decFila) {
             var datoFila = [];
             var segunda = [];
             var tercera = [];
+            var cuarta = [];
+            var quinta = [];
+            var sexta = [];
+            var septima = [];
+            var octava = [];
+            var novena = [];
+            var decima = [];
+
             var cantidadColumnas = columnas.length;
 
             for (var i = 0, j = 0; i < cantidadColumnas; i++){
                 if (i < 6 || i > 9) {
-                    datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '', rowSpan: 3 });
+                    datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '', rowSpan: 10 });
                 }
                 if (i > 5 && i < 10) {
+
+                    if (i == 7)
+                    {
+                        tercera[i] = {text: fila[terceraFila[j]] != undefined ? fila[terceraFila[j]].toString() : '', colSpan: 2};
+                    }else{
+                        tercera[i] = fila[terceraFila[j]] != undefined ? fila[terceraFila[j]].toString() : '';
+                    }
+
                     datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '' });
                     segunda[i] = fila[segundaFila[j]] != undefined ? fila[segundaFila[j]].toString() : '';
-                    tercera[i] = fila[terceraFila[j]] != undefined ? fila[terceraFila[j]].toString() : '';
+                    
                     tercera[i] = i == 6 ? 'Total ' + tercera[i] : tercera[i] ;
+
+                    if((j==0)||(j==3))
+                    {
+                        cuarta[i] = {text: '', rowSpan: 7}; 
+                         
+                    }else{
+                        cuarta[i] = { text: $translate.instant(cuartaFila[j]), style: 'encabezado' };
+                        
+
+                    }
+
+                    if(i==7)
+                    {
+                        decima[i]={text: 'Total', style: 'encabezado'}
+                    }else{
+                        decima[i]= { text: fila[decFila[j]] != undefined ? fila[decFila[j]].toString() : ''};
+                    }
+
+                    quinta[i] = { text: fila[quintaFila[j]] != undefined ? fila[quintaFila[j]].toString() : ''};
+                    sexta[i] = { text: fila[sextaFila[j]] != undefined ? fila[sextaFila[j]].toString() : ''};
+                    septima[i] = { text: fila[septFila[j]] != undefined ? fila[septFila[j]].toString() : ''};
+                    octava[i] = { text: fila[octFila[j]] != undefined ? fila[octFila[j]].toString() : ''};
+                    novena[i] = { text: fila[novFila[j]] != undefined ? fila[novFila[j]].toString() : ''};
+
+
                     j++;
                 }
             }
-            return [datoFila, segunda, tercera];
+            return [datoFila, segunda, tercera, cuarta, quinta, sexta, septima,octava, novena, decima];
         }
 
         self.tablaCancelacion = function (columnas, fila, segundaFila, terceraFila) {
