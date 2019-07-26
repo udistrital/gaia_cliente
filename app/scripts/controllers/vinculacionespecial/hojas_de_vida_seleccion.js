@@ -150,8 +150,7 @@ angular.module('contractualClienteApp')
                 { field: 'NumeroHorasSemanales', width: '8%', displayName: $translate.instant('HORAS_SEMANALES') },
                 { field: 'NumeroSemanas', width: '7%', displayName: $translate.instant('SEMANAS') },
                 { field: 'NumeroDisponibilidad', width: '15%', displayName: $translate.instant('NUM_DISPO_DOCENTE') },
-                { field: 'ValorContrato', width: '15%', displayName: $translate.instant('VALOR_CONTRATO'), cellClass: "valorEfectivo", cellFilter: "currency" },
-                {
+                { field: 'ValorContrato', width: '15%', displayName: $translate.instant('VALOR_CONTRATO'), cellClass: "valorEfectivo", cellFilter: "currency:$" },                {
                     field: 'IdProyectoCurricular', visible: false, exporterSuppressExport: true, enableHiding: false,
                     filter: {
                         term: self.term
