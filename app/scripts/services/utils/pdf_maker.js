@@ -26,6 +26,9 @@ angular.module('contractualClienteApp')
             var decFila = [];
             var columnas = [];
             var tituloHoras = 'HORAS_SEMANALES';
+
+            
+
             if (nivelAcademico === 'POSGRADO') {
                 tituloHoras = 'HORAS_SEMESTRALES'
             }
@@ -40,6 +43,7 @@ angular.module('contractualClienteApp')
             }
             
             switch (tipoResolucion) {
+                
                 case "Vinculación": 
                     if (dedicacionResolucion == 'HCH')
                     {
@@ -94,7 +98,6 @@ angular.module('contractualClienteApp')
                     break;
                 default: break;
             }
-            
             cuerpo.push(encabezado);
             if (datos) {
                 datos.forEach(function (fila) {
@@ -138,6 +141,7 @@ angular.module('contractualClienteApp')
                             }
                             
                         } else {
+                            
                             var datoFila = [];
                             var contador_columna = 0;
                             //datoFila.push([{rowSpan:3, text: 'Hola'}]);
@@ -145,8 +149,11 @@ angular.module('contractualClienteApp')
                                 contador_columna++;
                                 //Cada dato es almacenado como un String dentro de la matriz de la tabla
                                 //console.log(dedicacionResolucion)
-                                if (dedicacionResolucion == 'HCH'||(tipoResolucion = 'Adición'))
+                                console.log(tipoResolucion)
+                                if ((dedicacionResolucion == 'HCH')||(tipoResolucion === 'Adición'))
                                 {
+                                    console.log(dedicacionResolucion, tipoResolucion)
+                                    console.log('ingresa a adicion')
                                     datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
                                 } else {
                                     if (fila[columna]=='Sueldo básico')
@@ -191,6 +198,7 @@ angular.module('contractualClienteApp')
                                         ['','','','','','','','Total',fila['ValorContratoFormato'],'']
                                     );
                                 }else{
+                                    console.log('entro IF desagregacion')
                                     //Se añaden los campos de desagregación
                                     cuerpo.push(
                                         ['','','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
@@ -206,6 +214,7 @@ angular.module('contractualClienteApp')
                     }
                 });
             }
+            console.log(cuerpo)
             return cuerpo;
         };
 
