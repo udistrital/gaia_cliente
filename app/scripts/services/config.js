@@ -176,7 +176,7 @@ var conf_pruebas = {
   // ADMINISTRATIVA_MID_SERVICE: "http://10.20.0.254/administrativa_mid_api/v1/",
   // ADMINISTRATIVA_SERVICE: "http://10.20.0.254/administrativa_api/v1/",
   ADMINISTRATIVA_PRUEBAS_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/administrativa_amazon_api/v1/",
-  CONFIGURACION_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/configuracion_crud_api/v1/",
+  CONFIGURACION_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/configuracion_crud_api/v1/",
   CORE_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_api/v1/",
   CORE_AMAZON_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_amazon_crud/v1/",
   FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
@@ -188,7 +188,7 @@ var conf_pruebas = {
     SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
   CONTRATO_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/",
   NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
-  HOMOLOGACION_SERVICE:"https://autenticacion.portaloas.udistrital.edu.co/apioas/dependencias_api/v1/",
+  HOMOLOGACION_SERVICE:"https://autenticacion.udistrital.edu.co/apioas/dependencias_api/v1/",
     TOKEN: {
     AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",
     URL_USER_INFO: "https://autenticacion.udistrital.edu.co/oauth2/userinfo",
