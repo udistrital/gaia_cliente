@@ -41,7 +41,7 @@ angular.module('contractualClienteApp')
                   roles = $scope.token.role;
                 }
     
-                roles = roles.replace(/,/g, '%2C');
+                roles = "DECANO%2CORDENADOR_DEL_GASTO%2CASISTENTE_DECANATURA";
                 console.log(roles);
                 console.info(roles);
                 configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo','').then(function(response) {
