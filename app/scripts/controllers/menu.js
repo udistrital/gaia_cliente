@@ -42,30 +42,32 @@ angular.module('contractualClienteApp')
                 }
     
                 roles = "DECANO%2CORDENADOR_DEL_GASTO%2CASISTENTE_DECANATURA";
-                console.log(roles);
-                console.info(roles);
-                configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo','').then(function(response) {
-                    console.log(response);
-                    console.info(response);
-                    $rootScope.my_menu = response.data;
+                // console.log(roles);
+                // console.info(roles);
+                // configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo','').then(function(response) {
+                //     console.log(response);
+                //     console.info(response);
+                //     $rootScope.my_menu = response.data;
     
-                })
-                .catch(
-                    function(response) {
-                        console.log(response);
-                        $rootScope.my_menu = response.data;
+                // })
+                // .catch(
+                //     function(response) {
+                //         console.log(response);
+                //         $rootScope.my_menu = response.data;
         
-                    });
+                //     });
             }
         }
 
-        /* // obtiene los menús segun el rol
-        var roles = rolesService.roles().toString().replace(/,/g, '%2C');
+        // obtiene los menús segun el rol
+        // var roles = rolesService.roles().toString().replace(/,/g, '%2C');
+        var roles = "DECANO%2CORDENADOR_DEL_GASTO%2CASISTENTE_DECANATURA";
+        console.info(roles)
         configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo', '').then(function (response) {
 
             $rootScope.my_menu = response.data;
 
-        }); */
+        }); 
 
         /*
         configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + "ADMINISTRADOR_ARGO" + '/Argo', '').then(function(response) {
