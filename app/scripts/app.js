@@ -65,8 +65,7 @@ angular
         'implicitToken',
         'gridApiService',
         'colombiaHolidaysService',
-        'nuxeoClient',
-        'titandesagregService'
+        'nuxeoClient'
     ])
     .run(function(amMoment) {
         amMoment.changeLocale('es');
