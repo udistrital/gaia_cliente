@@ -62,7 +62,7 @@ angular.module('contractualClienteApp')
         
         datosDocenteSalario.NumDocumento = parseInt(docentes.IdPersona);
         datosDocenteSalario.ValorTotalContrato = docentes.ValorContrato;
-        datosDocenteSalario.VigenciaContrato = 2019;
+        datosDocenteSalario.VigenciaContrato = self.resolucion.Vigencia;
 
         console.log(JSON.stringify(datosDocenteSalario))
         //console.log(docentes)
@@ -103,6 +103,7 @@ angular.module('contractualClienteApp')
           self.contratados[contador].PrimaServicios='123';
           console.log(self.contratados)
           
+          //console.log(self.resolucion)
 
           contador++;
 
