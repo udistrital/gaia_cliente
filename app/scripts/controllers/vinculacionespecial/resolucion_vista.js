@@ -60,30 +60,52 @@ angular.module('contractualClienteApp')
       self.contratados.forEach(function(docentes){
         var datosDocenteSalario = new Object();
         
-        datosDocenteSalario.cedula = docentes.IdPersona;
-        datosDocenteSalario.salario = docentes.ValorContrato;
-        datosDocenteSalario.vigencia = '';
-        datosDocenteSalario.inicioresolucion = docentes.FechaInicio;
-        datosDocenteSalario.finalizacionresolucion = '';
+        datosDocenteSalario.NumDocumento = parseInt(docentes.IdPersona);
+        datosDocenteSalario.ValorTotalContrato = docentes.ValorContrato;
+        datosDocenteSalario.VigenciaContrato = 2019;
 
         console.log(JSON.stringify(datosDocenteSalario))
         //console.log(docentes)
 
-        titandesagregRequest.post('operaciones/desagregacion', JSON.stringify(datosDocenteSalario)).then(function(response) {
+        titandesagregRequest.post('services/desagregacion_contrato_hcs', JSON.stringify(datosDocenteSalario)).then(function(response) {
           var SalarioDesagreg = response.data;
-          console.log(SalarioDesagreg)
-          self.contratados[contador].NSueldoBasico="Sueldo básico";
-          self.contratados[contador].SueldoBasico=SalarioDesagreg.sueldo_Basico;
-          self.contratados[contador].NPrimaNavidad="Prima de navidad";
-          self.contratados[contador].PrimaNavidad=SalarioDesagreg.prima_Navidad;
-          self.contratados[contador].NPrimaVacaciones="Prima de vacaciones";
-          self.contratados[contador].PrimaVacaciones=SalarioDesagreg.prima_Servicios;
+
+          SalarioDesagreg.forEach(function(resultado_desagreg){
+
+            switch (resultado_desagreg.Nombre){
+              case "salarioBase":
+                self.contratados[contador].NSueldoBasico = "Sueldo Básico";
+                self.contratados[contador].SueldoBasico = resultado_desagreg.Valor;
+                break;
+              case "primaVacaciones":
+                self.contratados[contador].NPrimaVacaciones = "Prima de Vacaciones";
+                self.contratados[contador].PrimaVacaciones = resultado_desagreg.Valor;
+                break;
+              case "primaNavidad":
+                self.contratados[contador].NPrimaNavidad = "Prima de Navidad";
+                self.contratados[contador].PrimaNavidad = resultado_desagreg.Valor;
+                break;
+              case "primaServicios":
+                self.contratados[contador].NPrimaServicios = '';
+                self.contratados[contador].PrimaServicios = '';
+              case "cesantias":
+                self.contratados[contador].NAportesCesantias = "Cesantías";
+                self.contratados[contador].AportesCesantias = resultado_desagreg.Valor;   
+            }
+
+          });
+
+
+          
+          
+         
           self.contratados[contador].NPrimaServicios="Prima de servicios";
-          self.contratados[contador].PrimaServicios=SalarioDesagreg.prima_Vacaciones;
-          self.contratados[contador].NAportesCesantias="Aportes de cesantías de fondos públicos";
-          self.contratados[contador].AportesCesantias=SalarioDesagreg.aportes_Cesantias;
+          self.contratados[contador].PrimaServicios='123';
+          console.log(self.contratados)
+          
+
           contador++;
-          //console.log(contador)
+
           //console.log(self.contratados.length)
           if (contador == self.contratados.length)
           {

@@ -155,14 +155,14 @@ angular.module('contractualClienteApp')
                                 contador_columna++;
                                 //Cada dato es almacenado como un String dentro de la matriz de la tabla
                                 //console.log(dedicacionResolucion)
-                                console.log(tipoResolucion)
+                                //console.log(tipoResolucion)
                                 if ((dedicacionResolucion == 'HCH')||(tipoResolucion === 'Adición'))
                                 {
                                     console.log(dedicacionResolucion, tipoResolucion)
                                     console.log('ingresa a adicion')
                                     datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
-                                } else {
-                                    if (fila[columna]=='Sueldo básico')
+                                } else { 
+                                    if (fila[columna]=='Sueldo Básico')
                                     {
                                         datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
                                     }else{
@@ -192,10 +192,12 @@ angular.module('contractualClienteApp')
                             {
 
                             }else{
+                                console.log(fila)
                                 if (nivelAcademico == 'POSGRADO')
                                 {
                                     //console.log('Entro al IF de posgrado')
                                     //Se añaden los campos de desagregación
+                                    
                                     cuerpo.push(
                                         ['','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
                                         ['','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
@@ -204,7 +206,7 @@ angular.module('contractualClienteApp')
                                         ['','','','','','','','Total',fila['ValorContratoFormato'],'']
                                     );
                                 }else{
-                                    console.log('entro IF desagregacion')
+                                    //console.log('entro IF desagregacion')
                                     //Se añaden los campos de desagregación
                                     cuerpo.push(
                                         ['','','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
