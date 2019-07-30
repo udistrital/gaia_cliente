@@ -32,7 +32,7 @@ angular.module('contractualClienteApp')
             if (nivelAcademico === 'POSGRADO') {
                 tituloHoras = 'HORAS_SEMESTRALES'
             }
-            if ((dedicacionResolucion == 'HCH')||(tipoResolucion == 'Adición'))
+            if ((dedicacionResolucion == 'HCH')||(tipoResolucion == 'Adición')||(tipoResolucion === 'Reducción'))
             {
                 //console.log('Entro al metodo de resolucion tipo HCH')
                 columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
@@ -86,10 +86,25 @@ angular.module('contractualClienteApp')
                     }
                         break;
                 case "Reducción":
-                    columnas.push('ValorContratoInicialFormato', '', 'NumeroRp');
-                    segundaFila.push('NumeroHorasModificacion', 'NumeroMesesNuevos', '', 'ValorModificacionFormato');
-                    terceraFila.push('NumeroHorasNuevas', '', 'ValorContratoFormato', '');
-                    encabezado.push({ text: $translate.instant('VALOR_CONTRATO_REV'), style: 'encabezado' }, { text: $translate.instant('NUMERO_REGISTRO_PRESUPUESTAL'), style: 'encabezado' });
+                    if (dedicacionResolucion == 'HCH')
+                    {    
+                        columnas.push('ValorContratoInicialFormato', '', 'NumeroRp');
+                        segundaFila.push('NumeroHorasModificacion', 'NumeroMesesNuevos', '', 'ValorModificacionFormato');
+                        terceraFila.push('NumeroHorasNuevas', '', 'ValorContratoFormato', '');
+                        encabezado.push({ text: $translate.instant('VALOR_CONTRATO_REV'), style: 'encabezado' }, { text: $translate.instant('NUMERO_REGISTRO_PRESUPUESTAL'), style: 'encabezado' });
+                    }else{
+                        columnas.push('ValorContratoInicialFormato', '', 'NumeroRp');
+                        segundaFila.push('NumeroHorasModificacion', 'NumeroMesesNuevos', '', 'ValorModificacionFormato');
+                        terceraFila.push('NumeroHorasNuevas', '', 'ValorContratoFormato', '');
+                        cuartaFila.push('','PRESTACION','VALOR_PRESTACION','');
+                        quintaFila.push('','NSueldoBasico','SueldoBasico','');
+                        sextaFila.push('','NPrimaNavidad','PrimaNavidad','');
+                        septFila.push('','NPrimaVacaciones','PrimaVacaciones',''); 
+                        octFila.push('','NPrimaServicios','PrimaServicios',''); 
+                        novFila.push('','NAportesCesantias','AportesCesantias',''); 
+                        decFila.push('','Total','ValorContratoFormato',''); 
+                        encabezado.push({ text: $translate.instant('VALOR_CONTRATO_REV'), style: 'encabezado' }, { text: $translate.instant('NUMERO_REGISTRO_PRESUPUESTAL'), style: 'encabezado' });   
+                    }
                     break;
                 case "Cancelación":
                     columnas.push('ValorContratoInicialFormato', 'ValorModificacionFormato', 'NumeroRp');
@@ -156,7 +171,7 @@ angular.module('contractualClienteApp')
                                 //Cada dato es almacenado como un String dentro de la matriz de la tabla
                                 //console.log(dedicacionResolucion)
                                 //console.log(tipoResolucion)
-                                if ((dedicacionResolucion == 'HCH')||(tipoResolucion === 'Adición'))
+                                if ((dedicacionResolucion == 'HCH')||(tipoResolucion === 'Adición')||(tipoResolucion === 'Reducción'))
                                 {
                                     console.log(dedicacionResolucion, tipoResolucion)
                                     console.log('ingresa a adicion')
@@ -188,7 +203,7 @@ angular.module('contractualClienteApp')
                             //La fila es agregada a la tabla con los datos correspondientes
                             cuerpo.push(datoFila);
 
-                            if (dedicacionResolucion == 'HCH'||tipoResolucion == 'Adición')
+                            if ((dedicacionResolucion == 'HCH')||(tipoResolucion == 'Adición')||(tipoResolucion === 'Reducción'))
                             {
 
                             }else{
