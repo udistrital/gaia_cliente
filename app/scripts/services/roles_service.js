@@ -30,6 +30,7 @@ angular.module('contractualClienteApp')
                     });
                 }
             };
+            roles = "DECANO%2CORDENADOR_DEL_GASTO%2CASISTENTE_DECANATURA"; //se debe de quitar este rol que seda, solo se usa para prueba del 254
             return roles;
         };
 

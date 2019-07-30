@@ -26,14 +26,10 @@ angular.module('contractualClienteApp')
             token_service.logout();
         };
         if(token_service.live_token()){
-            console.log("entro al live");
             $scope.token = token_service.getPayload();
-            console.log($scope.token);
             if (!angular.isUndefined($scope.token.role)){
-                console.log("entro a !angular.isUndefined")
                 var roles="";
                 if ( typeof $scope.token.role === "object" ) {
-                    console.log("esa cosa era objeto");
                   var rl = [];
                   for (var index = 0; index < $scope.token.role.length; index++) {
                     if ($scope.token.role[index].indexOf("/") < 0 ){
@@ -45,48 +41,54 @@ angular.module('contractualClienteApp')
                   roles = $scope.token.role;
                 }
     
-                roles = "DECANO%2CORDENADOR_DEL_GASTO%2CASISTENTE_DECANATURA";
-                // console.log(roles);
-                // console.info(roles);
-                // configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo','').then(function(response) {
-                //     console.log(response);
-                //     console.info(response);
-                //     $rootScope.my_menu = response.data;
+                roles = roles.replace(/,/g, '%2C');
+                configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo','').then(function(response) {
+                    console.log(response);
+                    $rootScope.my_menu = response.data;
     
-                // })
-                // .catch(
-                //     function(response) {
-                //         console.log(response);
-                //         $rootScope.my_menu = response.data;
+                })
+                .catch(
+                    function(response) {
+                        console.log(response);
+                        $rootScope.my_menu = response.data;
         
-                //     });
+                    });
+            } else {
+                console.log("el token no se puede traer desde este modo de autenticacion, se traera un menu por defecto en prueba");
+                var roles = "DECANO%2CORDENADOR_DEL_GASTO%2CASISTENTE_DECANATURA";
+                console.info(roles)
+                configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo', '').then(function (response) {
+
+                    $rootScope.my_menu = response.data;
+
+                }); 
             }
-        }
+}
 
-        $scope.traerMenu = function () {
-            $scope.token = token_service.getPayload();
-        console.info($scope.token.role.toString());
-        console.info($scope.token.role.toString().replace(/,/g, '%2C') );
-        console.info($scope.token.role);
-        var rl = [];
-                  for (var index = 0; index < $scope.token.role.length; index++) {
-                    if ($scope.token.role[index].indexOf("/") < 0 ){
-                      rl.push($scope.token.role[index]);
-                    }
-                    if (index === ($scope.token.role.length -1) ) {
-                        var roles = "";
-                        roles = rl.toString().replace(/,/g, '%2C')
-                        console.log();
-                        configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo', '').then(function (response) {
-                            console.log("traigo su menu señor :3")
-                            $rootScope.my_menu = response.data;
+        // $scope.traerMenu = function () {
+        //     $scope.token = token_service.getPayload();
+        // console.info($scope.token.role.toString());
+        // console.info($scope.token.role.toString().replace(/,/g, '%2C') );
+        // console.info($scope.token.role);
+        // var rl = [];
+        //           for (var index = 0; index < $scope.token.role.length; index++) {
+        //             if ($scope.token.role[index].indexOf("/") < 0 ){
+        //               rl.push($scope.token.role[index]);
+        //             }
+        //             if (index === ($scope.token.role.length -1) ) {
+        //                 var roles = "";
+        //                 roles = rl.toString().replace(/,/g, '%2C')
+        //                 console.log();
+        //                 configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo', '').then(function (response) {
+        //                     console.log("traigo su menu señor :3")
+        //                     $rootScope.my_menu = response.data;
                 
-                        }); 
-                    }
-                  }
-        };
+        //                 }); 
+        //             }
+        //           }
+        // };
 
-        setTimeout($scope.traerMenu(), 2000);
+        // setTimeout($scope.traerMenu(), 2000);
 
         // obtiene los menús segun el rol
         // var roles = rolesService.roles().toString().replace(/,/g, '%2C');
