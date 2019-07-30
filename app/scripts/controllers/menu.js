@@ -59,9 +59,8 @@ angular.module('contractualClienteApp')
             }
         }
 
-        // obtiene los menús segun el rol
-        // var roles = rolesService.roles().toString().replace(/,/g, '%2C');
-        $scope.token = token_service.getPayload();
+        $scope.traerMenu = function () {
+            $scope.token = token_service.getPayload();
         console.info($scope.token.role.toString());
         console.info($scope.token.role.toString().replace(/,/g, '%2C') );
         console.info($scope.token.role);
@@ -81,6 +80,13 @@ angular.module('contractualClienteApp')
                         }); 
                     }
                   }
+        };
+
+        setTimeout($scope.traerMenu(), 2000);
+
+        // obtiene los menús segun el rol
+        // var roles = rolesService.roles().toString().replace(/,/g, '%2C');
+        
         // var roles = "DECANO%2CORDENADOR_DEL_GASTO%2CASISTENTE_DECANATURA";
         // console.info(roles)
         // configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo', '').then(function (response) {
