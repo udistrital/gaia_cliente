@@ -542,5 +542,5 @@ var resoluciones_noauth = {
 
 angular.module('contractualClienteApp')
     .constant('CONF', {
-        GENERAL: conf_resoluciones,
+        GENERAL: conf_local,
     });
