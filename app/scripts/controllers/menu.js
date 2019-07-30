@@ -28,7 +28,7 @@ angular.module('contractualClienteApp')
         if(token_service.live_token()){
             console.log("entro al live");
             $scope.token = token_service.getPayload();
-            console.log($scope.tocken);
+            console.log($scope.token);
             if (!angular.isUndefined($scope.token.role)){
                 console.log("entro a !angular.isUndefined")
                 var roles="";
