@@ -185,7 +185,8 @@ var conf_pruebas = {
     MODELS_SERVICE: "scripts/models/",
   OIKOS_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_api/v1/",
   OIKOS_AMAZON_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_amazon_api/v1",
-  TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
+    TITANDESAGREG_SERVICE : "http://api.intranetoas.udistrital.edu.co:8082/v1/",
+    TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
     SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
   CONTRATO_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/",
   NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
@@ -264,7 +265,8 @@ FINANCIERA_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_api/v1/"
   MODELS_SERVICE: "scripts/models/",
 OIKOS_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_api/v1/",
 OIKOS_AMAZON_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_amazon_api/v1",
-TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
+    TITANDESAGREG_SERVICE : "http://api.intranetoas.udistrital.edu.co:8082/v1/",
+    TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
   SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
 CONTRATO_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/",
 NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
@@ -474,7 +476,7 @@ var resoluciones_noauth = {
     OIKOS_AMAZON_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_amazon_api/v1",
     TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
     //TITANDESAGREG_SERVICE : "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
-    TITANDESAGREG_SERVICE : "http://10.20.190.206:3000/",
+    TITANDESAGREG_SERVICE : "http://api.intranetoas.udistrital.edu.co:8082/v1/",
     SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
     CONTRATO_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/",
     NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
@@ -539,5 +541,5 @@ var resoluciones_noauth = {
 
 angular.module('contractualClienteApp')
     .constant('CONF', {
-        GENERAL: conf_local,
+        GENERAL: conf_resoluciones,
     });
