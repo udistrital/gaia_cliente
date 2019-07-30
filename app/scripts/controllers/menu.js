@@ -26,10 +26,14 @@ angular.module('contractualClienteApp')
             token_service.logout();
         };
         if(token_service.live_token()){
+            console.log("entro al live");
             $scope.token = token_service.getPayload();
+            console.log($scope.tocken);
             if (!angular.isUndefined($scope.token.role)){
+                console.log("entro a !angular.isUndefined")
                 var roles="";
                 if ( typeof $scope.token.role === "object" ) {
+                    console.log("esa cosa era objeto");
                   var rl = [];
                   for (var index = 0; index < $scope.token.role.length; index++) {
                     if ($scope.token.role[index].indexOf("/") < 0 ){
