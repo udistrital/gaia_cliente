@@ -1,5 +1,6 @@
 'use strict';
 
+
 /**
  * @ngdoc service
  * @name contractualClienteApp.config
