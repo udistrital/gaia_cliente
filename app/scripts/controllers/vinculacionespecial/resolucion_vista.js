@@ -64,9 +64,7 @@ angular.module('contractualClienteApp')
         datosDocenteSalario.ValorTotalContrato = docentes.ValorContrato;
         datosDocenteSalario.VigenciaContrato = self.resolucion.Vigencia;
 
-        console.log(JSON.stringify(datosDocenteSalario))
-        //console.log(docentes)
-
+        
         titandesagregRequest.post('services/desagregacion_contrato_hcs', JSON.stringify(datosDocenteSalario)).then(function(response) {
           var SalarioDesagreg = response.data;
 
@@ -75,36 +73,40 @@ angular.module('contractualClienteApp')
             switch (resultado_desagreg.Nombre){
               case "salarioBase":
                 self.contratados[contador].NSueldoBasico = "Sueldo Básico";
-                self.contratados[contador].SueldoBasico = resultado_desagreg.Valor;
+                self.contratados[contador].SueldoBasico = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                });
                 break;
               case "primaVacaciones":
                 self.contratados[contador].NPrimaVacaciones = "Prima de Vacaciones";
-                self.contratados[contador].PrimaVacaciones = resultado_desagreg.Valor;
+                self.contratados[contador].PrimaVacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                });
                 break;
               case "primaNavidad":
                 self.contratados[contador].NPrimaNavidad = "Prima de Navidad";
-                self.contratados[contador].PrimaNavidad = resultado_desagreg.Valor;
+                self.contratados[contador].PrimaNavidad = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                });
                 break;
               case "primaServicios":
                 self.contratados[contador].NPrimaServicios = '';
                 self.contratados[contador].PrimaServicios = '';
               case "cesantias":
                 self.contratados[contador].NAportesCesantias = "Cesantías";
-                self.contratados[contador].AportesCesantias = resultado_desagreg.Valor;   
+                self.contratados[contador].AportesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                });   
             }
 
           });
-
-
           
-          
-         
           self.contratados[contador].NPrimaServicios="Prima de servicios";
           self.contratados[contador].PrimaServicios='123';
-          console.log(self.contratados)
-          
-          //console.log(self.resolucion)
-
           contador++;
 
           //console.log(self.contratados.length)
