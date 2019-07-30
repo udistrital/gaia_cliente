@@ -36,7 +36,77 @@ angular.module('contractualClienteApp')
         });
       });
     };
+ 
+    /**
+    * @name incluirDesagregacion
+    * @description 
+    * Función que agrega los campos de la desagregación del salario de los docentes
+    */
+    self.incluirDesagregacion = function()
+    {
+      var contador = 0;
+      self.contratados.forEach(function(docentes){
+        var datosDocenteSalario = new Object();
+        
+        datosDocenteSalario.NumDocumento = parseInt(docentes.IdPersona);
+        datosDocenteSalario.ValorTotalContrato = docentes.ValorContrato;
+        datosDocenteSalario.VigenciaContrato = self.resolucion.Vigencia;
 
+        
+        titandesagregRequest.post('services/desagregacion_contrato_hcs', JSON.stringify(datosDocenteSalario)).then(function(response) {
+          var SalarioDesagreg = response.data;
+
+          SalarioDesagreg.forEach(function(resultado_desagreg){
+
+            switch (resultado_desagreg.Nombre){
+              case "salarioBase":
+                self.contratados[contador].NSueldoBasico = "Sueldo Básico";
+                self.contratados[contador].SueldoBasico = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                });
+                break;
+              case "primaVacaciones":
+                self.contratados[contador].NPrimaVacaciones = "Prima de Vacaciones";
+                self.contratados[contador].PrimaVacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                });
+                break;
+              case "primaNavidad":
+                self.contratados[contador].NPrimaNavidad = "Prima de Navidad";
+                self.contratados[contador].PrimaNavidad = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                });
+                break;
+              case "primaServicios":
+                self.contratados[contador].NPrimaServicios = '';
+                self.contratados[contador].PrimaServicios = '';
+              case "cesantias":
+                self.contratados[contador].NAportesCesantias = "Cesantías";
+                self.contratados[contador].AportesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                });   
+            }
+
+          });
+          
+          self.contratados[contador].NPrimaServicios="Prima de servicios";
+          self.contratados[contador].PrimaServicios='123';
+          contador++;
+
+          //console.log(self.contratados.length)
+          if (contador == self.contratados.length)
+          {
+            console.log('Generando Resolución')
+            self.generarResolucion();
+          }
+         });
+
+      });
+    };
     
     /**
      * @name generarResolucion
