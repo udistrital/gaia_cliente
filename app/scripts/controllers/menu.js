@@ -57,7 +57,7 @@ angular.module('contractualClienteApp')
                         $rootScope.my_menu = response.data;
         
                     });
-            } else {
+            } /*else {
                 console.log("el token no se puede traer desde este modo de autenticacion, se traera un menu por defecto en prueba");
                 var roles = "DECANO%2CORDENADOR_DEL_GASTO%2CASISTENTE_DECANATURA";
                 console.info(roles)
@@ -66,7 +66,7 @@ angular.module('contractualClienteApp')
                     $rootScope.my_menu = response.data;
 
                 }); 
-            }
+            }+/
 }
 
         // $scope.traerMenu = function () {
