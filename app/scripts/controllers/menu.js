@@ -28,8 +28,11 @@ angular.module('contractualClienteApp')
         if(token_service.live_token()){
             $scope.token = token_service.getPayload();
             if (!angular.isUndefined($scope.token.role)){
+                console.log("entro al undefined");
+                console.log($scope.token.role)
                 var roles="";
                 if ( typeof $scope.token.role === "object" ) {
+                    console.log("entro all if object");
                   var rl = [];
                   for (var index = 0; index < $scope.token.role.length; index++) {
                     if ($scope.token.role[index].indexOf("/") < 0 ){
@@ -44,6 +47,7 @@ angular.module('contractualClienteApp')
                 roles = roles.replace(/,/g, '%2C');
                 configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo','').then(function(response) {
                     console.log(response);
+                    console.log("se hizo la peticion");
                     $rootScope.my_menu = response.data;
     
                 })
