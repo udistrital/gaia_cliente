@@ -284,45 +284,46 @@ angular.module('contractualClienteApp')
                 datosDocenteSalario.ValorTotalContrato = docentes.ValorContrato;
                 datosDocenteSalario.VigenciaContrato = resolucion.Vigencia;
 
-                //console.log(datosDocenteSalario)
+                console.log(datosDocenteSalario)
                 
                 titandesagregRequest.post('services/desagregacion_contrato_hcs', JSON.stringify(datosDocenteSalario)).then(function(response) {
                 var SalarioDesagreg = response.data;
-                //console.log(SalarioDesagreg)
+                
+                console.log(SalarioDesagreg)
 
                 SalarioDesagreg.forEach(function(resultado_desagreg){
 
                     switch (resultado_desagreg.Nombre){
-                    case "salarioBase":
-                        self.contratadosPdf[contador].NSueldoBasico = "Sueldo Básico";
-                        self.contratadosPdf[contador].SueldoBasico = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: 'USD',
-                        });
-                        break;
-                    case "primaVacaciones":
-                        self.contratadosPdf[contador].NPrimaVacaciones = "Prima de Vacaciones";
-                        self.contratadosPdf[contador].PrimaVacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: 'USD',
-                        });
-                        break;
-                    case "primaNavidad":
-                        self.contratadosPdf[contador].NPrimaNavidad = "Prima de Navidad";
-                        self.contratadosPdf[contador].PrimaNavidad = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: 'USD',
-                        });
-                        break;
-                    case "primaServicios":
-                        self.contratadosPdf[contador].NPrimaServicios = '';
-                        self.contratadosPdf[contador].PrimaServicios = '';
-                    case "cesantias":
-                        self.contratadosPdf[contador].NAportesCesantias = "Cesantías";
-                        self.contratadosPdf[contador].AportesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: 'USD',
-                        });   
+                        case "salarioBase":
+                            self.contratadosPdf[contador].NSueldoBasico = "Sueldo Básico";
+                            self.contratadosPdf[contador].SueldoBasico = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            });
+                            break;
+                        case "primaVacaciones":
+                            self.contratadosPdf[contador].NPrimaVacaciones = "Prima de Vacaciones";
+                            self.contratadosPdf[contador].PrimaVacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            });
+                            break;
+                        case "primaNavidad":
+                            self.contratadosPdf[contador].NPrimaNavidad = "Prima de Navidad";
+                            self.contratadosPdf[contador].PrimaNavidad = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            });
+                            break;
+                        case "primaServicios":
+                            self.contratadosPdf[contador].NPrimaServicios = '';
+                            self.contratadosPdf[contador].PrimaServicios = '';
+                        case "cesantias":
+                            self.contratadosPdf[contador].NAportesCesantias = "Cesantías";
+                            self.contratadosPdf[contador].AportesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            });   
                     }
 
                 });
@@ -334,6 +335,7 @@ angular.module('contractualClienteApp')
                 //console.log(self.contratados.length)
                 if (contador == self.contratadosPdf.length)
                 {
+                    //console.log (self.contratadosPdf)
                     console.log('Generando Resolución')
                     self.generarResolucion();
                 }

@@ -27,6 +27,7 @@ angular.module('contractualClienteApp')
             var columnas = [];
             var tituloHoras = 'HORAS_SEMANALES';
 
+            console.log(datos)
             
 
             if (nivelAcademico === 'POSGRADO') {
@@ -427,6 +428,7 @@ angular.module('contractualClienteApp')
 
         //Devuelve el contenido del documento en una estrutura formato "JSON"
         self.getDocumento = function (contenidoResolucion, resolucion, contratados, proyectos) {
+            //console.log(contratados)
             var documento = {
                 info: {
                     title: $translate.instant('RESOLUCION')

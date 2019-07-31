@@ -259,6 +259,7 @@ ADMINISTRATIVA_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/administ
 ADMINISTRATIVA_PRUEBAS_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/administrativa_amazon_api/v1/",
 CONFIGURACION_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/configuracion_crud_api/v1/",
 // CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
+CORE_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_api/v1/",
 CORE_AMAZON_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_amazon_crud/v1/",
 FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
 FINANCIERA_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_api/v1/",
@@ -457,7 +458,9 @@ var resoluciones_noauth = {
     CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
     //Servicio apuntando a servidores de la oficina 
     ADMINISTRATIVA_MID_SERVICE: "http://10.20.0.254/administrativa_mid_api/v1/",
+    //ADMINISTRATIVA_MID_SERVICE: "http://10.20.2.134:8091/v1/",
     ADMINISTRATIVA_SERVICE: "http://10.20.0.254/administrativa_api/v1/",
+    //ADMINISTRATIVA_SERVICE: "http://10.20.2.134:8090/v1/",
     CORE_SERVICE: "http://10.20.0.254/core_api/v1/",
     CORE_AMAZON_SERVICE: "http://10.20.0.254/core_amazon_crud/v1/",   
     RESOLUCION_SERVICE: "http://10.20.0.254/resoluciones_crud/v1/",
