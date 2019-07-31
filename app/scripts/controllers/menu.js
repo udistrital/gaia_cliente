@@ -67,7 +67,7 @@ angular.module('contractualClienteApp')
                     $rootScope.my_menu = response.data;
 
                 }); 
-            }+/
+            }*/
 }
 
         // $scope.traerMenu = function () {
