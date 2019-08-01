@@ -12,6 +12,7 @@ angular.module('contractualClienteApp')
 
     var self = this;
     var docentes_contratados = this;
+    var docentes_desagregados = [];
     self.resolucion = JSON.parse(localStorage.getItem("resolucion"));
     
 
@@ -35,7 +36,6 @@ angular.module('contractualClienteApp')
         self.contenidoResolucion = response.data;
         adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
           self.contratados = response.data;
-          self.incluirDesagregacion();  
           // Si existen valores dentro de contratados se ejecuta la desagregación
           if (self.contratados.length > 0)
           {
@@ -43,7 +43,7 @@ angular.module('contractualClienteApp')
           }else{
             self.generarResolucion();
           }
-          console.log(self.contratados)
+          
           
         });
       });
@@ -57,67 +57,44 @@ angular.module('contractualClienteApp')
     self.incluirDesagregacion = function()
     {
       var contador = 0;
-      self.contratados.forEach(function(docentes){
-        var datosDocenteSalario = new Object();
-        
-        datosDocenteSalario.NumDocumento = parseInt(docentes.IdPersona);
-        datosDocenteSalario.ValorTotalContrato = docentes.ValorContrato;
-        datosDocenteSalario.VigenciaContrato = self.resolucion.Vigencia;
+      var result_desagreg =[];
+      
 
-        
-        titandesagregRequest.post('services/desagregacion_contrato_hcs', JSON.stringify(datosDocenteSalario)).then(function(response) {
+      for (var i = 0; i < self.contratados.length; i++) {
+
+        const datosDocenteSalario = {
+          NumDocumento:  Number(self.contratados[i].IdPersona),
+          ValorTotalContrato: Number(self.contratados[i].ValorContratoFormato.replace(/[^0-9.-]+/g,"")),
+          VigenciaContrato: self.resolucion.Vigencia,
+        }
+
+        titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
           var SalarioDesagreg = response.data;
+          //console.log(datosDocenteSalario.NumDocumento)
+          //console.log(self.contratados[i])
+          //console.log(SalarioDesagreg)
 
-          SalarioDesagreg.forEach(function(resultado_desagreg){
+          result_desagreg = self.EscribirDesagregacion(self.contratados[i],SalarioDesagreg);
+          //console.log(result_desagreg)
 
-            switch (resultado_desagreg.Nombre){
-              case "salarioBase":
-                self.contratados[contador].NSueldoBasico = "Sueldo Básico";
-                self.contratados[contador].SueldoBasico = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                });
-                break;
-              case "primaVacaciones":
-                self.contratados[contador].NPrimaVacaciones = "Prima de Vacaciones";
-                self.contratados[contador].PrimaVacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                });
-                break;
-              case "primaNavidad":
-                self.contratados[contador].NPrimaNavidad = "Prima de Navidad";
-                self.contratados[contador].PrimaNavidad = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                });
-                break;
-              case "primaServicios":
-                self.contratados[contador].NPrimaServicios = '';
-                self.contratados[contador].PrimaServicios = '';
-              case "cesantias":
-                self.contratados[contador].NAportesCesantias = "Cesantías";
-                self.contratados[contador].AportesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                });   
-            }
-
-          });
-          
-          self.contratados[contador].NPrimaServicios="Prima de servicios";
-          self.contratados[contador].PrimaServicios='123';
+          docentes_desagregados[contador] = result_desagreg;
           contador++;
 
-          //console.log(self.contratados.length)
           if (contador == self.contratados.length)
           {
-            console.log('Generando Resolución')
+            console.log(self.contratados)
+
+            console.log(docentes_desagregados)
             self.generarResolucion();
+            
           }
+          
          });
 
-      });
+        
+      }
+
+
     };
     
     /**
@@ -126,7 +103,8 @@ angular.module('contractualClienteApp')
      * Arma el documento con la información consultada y utiliza la herramienta pdfMake para mostrarlo
      */
     self.generarResolucion = function () {
-      var documento = pdfMakerService.getDocumento(self.contenidoResolucion, self.resolucion, self.contratados, self.proyectos);
+      //console.log(docentes_desagregados)
+      var documento = pdfMakerService.getDocumento(self.contenidoResolucion, self.resolucion, docentes_desagregados, self.proyectos);
       //Se hace uso de la libreria pdfMake para generar el documento y se asigna a la etiqueta con el id vistaPDF
       pdfMake.createPdf(documento).getDataUrl(function (outDoc) {
         document.getElementById('vistaPDF').src = outDoc;
@@ -161,4 +139,59 @@ angular.module('contractualClienteApp')
       self.generarDocumentoPdfMake();
     }
 
+    /**
+     * @name EscribirDesagregacion
+     * @description 
+     * Escribe los valores de desagregación en cada vector de docente
+     */
+    self.EscribirDesagregacion = function (docentes_recibido,desagregacion) {
+      //console.log(docentes_recibido)
+      //console.log(desagregacion)
+
+      desagregacion.forEach(function(resultado_desagreg){
+
+        switch (resultado_desagreg.Nombre){
+          case "salarioBase":
+            docentes_recibido.NSueldoBasico = "Sueldo Básico";
+            docentes_recibido.SueldoBasico = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            });
+            break;
+          case "primaVacaciones":
+            docentes_recibido.NPrimaVacaciones = "Prima de Vacaciones";
+            docentes_recibido.PrimaVacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            });
+            break;
+          case "primaNavidad":
+            docentes_recibido.NPrimaNavidad = "Prima de Navidad";
+            docentes_recibido.PrimaNavidad = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            });
+            break;
+          case "primaServicios":
+            docentes_recibido.NPrimaServicios = '';
+            docentes_recibido.PrimaServicios = '';
+          case "cesantias":
+            docentes_recibido.NAportesCesantias = "Cesantías";
+            docentes_recibido.AportesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            });   
+        }
+
+      });
+      
+      docentes_recibido.NPrimaServicios="Prima de servicios";
+      docentes_recibido.PrimaServicios='123';
+
+      //console.log(docentes_recibido)
+
+      return docentes_recibido;
+    };
+
   });
+
