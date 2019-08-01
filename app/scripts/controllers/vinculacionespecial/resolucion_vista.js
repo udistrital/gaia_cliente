@@ -70,23 +70,25 @@ angular.module('contractualClienteApp')
 
         titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
           var SalarioDesagreg = response.data;
-          console.log(datosDocenteSalario.NumDocumento)
-          console.log(self.contratados[i])
-          console.log(SalarioDesagreg)
+          //console.log(datosDocenteSalario.NumDocumento)
+          //console.log(self.contratados[i])
+          //console.log(SalarioDesagreg)
 
           result_desagreg = self.EscribirDesagregacion(self.contratados[i],SalarioDesagreg);
-          console.log(result_desagreg)
+          //console.log(result_desagreg)
 
-          docentes_desagregados[i] = result_desagreg;
-          
+          docentes_desagregados[contador] = result_desagreg;
+          contador++;
 
-          if (docentes_desagregados.length == self.contratados.length)
+          if (contador == self.contratados.length)
           {
             console.log(self.contratados)
+
             console.log(docentes_desagregados)
             self.generarResolucion();
             
           }
+          
          });
 
         
@@ -143,8 +145,8 @@ angular.module('contractualClienteApp')
      * Escribe los valores de desagregación en cada vector de docente
      */
     self.EscribirDesagregacion = function (docentes_recibido,desagregacion) {
-      console.log(docentes_recibido)
-      console.log(desagregacion)
+      //console.log(docentes_recibido)
+      //console.log(desagregacion)
 
       desagregacion.forEach(function(resultado_desagreg){
 

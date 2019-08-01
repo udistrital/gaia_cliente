@@ -33,7 +33,7 @@ angular.module('contractualClienteApp')
             if (nivelAcademico === 'POSGRADO') {
                 tituloHoras = 'HORAS_SEMESTRALES'
             }
-            if ((dedicacionResolucion == 'HCH')||(tipoResolucion == 'Adición')||(tipoResolucion === 'Reducción'))
+            if ((dedicacionResolucion == 'HCH')||(tipoResolucion == 'Adición')||(tipoResolucion === 'Reducción')||(tipoResolucion === 'Cancelación'))
             {
                 //console.log('Entro al metodo de resolucion tipo HCH')
                 columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
@@ -172,7 +172,7 @@ angular.module('contractualClienteApp')
                                 //Cada dato es almacenado como un String dentro de la matriz de la tabla
                                 //console.log(dedicacionResolucion)
                                 //console.log(tipoResolucion)
-                                if ((dedicacionResolucion == 'HCH')||(tipoResolucion === 'Adición')||(tipoResolucion === 'Reducción'))
+                                if ((dedicacionResolucion == 'HCH')||(tipoResolucion === 'Adición')||(tipoResolucion === 'Reducción')||(tipoResolucion === 'Cancelación'))
                                 {
                                     console.log(dedicacionResolucion, tipoResolucion)
                                     console.log('ingresa a adicion')
@@ -204,7 +204,7 @@ angular.module('contractualClienteApp')
                             //La fila es agregada a la tabla con los datos correspondientes
                             cuerpo.push(datoFila);
 
-                            if ((dedicacionResolucion == 'HCH')||(tipoResolucion == 'Adición')||(tipoResolucion === 'Reducción'))
+                            if ((dedicacionResolucion == 'HCH')||(tipoResolucion == 'Adición')||(tipoResolucion === 'Reducción')||(tipoResolucion === 'Cancelación'))
                             {
 
                             }else{

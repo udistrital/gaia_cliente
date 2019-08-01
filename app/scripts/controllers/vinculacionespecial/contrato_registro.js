@@ -290,17 +290,18 @@ angular.module('contractualClienteApp')
       
               titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
                 var SalarioDesagreg = response.data;
-                console.log(datosDocenteSalario.NumDocumento)
-                console.log(self.contratadosPdf[i])
-                console.log(SalarioDesagreg)
+                //console.log(datosDocenteSalario.NumDocumento)
+                //console.log(self.contratadosPdf[i])
+                //console.log(SalarioDesagreg)
       
                 result_desagreg = self.EscribirDesagregacion(self.contratadosPdf[i],SalarioDesagreg);
-                console.log(result_desagreg)
+                //console.log(result_desagreg)
       
-                docentes_desagregados[i] = result_desagreg;
+                docentes_desagregados[contador] = result_desagreg;
                 
+                contador++;
       
-                if (docentes_desagregados.length == self.contratadosPdf.length)
+                if (contadors == self.contratadosPdf.length)
                 {
                   console.log(self.contratadosPdf)
                   console.log(docentes_desagregados)
