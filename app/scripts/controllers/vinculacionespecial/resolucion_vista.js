@@ -60,7 +60,7 @@ angular.module('contractualClienteApp')
       var result_desagreg =[];
       
 
-      for (let i = 0; i < self.contratados.length; i++) {
+      for (var i = 0; i < self.contratados.length; i++) {
 
         const datosDocenteSalario = {
           NumDocumento:  Number(self.contratados[i].IdPersona),
