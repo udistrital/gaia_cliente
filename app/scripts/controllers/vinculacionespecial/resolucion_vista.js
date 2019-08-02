@@ -57,10 +57,43 @@ angular.module('contractualClienteApp')
     self.incluirDesagregacion = function()
     {
       var contador = 0;
-      var result_desagreg =[];
-      
+      var result_desagreg =[]; 
+      //let i;
 
-      for (var i = 0; i < self.contratados.length; i++) {
+      self.contratados.forEach(function (docentes) {
+
+        const datosDocenteSalario = {
+          NumDocumento:  Number(docentes.IdPersona),
+          ValorTotalContrato: Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,"")),
+          VigenciaContrato: self.resolucion.Vigencia,
+        }
+
+        titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
+          var SalarioDesagreg = response.data;
+          //console.log(datosDocenteSalario.NumDocumento)
+          //console.log(self.contratados[i])
+          //console.log(SalarioDesagreg)
+
+          result_desagreg = self.EscribirDesagregacion(docentes,SalarioDesagreg);
+          //console.log(result_desagreg)
+
+          docentes_desagregados[contador] = result_desagreg;
+          contador++;
+
+          if (contador == self.contratados.length)
+          {
+            console.log(self.contratados)
+
+            console.log(docentes_desagregados)
+            self.generarResolucion();
+            
+          }
+          
+         });
+
+      });
+      /*
+      for (let i = 0; i < self.contratados.length; i++) { 
 
         const datosDocenteSalario = {
           NumDocumento:  Number(self.contratados[i].IdPersona),
@@ -92,7 +125,7 @@ angular.module('contractualClienteApp')
          });
 
         
-      }
+      }*/
 
 
     };
