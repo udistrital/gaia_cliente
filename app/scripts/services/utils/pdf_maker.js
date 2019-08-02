@@ -188,14 +188,14 @@ angular.module('contractualClienteApp')
                                             {
                                                 datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
                                             }else{
-                                                datoFila.push({rowSpan: 6, text: fila[columna] != undefined ? fila[columna].toString() : ''});
+                                                datoFila.push({rowSpan: 7, text: fila[columna] != undefined ? fila[columna].toString() : ''});
                                             }
                                         }else{
                                             if (contador_columna == 10)
                                             {
                                                 datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
                                             }else{
-                                                datoFila.push({rowSpan: 6, text: fila[columna] != undefined ? fila[columna].toString() : ''});
+                                                datoFila.push({rowSpan: 7, text: fila[columna] != undefined ? fila[columna].toString() : ''});
                                             }
                                         }
                                     }
@@ -216,6 +216,7 @@ angular.module('contractualClienteApp')
                                     
                                     cuerpo.push(
                                         ['','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
+                                        ['','','','','','','','Vacaciones',fila['Vacaciones'],''],
                                         ['','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
                                         ['','','','','','','','Intereses Cesantías',fila['InteresesCesantias'],''],
                                         ['','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
@@ -226,6 +227,7 @@ angular.module('contractualClienteApp')
                                     //Se añaden los campos de desagregación
                                     cuerpo.push(
                                         ['','','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
+                                        ['','','','','','','','','Vacaciones',fila['Vacaciones'],''],
                                         ['','','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
                                         ['','','','','','','','','Intereses Cesantías',fila['InteresesCesantias'],''],
                                         ['','','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
