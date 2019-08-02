@@ -287,7 +287,7 @@ angular.module('contractualClienteApp')
                 const datosDocenteSalario = {
                 NumDocumento:  Number(docentes.IdPersona),
                 ValorTotalContrato: Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,"")),
-                VigenciaContrato: self.resolucion.Vigencia,
+                VigenciaContrato: resolucion.Vigencia,
                 }
 
                 titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
@@ -357,42 +357,54 @@ angular.module('contractualClienteApp')
             console.log(docentes_recibido)
             console.log(desagregacion)
     
-            desagregacion.forEach(function(resultado_desagreg){
-    
+            
+        desagregacion.forEach(function(resultado_desagreg){
+
             switch (resultado_desagreg.Nombre){
-                case "salarioBase":
+            case "salarioBase":
                 docentes_recibido.NSueldoBasico = "Sueldo Básico";
                 docentes_recibido.SueldoBasico = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
+                style: 'currency',
+                currency: 'USD',
                 });
                 break;
-                case "primaVacaciones":
+            case "primaVacaciones":
                 docentes_recibido.NPrimaVacaciones = "Prima de Vacaciones";
                 docentes_recibido.PrimaVacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
+                style: 'currency',
+                currency: 'USD',
                 });
                 break;
-                case "primaNavidad":
+            case "vacaciones":
+                docentes_recibido.NVacaciones = "Vacaciones";
+                docentes_recibido.Vacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                });
+                break;
+            case "primaNavidad":
                 docentes_recibido.NPrimaNavidad = "Prima de Navidad";
                 docentes_recibido.PrimaNavidad = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
+                style: 'currency',
+                currency: 'USD',
                 });
                 break;
-                case "primaServicios":
-                docentes_recibido.NPrimaServicios = '';
-                docentes_recibido.PrimaServicios = '';
-                case "cesantias":
+            case "interesCesantias":
+                docentes_recibido.NInteresesCesantias = "Intereses Cesantías";
+                docentes_recibido.InteresesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                });
+                break;
+            case "cesantias":
                 docentes_recibido.NAportesCesantias = "Cesantías";
                 docentes_recibido.AportesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
+                style: 'currency',
+                currency: 'USD',
                 });   
             }
-    
-            });
+
+        });
             
             docentes_recibido.NPrimaServicios="Prima de servicios";
             docentes_recibido.PrimaServicios='123';

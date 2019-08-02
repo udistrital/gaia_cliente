@@ -198,6 +198,13 @@ angular.module('contractualClienteApp')
               currency: 'USD',
             });
             break;
+          case "vacaciones":
+            docentes_recibido.NVacaciones = "Vacaciones";
+            docentes_recibido.Vacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            });
+            break;
           case "primaNavidad":
             docentes_recibido.NPrimaNavidad = "Prima de Navidad";
             docentes_recibido.PrimaNavidad = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
@@ -205,9 +212,13 @@ angular.module('contractualClienteApp')
               currency: 'USD',
             });
             break;
-          case "primaServicios":
-            docentes_recibido.NPrimaServicios = '';
-            docentes_recibido.PrimaServicios = '';
+          case "interesCesantias":
+            docentes_recibido.NInteresesCesantias = "Intereses Cesantías";
+            docentes_recibido.InteresesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            });
+            break;
           case "cesantias":
             docentes_recibido.NAportesCesantias = "Cesantías";
             docentes_recibido.AportesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
