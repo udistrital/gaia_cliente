@@ -217,7 +217,7 @@ angular.module('contractualClienteApp')
                                     cuerpo.push(
                                         ['','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
                                         ['','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
-                                        ['','','','','','','','Prima de Servicios',fila['PrimaServicios'],''],
+                                        ['','','','','','','','Intereses Cesantías',fila['InteresesCesantias'],''],
                                         ['','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
                                         ['','','','','','','','Total',fila['ValorContratoFormato'],'']
                                     );
@@ -227,7 +227,7 @@ angular.module('contractualClienteApp')
                                     cuerpo.push(
                                         ['','','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
                                         ['','','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
-                                        ['','','','','','','','','Prima de Servicios',fila['PrimaServicios'],''],
+                                        ['','','','','','','','','Intereses Cesantías',fila['InteresesCesantias'],''],
                                         ['','','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
                                         ['','','','','','','','','Total',fila['ValorContratoFormato'],'']
                                     );
