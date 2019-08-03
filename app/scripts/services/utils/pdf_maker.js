@@ -102,10 +102,11 @@ angular.module('contractualClienteApp')
                         cuartaFila.push('','PRESTACION','VALOR_PRESTACION','');
                         quintaFila.push('','NSueldoBasico','SueldoBasico','');
                         sextaFila.push('','NPrimaNavidad','PrimaNavidad','');
-                        septFila.push('','NPrimaVacaciones','PrimaVacaciones',''); 
-                        octFila.push('','NPrimaServicios','PrimaServicios',''); 
-                        novFila.push('','NAportesCesantias','AportesCesantias',''); 
-                        decFila.push('','Total','ValorContratoFormato',''); 
+                        septFila.push('','NVacaciones','Vacaciones','');
+                        octFila.push('','NPrimaVacaciones','PrimaVacaciones',''); 
+                        novFila.push('','NInteresesCesantias','InteresesCesantias',''); 
+                        decFila.push('','NAportesCesantias','AportesCesantias',''); 
+                        oncFila.push('','Total','ValorContratoFormato','');                 
                         encabezado.push({ text: $translate.instant('VALOR_CONTRATO_REV'), style: 'encabezado' }, { text: $translate.instant('NUMERO_REGISTRO_PRESUPUESTAL'), style: 'encabezado' });   
                     }
                     break;
