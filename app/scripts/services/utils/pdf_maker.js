@@ -219,7 +219,7 @@ angular.module('contractualClienteApp')
                                         ['','','','','','','','Vacaciones',fila['Vacaciones'],''],
                                         ['','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
                                         ['','','','','','','','Intereses Cesantías',fila['InteresesCesantias'],''],
-                                        ['','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
+                                        ['','','','','','','','Aportes de Cesantías',fila['AportesCesantias'],''],
                                         ['','','','','','','','Total',fila['ValorContratoFormato'],'']
                                     );
                                 }else{
@@ -230,7 +230,7 @@ angular.module('contractualClienteApp')
                                         ['','','','','','','','','Vacaciones',fila['Vacaciones'],''],
                                         ['','','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
                                         ['','','','','','','','','Intereses Cesantías',fila['InteresesCesantias'],''],
-                                        ['','','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
+                                        ['','','','','','','','','Aportes de Cesantías',fila['AportesCesantias'],''],
                                         ['','','','','','','','','Total',fila['ValorContratoFormato'],'']
                                     );
                                 }
