@@ -58,76 +58,41 @@ angular.module('contractualClienteApp')
     {
       var contador = 0;
       var result_desagreg =[]; 
-      //let i;
+      //let i; 
 
       self.contratados.forEach(function (docentes) {
+        
+        var valor_totalContrato = Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,""));
+        
+        if (valor_totalContrato < 0)
+        {
+          valor_totalContrato = 0;
+        }else{
+          valor_totalContrato = valor_totalContrato;
+        }
+                
 
         const datosDocenteSalario = {
           NumDocumento:  Number(docentes.IdPersona),
-          ValorTotalContrato: Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,"")),
+          ValorTotalContrato: valor_totalContrato,
           VigenciaContrato: self.resolucion.Vigencia,
         }
 
         titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
           var SalarioDesagreg = response.data;
-          //console.log(datosDocenteSalario.NumDocumento)
-          //console.log(self.contratados[i])
-          //console.log(SalarioDesagreg)
-
           result_desagreg = self.EscribirDesagregacion(docentes,SalarioDesagreg);
-          //console.log(result_desagreg)
-
           docentes_desagregados[contador] = result_desagreg;
           contador++;
 
           if (contador == self.contratados.length)
           {
-            console.log(self.contratados)
-
-            console.log(docentes_desagregados)
             self.generarResolucion();
-            
           }
           
          });
 
       });
-      /*
-      for (let i = 0; i < self.contratados.length; i++) { 
-
-        const datosDocenteSalario = {
-          NumDocumento:  Number(self.contratados[i].IdPersona),
-          ValorTotalContrato: Number(self.contratados[i].ValorContratoFormato.replace(/[^0-9.-]+/g,"")),
-          VigenciaContrato: self.resolucion.Vigencia,
-        }
-
-        titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
-          var SalarioDesagreg = response.data;
-          //console.log(datosDocenteSalario.NumDocumento)
-          //console.log(self.contratados[i])
-          //console.log(SalarioDesagreg)
-
-          result_desagreg = self.EscribirDesagregacion(self.contratados[i],SalarioDesagreg);
-          //console.log(result_desagreg)
-
-          docentes_desagregados[contador] = result_desagreg;
-          contador++;
-
-          if (contador == self.contratados.length)
-          {
-            console.log(self.contratados)
-
-            console.log(docentes_desagregados)
-            self.generarResolucion();
-            
-          }
-          
-         });
-
-        
-      }*/
-
-
+      
     };
     
     /**

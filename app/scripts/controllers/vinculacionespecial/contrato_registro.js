@@ -278,75 +278,37 @@ angular.module('contractualClienteApp')
         {
             var contador = 0;
             var result_desagreg =[];
-            //let i;
-      
-
-            
             self.contratadosPdf.forEach(function (docentes) {
 
+                var valor_totalContrato = Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,""));
+                
+                if (valor_totalContrato < 0)
+                {
+                    valor_totalContrato = 0;
+                }else{
+                    valor_totalContrato = valor_totalContrato;
+                }
                 const datosDocenteSalario = {
                 NumDocumento:  Number(docentes.IdPersona),
-                ValorTotalContrato: Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,"")),
+                ValorTotalContrato: valor_totalContrato,
                 VigenciaContrato: resolucion.Vigencia,
                 }
 
                 titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
                 var SalarioDesagreg = response.data;
-                //console.log(datosDocenteSalario.NumDocumento)
-                //console.log(self.contratados[i])
-                //console.log(SalarioDesagreg)
-
                 result_desagreg = self.EscribirDesagregacion(docentes,SalarioDesagreg);
-                //console.log(result_desagreg)
-
                 docentes_desagregados[contador] = result_desagreg;
                 contador++;
 
                 if (contador == self.contratadosPdf.length)
                 {
-                    console.log(self.contratadosPdf)
-
-                    console.log(docentes_desagregados)
-                    self.generarResolucion();
-                    
+                    self.generarResolucion();   
                 }
                 
                 });
 
             });
 
-            /*for (let i = 0; i < self.contratadosPdf.length; i++) {
-      
-              const datosDocenteSalario = {
-                NumDocumento:  Number(self.contratadosPdf[i].IdPersona),
-                ValorTotalContrato: Number(self.contratadosPdf[i].ValorContratoFormato.replace(/[^0-9.-]+/g,"")),
-                VigenciaContrato: resolucion.Vigencia,
-              }
-      
-              titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
-                var SalarioDesagreg = response.data;
-                //console.log(datosDocenteSalario.NumDocumento)
-                //console.log(self.contratadosPdf[i])
-                //console.log(SalarioDesagreg)
-      
-                result_desagreg = self.EscribirDesagregacion(self.contratadosPdf[i],SalarioDesagreg);
-                //console.log(result_desagreg)
-      
-                docentes_desagregados[contador] = result_desagreg;
-                
-                contador++;
-      
-                if (contadors == self.contratadosPdf.length)
-                {
-                  console.log(self.contratadosPdf)
-                  console.log(docentes_desagregados)
-                  self.generarResolucion();
-                  
-                }
-               });
-      
-              
-            }*/
         };
         /**
          * @name EscribirDesagregacion
