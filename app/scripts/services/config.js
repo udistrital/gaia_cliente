@@ -174,15 +174,15 @@ var conf_pruebas = {
   // ACADEMICA_SERVICE: "http://10.20.0.127/urano/index.php?data=B-7djBQWvIdLAEEycbH1n6e-3dACi5eLUOb63vMYhGq0kPBs7NGLYWFCL0RSTCu1yTlE5hH854MOgmjuVfPWyvdpaJDUOyByX-ksEPFIrrQQ7t1p4BkZcBuGD2cgJXeD",
   ADMINISTRATIVA_MID_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/administrativa_mid_api/v1/",
   ADMINISTRATIVA_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/administrativa_crud_api/v1/",
-  // ADMINISTRATIVA_MID_SERVICE: "http://10.20.0.254/administrativa_mid_api/v1/",
-  // ADMINISTRATIVA_SERVICE: "http://10.20.0.254/administrativa_api/v1/",
   ADMINISTRATIVA_PRUEBAS_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/administrativa_amazon_api/v1/",
   // CONFIGURACION_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/api/configuracion_crud_api/v1/",
   CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
   CORE_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_api/v1/",
   CORE_AMAZON_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_amazon_crud/v1/",
-  FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
-  FINANCIERA_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_api/v1/", // financiara crud_api
+  FINANCIERA_MID_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_mid_api/v1/",
+  // FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
+  // FINANCIERA_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_api/v1/", // financiara crud_api
+  FINANCIERA_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_crud_api/v1/", // financiara crud_api
   MODELS_SERVICE: "scripts/models/",
   OIKOS_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/oikos_crud_api/v1/", //oikos_crud_api
   // OIKOS_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_api/v1/", //oikos_crud_api
