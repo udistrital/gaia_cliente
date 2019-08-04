@@ -8,7 +8,7 @@
 * Controller of the clienteApp
 */
 angular.module('contractualClienteApp')
-  .controller('ResolucionAdministracionCtrl', function (administrativaRequest, adminMidRequest, titan_request, $scope, $window, $mdDialog, $translate, gridApiService) {
+  .controller('ResolucionAdministracionCtrl', function (administrativaRequest, adminMidRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
 
     var self = this;
 
