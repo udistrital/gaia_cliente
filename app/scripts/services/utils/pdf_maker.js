@@ -24,6 +24,7 @@ angular.module('contractualClienteApp')
             var octFila = [];
             var novFila = [];
             var decFila = [];
+            var oncFila = [];
             var columnas = [];
             var tituloHoras = 'HORAS_SEMANALES';
 
@@ -79,10 +80,11 @@ angular.module('contractualClienteApp')
                         cuartaFila.push('','PRESTACION','VALOR_PRESTACION','');
                         quintaFila.push('','NSueldoBasico','SueldoBasico','');
                         sextaFila.push('','NPrimaNavidad','PrimaNavidad','');
-                        septFila.push('','NPrimaVacaciones','PrimaVacaciones',''); 
-                        octFila.push('','NPrimaServicios','PrimaServicios',''); 
-                        novFila.push('','NAportesCesantias','AportesCesantias',''); 
-                        decFila.push('','Total','ValorContratoFormato','');                 
+                        septFila.push('','NVacaciones','Vacaciones','');
+                        octFila.push('','NPrimaVacaciones','PrimaVacaciones',''); 
+                        novFila.push('','NInteresesCesantias','InteresesCesantias',''); 
+                        decFila.push('','NAportesCesantias','AportesCesantias',''); 
+                        oncFila.push('','Total','ValorContratoFormato','');                 
                         encabezado.push({ text: $translate.instant('LABEL_VALOR_ADICIONAR'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' });
                     }
                         break;
@@ -100,10 +102,11 @@ angular.module('contractualClienteApp')
                         cuartaFila.push('','PRESTACION','VALOR_PRESTACION','');
                         quintaFila.push('','NSueldoBasico','SueldoBasico','');
                         sextaFila.push('','NPrimaNavidad','PrimaNavidad','');
-                        septFila.push('','NPrimaVacaciones','PrimaVacaciones',''); 
-                        octFila.push('','NPrimaServicios','PrimaServicios',''); 
-                        novFila.push('','NAportesCesantias','AportesCesantias',''); 
-                        decFila.push('','Total','ValorContratoFormato',''); 
+                        septFila.push('','NVacaciones','Vacaciones','');
+                        octFila.push('','NPrimaVacaciones','PrimaVacaciones',''); 
+                        novFila.push('','NInteresesCesantias','InteresesCesantias',''); 
+                        decFila.push('','NAportesCesantias','AportesCesantias',''); 
+                        oncFila.push('','Total','ValorContratoFormato','');                 
                         encabezado.push({ text: $translate.instant('VALOR_CONTRATO_REV'), style: 'encabezado' }, { text: $translate.instant('NUMERO_REGISTRO_PRESUPUESTAL'), style: 'encabezado' });   
                     }
                     break;
@@ -125,7 +128,7 @@ angular.module('contractualClienteApp')
                             if (tipoResolucion == 'Cancelación'){
                                 tablaModificacion = self.tablaCancelacion(columnas, fila, segundaFila);                            
                             } else {
-                                tablaModificacion = self.tablaModificacionHoras(dedicacionResolucion, columnas, fila, segundaFila, terceraFila, cuartaFila, quintaFila, sextaFila, septFila, octFila, novFila, decFila);
+                                tablaModificacion = self.tablaModificacionHoras(dedicacionResolucion, columnas, fila, segundaFila, terceraFila, cuartaFila, quintaFila, sextaFila, septFila, octFila, novFila, decFila, oncFila);
                             }
 
                             cuerpo.push(tablaModificacion[0]);
@@ -160,6 +163,9 @@ angular.module('contractualClienteApp')
                                 if (tablaModificacion[9] != undefined) {
                                     cuerpo.push(tablaModificacion[9]); 
                                 }
+                                if (tablaModificacion[10] != undefined) {
+                                    cuerpo.push(tablaModificacion[10]); 
+                                }
                             }
                             
                         } else {
@@ -188,14 +194,14 @@ angular.module('contractualClienteApp')
                                             {
                                                 datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
                                             }else{
-                                                datoFila.push({rowSpan: 6, text: fila[columna] != undefined ? fila[columna].toString() : ''});
+                                                datoFila.push({rowSpan: 7, text: fila[columna] != undefined ? fila[columna].toString() : ''});
                                             }
                                         }else{
                                             if (contador_columna == 10)
                                             {
                                                 datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
                                             }else{
-                                                datoFila.push({rowSpan: 6, text: fila[columna] != undefined ? fila[columna].toString() : ''});
+                                                datoFila.push({rowSpan: 7, text: fila[columna] != undefined ? fila[columna].toString() : ''});
                                             }
                                         }
                                     }
@@ -216,9 +222,10 @@ angular.module('contractualClienteApp')
                                     
                                     cuerpo.push(
                                         ['','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
+                                        ['','','','','','','','Vacaciones',fila['Vacaciones'],''],
                                         ['','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
-                                        ['','','','','','','','Prima de Servicios',fila['PrimaServicios'],''],
-                                        ['','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
+                                        ['','','','','','','','Intereses Cesantías',fila['InteresesCesantias'],''],
+                                        ['','','','','','','','Aportes de Cesantías',fila['AportesCesantias'],''],
                                         ['','','','','','','','Total',fila['ValorContratoFormato'],'']
                                     );
                                 }else{
@@ -226,9 +233,10 @@ angular.module('contractualClienteApp')
                                     //Se añaden los campos de desagregación
                                     cuerpo.push(
                                         ['','','','','','','','','Prima de Navidad',fila['PrimaNavidad'],''],
+                                        ['','','','','','','','','Vacaciones',fila['Vacaciones'],''],
                                         ['','','','','','','','','Prima de Vacaciones',fila['PrimaVacaciones'],''],
-                                        ['','','','','','','','','Prima de Servicios',fila['PrimaServicios'],''],
-                                        ['','','','','','','','','Aportes Cesantias Fondos Púbicos',fila['AportesCesantias'],''],
+                                        ['','','','','','','','','Intereses Cesantías',fila['InteresesCesantias'],''],
+                                        ['','','','','','','','','Aportes de Cesantías',fila['AportesCesantias'],''],
                                         ['','','','','','','','','Total',fila['ValorContratoFormato'],'']
                                     );
                                 }
@@ -242,7 +250,7 @@ angular.module('contractualClienteApp')
             return cuerpo;
         };
 
-        self.tablaModificacionHoras = function (dedicacionResolucion, columnas, fila, segundaFila, terceraFila, cuartaFila, quintaFila, sextaFila, septFila, octFila, novFila,decFila) {
+        self.tablaModificacionHoras = function (dedicacionResolucion, columnas, fila, segundaFila, terceraFila, cuartaFila, quintaFila, sextaFila, septFila, octFila, novFila,decFila, oncFila) {
             var datoFila = [];
             var segunda = [];
             var tercera = [];
@@ -253,6 +261,7 @@ angular.module('contractualClienteApp')
             var octava = [];
             var novena = [];
             var decima = [];
+            var onceava = [];
 
             var cantidadColumnas = columnas.length;
 
@@ -262,7 +271,7 @@ angular.module('contractualClienteApp')
                     {
                         datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '', rowSpan: 3 });
                     }else{
-                        datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '', rowSpan: 10 });
+                        datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '', rowSpan: 11 });
                     }
                 }
                 if (i > 5 && i < 10) {
@@ -287,7 +296,7 @@ angular.module('contractualClienteApp')
 
                         if((j==0)||(j==3))
                         {
-                            cuarta[i] = {text: '', rowSpan: 7}; 
+                            cuarta[i] = {text: '', rowSpan: 8}; 
                             
                         }else{
                             cuarta[i] = { text: $translate.instant(cuartaFila[j]), style: 'encabezado' };
@@ -297,9 +306,9 @@ angular.module('contractualClienteApp')
 
                         if(i==7)
                         {
-                            decima[i]={text: 'Total', style: 'encabezado'}
+                            onceava[i]={text: 'Total', style: 'encabezado'}
                         }else{
-                            decima[i]= { text: fila[decFila[j]] != undefined ? fila[decFila[j]].toString() : ''};
+                            onceava[i]= { text: fila[oncFila[j]] != undefined ? fila[oncFila[j]].toString() : ''};
                         }
 
                         quinta[i] = { text: fila[quintaFila[j]] != undefined ? fila[quintaFila[j]].toString() : ''};
@@ -307,12 +316,13 @@ angular.module('contractualClienteApp')
                         septima[i] = { text: fila[septFila[j]] != undefined ? fila[septFila[j]].toString() : ''};
                         octava[i] = { text: fila[octFila[j]] != undefined ? fila[octFila[j]].toString() : ''};
                         novena[i] = { text: fila[novFila[j]] != undefined ? fila[novFila[j]].toString() : ''};
+                        decima[i] = { text: fila[decFila[j]] != undefined ? fila[decFila[j]].toString() : ''};
                     }
 
                     j++;
                 }
             }
-            return [datoFila, segunda, tercera, cuarta, quinta, sexta, septima,octava, novena, decima];
+            return [datoFila, segunda, tercera, cuarta, quinta, sexta, septima,octava, novena, decima, onceava];
         }
 
         self.tablaCancelacion = function (columnas, fila, segundaFila, terceraFila) {

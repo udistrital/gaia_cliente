@@ -58,76 +58,41 @@ angular.module('contractualClienteApp')
     {
       var contador = 0;
       var result_desagreg =[]; 
-      //let i;
+      //let i; 
 
       self.contratados.forEach(function (docentes) {
+        
+        var valor_totalContrato = Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,""));
+        
+        if (valor_totalContrato < 0)
+        {
+          valor_totalContrato = 0;
+        }else{
+          valor_totalContrato = valor_totalContrato;
+        }
+                
 
         const datosDocenteSalario = {
           NumDocumento:  Number(docentes.IdPersona),
-          ValorTotalContrato: Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,"")),
+          ValorTotalContrato: valor_totalContrato,
           VigenciaContrato: self.resolucion.Vigencia,
         }
 
         titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
           var SalarioDesagreg = response.data;
-          //console.log(datosDocenteSalario.NumDocumento)
-          //console.log(self.contratados[i])
-          //console.log(SalarioDesagreg)
-
           result_desagreg = self.EscribirDesagregacion(docentes,SalarioDesagreg);
-          //console.log(result_desagreg)
-
           docentes_desagregados[contador] = result_desagreg;
           contador++;
 
           if (contador == self.contratados.length)
           {
-            console.log(self.contratados)
-
-            console.log(docentes_desagregados)
             self.generarResolucion();
-            
           }
           
          });
 
       });
-      /*
-      for (let i = 0; i < self.contratados.length; i++) { 
-
-        const datosDocenteSalario = {
-          NumDocumento:  Number(self.contratados[i].IdPersona),
-          ValorTotalContrato: Number(self.contratados[i].ValorContratoFormato.replace(/[^0-9.-]+/g,"")),
-          VigenciaContrato: self.resolucion.Vigencia,
-        }
-
-        titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
-          var SalarioDesagreg = response.data;
-          //console.log(datosDocenteSalario.NumDocumento)
-          //console.log(self.contratados[i])
-          //console.log(SalarioDesagreg)
-
-          result_desagreg = self.EscribirDesagregacion(self.contratados[i],SalarioDesagreg);
-          //console.log(result_desagreg)
-
-          docentes_desagregados[contador] = result_desagreg;
-          contador++;
-
-          if (contador == self.contratados.length)
-          {
-            console.log(self.contratados)
-
-            console.log(docentes_desagregados)
-            self.generarResolucion();
-            
-          }
-          
-         });
-
-        
-      }*/
-
-
+      
     };
     
     /**
@@ -198,6 +163,13 @@ angular.module('contractualClienteApp')
               currency: 'USD',
             });
             break;
+          case "vacaciones":
+            docentes_recibido.NVacaciones = "Vacaciones";
+            docentes_recibido.Vacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            });
+            break;
           case "primaNavidad":
             docentes_recibido.NPrimaNavidad = "Prima de Navidad";
             docentes_recibido.PrimaNavidad = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
@@ -205,9 +177,13 @@ angular.module('contractualClienteApp')
               currency: 'USD',
             });
             break;
-          case "primaServicios":
-            docentes_recibido.NPrimaServicios = '';
-            docentes_recibido.PrimaServicios = '';
+          case "interesCesantias":
+            docentes_recibido.NInteresesCesantias = "Intereses Cesantías";
+            docentes_recibido.InteresesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            });
+            break;
           case "cesantias":
             docentes_recibido.NAportesCesantias = "Cesantías";
             docentes_recibido.AportesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
