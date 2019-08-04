@@ -179,9 +179,9 @@ var conf_pruebas = {
   CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
   CORE_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_api/v1/",
   CORE_AMAZON_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_amazon_crud/v1/",
-  FINANCIERA_MID_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_mid_api/v1/",
+  // FINANCIERA_MID_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_mid_api/v1/",
   // FINANCIERA_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_crud_api/v1/", // financiara crud_api
-  // FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
+  FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
   FINANCIERA_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_api/v1/", // financiara crud_api
   MODELS_SERVICE: "scripts/models/",
   OIKOS_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/oikos_crud_api/v1/", //oikos_crud_api
@@ -264,9 +264,9 @@ var conf_local = {
   CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
   CORE_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_api/v1/",
   CORE_AMAZON_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_amazon_crud/v1/",
-  FINANCIERA_MID_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_mid_api/v1/",
+  // FINANCIERA_MID_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_mid_api/v1/",
   // FINANCIERA_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_crud_api/v1/", // financiara crud_api
-  // FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
+  FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
   FINANCIERA_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_api/v1/", // financiara crud_api
   MODELS_SERVICE: "scripts/models/",
   OIKOS_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/oikos_crud_api/v1/", //oikos_crud_api

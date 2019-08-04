@@ -18,7 +18,7 @@ angular.module('financieraMidService', [])
         return {
             get: function(tabla, params) {
                 cancelSearch = $q.defer();
-                return $http.get(path + tabla + "?" + params, [{ timeout: cancelSearch.promise }, token_service.getHeader()]);
+                return $http.get(path + tabla + "/?" + params, [{ timeout: cancelSearch.promise }, token_service.getHeader()]);
             },
             post: function(tabla, elemento) {
                 return $http.post(path + tabla, elemento, token_service.getHeader());
