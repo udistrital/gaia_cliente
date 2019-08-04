@@ -190,7 +190,7 @@ var conf_pruebas = {
   RESOLUCION_SERVICE: "http://10.20.0.254/resoluciones_crud/v1/",
   TITANDESAGREG_SERVICE : "http://api.intranetoas.udistrital.edu.co:8082/v1/", // titan_api_mid
   // TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
-  SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
+  // SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/", tl parece que no se usa y su archivo de servico debe ser eliminado
   CONTRATO_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/",
   NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
   HOMOLOGACION_SERVICE:"https://autenticacion.udistrital.edu.co/apioas/dependencias_api/v1/",
@@ -275,7 +275,7 @@ var conf_local = {
   RESOLUCION_SERVICE: "http://10.20.0.254/resoluciones_crud/v1/",
   TITANDESAGREG_SERVICE : "http://api.intranetoas.udistrital.edu.co:8082/v1/", // titan_api_mid
   // TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/", // tal parece que no se usa
-  SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
+  // SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
   CONTRATO_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/",
   NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
   HOMOLOGACION_SERVICE:"https://autenticacion.udistrital.edu.co/apioas/dependencias_api/v1/",

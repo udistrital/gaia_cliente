@@ -8,7 +8,7 @@
  * Controller of the clienteApp
  */
 angular.module('contractualClienteApp')
-    .controller('ContratoRegistroHorasCtrl', function (amazonAdministrativaRequest, administrativaRequest, adminMidRequest, oikosRequest, coreAmazonRequest, financieraRequest, sicapitalRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, coreRequest, $mdDialog, lista, resolucion, $translate, $window, $scope) {
+    .controller('ContratoRegistroHorasCtrl', function (amazonAdministrativaRequest, administrativaRequest, adminMidRequest, oikosRequest, coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, coreRequest, $mdDialog, lista, resolucion, $translate, $window, $scope) {
 
         var self = this;
         self.contratoGeneralBase = {};

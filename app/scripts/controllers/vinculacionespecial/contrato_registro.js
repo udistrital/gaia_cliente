@@ -10,7 +10,7 @@
 
 //TODO: unificar contrato_registro, contrato_registro_horas y contrato_resistro_cancelar
 angular.module('contractualClienteApp')
-    .controller('ContratoRegistroCtrl', function (amazonAdministrativaRequest, administrativaRequest, adminMidRequest, oikosRequest,titandesagregRequest , coreAmazonRequest, financieraRequest, sicapitalRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, $mdDialog, lista, resolucion, coreRequest, $translate, $window, $scope) {
+    .controller('ContratoRegistroCtrl', function (amazonAdministrativaRequest, administrativaRequest, adminMidRequest, oikosRequest,titandesagregRequest , coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, $mdDialog, lista, resolucion, coreRequest, $translate, $window, $scope) {
 
         var self = this;
         self.contratoGeneralBase = {};
