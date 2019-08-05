@@ -292,6 +292,7 @@ angular.module('contractualClienteApp')
                 query: query
             });
             var req = adminMidRequest.get("gestion_previnculacion/Precontratacion/docentes_x_carga_horaria", p);
+            console.info(req);
             req.then(gridApiService.paginationFunc(self.datosDocentesCargaLectiva, offset));
             return req;
         };
