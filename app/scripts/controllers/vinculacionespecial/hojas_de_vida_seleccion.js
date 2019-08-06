@@ -393,6 +393,8 @@ angular.module('contractualClienteApp')
             });
 
             adminMidRequest.post("gestion_previnculacion/Precontratacion/insertar_previnculaciones", vinculacionesData).then(function (response) {
+                console.info(response)
+                console.info(response.data)
                 if (typeof response.data === "number") {
 
                     self.datosDocentesCargaLectiva.data = [];
@@ -542,6 +544,8 @@ angular.module('contractualClienteApp')
                 });
 
                 adminMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos_seleccionados ", vinculacionesData).then(function (response) {
+                    console.info(response)
+                    console.info(response.data)
                     self.total_contratos_seleccionados = response.data;
 
                 });
