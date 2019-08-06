@@ -544,6 +544,7 @@ angular.module('contractualClienteApp')
                 });
 
                 adminMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos_seleccionados ", vinculacionesData).then(function (response) {
+                console.info('calcular_valor_contratos_seleccionados');                    
                     console.info(response)
                     console.info(response.data)
                     self.total_contratos_seleccionados = response.data;
@@ -596,7 +597,8 @@ angular.module('contractualClienteApp')
             });
 
             adminMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos", vinculacionesData).then(function (response) {
-
+                console.info('calcular_valor_contratos');
+                console.info(response.data)
                 if (response.data > parseInt(self.apropiacion_elegida[0].Apropiacion.Saldo)) {
                     self.saldo_disponible = false;
 
