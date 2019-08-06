@@ -64,6 +64,7 @@ angular.module('implicitToken', [])
         service.setting_bearer = {
           headers: {
             'Accept': 'application/json',
+            'Content-Type': 'application/json',
             "Authorization": "Bearer " + window.localStorage.getItem('access_token'),
           }
         };
