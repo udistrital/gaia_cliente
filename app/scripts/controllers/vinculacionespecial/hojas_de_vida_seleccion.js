@@ -292,7 +292,7 @@ angular.module('contractualClienteApp')
                 query: query
             });
             var req = adminMidRequest.get("gestion_previnculacion/Precontratacion/docentes_x_carga_horaria", p);
-            console.info(req);
+            // console.info(req);
             req.then(gridApiService.paginationFunc(self.datosDocentesCargaLectiva, offset));
             return req;
         };
@@ -394,8 +394,8 @@ angular.module('contractualClienteApp')
 
             adminMidRequest.post("gestion_previnculacion/Precontratacion/insertar_previnculaciones", vinculacionesData).then(function (response) {
                 console.info(response)
-                console.info(response.data)
-                if (typeof response.data === "number") {
+                console.info(response.data[0].Valor)
+                if (typeof response.data[0].Valor === "number") {
 
                     self.datosDocentesCargaLectiva.data = [];
                     swal({
@@ -546,8 +546,8 @@ angular.module('contractualClienteApp')
                 adminMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos_seleccionados ", vinculacionesData).then(function (response) {
                 console.info('calcular_valor_contratos_seleccionados');                    
                     console.info(response)
-                    console.info(response.data)
-                    self.total_contratos_seleccionados = response.data;
+                    console.info(response.data[0].Valor)
+                    self.total_contratos_seleccionados = response.data[0].Valor;
 
                 });
 
@@ -598,8 +598,8 @@ angular.module('contractualClienteApp')
 
             adminMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos", vinculacionesData).then(function (response) {
                 console.info('calcular_valor_contratos');
-                console.info(response.data)
-                if (response.data > parseInt(self.apropiacion_elegida[0].Apropiacion.Saldo)) {
+                console.info(response.data[0].Valor)
+                if (response.data[0].Valor > parseInt(self.apropiacion_elegida[0].Apropiacion.Saldo)) {
                     self.saldo_disponible = false;
 
                 } else {
