@@ -312,7 +312,7 @@ angular.module('contractualClienteApp')
         };
 
         administrativaRequest.get("vinculacion_docente/get_total_contratos_x_resolucion/" + self.resolucion.Id + "/" + self.resolucion.Dedicacion, "").then(function (response) {
-            self.total_contratos_x_vin = response.data;
+            self.total_contratos_x_vin = response.data[0].Valor;
         }).catch(function (response) {
             self.total_contratos_x_vin = 0;
         }) ;
