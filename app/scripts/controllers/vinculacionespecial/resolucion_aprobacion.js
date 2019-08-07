@@ -8,7 +8,7 @@
  * Controller of the clienteApp
  */
 angular.module('contractualClienteApp')
-    .controller('ResolucionAprobacionCtrl', function (administrativaRequest, adminMidRequest, titan_request, gridApiService, $scope, $window, $mdDialog, $translate) {
+    .controller('ResolucionAprobacionCtrl', function (administrativaRequest, adminMidRequest, gridApiService, $scope, $window, $mdDialog, $translate) {
 
         var self = this;
         self.CurrentDate = new Date();

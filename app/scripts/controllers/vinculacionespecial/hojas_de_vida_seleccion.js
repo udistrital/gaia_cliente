@@ -150,7 +150,7 @@ angular.module('contractualClienteApp')
                 { field: 'NumeroHorasSemanales', width: '8%', displayName: $translate.instant('HORAS_SEMANALES') },
                 { field: 'NumeroSemanas', width: '7%', displayName: $translate.instant('SEMANAS') },
                 { field: 'NumeroDisponibilidad', width: '15%', displayName: $translate.instant('NUM_DISPO_DOCENTE') },
-                { field: 'ValorContrato', width: '15%', displayName: $translate.instant('VALOR_CONTRATO'), cellClass: "valorEfectivo", cellFilter: "currency" },
+                { field: 'ValorContrato', width: '15%', displayName: $translate.instant('VALOR_CONTRATO'), cellClass: "valorEfectivo", cellFilter: "currency:$" },
                 {
                     field: 'IdProyectoCurricular', visible: false, exporterSuppressExport: true, enableHiding: false,
                     filter: {
@@ -292,6 +292,7 @@ angular.module('contractualClienteApp')
                 query: query
             });
             var req = adminMidRequest.get("gestion_previnculacion/Precontratacion/docentes_x_carga_horaria", p);
+            // console.info(req);
             req.then(gridApiService.paginationFunc(self.datosDocentesCargaLectiva, offset));
             return req;
         };
@@ -311,7 +312,7 @@ angular.module('contractualClienteApp')
         };
 
         administrativaRequest.get("vinculacion_docente/get_total_contratos_x_resolucion/" + self.resolucion.Id + "/" + self.resolucion.Dedicacion, "").then(function (response) {
-            self.total_contratos_x_vin = response.data;
+            self.total_contratos_x_vin = response.data[0].Valor;
         }).catch(function (response) {
             self.total_contratos_x_vin = 0;
         }) ;
@@ -392,7 +393,9 @@ angular.module('contractualClienteApp')
             });
 
             adminMidRequest.post("gestion_previnculacion/Precontratacion/insertar_previnculaciones", vinculacionesData).then(function (response) {
-                if (typeof response.data === "number") {
+                console.info(response)
+                console.info(response.data[0].Valor)
+                if (typeof response.data[0].Valor === "number") {
 
                     self.datosDocentesCargaLectiva.data = [];
                     swal({
@@ -541,7 +544,10 @@ angular.module('contractualClienteApp')
                 });
 
                 adminMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos_seleccionados ", vinculacionesData).then(function (response) {
-                    self.total_contratos_seleccionados = response.data;
+                console.info('calcular_valor_contratos_seleccionados');                    
+                    console.info(response)
+                    console.info(response.data[0].Valor)
+                    self.total_contratos_seleccionados = response.data[0].Valor;
 
                 });
 
@@ -591,8 +597,9 @@ angular.module('contractualClienteApp')
             });
 
             adminMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos", vinculacionesData).then(function (response) {
-
-                if (response.data > parseInt(self.apropiacion_elegida[0].Apropiacion.Saldo)) {
+                console.info('calcular_valor_contratos');
+                console.info(response.data[0].Valor)
+                if (response.data[0].Valor > parseInt(self.apropiacion_elegida[0].Apropiacion.Saldo)) {
                     self.saldo_disponible = false;
 
                 } else {

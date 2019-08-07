@@ -10,7 +10,7 @@
 
 //TODO: unificar contrato_registro, contrato_registro_horas y contrato_resistro_cancelar
 angular.module('contractualClienteApp')
-    .controller('ContratoRegistroCtrl', function (amazonAdministrativaRequest, administrativaRequest, adminMidRequest, oikosRequest, coreAmazonRequest, financieraRequest, sicapitalRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, $mdDialog, lista, resolucion, coreRequest, $translate, $window, $scope) {
+    .controller('ContratoRegistroCtrl', function (amazonAdministrativaRequest, administrativaRequest, adminMidRequest, oikosRequest,titandesagregRequest , coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, $mdDialog, lista, resolucion, coreRequest, $translate, $window, $scope) {
 
         var self = this;
         self.contratoGeneralBase = {};
@@ -21,6 +21,8 @@ angular.module('contractualClienteApp')
         self.esconderBoton = false;
         self.idResolucion = idResolucion;
         self.FechaExpedicion = null;
+
+        var docentes_desagregados = [];
 
         administrativaRequest.get('resolucion/' + self.idResolucion).then(function (response) {
             self.resolucionActual = response.data;
@@ -255,7 +257,133 @@ angular.module('contractualClienteApp')
          */
         self.guardarResolucionNuxeo = function () {
             resolucion.NivelAcademico_nombre = resolucion.NivelAcademico;
-            var documento = pdfMakerService.getDocumento(self.contenidoResolucion, resolucion, self.contratadosPdf, self.proyectos);
+
+            if (self.contratadosPdf.length > 0)
+            {
+                self.incluirDesagregacion(); 
+            }else{
+                self.generarResolucion();
+            }
+            console.log(self.contratadosPdf)
+            
+        };
+        $scope.validarFecha = colombiaHolidaysService.validateDate;
+
+            /**
+        * @name incluirDesagregacion
+        * @description 
+        * Función que agrega los campos de la desagregación del salario de los docentes
+        */
+        self.incluirDesagregacion = function()
+        {
+            var contador = 0;
+            var result_desagreg =[];
+            self.contratadosPdf.forEach(function (docentes) {
+
+                var valor_totalContrato = Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,""));
+                
+                if (valor_totalContrato < 0)
+                {
+                    valor_totalContrato = 0;
+                }else{
+                    valor_totalContrato = valor_totalContrato;
+                }
+                const datosDocenteSalario = {
+                NumDocumento:  Number(docentes.IdPersona),
+                ValorTotalContrato: valor_totalContrato,
+                VigenciaContrato: resolucion.Vigencia,
+                }
+
+                titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
+                var SalarioDesagreg = response.data;
+                result_desagreg = self.EscribirDesagregacion(docentes,SalarioDesagreg);
+                docentes_desagregados[contador] = result_desagreg;
+                contador++;
+
+                if (contador == self.contratadosPdf.length)
+                {
+                    self.generarResolucion();   
+                }
+                
+                });
+
+            });
+
+        };
+        /**
+         * @name EscribirDesagregacion
+         * @description 
+         * Escribe los valores de desagregación en cada vector de docente
+         */
+        self.EscribirDesagregacion = function (docentes_recibido,desagregacion) {
+            console.log(docentes_recibido)
+            console.log(desagregacion)
+    
+            
+        desagregacion.forEach(function(resultado_desagreg){
+
+            switch (resultado_desagreg.Nombre){
+            case "salarioBase":
+                docentes_recibido.NSueldoBasico = "Sueldo Básico";
+                docentes_recibido.SueldoBasico = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                });
+                break;
+            case "primaVacaciones":
+                docentes_recibido.NPrimaVacaciones = "Prima de Vacaciones";
+                docentes_recibido.PrimaVacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                });
+                break;
+            case "vacaciones":
+                docentes_recibido.NVacaciones = "Vacaciones";
+                docentes_recibido.Vacaciones = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                });
+                break;
+            case "primaNavidad":
+                docentes_recibido.NPrimaNavidad = "Prima de Navidad";
+                docentes_recibido.PrimaNavidad = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                });
+                break;
+            case "interesCesantias":
+                docentes_recibido.NInteresesCesantias = "Intereses Cesantías";
+                docentes_recibido.InteresesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                });
+                break;
+            case "cesantias":
+                docentes_recibido.NAportesCesantias = "Cesantías";
+                docentes_recibido.AportesCesantias = (parseInt(resultado_desagreg.Valor)).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                });   
+            }
+
+        });
+            
+            docentes_recibido.NPrimaServicios="Prima de servicios";
+            docentes_recibido.PrimaServicios='123';
+    
+            //console.log(docentes_recibido)
+    
+            return docentes_recibido;
+        };
+        /**
+         * @name generarResolucion
+         * @description 
+         * Arma el documento con la información consultada y utiliza la herramienta pdfMake para mostrarlo
+         */
+        self.generarResolucion = function () {
+
+            var documento = pdfMakerService.getDocumento(self.contenidoResolucion, resolucion, docentes_desagregados, self.proyectos);
+            
             pdfMake.createPdf(documento).getBlob(function (blobDoc) {
                 var aux = nuxeoClient.createDocument("ResolucionDVE" + self.idResolucion, "Resolución DVE expedida", blobDoc, function(url) {
                     var date = new Date();
@@ -295,6 +423,7 @@ angular.module('contractualClienteApp')
                     });
                 });
             });
-        };
-        $scope.validarFecha = colombiaHolidaysService.validateDate;
+            
+        }
+
     });
