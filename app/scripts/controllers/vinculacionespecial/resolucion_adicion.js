@@ -326,7 +326,7 @@ angular.module('contractualClienteApp')
                         };
                         adminMidRequest.post("gestion_desvinculaciones/validar_saldo_cdp", objeto_a_enviar).then(function (response) {
                             self.mostrar_modificar = true;
-                            if (response.data == "OK") {
+                            if (response.data[0].Descripcion == "OK") {
                                 self.realizarAdicion(objeto_a_enviar);
                             } else {
                                 swal({
