@@ -54,7 +54,6 @@ angular
         'financieraMidService',
         'adminMidService',
         'sicapitalService',
-        'titan_service',
         'amazonAdministrativaService',
         'academicaService',
         'contratoService',
