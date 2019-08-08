@@ -181,7 +181,8 @@ var conf_local = {
   // OIKOS_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_api/v1/", //oikos_crud_api
   // OIKOS_AMAZON_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_amazon_api/v1", parece que no se usa
   // RESOLUCION_SERVICE: "http://10.20.0.254/resoluciones_crud/v1/", // recicio debe ser probado si esta en autenticacion.
-  TITANDESAGREG_SERVICE : "http://api.intranetoas.udistrital.edu.co:8082/v1/", // titan_api_mid
+  // TITANDESAGREG_SERVICE : "http://api.intranetoas.udistrital.edu.co:8082/v1/", // titan_api_mid
+  TITANDESAGREG_SERVICE : "https://autenticacion.udistrital.edu.co/apioas/titan_api_mid/v1/", // titan_api_mid
   // TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/", // tal parece que no se usa
   // SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
   CONTRATO_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/",
