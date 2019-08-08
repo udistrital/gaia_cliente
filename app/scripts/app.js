@@ -53,7 +53,6 @@ angular
         'oikosService',
         'financieraMidService',
         'adminMidService',
-        'sicapitalService',
         'amazonAdministrativaService',
         'academicaService',
         'contratoService',
