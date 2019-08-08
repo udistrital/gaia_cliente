@@ -51,7 +51,6 @@ angular
         'administrativaService',
         'agoraService',
         'oikosService',
-        'oikosAmazonService',
         'financieraMidService',
         'adminMidService',
         'sicapitalService',
