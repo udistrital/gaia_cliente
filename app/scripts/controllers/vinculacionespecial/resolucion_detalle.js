@@ -273,14 +273,16 @@ angular.module('contractualClienteApp')
           res.FechaRegistro = new Date(res.FechaRegistro).toJSON();
           return administrativaRequest.put("resolucion", self.resolucion.Id, res);
         }).then(function (response) {
-          // if (response.data !== "OK") {
-          //   throw response.data;
-          // }
+          
+           if (response.statusText !== "OK") {
+             throw response.data;
+           }
           return administrativaRequest.put("contenido_resolucion", self.resolucion.Id, self.contenidoResolucion);
         }).then(function (response) {
-          //if (response.data !== "OK") {
-          //  throw response.data;
-          //}
+         
+          if (response.statusText !== "OK") {
+            throw response.data;
+          }
           swal({
             title: $translate.instant('GUARDADO'),
             text: $translate.instant('GUARDADO_EXITO'),
