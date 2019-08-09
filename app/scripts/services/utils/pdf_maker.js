@@ -607,7 +607,12 @@ angular.module('contractualClienteApp')
 
         //Funcion para obtener el texto de los artiulos consu paragrafos dentro de una estructura
         self.getArticuloTexto = function (articulo, numero) {
-            var aux = [{ text: $translate.instant('ARTICULO') + " " + (numero + 1) + 'º. ', style: 'texto_numeracion' }, articulo.Texto ];
+            if (numero === 0) {
+                var aux = [{ text: $translate.instant('ARTICULO') + " " + (numero + 1) + 'º. ', style: 'texto_numeracion' }, articulo.Texto + "\n \n \n" ];
+            } else {
+                var aux = [{ text: $translate.instant('ARTICULO') + " " + (numero + 1) + 'º. ', style: 'texto_numeracion' }, articulo.Texto ];
+            }
+            //var aux = [{ text: $translate.instant('ARTICULO') + " " + (numero + 1) + 'º. ', style: 'texto_numeracion' }, articulo.Texto ];
             if (articulo.Paragrafos !== null) {
                 // Solo se enumeran si hay más de uno
                 if (articulo.Paragrafos.length === 1) {
