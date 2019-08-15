@@ -49,9 +49,9 @@ pipeline:
 
   #Notify results to telegram
   notify_telegram:
-   image: appleboy/drone-telegram
-   secrets: [ telegram_token, telegram_to ]
-   format: html
+    image: appleboy/drone-telegram
+    secrets: [ telegram_token, telegram_to ]
+    format: html
     message: >
       {{#success build.status}}
         <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">SUCCESS</a>
