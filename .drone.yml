@@ -28,7 +28,7 @@ pipeline:
     region: "us-east-1"    
     bucket: "pruebascliente"
     source: dist/**/*
-    target: /pruebas${DRONE_REPO_NAME##cliente}.portaloas.udistrital.edu.co
+    target: /pruebas${DRONE_REPO}.portaloas.udistrital.edu.co
     strip_prefix: dist/
     when:
       branch: test
@@ -48,19 +48,19 @@ pipeline:
       event: [push, pull_request] 
 
   #Notify results to telegram
-  notify_telegram:
-    image: appleboy/drone-telegram
-    secrets: [ telegram_token, telegram_to ]
-    format: html
-    message: >
-      {{#success build.status}}
-        <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">SUCCESS</a>
-        <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
-      {{else}}
-        <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">FAILURE</a>
-        <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
-      {{/success}}
-    when:
-      status: [success, failure]
-      branch: [master, test]
-      event: [push, pull_request]
+  #notify_telegram:
+  #  image: appleboy/drone-telegram
+  #  secrets: [ telegram_token, telegram_to ]
+  #  format: html
+  #   message: >
+  #     {{#success build.status}}
+  #       <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">SUCCESS</a>
+  #       <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
+  #     {{else}}
+  #       <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">FAILURE</a>
+  #       <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
+  #     {{/success}}
+  #   when:
+  #     status: [success, failure]
+  #     branch: [master, test]
+  #     event: [push, pull_request]
