@@ -39,6 +39,7 @@ pipeline:
     bucket: "$BUCKET"
     source: dist/**/*
     target: /${DRONE_REPO##udistrital/}.portaloas.udistrital.edu.co
+    
     strip_prefix: dist/
     when:
       branch: [master, test]
