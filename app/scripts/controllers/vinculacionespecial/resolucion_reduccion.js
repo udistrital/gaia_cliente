@@ -172,7 +172,7 @@ angular.module('contractualClienteApp')
         $scope.mostrar_modal_adicion = function (row) {
             self.persona_a_modificar = row.entity;
             adminMidRequest.post("gestion_desvinculaciones/consultar_categoria", self.persona_a_modificar).then(function (response) {
-                if (response.data === "OK") {
+                if (response.data[0].Descripcion === "OK") {
                     self.horas_actuales = row.entity.NumeroHorasSemanales;
                     self.semanas_actuales = row.entity.NumeroSemanas;
                     self.disponibilidad_actual = row.entity.NumeroDisponibilidad;
