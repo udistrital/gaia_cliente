@@ -187,7 +187,8 @@ var conf_local = {
     // SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
     CONTRATO_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/",
     // NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
-    NUXEO_SERVICE: "https://documental.udistrital.edu.co/nuxeo/",
+    // NUXEO_SERVICE: "https://documental.udistrital.edu.co/nuxeo/",
+    NUXEO_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/nuxeo_api/v1 ",
     HOMOLOGACION_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/dependencias_api/v1/", // este se usa solo en archivos se aprovacion que parece ser de cumplidos
     TOKEN: {
         AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",
