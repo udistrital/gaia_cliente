@@ -43,3 +43,4 @@ pipeline:
     when:
       branch: [master, test]
       event: push
+      
