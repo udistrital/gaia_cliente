@@ -172,10 +172,10 @@ var conf_local = {
     CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
     CORE_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_api/v1/",
     CORE_AMAZON_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/core_amazon_crud/v1/",
-    // FINANCIERA_MID_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_mid_api/v1/",
-    // FINANCIERA_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_crud_api/v1/", // financiara crud_api
-    FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
-    FINANCIERA_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_api/v1/", // financiara crud_api
+    FINANCIERA_MID_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_mid_api/v1/",
+    FINANCIERA_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/financiera_api/v1/", // financiara crud_api
+    // FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
+    // FINANCIERA_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_api/v1/", // financiara crud_api
     MODELS_SERVICE: "scripts/models/",
     OIKOS_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/oikos_crud_api/v1/", //oikos_crud_api
     // OIKOS_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_api/v1/", //oikos_crud_api
@@ -187,8 +187,8 @@ var conf_local = {
     // SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
     CONTRATO_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/",
     // NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
-    // NUXEO_SERVICE: "https://documental.udistrital.edu.co/nuxeo/",
-    NUXEO_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/nuxeo_api/v1 ",
+    NUXEO_SERVICE: "https://documental.udistrital.edu.co/nuxeo/",
+    // NUXEO_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/nuxeo_api/v1 ",
     HOMOLOGACION_SERVICE: "https://autenticacion.udistrital.edu.co/apioas/dependencias_api/v1/", // este se usa solo en archivos se aprovacion que parece ser de cumplidos
     TOKEN: {
         AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",

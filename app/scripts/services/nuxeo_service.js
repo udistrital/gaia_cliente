@@ -19,8 +19,8 @@ angular.module('contractualClienteApp')
         baseURL: CONF.GENERAL.NUXEO_SERVICE,
         auth: {
             method: 'basic',
-            username: '',
-            password: ''
+            username: 'Administrator',
+            password: 'S1st3m4s04S=Fr331P4'
         }
       });
   });
