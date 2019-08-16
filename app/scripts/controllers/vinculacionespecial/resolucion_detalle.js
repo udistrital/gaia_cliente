@@ -18,7 +18,7 @@ angular.module('contractualClienteApp')
       self.resolucion.FechaExpedicion = undefined;
     }
     if (self.resolucion.FechaExpedicion != undefined) {
-      self.resolucion.FechaExpedicion = new Date(self.resolucion.FechaExpedicion);
+      self.resolucion.FechaExpedicion = Date(self.resolucion.FechaExpedicion);
     }
     self.proyectos = [];
 
@@ -275,7 +275,7 @@ angular.module('contractualClienteApp')
             var auxFecha = res.FechaRegistro.split(" ");
             res.FechaRegistro = auxFecha[0];
           }else{
-            res.FechaRegistro = new Date('0001-01-01').toJSON();
+            res.FechaRegistro = Date('0001-01-01').toJSON();
           }
           
           return administrativaRequest.put("resolucion", self.resolucion.Id, res);
