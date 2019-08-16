@@ -190,7 +190,7 @@ angular.module('contractualClienteApp')
             self.persona_a_modificar = row.entity;
             //Consulta si el semáforo está completo (nueva carga académica aprobada)
             adminMidRequest.post("gestion_desvinculaciones/consultar_categoria", self.persona_a_modificar).then(function (response) {
-                if (response.data === "OK") {
+                if (response.data[0].Descripcion === "OK") {
                     self.cambio_disp = false;
                     self.Apropiaciones.data = [];
                     self.horas_actuales = row.entity.NumeroHorasSemanales;
@@ -326,7 +326,7 @@ angular.module('contractualClienteApp')
                         };
                         adminMidRequest.post("gestion_desvinculaciones/validar_saldo_cdp", objeto_a_enviar).then(function (response) {
                             self.mostrar_modificar = true;
-                            if (response.data == "OK") {
+                            if (response.data[0].Descripcion == "OK") {
                                 self.realizarAdicion(objeto_a_enviar);
                             } else {
                                 swal({

@@ -3,9 +3,21 @@ workspace:
   path: src/github.com/udistrital/${DRONE_REPO##udistrital/}
   when:
       branch: [master, test]
-      event: [push, pull_request]
+      event: push
 
 pipeline:
+
+# run grunt sonar runner
+  grunt-sonar-runner:
+    image: timbru31/java-node
+    commands:
+     - npm install -g grunt-cli bower
+     - npm install grunt --save-dev
+     - npm install grunt-sonar-runner --save-dev
+     - grunt sonarRunner:analysis
+    when:
+      branch: [master, test]
+event: push
 
   # build and test the go program
   nodejs:
@@ -19,33 +31,32 @@ pipeline:
 
     when:
       branch: [master, test]
-      event: [push, pull_request]
+      event: push
 
   # upload app.zip to s3 bucket for CodePipline
   publish_s3:
     image: plugins/s3
     secrets: [ aws_access_key_id, aws_secret_access_key ]
-    region: "us-east-1"    
-    bucket: "pruebascliente"
+    region: "us-east-1"
+    bucket: "pruebasresoluciones.portaloas.udistrital.edu.co"
     source: dist/**/*
-    target: /pruebas${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+    target: /
     strip_prefix: dist/
     when:
-      branch: test
-      event: [push, pull_request] 
-    
-  # upload app.zip to s3 bucket for CodePipline
+      branch: [master, test]
+      event: push
+
   publish_s3:
-    image: plugins/s3
-    secrets: [ aws_access_key_id, aws_secret_access_key ]
-    region: "us-east-1"    
-    bucket: "pruebascliente"
-    source: dist/**/*
-    target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
-    strip_prefix: dist/
-    when:
-      branch: master
-      event: [push, pull_request] 
+      image: plugins/s3
+      secrets: [ aws_access_key_id, aws_secret_access_key ]
+      region: "us-east-1"
+      bucket: "resoluciones.portaloas.udistrital.edu.co"
+      source: dist/**/*
+      target: /
+      strip_prefix: dist/
+      when:
+        branch: [master]
+        event: push
 
   #Notify results to telegram
   notify_telegram:
@@ -63,4 +74,4 @@ pipeline:
     when:
       status: [success, failure]
       branch: [master, test]
-      event: [push, pull_request]
+      event: push
