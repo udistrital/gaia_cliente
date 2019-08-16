@@ -3,7 +3,7 @@ workspace:
   path: src/github.com/udistrital/${DRONE_REPO##udistrital/}
   when:
       branch: [master, test]
-      event: push
+      event: [push, pull_request]
 
 pipeline:
 
@@ -19,27 +19,48 @@ pipeline:
 
     when:
       branch: [master, test]
-      event: push
+      event: [push, pull_request]
 
   # upload app.zip to s3 bucket for CodePipline
   publish_s3:
     image: plugins/s3
     secrets: [ aws_access_key_id, aws_secret_access_key ]
-    region: "us-east-1"
-    commands:
-     - case ${DRONE_BRANCH} in
-          test) 
-            BUCKET= pruebascliente
-            ;;
-          master) 
-            BUCKET= pruebascliente1
-            ;;
-       esac 
-     - echo $BUCKET     
-    bucket: "$BUCKET"
+    region: "us-east-1"    
+    bucket: "pruebascliente"
     source: dist/**/*
-    target: /${DRONE_REPO##udistrital/}.portaloas.udistrital.edu.co
+    target: /pruebas${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
     strip_prefix: dist/
     when:
+      branch: test
+      event: [push, pull_request] 
+    
+  # upload app.zip to s3 bucket for CodePipline
+  publish_s3:
+    image: plugins/s3
+    secrets: [ aws_access_key_id, aws_secret_access_key ]
+    region: "us-east-1"    
+    bucket: "pruebascliente"
+    source: dist/**/*
+    target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+    strip_prefix: dist/
+    when:
+      branch: master
+      event: [push, pull_request] 
+
+  #Notify results to telegram
+  notify_telegram:
+    image: appleboy/drone-telegram
+    secrets: [ telegram_token, telegram_to ]
+    format: html
+    message: >
+      {{#success build.status}}
+        <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">SUCCESS</a>
+        <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
+      {{else}}
+        <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">FAILURE</a>
+        <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
+      {{/success}}
+    when:
+      status: [success, failure]
       branch: [master, test]
-      event: push
+      event: [push, pull_request]
