@@ -333,5 +333,5 @@ var conf_resoluciones = {
 
 angular.module('contractualClienteApp')
     .constant('CONF', {
-        GENERAL: conf_preproduccion,
+        GENERAL: conf_local,
     });
