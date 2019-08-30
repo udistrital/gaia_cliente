@@ -26,7 +26,7 @@ pipeline:
     image: plugins/s3
     secrets: [ aws_access_key_id, aws_secret_access_key ]
     region: "us-east-1"    
-    bucket: "pruebascliente"
+    bucket: "cliente-pruebas"
     source: dist/**/*
     target: /pruebas${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
     strip_prefix: dist/
@@ -39,7 +39,7 @@ pipeline:
     image: plugins/s3
     secrets: [ aws_access_key_id, aws_secret_access_key ]
     region: "us-east-1"    
-    bucket: "pruebascliente"
+    bucket: "cliente-pruebas"
     source: dist/**/*
     target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
     strip_prefix: dist/
