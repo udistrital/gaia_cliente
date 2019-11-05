@@ -275,7 +275,7 @@ var conf_resoluciones = {
     TOKEN: {
         AUTORIZATION_URL: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/authorize",
         URL_USER_INFO: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/userinfo",
-        CLIENTE_ID: "ROUAiTnvTIQD5h45Iuj0kY3xmEEa",
+        CLIENTE_ID: "sWe9_P_C76DWGOsLcOY4T7BYH6oa",
         REDIRECT_URL: "http://localhost:9000/",
         RESPONSE_TYPE: "id_token token",
         SCOPE: "openid email documento",
