@@ -263,7 +263,7 @@ var conf_resoluciones = {
     FINANCIERA_MID_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8089/v1/",
     FINANCIERA_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8084/v1/",
     MODELS_SERVICE: "scripts/models/",
-    OIKOS_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8087/v1/",
+    OIKOS_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8087/v2/",
     //OIKOS_AMAZON_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_amazon_api/v1",
     //TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
     //TITANDESAGREG_SERVICE : "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
