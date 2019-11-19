@@ -243,6 +243,7 @@ angular.module('contractualClienteApp')
         //         }
         //     });
         // };
+        
         self.actualizarLista = function (offset, query) {
             var unidadEjecutoraQuery = ",DisponibilidadApropiacion.Apropiacion.Rubro.UnidadEjecutora:" +1;
             var limitQuery ="&limit=" + self.Disponibilidades.paginationPageSize;
