@@ -234,15 +234,25 @@ angular.module('contractualClienteApp')
             });
         };
 
+        // self.actualizarLista = function (offset, query) {
+        //     financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + self.resolucion.Vigencia, 'limit=' + self.Disponibilidades.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=1").then(function (response) {
+        //         if (response.data.Type !== undefined) {
+        //             self.Disponibilidades.data = [];
+        //         } else {
+        //             self.Disponibilidades.data = response.data;
+        //         }
+        //     });
+        // };
         self.actualizarLista = function (offset, query) {
-            financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + self.resolucion.Vigencia, 'limit=' + self.Disponibilidades.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=1").then(function (response) {
-                if (response.data.Type !== undefined) {
-                    self.Disponibilidades.data = [];
-                } else {
-                    self.Disponibilidades.data = response.data;
-                }
-            });
+            var unidadEjecutoraQuery = ",DisponibilidadApropiacion.Apropiacion.Rubro.UnidadEjecutora:" +1;
+            var limitQuery ="&limit=" + self.Disponibilidades.paginationPageSize;
+            var offsetQuery ="&offset=" + offset;
+            var peticion = "query=vigencia:" +  self.vigencia_data + unidadEjecutoraQuery + limitQuery+ offsetQuery;
+            var req = financieraRequest.get('disponibilidad?' + peticion);
+            req.then(gridApiService.paginationFunc(self.Disponibilidades, offset));
+            return req;
         };
+
 
         self.Apropiaciones = {
             paginationPageSizes: [10, 15, 20],
