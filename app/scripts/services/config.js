@@ -255,7 +255,8 @@ var conf_resoluciones = {
     // ACADEMICA_SERVICE: "http://10.20.0.127/urano/index.php?data=B-7djBQWvIdLAEEycbH1n6e-3dACi5eLUOb63vMYhGq0kPBs7NGLYWFCL0RSTCu1yTlE5hH854MOgmjuVfPWyvdpaJDUOyByX-ksEPFIrrQQ7t1p4BkZcBuGD2cgJXeD",
     CONFIGURACION_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8086/v1/",
     //Servicio apuntando a servidores de la oficina 
-    ADMINISTRATIVA_MID_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8091/v1/",
+    // ADMINISTRATIVA_MID_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8091/v1/",
+    ADMINISTRATIVA_MID_SERVICE: "http://localhost:8091/v1/",
     ADMINISTRATIVA_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8090/v1/",
     CORE_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8092/v1/",
     CORE_AMAZON_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8106/v1/",
