@@ -281,6 +281,7 @@ angular.module('contractualClienteApp')
             self.contratadosPdf.forEach(function (docentes) {
 
                 var valor_totalContrato = Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,""));
+                var meses_contrato = docentes.NumeroMeses.split(' ')[0];
                 
                 if (valor_totalContrato < 0)
                 {
@@ -289,9 +290,10 @@ angular.module('contractualClienteApp')
                     valor_totalContrato = valor_totalContrato;
                 }
                 const datosDocenteSalario = {
-                NumDocumento:  Number(docentes.IdPersona),
-                ValorTotalContrato: valor_totalContrato,
-                VigenciaContrato: resolucion.Vigencia,
+                    NumDocumento:  docentes.IdPersona,
+                    ValorContrato: valor_totalContrato.toString(),
+                    VigenciaContrato: resolucion.Vigencia.toString(),
+                    MesesContrato: meses_contrato,
                 }
 
                 titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {

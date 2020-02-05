@@ -205,6 +205,8 @@ angular.module('contractualClienteApp')
                 VigenciaCarga: self.mostrarCamposCarga ? self.resolucion.VigenciaCarga : (new Date()).getFullYear()
             };
 
+            console.log (resolucionData)
+
             var resolucionVinculacionDocenteData = {
                 IdFacultad: self.objeto_facultad.Id,
                 Dedicacion: self.resolucion.dedicacion,
@@ -219,6 +221,7 @@ angular.module('contractualClienteApp')
                 Usuario: self.token.sub,
             };
             
+            console.info(objeto_resolucion)
 
             adminMidRequest.post("gestion_resoluciones/insertar_resolucion_completa", objeto_resolucion).then(function (response) {
                 if (response.data[0].Valor !== 0) {
