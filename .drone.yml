@@ -1,66 +1,110 @@
-workspace:
-  base: /go
-  path: src/github.com/udistrital/${DRONE_REPO##udistrital/}
-  when:
-      branch: [master, test]
-      event: [push, pull_request]
+kind: pipeline
+name: cliente_deploy
 
-pipeline:
+steps: 
 
-  # build and test the go program
-  nodejs:
+  - name: sonar_scanner
+    image: timbru31/java-node
+    commands:
+     - export RELEASE=4.2.0.1873
+     - apt-get install curl grep sed unzip nodejs npm
+     - curl --insecure -o ./sonarscanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$RELEASE-linux.zip
+     - unzip sonarscanner.zip
+     - rm sonarscanner.zip
+     - rm -rf sonar-scanner-$RELEASE-linux/jre
+     - sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' ./sonar-scanner-$RELEASE-linux/bin/sonar-scanner
+     - cp sonar-project.properties ./sonar-scanner-$RELEASE-linux/conf/sonar-scanner.properties
+     - sonar-scanner-$RELEASE-linux/bin/sonar-scanner
+    when:
+      branch:
+      - dev
+      - test
+      - master
+      event:
+      - push
+
+  - name: buildtest
     image: node:10.7.0
     commands:
      - npm install -g grunt-cli bower
      - npm install natives
      - npm install
      - bower install --allow-root
+     - cp -f app/scripts/environment/environment_test.js app/scripts/environment/environment.js
      - grunt build
-
     when:
-      branch: [master, test]
+      branch: [test]
       event: [push, pull_request]
 
-  # upload app.zip to s3 bucket for CodePipline
-  publish_s3:
-    image: plugins/s3
-    secrets: [ aws_access_key_id, aws_secret_access_key ]
-    region: "us-east-1"    
-    bucket: "pruebascliente"
-    source: dist/**/*
-    target: /pruebas${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
-    strip_prefix: dist/
+  - name: buildmaster
+    image: node:10.7.0
+    commands:
+     - npm install -g grunt-cli bower
+     - npm install natives
+     - npm install
+     - bower install --allow-root
+     - cp -f app/scripts/environment/environment_prod.js app/scripts/environment/environment.js
+     - grunt build
     when:
-      branch: test
-      event: [push, pull_request] 
-    
-  # upload app.zip to s3 bucket for CodePipline
-  publish_s3:
-    image: plugins/s3
-    secrets: [ aws_access_key_id, aws_secret_access_key ]
-    region: "us-east-1"    
-    bucket: "pruebascliente"
-    source: dist/**/*
-    target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
-    strip_prefix: dist/
-    when:
-      branch: master
-      event: [push, pull_request] 
+      branch: [master]
+      event: [push, pull_request]
 
-  #Notify results to telegram
-  notify_telegram:
+  - name: publish-s3-test  
+    image: plugins/s3
+    settings:
+      bucket: cliente-pruebas
+      access_key:
+        from_secret: aws_access_key_id
+      secret_key:
+        from_secret: aws_secret_access_key
+      region: us-east-1
+      source: dist/**/*
+      target: /pruebas${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+      strip_prefix: dist/
+    when:
+      branch:
+      - test
+      event:
+      - push
+
+  - name: publish-s3-master  
+    image: plugins/s3
+    settings:
+      bucket: cliente-pruebas
+      access_key:
+        from_secret: aws_access_key_id
+      secret_key:
+        from_secret: aws_secret_access_key
+      region: us-east-1
+      source: dist/**/*
+      target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+      strip_prefix: dist/
+    when:
+      branch:
+      - master
+      event:
+      - push
+
+  - name: NotifyTelegram
     image: appleboy/drone-telegram
-    secrets: [ telegram_token, telegram_to ]
-    format: html
-    message: >
-      {{#success build.status}}
-        <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">SUCCESS</a>
-        <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
-      {{else}}
-        <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">FAILURE</a>
-        <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
-      {{/success}}
+    settings:
+      token:
+        from_secret: telegram_token
+      to:
+        from_secret: telegram_to
+      format: html
+      message: >
+        {{#success build.status}}
+          <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">SUCCESS</a> 
+          <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a><code> By:{{commit.author}} &#128526 </code>
+        {{else}}
+          <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">FAILURE</a>
+          <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a><code> By:{{commit.author}} &#128549 </code>
+        {{/success}}
     when:
-      status: [success, failure]
-      branch: [master, test]
-      event: [push, pull_request]
+      branch:
+      - master
+      - test
+      status:
+      - failure
+      - success
