@@ -21,7 +21,7 @@ angular.module('contractualClienteApp')
 
     oikosRequest.get('dependencia_tipo_dependencia', $.param({
       query: "TipoDependenciaId.Id:2",
-      fields: "DependenciaId",
+      //fields: "DependenciaId",
       limit: -1
     })).then(function (response) {
         self.facultades = response.data;

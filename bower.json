@@ -20,7 +20,7 @@
     "angular-moment": "latest",
     "angular-translate": "latest",
     "sweetalert2": "^6.4.4",
-    "angular-timelinejs3": "^0.2.3",
+   
     "chart.js": "^2.6.0",
     "vis": "^4.20.0",
     "font-awesome": "^4.7.0",
@@ -36,6 +36,9 @@
     "colombia-holidays": "^0.0.6",
     "angular-md5": "^0.1.10",
     "excel-builder-js": "excelbuilder#^2.0.2"
+  },
+  "no_se_usa":{
+    "angular-timelinejs3": "^0.2.3"
   },
   "resolutions": {
     "angular": "1.7.8",

@@ -100,10 +100,11 @@ angular.module('contractualClienteApp')
 
         oikosRequest.get('dependencia_tipo_dependencia', $.param({
             query: "TipoDependenciaId.Id:2",
-            fields: "DependenciaId",
+            //fields: "DependenciaId",
             limit: -1
         })).then(function (response) {
-            self.facultades = response.data;
+            self.facultades= response.data
+            
         });
 
         administrativaRequest.get("resolucion_vinculacion/expedidas_vigencia_periodo_vinculacion", "vigencia=" + self.anioPeriodo).then(function (response) {
