@@ -35,12 +35,13 @@ angular.module('contractualClienteApp')
       self.contenidoResolucion = response.data;
       adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
         self.contratados = response.data;
-        if (self.contratados.length > 0)
+       /* if (self.contratados.length > 0)
           {
             self.incluirDesagregacion(); 
           }else{
             self.generarResolucion();
-          }
+          } */
+          self.generarResolucion();
       });
     });
 

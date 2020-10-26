@@ -37,13 +37,13 @@ angular.module('contractualClienteApp')
         adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
           self.contratados = response.data;
           // Si existen valores dentro de contratados se ejecuta la desagregación
-          if (self.contratados.length > 0)
-          {
-            self.incluirDesagregacion(); 
-          }else{
-            self.generarResolucion();
-          }
-          
+          //if (self.contratados.length > 0)
+          //{
+          //  self.incluirDesagregacion(); 
+          //}else{
+          //  self.generarResolucion();
+          //}
+          self.generarResolucion();
           
         });
       });
@@ -108,7 +108,10 @@ angular.module('contractualClienteApp')
      */
     self.generarResolucion = function () {
       //console.log(docentes_desagregados)
-      var documento = pdfMakerService.getDocumento(self.contenidoResolucion, self.resolucion, docentes_desagregados, self.proyectos);
+      //se cambia docentes_desagregados por docentes contratados
+     // var documento = pdfMakerService.getDocumento(self.contenidoResolucion, self.resolucion, docentes_desagregados, self.proyectos);
+      var documento = pdfMakerService.getDocumento(self.contenidoResolucion, self.resolucion, self.contratados, self.proyectos);
+
       //Se hace uso de la libreria pdfMake para generar el documento y se asigna a la etiqueta con el id vistaPDF
       pdfMake.createPdf(documento).getDataUrl(function (outDoc) {
         document.getElementById('vistaPDF').src = outDoc;
@@ -123,11 +126,13 @@ angular.module('contractualClienteApp')
     self.consultarDocumentoNuxeo = function () {
       coreRequest.get('documento', $.param ({
         query: "Nombre:ResolucionDVE" + self.resolucion.Id,
-        limit:0
+        //query: "Nombre:2018DVE3104178286422018",
+        limit:1
       })).then(function(response) {
         if (response.data !== null) {
           var documentoResolucion = response.data[0];
           var idNuxeoResolucion = JSON.parse(documentoResolucion.Contenido).IdNuxeo;
+          console.log("ide nuxeo ",idNuxeoResolucion);
           nuxeoClient.getDocument(idNuxeoResolucion).then(function(doc) {
             document.getElementById('vistaPDF').src = doc.url;
           });

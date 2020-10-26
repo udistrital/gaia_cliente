@@ -10,6 +10,88 @@ angular.module('contractualClienteApp')
                 self.imagen = response.data;
 
             });
+
+        //función que genera una tabla basica
+        //Función para obtener el contenido de las tablas por proyecto currícular de los docentes asociados a la resolución
+        self.getCuerpoTabla = function (idProyecto, nivelAcademico, datos, tipoResolucion) {
+            var cuerpo = [];
+            var encabezado = [];
+            var modificacion = true;
+            var segundaFila = [];
+            var terceraFila = [];
+            var columnas = [];
+            var tituloHoras = 'HORAS_SEMANALES';
+            if (nivelAcademico === 'POSGRADO') {
+                tituloHoras = 'HORAS_SEMESTRALES'
+            }
+
+            columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
+            encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' }, { text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }];
+
+            switch (tipoResolucion) {
+                case "Vinculación": 
+                    columnas.push('ValorContratoFormato', 'NumeroDisponibilidad');
+                    encabezado.push({ text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' });
+                    if (nivelAcademico === 'POSGRADO'){
+                        columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
+                        encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];            
+                    }
+                    modificacion = false;
+                    break;
+                case "Adición":
+                    columnas.push('ValorContratoInicialFormato', '', 'NumeroDisponibilidad');
+                    segundaFila.push('NumeroHorasModificacion', 'NumeroMesesNuevos', '', 'ValorModificacionFormato');
+                    terceraFila.push('NumeroHorasNuevas', '', 'ValorContratoFormato', '');                    
+                    encabezado.push({ text: $translate.instant('LABEL_VALOR_ADICIONAR'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' });
+                    break;
+                case "Reducción":
+                    columnas.push('ValorContratoInicialFormato', '', 'NumeroRp');
+                    segundaFila.push('NumeroHorasModificacion', 'NumeroMesesNuevos', '', 'ValorModificacionFormato');
+                    terceraFila.push('NumeroHorasNuevas', '', 'ValorContratoFormato', '');
+                    encabezado.push({ text: $translate.instant('VALOR_CONTRATO_REV'), style: 'encabezado' }, { text: $translate.instant('NUMERO_REGISTRO_PRESUPUESTAL'), style: 'encabezado' });
+                    break;
+                case "Cancelación":
+                    columnas.push('ValorContratoInicialFormato', 'ValorModificacionFormato', 'NumeroRp');
+                    segundaFila.push('NumeroHorasSemanales', 'NumeroMesesNuevos', 'ValorContratoFormato');
+                    encabezado.push({ text: $translate.instant('VALOR_CONTRATO_REV'), style: 'encabezado' }, { text: $translate.instant('NUMERO_REGISTRO_PRESUPUESTAL'), style: 'encabezado' });
+                    break;
+                default: break;
+            }
+            
+            cuerpo.push(encabezado);
+            if (datos) {
+                datos.forEach(function (fila) {
+                    //Se veriica que el docente este asociado al proyecto curricular actual
+                    if (fila.IdProyectoCurricular === idProyecto) {
+                        //Si la resolución es de cancelación, adición o reducción la tabla es diferente
+                        if (modificacion) {
+                            var tablaModificacion = [];
+                            if (tipoResolucion == 'Cancelación'){
+                                tablaModificacion = self.tablaCancelacion(columnas, fila, segundaFila);                            
+                            } else {
+                                tablaModificacion = self.tablaModificacionHoras(columnas, fila, segundaFila, terceraFila);
+                            }
+                            cuerpo.push(tablaModificacion[0]);
+                            cuerpo.push(tablaModificacion[1]);
+                            if (tablaModificacion[2] != undefined) {
+                                cuerpo.push(tablaModificacion[2]); 
+                            }
+                        } else {
+                            var datoFila = [];
+                            columnas.forEach(function (columna) {
+                                //Cada dato es almacenado como un String dentro de la matriz de la tabla
+                                datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
+                            });
+                            //La fila es agregada a la tabla con los datos correspondientes
+                            cuerpo.push(datoFila);
+                        }
+                    }
+                });
+            }
+            return cuerpo;
+        };
+        /*
+        //tabla que genera una tabla con más atributos, usada para la desagregación de contratos
         //Función para obtener el contenido de las tablas por proyecto currícular de los docentes asociados a la resolución
         self.getCuerpoTabla = function (idProyecto, nivelAcademico, datos, tipoResolucion, dedicacionResolucion) {
             var cuerpo = [];
@@ -248,9 +330,9 @@ angular.module('contractualClienteApp')
             }
             console.log(cuerpo)
             return cuerpo;
-        };
+        };*/
 
-        self.tablaModificacionHoras = function (dedicacionResolucion, columnas, fila, segundaFila, terceraFila, cuartaFila, quintaFila, sextaFila, septFila, octFila, novFila,decFila, oncFila) {
+       /* self.tablaModificacionHoras = function (dedicacionResolucion, columnas, fila, segundaFila, terceraFila, cuartaFila, quintaFila, sextaFila, septFila, octFila, novFila,decFila, oncFila) {
             var datoFila = [];
             var segunda = [];
             var tercera = [];
@@ -323,7 +405,29 @@ angular.module('contractualClienteApp')
                 }
             }
             return [datoFila, segunda, tercera, cuarta, quinta, sexta, septima,octava, novena, decima, onceava];
+        }*/
+
+        self.tablaModificacionHoras = function (columnas, fila, segundaFila, terceraFila) {
+            var datoFila = [];
+            var segunda = [];
+            var tercera = [];
+            var cantidadColumnas = columnas.length;
+
+            for (var i = 0, j = 0; i < cantidadColumnas; i++){
+                if (i < 6 || i > 9) {
+                    datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '', rowSpan: 3 });
+                }
+                if (i > 5 && i < 10) {
+                    datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '' });
+                    segunda[i] = fila[segundaFila[j]] != undefined ? fila[segundaFila[j]].toString() : '';
+                    tercera[i] = fila[terceraFila[j]] != undefined ? fila[terceraFila[j]].toString() : '';
+                    tercera[i] = i == 6 ? 'Total ' + tercera[i] : tercera[i] ;
+                    j++;
+                }
+            }
+            return [datoFila, segunda, tercera];
         }
+
 
         self.tablaCancelacion = function (columnas, fila, segundaFila, terceraFila) {
             var datoFila = [];
