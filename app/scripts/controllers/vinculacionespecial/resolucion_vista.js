@@ -126,7 +126,7 @@ angular.module('contractualClienteApp')
     self.consultarDocumentoNuxeo = function () {
       coreRequest.get('documento', $.param ({
         query: "Nombre:ResolucionDVE" + self.resolucion.Id,
-        //query: "Nombre:2018DVE3104178286422018",
+        //query: "Nombre:ResolucionDVE2043",
         limit:1
       })).then(function(response) {
         if (response.data !== null) {

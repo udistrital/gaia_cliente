@@ -111,6 +111,7 @@ angular.module('contractualClienteApp')
 
         //TODO: cambiar a la informacion en Oikos: oikosRequest.get('dependencia' ... teniendo en cuenta produccion
         financieraRequest.get("unidad_ejecutora/1").then(function (response) {
+            console.log('aqui es el problema');
             self.unidad_ejecutora_defecto = response.data;
         });
         amazonAdministrativaRequest.get("parametros/240").then(function (response) {
@@ -208,10 +209,11 @@ angular.module('contractualClienteApp')
                 };
                 resolucion.FechaExpedicion = self.FechaExpedicion;
                 
-                adminMidRequest.post("expedir_resolucion/validar_datos_expedicion", expedicionResolucion).then(function (response) {
+                adminMidRequest.post("expedir_resolucion/validar_datos_expedicion", expedicionResolucion).then(function (response) {                    
                     if (response.status === 201) {
-
                         adminMidRequest.post("expedir_resolucion/expedir", expedicionResolucion).then(function (response) {
+                            console.log("hace el post para expedir una resolucion");
+                            console.log(response.data)
                             self.estado = false;
                             if (response.status === 233) {
                                 swal({
@@ -258,12 +260,13 @@ angular.module('contractualClienteApp')
         self.guardarResolucionNuxeo = function () {
             resolucion.NivelAcademico_nombre = resolucion.NivelAcademico;
 
-            if (self.contratadosPdf.length > 0)
+           /* if (self.contratadosPdf.length > 0)
             {
                 self.incluirDesagregacion(); 
             }else{
                 self.generarResolucion();
-            }
+            }*/
+            self.generarResolucion();
             console.log(self.contratadosPdf)
             
         };
@@ -384,8 +387,9 @@ angular.module('contractualClienteApp')
          */
         self.generarResolucion = function () {
 
-            var documento = pdfMakerService.getDocumento(self.contenidoResolucion, resolucion, docentes_desagregados, self.proyectos);
-            
+           // var documento = pdfMakerService.getDocumento(self.contenidoResolucion, resolucion, docentes_desagregados, self.proyectos);
+            var documento = pdfMakerService.getDocumento(self.contenidoResolucion, resolucion, self.contratadosPdf, self.proyectos);
+
             pdfMake.createPdf(documento).getBlob(function (blobDoc) {
                 var aux = nuxeoClient.createDocument("ResolucionDVE" + self.idResolucion, "Resolución DVE expedida", blobDoc, function(url) {
                     var date = new Date();
