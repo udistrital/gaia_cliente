@@ -1,6 +1,6 @@
 {
-  "name": "administrativa-cliente",
-  "version": "0.0.0",
+  "name": "resoluciones-cliente",
+  "version": "0.0.1",
   "dependencies": {
     "angular": "latest",
     "bootstrap": "^3.2.0",

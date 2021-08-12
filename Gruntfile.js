@@ -19,7 +19,8 @@ module.exports = function(grunt) {
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn'
+    ngAnnotate: 'grunt-ng-annotate-patched',
+    //cdnify: 'grunt-google-cdn'
   });
 
   // Configurable paths for the application
@@ -27,6 +28,9 @@ module.exports = function(grunt) {
     app: require('./bower.json').appPath || 'app',
     dist: 'dist'
   };
+
+  // Import new static server for grunt
+  var serveStatic = require('serve-static');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -83,16 +87,16 @@ module.exports = function(grunt) {
           open: true,
           middleware: function(connect) {
             return [
-              connect.static('.tmp'),
+              serveStatic('.tmp'),
               connect().use(
                 '/bower_components',
-                connect.static('./bower_components')
+                serveStatic('./bower_components')
               ),
               connect().use(
                 '/app/styles',
-                connect.static('./app/styles')
+                serveStatic('./app/styles')
               ),
-              connect.static(appConfig.app)
+              serveStatic(appConfig.app)
             ];
           }
         }
@@ -102,13 +106,13 @@ module.exports = function(grunt) {
           port: 9001,
           middleware: function(connect) {
             return [
-              connect.static('.tmp'),
-              connect.static('test'),
+              serveStatic('.tmp'),
+              serveStatic('test'),
               connect().use(
                 '/bower_components',
-                connect.static('./bower_components')
+                serveStatic('./bower_components')
               ),
-              connect.static(appConfig.app)
+              serveStatic(appConfig.app)
             ];
           }
         }
@@ -369,11 +373,11 @@ module.exports = function(grunt) {
     },
 
     // Replace Google CDN references
-    cdnify: {
+    /* cdnify: {
       dist: {
         html: ['<%= yeoman.dist %>/*.html']
       }
-    },
+    }, */
 
     // Copies remaining files to places other tasks can use
     copy: {
@@ -511,7 +515,7 @@ sonarRunner: {
         'concat',
         'ngAnnotate',
         'copy:dist',
-        'cdnify',
+        //'cdnify',
         'cssmin',
         'uglify',
         'filerev',
@@ -551,7 +555,7 @@ sonarRunner: {
     'concat',
     'ngAnnotate',
     'copy:dist',
-    'cdnify',
+    //'cdnify',
     'cssmin',
     'uglify',
     'filerev',
