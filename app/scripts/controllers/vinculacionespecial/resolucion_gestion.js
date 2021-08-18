@@ -7,11 +7,11 @@
 * # ResolucionGestionCtrl
 * Controller of the clienteApp
 */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .factory("resolucion", function () {
     return {};
   })
-  .controller('ResolucionGestionCtrl', function (adminMidRequest, resolucion, administrativaRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
+  .controller('ResolucionGestionCtrl', function (resolucionesMidRequest, resolucion, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
 
     var self = this;
     $scope.offset = 0;
@@ -203,7 +203,7 @@ angular.module('contractualClienteApp')
 
     //Funcion para cargar los datos de las resoluciones creadas y almacenadas dentro del sistema
     self.cargarDatosResolucion = function (offset, query) {
-      var req = adminMidRequest.get("gestion_resoluciones/get_resoluciones_inscritas", $.param({
+      var req = resolucionesMidRequest.get("gestion_resoluciones/get_resoluciones_inscritas", $.param({
         limit: self.resolucionesInscritas.paginationPageSize,
         offset: offset,
         query: typeof(query) === "string" ? query : query.join(",")
@@ -346,15 +346,15 @@ angular.module('contractualClienteApp')
 
     //Función para realizar la anulación de la resolución
     $scope.verRealizarAnulacion = function (row) {
-      administrativaRequest.get("resolucion/" + row.entity.Id).then(function (response) {
-        var Resolucion = response.data;
+      resolucionRequest.get("resolucion/" + row.entity.Id).then(function (response) {
+        var Resolucion = response.data.Data;
         var resolucion_estado = {
           FechaRegistro: self.CurrentDate,
           Usuario: "",
-          Estado: {
+          EstadoResolucionId: {
             Id: 6,
           },
-          Resolucion: Resolucion
+          ResolucionId: Resolucion
         };
         swal({
           title: 'Confirmar anulación',
@@ -376,10 +376,10 @@ angular.module('contractualClienteApp')
 
     //Función para cambiar el estado de la resolución
     self.cambiarEstado = function (resolucion_estado) {
-      adminMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + resolucion_estado.Resolucion.Id.toString()).then(function (response) {
-        if (response.data.length === 0 || resolucion_estado.Resolucion.IdTipoResolucion.Id == 1) {
-          administrativaRequest.post("resolucion_estado", resolucion_estado).then(function (response) {
-            if (response.statusText === "Created") {
+      resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + resolucion_estado.Resolucion.Id.toString()).then(function (response) {
+        if (response.data.Data.length === 0 || resolucion_estado.Resolucion.TipoResolucionId.Id === 1) {
+          resolucionRequest.post("resolucion_estado", resolucion_estado).then(function (response) {
+            if (response.data.Success) {
               self.cargarDatosResolucion($scope.offset, $scope.query);
               swal(
                 'Felicidades',
@@ -397,11 +397,10 @@ angular.module('contractualClienteApp')
             }
           });
         } else {
-          adminMidRequest.post("gestion_desvinculaciones/anular_modificaciones", response.data).then(function (response) {
-            if (response.data === "OK") {
-              
-              administrativaRequest.post("resolucion_estado", resolucion_estado).then(function (response) {
-                if (response.statusText === "Created") {
+          resolucionesMidRequest.post("gestion_desvinculaciones/anular_modificaciones", response.data.Data).then(function (response) {
+            if (response.data.Data === "OK") {
+              resolucionRequest.post("resolucion_estado", resolucion_estado).then(function (response) {
+                if (response.data.Success) {
                   self.cargarDatosResolucion($scope.offset, $scope.query);
                   swal(
                     'Felicidades',

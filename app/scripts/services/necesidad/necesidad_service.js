@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.necesidad/necesidadService
+ * @name resolucionesClienteApp.necesidad/necesidadService
  * @description
  * # necesidad/necesidadService
- * Service in the contractualClienteApp.
+ * Service in the resolucionesClienteApp.
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .service('necesidadService', function (administrativaRequest, coreRequest, agoraRequest, oikosRequest, financieraRequest, adminMidRequest) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     var self = this;

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .factory('pdfMakerService', function ($http, $translate) {
         var self = {};
         self.imagen = { imagen: "" };

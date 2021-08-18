@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.oikosService
+ * @name resolucionesClienteApp.oikosService
  * @description
  * # oikosService
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
 angular.module('oikosService', [])
     .factory('oikosRequest', function($http, token_service, CONF) {

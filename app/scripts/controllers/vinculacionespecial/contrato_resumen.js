@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name contractualClienteApp.controller:ContratoResumenCtrl
+ * @name resolucionesClienteApp.controller:ContratoResumenCtrl
  * @description
  * # ContratoResumenCtrl
- * Controller of the contractualClienteApp
+ * Controller of the resolucionesClienteApp
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .controller('ContratoResumenCtrl', function ($scope, $translate, amazonAdministrativaRequest, coreRequest, oikosRequest, adminMidRequest, idResolucion, $mdDialog) {
 
     var self = this;

@@ -9,8 +9,8 @@
  */
 
 //TODO: unificar contrato_registro, contrato_registro_horas y contrato_resistro_cancelar
-angular.module('contractualClienteApp')
-    .controller('ContratoRegistroCtrl', function (amazonAdministrativaRequest, administrativaRequest, adminMidRequest, oikosRequest,titandesagregRequest , coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, $mdDialog, lista, resolucion, coreRequest, $translate, $window, $scope) {
+angular.module('resolucionesClienteApp')
+    .controller('ContratoRegistroCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucionesMidRequest, oikosRequest,titandesagregRequest , coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, $mdDialog, lista, resolucion, coreRequest, $translate, $window, $scope) {
 
         var self = this;
         self.contratoGeneralBase = {};
@@ -24,18 +24,18 @@ angular.module('contractualClienteApp')
 
         var docentes_desagregados = [];
 
-        administrativaRequest.get('resolucion/' + self.idResolucion).then(function (response) {
-            self.resolucionActual = response.data;
+        resolucionRequest.get('resolucion/' + self.idResolucion).then(function (response) {
+            self.resolucionActual = response.data.Data;
             if (self.resolucionActual.FechaExpedicion != undefined && self.resolucionActual.FechaExpedicion !== "0001-01-01T00:00:00Z") {
                 self.FechaExpedicion = new Date(self.resolucionActual.FechaExpedicion);
             }
-            return administrativaRequest.get('tipo_resolucion/' + self.resolucionActual.IdTipoResolucion.Id);
+            return resolucionRequest.get('tipo_resolucion/' + self.resolucionActual.IdTipoResolucion.Id);
         }).then(function (response) {
-            self.resolucionActual.IdTipoResolucion.NombreTipoResolucion = response.data.NombreTipoResolucion;
-            adminMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.IdDependenciaFirma).then(function (response) {
-                self.contenidoResolucion = response.data;
-                adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
-                    self.contratadosPdf = response.data;
+            self.resolucionActual.IdTipoResolucion.NombreTipoResolucion = response.data.Data.NombreTipoResolucion;
+            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.IdDependenciaFirma).then(function (response) {
+                self.contenidoResolucion = response.data.Data;
+                resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
+                    self.contratadosPdf = response.data.Data;
                 });
             });
         });
@@ -44,14 +44,14 @@ angular.module('contractualClienteApp')
             resolucion.FacultadNombre = response.data.Nombre;
         });
 
-        administrativaRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
-            self.datosFiltro = response.data;
+        resolucionRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
+            self.datosFiltro = response.data.Data;
             oikosRequest.get("dependencia/" + self.datosFiltro.IdFacultad.toString()).then(function (response) {
                 self.contratoGeneralBase.Contrato.SedeSolicitante = response.data.Id.toString();
                 self.sede_solicitante_defecto = response.data.Nombre;
             });
-            adminMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response) {
-                self.contratados = response.data;
+            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response) {
+                self.contratados = response.data.Data;
             });
             oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.Facultad + "/" + self.datosFiltro.NivelAcademico, "").then(function (response) {
                 self.proyectos = response.data;
@@ -209,13 +209,13 @@ angular.module('contractualClienteApp')
                 };
                 resolucion.FechaExpedicion = self.FechaExpedicion;
                 
-                adminMidRequest.post("expedir_resolucion/validar_datos_expedicion", expedicionResolucion).then(function (response) {                    
-                    if (response.status === 201) {
-                        adminMidRequest.post("expedir_resolucion/expedir", expedicionResolucion).then(function (response) {
+                resolucionesMidRequest.post("expedir_resolucion/validar_datos_expedicion", expedicionResolucion).then(function (response) {                    
+                    if (response.data.Data === "OK") {
+                        resolucionesMidRequest.post("expedir_resolucion/expedir", expedicionResolucion).then(function (response) {
                             console.log("hace el post para expedir una resolucion");
                             console.log(response.data)
                             self.estado = false;
-                            if (response.status === 233) {
+                            if (response.data.Status !== 201) {
                                 swal({
                                     text: response.data,
                                     title: "Alerta",

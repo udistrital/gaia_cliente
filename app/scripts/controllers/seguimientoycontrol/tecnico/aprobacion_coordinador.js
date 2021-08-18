@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name contractualClienteApp.controller:AprobacionCoordinadorCtrl
+ * @name resolucionesClienteApp.controller:AprobacionCoordinadorCtrl
  * @description
  * # AprobacionCoordinadorCtrl
- * Controller of the contractualClienteApp
+ * Controller of the resolucionesClienteApp
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .controller('AprobacionCoordinadorCtrl', function (homologacionDependenciaService, oikosRequest, $http, uiGridConstants, contratoRequest, $translate, administrativaRequest, academicaWsoService, coreRequest, $q, $window, $sce, nuxeo, adminMidRequest, $routeParams, wso2GeneralService) {
     //Variable de template que permite la edición de las filas de acuerdo a la condición ng-if
     var tmpl = '<div ng-if="!row.entity.editable">{{COL_FIELD}}</div><div ng-if="row.entity.editable"><input ng-model="MODEL_COL_FIELD"</div>';

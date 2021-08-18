@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.academicaWsoService
+ * @name resolucionesClienteApp.academicaWsoService
  * @description
  * # academicaWsoService
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .factory('academicaWsoService', function ($http, token_service, CONF) {
     // Service logic
     // ...

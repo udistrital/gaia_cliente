@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name contractualClienteApp.directive:cdp/listaCdp
+ * @name resolucionesClienteApp.directive:cdp/listaCdp
  * @description
  * # cdp/listaCdp
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .directive('listaCdp', function(financieraRequest, financieraMidRequest, agoraRequest, administrativaRequest) {
         return {
             restrict: 'E',

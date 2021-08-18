@@ -2,16 +2,16 @@
 
 /**
  * @ngdoc service
- * @name resolucionesClienteApp.administrativaMidService
+ * @name resolucionesClienteApp.resolucionesMidService
  * @description
- * # administrativaMidService
+ * # resolucionesMidService
  * Factory in the resolucionesClienteApp.
  */
-angular.module('adminMidService', [])
-    .factory('adminMidRequest', function($http, $q, token_service, CONF) {
+angular.module('resolucionesMidService', [])
+    .factory('resolucionesMidRequest', function($http, $q, token_service, CONF) {
         // Service logic
         // ...
-        var path = CONF.GENERAL.ADMINISTRATIVA_MID_SERVICE;
+        var path = CONF.GENERAL.RESOLUCIONES_MID_SERVICE;
         //var path = "http://localhost:8082/v1/";
         //var path = "http://10.20.0.138:8091/v1/";
         // Public API here

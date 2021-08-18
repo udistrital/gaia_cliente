@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('contractualClienteApp')
-    .controller('ResolucionCancelacionCtrl', function(amazonAdministrativaRequest, administrativaRequest, financieraRequest, resolucion, adminMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
+angular.module('resolucionesClienteApp')
+    .controller('ResolucionCancelacionCtrl', function(amazonAdministrativaRequest, resolucionRequest, financieraRequest, resolucion, resolucionesMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
 
         var self = this;
 
@@ -74,12 +74,12 @@ angular.module('contractualClienteApp')
         };
 
         self.estado = true;
-        administrativaRequest.get('modificacion_resolucion', $.param({
+        resolucionRequest.get('modificacion_resolucion', $.param({
             limit: -1,
-            query: 'ResolucionNueva:' + self.resolucion.Id
+            query: 'ResolucionNuevaId:' + self.resolucion.Id
         })).then(function (response) {
-            adminMidRequest.get("gestion_previnculacion/docentes_previnculados/?id_resolucion=" + response.data[0].ResolucionAnterior).then(function (response) {
-                self.precontratados.data = response.data;
+            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados?id_resolucion=" + response.data.Data[0].ResolucionAnteriorId).then(function (response2) {
+                self.precontratados.data = response2.data.Data;
                 self.estado = false;
                 self.carga = true;
                 if (self.precontratados.data === null) {
@@ -94,30 +94,26 @@ angular.module('contractualClienteApp')
             self.defaultSelectedPrecont = self.proyectos[0].Id;
         });
 
-        administrativaRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNueva:" + self.resolucion.Id).then(function (response) {
+        resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId:" + self.resolucion.Id).then(function (response) {
             self.resolucionModificacion = self.resolucion.Id;
-            self.resolucion.Id = response.data[0].ResolucionAnterior;
-            self.id_modificacion_resolucion = response.data[0].Id;
+            self.resolucion.Id = response.data.Data[0].ResolucionAnteriorId;
+            self.id_modificacion_resolucion = response.data.Data[0].Id;
 
         });
         //Función para visualizar docentes ya vinculados a resolución
         self.get_docentes_vinculados = function () {
 
             self.estado = true;
-            adminMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.resolucion.Id).then(function (response) {
-                self.precontratados.data = response.data;
+            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.resolucion.Id).then(function (response) {
+                self.precontratados.data = response.data.Data;
                 self.estado = false;
-
             }).then(function () {
                 self.carga = true;
             });
             if (self.personasSeleccionadas && self.personasSeleccionadas !== []) {
                 self.personasSeleccionadas.push(self.personasSeleccionadas[0]);
             }
-
         };
-
-
 
         self.verCancelarInscripcionDocente = function (row) {
             swal({
@@ -155,14 +151,14 @@ angular.module('contractualClienteApp')
                 personaSeleccionada.InformacionRp.vigencia =parseInt(personaSeleccionada.InformacionRp.vigencia,10);
                 var docente_a_desvincular = {
                     Id: personaSeleccionada.Id,
-                    IdPersona: personaSeleccionada.IdPersona,
+                    PersonaId: personaSeleccionada.IdPersona,
                     NumeroHorasSemanales: personaSeleccionada.NumeroHorasSemanales,
                     NumeroSemanas: personaSeleccionada.NumeroSemanas,
                     NumeroSemanasNuevas: self.semanasReversar,
-                    IdResolucion: { Id: personaSeleccionada.IdResolucion.Id },
-                    IdDedicacion: { Id: personaSeleccionada.IdDedicacion.Id },
-                    IdProyectoCurricular: personaSeleccionada.IdProyectoCurricular,
-                    Estado: Boolean(false),
+                    ResolucionVinculacionDocenteId: { Id: personaSeleccionada.IdResolucion.Id },
+                    DedicacionId: { Id: personaSeleccionada.IdDedicacion.Id },
+                    ProyectoCurricularId: personaSeleccionada.IdProyectoCurricular,
+                    Activo: Boolean(false),
                     FechaRegistro: self.fecha,
                     ValorContrato: personaSeleccionada.ValorContrato,
                     Categoria: personaSeleccionada.Categoria,
@@ -171,10 +167,10 @@ angular.module('contractualClienteApp')
                     DependenciaAcademica: personaSeleccionada.DependenciaAcademica,
                     NumeroContrato: personaSeleccionada.NumeroContrato,
                     Dedicacion: personaSeleccionada.IdDedicacion.NombreDedicacion.toUpperCase(),
-                    NivelAcademico:personaSeleccionada.IdResolucion.NivelAcademico,
-                    NumeroRp:personaSeleccionada.InformacionRp.rp,
-                    VigenciaRp:personaSeleccionada.InformacionRp.vigencia,
-                    FechaInicio:personaSeleccionada.FechaInicio
+                    NivelAcademico: personaSeleccionada.IdResolucion.NivelAcademico,
+                    NumeroRp: personaSeleccionada.InformacionRp.rp,
+                    VigenciaRp: personaSeleccionada.InformacionRp.vigencia,
+                    FechaInicio: personaSeleccionada.FechaInicio
                 };
                 desvinculacionesData.push(docente_a_desvincular);
                 
@@ -187,15 +183,14 @@ angular.module('contractualClienteApp')
             };
 
 
-            adminMidRequest.post("gestion_desvinculaciones/actualizar_vinculaciones_cancelacion", objeto_a_enviar).then(function (response) {
-                if (response.data === "OK") {
+            resolucionesMidRequest.post("gestion_desvinculaciones/actualizar_vinculaciones_cancelacion", objeto_a_enviar).then(function (response) {
+                if (response.data.Data === "OK") {
                     self.persona = null;
                     swal({
                         text: $translate.instant('ALERTA_DESVIN_EXITOSA'),
                         type: 'success',
                         confirmButtonText: $translate.instant('ACEPTAR'),
                         allowOutsideClick: false
-
                     });
                     $window.location.reload();
                 } else {
@@ -206,11 +201,8 @@ angular.module('contractualClienteApp')
                         confirmButtonText: $translate.instant('ACEPTAR'),
                         allowOutsideClick: false
                     });
-
                 }
             });
-
-
         };
 
         //Función para hacer el cálculo de semanas transcurridas desde la fecha de inicio hasta la fecha actual
@@ -238,12 +230,8 @@ angular.module('contractualClienteApp')
 
         self.getRPs = function(vinculacion,vigencia,identificacion, indice){
 
-            adminMidRequest.get("gestion_previnculacion/rp_docente/"+vinculacion+"/"+vigencia+"/"+identificacion, "").then(function (response) {
-            self.rps[indice] = response.data.cdp_rp_docente.cdp_rp;
-            
+            resolucionesMidRequest.get("gestion_previnculacion/rp_docente/"+vinculacion+"/"+vigencia+"/"+identificacion, "").then(function (response) {
+                self.rps[indice] = response.data.Data.cdp_rp_docente.cdp_rp;
             });
-
         }
-
-
     });

@@ -6,7 +6,7 @@
  * @name configuracionService
  * @description
  * # configuracionService
- * Service in the contractualClienteApp.
+ * Service in the resolucionesClienteApp.
  */
 
 angular.module('configuracionService', [])

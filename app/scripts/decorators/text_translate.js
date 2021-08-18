@@ -2,10 +2,10 @@
 
 /**
 * @ngdoc function
-* @name contractualClienteApp.decorator:TextTranslate
+* @name resolucionesClienteApp.decorator:TextTranslate
 * @description
 * # TextTranslate
-* Decorator of the contractualClienteApp
+* Decorator of the resolucionesClienteApp
 */
 var text_es = {
   OK: "Ok",
@@ -1375,7 +1375,7 @@ var text_en = {
     RESOLUCION_NO_EXPEDIDA: "The document must be issued",
 };
 
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .config(function ($translateProvider) {
         $translateProvider
             .translations("es", text_es)

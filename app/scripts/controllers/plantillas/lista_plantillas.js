@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name contractualClienteApp.controller:MinutasListaPlantillasCtrl
+ * @name resolucionesClienteApp.controller:MinutasListaPlantillasCtrl
  * @description
  * # MinutasListaPlantillasCtrl
- * Controller of the contractualClienteApp
+ * Controller of the resolucionesClienteApp
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .controller('ListaPlantillasCtrl', function () {
     var self = this;
 

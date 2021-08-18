@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name financieraClienteApp.directive:listaAvances
+ * @name resolucionesClienteApp.directive:listaAvances
  * @description
  * # listaAvances
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .directive('listaAvances', function (administrativaRequest, gridApiService, $translate, financieraRequest) {
         return {
             restrict: 'E',

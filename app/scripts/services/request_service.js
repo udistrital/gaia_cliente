@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name financieraClienteApp.requestRequest
+ * @name resolucionesClienteApp.requestRequest
  * @description
  * # requestService
- * Service in the financieraClienteApp.
+ * Service in the resolucionesClienteApp.
  */
 angular.module('requestService', [])
     .factory('requestRequest', function($q) {

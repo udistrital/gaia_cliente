@@ -7,8 +7,8 @@
  * # ResolucionGeneracionCtrl
  * Controller of the clienteApp
  */
-angular.module('contractualClienteApp')
-    .controller('ResolucionGeneracionCtrl', function (adminMidRequest, administrativaRequest, oikosRequest, $mdDialog, $scope, $routeParams, $window, $translate, token_service) {
+angular.module('resolucionesClienteApp')
+    .controller('ResolucionGeneracionCtrl', function (resolucionesMidRequest, resolucionRequest, oikosRequest, $mdDialog, $scope, $routeParams, $window, $translate, token_service) {
 
         var self = this;
         
@@ -107,8 +107,8 @@ angular.module('contractualClienteApp')
             
         });
 
-        administrativaRequest.get("resolucion_vinculacion/expedidas_vigencia_periodo_vinculacion", "vigencia=" + self.anioPeriodo).then(function (response) {
-            self.resolucionesExpedidasPeriodo.data = response.data;
+        resolucionRequest.get("resolucion_vinculacion/expedidas_vigencia_periodo_vinculacion", "vigencia=" + self.anioPeriodo).then(function (response) {
+            self.resolucionesExpedidasPeriodo.data = response.data.Data;
             if (self.resolucionesExpedidasPeriodo.data !== null) {
                 self.resolucionesExpedidasPeriodo.data.forEach(function (resolucion) {
                     if (resolucion.FechaExpedicion !== null) {
@@ -131,28 +131,24 @@ angular.module('contractualClienteApp')
                         }
                     }
                     self.facultades.forEach(function (dependencia) {
-                        if (dependencia.DependenciaId.Id == resolucion.Facultad){
+                        if (dependencia.DependenciaId.Id === resolucion.Facultad){
                             resolucion.NombreFacultad = dependencia.DependenciaId.Nombre;
                         }
                     });
                 });
             }
-});
-
-
+        });
 
         self.resolucion = {};
 
-        administrativaRequest.get('tipo_resolucion', $.param({
+        resolucionRequest.get('tipo_resolucion', $.param({
             limit: -1,
             sortby: "Id",
             order: "asc"
         })).then(function (response) {
-            self.tipos_resolucion = response.data;
+            self.tipos_resolucion = response.data.Data;
             self.tipoResolucionDefecto = self.tipos_resolucion[0].Id;
         });
-
-
 
         self.crearResolucion = function () {
             self.objeto_facultad = JSON.parse(self.resolucion.facultad);
@@ -197,19 +193,18 @@ angular.module('contractualClienteApp')
 
             var resolucionData = {
                 NumeroResolucion: self.resolucion.numero,
-                IdDependencia: self.objeto_facultad.Id,
+                DependenciaId: self.objeto_facultad.Id,
                 NumeroSemanas: parseInt(self.resolucion.numeroSemanas),
                 Periodo: parseInt(self.resolucion.Periodo),
-                IdTipoResolucion: tipoResolucion,
-                IdDependenciaFirma: self.firmaRector ? 7 : self.objeto_facultad.Id,
+                TipoResolucionId: tipoResolucion,
+                DependenciaFirmaId: self.firmaRector ? 7 : self.objeto_facultad.Id,
                 PeriodoCarga: self.mostrarCamposCarga ? parseInt(self.resolucion.PeriodoCarga) : parseInt(self.resolucion.Periodo),
-                VigenciaCarga: self.mostrarCamposCarga ? self.resolucion.VigenciaCarga : (new Date()).getFullYear()
+                VigenciaCarga: self.mostrarCamposCarga ? self.resolucion.VigenciaCarga : (new Date()).getFullYear(),
+                ResolucionVieja: 0,
             };
 
-            console.log (resolucionData)
-
             var resolucionVinculacionDocenteData = {
-                IdFacultad: self.objeto_facultad.Id,
+                FacultadId: self.objeto_facultad.Id,
                 Dedicacion: self.resolucion.dedicacion,
                 NivelAcademico: self.resolucion.nivelAcademico
             };
@@ -219,15 +214,15 @@ angular.module('contractualClienteApp')
                 ResolucionVinculacionDocente: resolucionVinculacionDocenteData,
                 ResolucionVieja: self.resolucion_a_cancelar_seleccionada.Id,
                 NomDependencia: self.objeto_facultad.Nombre,
-                Usuario: self.token.sub,
+                //Usuario: self.token.sub,
             };
             
             console.info(objeto_resolucion)
 
-            adminMidRequest.post("gestion_resoluciones/insertar_resolucion_completa", objeto_resolucion).then(function (response) {
-                if (response.data[0].Valor !== 0) {
+            resolucionesMidRequest.post("gestion_resoluciones/insertar_resolucion_completa", objeto_resolucion).then(function (response) {
+                if (response.data.Data !== 0) {
                     console.info(response.data);
-                    self.resolucion_creada = response.data[0].Valor;
+                    self.resolucion_creada = response.data.Data;
                     swal({
                         text: $translate.instant('ALERTA_RESOLUCION_EXITOSA'),
                         type: 'success',
@@ -247,10 +242,7 @@ angular.module('contractualClienteApp')
                         $window.location.href = '#/vinculacionespecial/resolucion_gestion';
                     });
                 }
-
             });
-
-
         };
 
         self.AsociarResolucionCancelacion = function () {

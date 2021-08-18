@@ -2,16 +2,16 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.resolucionService
+ * @name resolucionesClienteApp.resolucionService
  * @description
  * # resolucionService
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionService')
   .factory('resolucionRequest', function($http, CONF, token_service) {
         // Service logic
         // ...
-        var path = CONF.GENERAL.ADMINISTRATIVA_SERVICE;
+        var path = CONF.GENERAL.RESOLUCIONES_SERVICE;
         //var path = "http://localhost:8085/v1/";
         //var path = "http://10.20.2.150:8082/v1/";
         //var path = "http://10.20.0.138:8090/v1/";
@@ -21,7 +21,7 @@ angular.module('contractualClienteApp')
                 if(angular.isUndefined(params)){
                     return $http.get(path + tabla, token_service.setting_bearer.headers);
                 }else{
-                    return $http.get(path + tabla + "/?" + params, token_service.setting_bearer.headers);
+                    return $http.get(path + tabla + "?" + params, token_service.setting_bearer.headers);
                 }
             },
             post: function(tabla, elemento) {

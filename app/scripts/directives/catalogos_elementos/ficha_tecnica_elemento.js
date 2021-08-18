@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name contractualClienteApp.directive:catalogosElementos/fichaTecnicaElemento
+ * @name resolucionesClienteApp.directive:catalogosElementos/fichaTecnicaElemento
  * @description
  * # catalogosElementos/fichaTecnicaElemento
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .directive('catalogosElementos/fichaTecnicaElemento', function () {
     return {
       restrict: 'E',

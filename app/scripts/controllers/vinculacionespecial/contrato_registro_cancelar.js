@@ -8,8 +8,8 @@
  * Controller of the clienteApp
  */
 
-angular.module('contractualClienteApp')
-    .controller('ContratoRegistroCancelarCtrl', function (amazonAdministrativaRequest, administrativaRequest, adminMidRequest, oikosRequest, coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, coreRequest, $scope, $mdDialog, lista, resolucion, $translate, $window) {
+angular.module('resolucionesClienteApp')
+    .controller('ContratoRegistroCancelarCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucionesMidRequest, oikosRequest, coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, coreRequest, $scope, $mdDialog, lista, resolucion, $translate, $window) {
 
         var self = this;
         self.contratoCanceladoBase = {};
@@ -24,31 +24,31 @@ angular.module('contractualClienteApp')
         self.esconderBoton = false;
         self.FechaExpedicion = null;
 
-        administrativaRequest.get('resolucion/' + self.idResolucion).then(function (response) {
-            self.resolucionActual = response.data;
+        resolucionRequest.get('resolucion/' + self.idResolucion).then(function (response) {
+            self.resolucionActual = response.data.Data;
             if (self.resolucionActual.FechaExpedicion != undefined && self.resolucionActual.FechaExpedicion !== "0001-01-01T00:00:00Z") {
                 self.FechaExpedicion = new Date(self.resolucionActual.FechaExpedicion);
             }
             self.maximoSemanas = self.resolucionActual.NumeroSemanas;
-            return administrativaRequest.get('tipo_resolucion/' + self.resolucionActual.IdTipoResolucion.Id);
+            return resolucionRequest.get('tipo_resolucion/' + self.resolucionActual.IdTipoResolucion.Id);
         }).then(function (response) {
             self.resolucionActual.IdTipoResolucion.NombreTipoResolucion = response.data.NombreTipoResolucion;
-            adminMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.IdDependenciaFirma).then(function (response) {
-                self.contenidoResolucion = response.data;
-                adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
-                    self.contratadosPdf = response.data;
+            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.IdDependenciaFirma).then(function (response) {
+                self.contenidoResolucion = response.data.Data;
+                resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
+                    self.contratadosPdf = response.data.Data;
                 });
             });
         });
 
 
-        administrativaRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
+        resolucionRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
             self.datosFiltro = response.data;
             oikosRequest.get("dependencia/" + self.datosFiltro.IdFacultad.toString()).then(function (response) {
                 self.sede_solicitante_defecto = response.data.Nombre;
             });
-            adminMidRequest.get("gestion_desvinculaciones/docentes_cancelados", "id_resolucion=" + self.idResolucion.toString()).then(function (response) {
-                self.contratados = response.data;
+            resolucionesMidRequest.get("gestion_desvinculaciones/docentes_cancelados", "id_resolucion=" + self.idResolucion.toString()).then(function (response) {
+                self.contratados = response.data.Data;
                 var yeison = JSON.parse(JSON.stringify(self.contratados));
                 self.cantidad = Object.keys(yeison).length;
                 amazonAdministrativaRequest.get("acta_inicio", $.param({
@@ -152,7 +152,7 @@ angular.module('contractualClienteApp')
                     FechaExpedicion: self.FechaExpedicion
                 };
                 resolucion.FechaExpedicion = self.FechaExpedicion;
-                adminMidRequest.post("expedir_resolucion/cancelar", expedicionResolucion).then(function () {
+                resolucionesMidRequest.post("expedir_resolucion/cancelar", expedicionResolucion).then(function () {
                     self.estado = false;
                     self.guardarResolucionNuxeo();
                 });
@@ -191,8 +191,8 @@ angular.module('contractualClienteApp')
         self.get_docentes_cancelados = function () {
             self.estado = true;
             self.info_desvincular = !self.info_desvincular;
-            adminMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.idResolucion).then(function (response) {
-                self.cancelados.data = response.data;
+            resolucionesMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.idResolucion).then(function (response) {
+                self.cancelados.data = response.data.Data;
             });
         };
 

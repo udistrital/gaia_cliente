@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.oikosAmazonApi
+ * @name resolucionesClienteApp.oikosAmazonApi
  * @description
  * # oikosAmazonApi
- * Service in the contractualClienteApp.
+ * Service in the resolucionesClienteApp.
  */
 angular.module('oikosAmazonService', [])
     .factory('oikosAmazonRequest', function($http, token_service, CONF) {

@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc function
- * @name contractualClienteApp.controller:menuCtrl
+ * @name resolucionesClienteApp.controller:menuCtrl
  * @description
  * # menuCtrl
- * Controller of the contractualClienteApp
+ * Controller of the resolucionesClienteApp
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .controller('menuCtrl', function ($location, $http, rolesService, $window, $scope, $rootScope, token_service, configuracionRequest, notificacion, $translate, $route, $mdSidenav) {
         var paths = [];
         $scope.language = {

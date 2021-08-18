@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc overview
- * @name contractualClienteApp
+ * @name resolucionesClienteApp
  * @description
- * # contractualClienteApp
+ * # resolucionesClienteApp
  *
  * Main module of the application.
  */
 angular
-    .module('contractualClienteApp', [
+    .module('resolucionesClienteApp', [
         // Librerias
         'ngCookies',
         'angular-loading-bar',
@@ -49,11 +49,13 @@ angular
         'coreService',
         'coreAmazonService',
         'administrativaService',
+        'resolucionService',
         'agoraService',
         'oikosService',
         'oikosAmazonService',
         'financieraMidService',
         'adminMidService',
+        'resolucionesMidService',
         'sicapitalService',
         'titan_service',
         'amazonAdministrativaService',
