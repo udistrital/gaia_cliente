@@ -65,3 +65,9 @@ La pruebas se relizan con [karma](https://karma-runner.github.io/latest/index.ht
     ```
         grunt test
     ```
+
+## Estado CI
+
+| Develop | Relese | Master |
+| -- | -- | -- |
+| [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/resoluciones_cliente/status.svg?ref=refs/heads/develop)](https://hubci.portaloas.udistrital.edu.co/udistrital/resoluciones_cliente) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/resoluciones_cliente/status.svg?ref=refs/heads/release)](https://hubci.portaloas.udistrital.edu.co/udistrital/resoluciones_cliente) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/resoluciones_cliente/status.svg)](https://hubci.portaloas.udistrital.edu.co/udistrital/resoluciones_cliente) |
