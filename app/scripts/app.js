@@ -49,7 +49,6 @@ angular
         'coreService',
         'coreAmazonService',
         'administrativaService',
-        'resolucionService',
         'agoraService',
         'oikosService',
         'oikosAmazonService',

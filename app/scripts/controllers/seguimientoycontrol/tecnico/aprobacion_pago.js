@@ -25,7 +25,7 @@ angular.module('resolucionesClienteApp')
 
       self.periodo = '';
 
-    self.periodos= ['2018-3','2019-1'];
+      self.periodos= ['2021-3', '2021-1', '2020-3']; //, '2020-1', '2019-3', '2019-1', '2018-3'];
 
 
       self.meses = [{

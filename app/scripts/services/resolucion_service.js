@@ -7,7 +7,7 @@
  * # resolucionService
  * Factory in the resolucionesClienteApp.
  */
-angular.module('resolucionService')
+angular.module('resolucionesClienteApp')
   .factory('resolucionRequest', function($http, CONF, token_service) {
         // Service logic
         // ...
