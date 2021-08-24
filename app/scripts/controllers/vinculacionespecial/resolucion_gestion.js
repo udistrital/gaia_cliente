@@ -215,7 +215,7 @@ angular.module('resolucionesClienteApp')
     //Se cargan los datos de las resoluciones de vinculación especial almacenadas
     self.cargarDatosResolucion($scope.offset, $scope.query).then(function (response) {
 
-      self.resolucionesInscritas.data = response.data;
+      self.resolucionesInscritas.data = response.data.Data;
 
       if (self.resolucionesInscritas.data !== null) {
         self.resolucionesInscritas.data.forEach(function (resolucion) {
@@ -246,8 +246,8 @@ angular.module('resolucionesClienteApp')
       var resolucion = {
         Id: row.entity.Id,
         Numero: row.entity.Numero,
-        NivelAcademico_nombre: row.entity.NivelAcademico,
-        IdFacultad: row.entity.Facultad,
+        NivelAcademico: row.entity.NivelAcademico,
+        FacultadId: row.entity.Facultad,
         Vigencia: row.entity.Vigencia,
         Periodo: row.entity.Periodo,
         NumeroSemanas: row.entity.NumeroSemanas,
@@ -257,7 +257,7 @@ angular.module('resolucionesClienteApp')
         TipoResolucion: row.entity.TipoResolucion,
         IdDependenciaFirma: row.entity.IdDependenciaFirma,
         FacultadFirmaNombre: row.entity.FacultadFirmaNombre,
-        Estado: row.entity.Estado,
+        Activo: row.entity.Estado,
         VigenciaCarga: row.entity.VigenciaCarga,
         PeriodoCarga: row.entity.PeriodoCarga
       };

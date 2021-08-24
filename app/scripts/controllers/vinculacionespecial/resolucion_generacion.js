@@ -220,7 +220,7 @@ angular.module('resolucionesClienteApp')
             console.info(objeto_resolucion)
 
             resolucionesMidRequest.post("gestion_resoluciones/insertar_resolucion_completa", objeto_resolucion).then(function (response) {
-                if (response.data.Data !== 0) {
+                if (response.data.Success) {
                     console.info(response.data);
                     self.resolucion_creada = response.data.Data;
                     swal({

@@ -289,7 +289,7 @@ angular.module('resolucionesClienteApp')
                         self.mostrar_modificar = false;
                         var vinculacionDocente = {
                             Id: self.persona_a_modificar.Id,
-                            FechaInicioNueva: self.persona_a_modificar.FechaRegistro,
+                            FechaCreacion: self.persona_a_modificar.FechaRegistro,
                             PersonaId: self.persona_a_modificar.IdPersona,
                             NumeroHorasSemanales: parseInt(self.horas_actuales),
                             NumeroHorasNuevas: parseInt(self.horas_a_adicionar),
