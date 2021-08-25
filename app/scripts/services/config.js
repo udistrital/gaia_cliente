@@ -21,7 +21,7 @@ var conf_cloud = {
     FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
     FINANCIERA_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_api/v1/",
     MODELS_SERVICE: "scripts/models/",
-    OIKOS_SERVICE: "https://.portaloas.udistrital.edu.co/apioas/oikos_crud_api/v2/",
+    OIKOS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/oikos_crud_api/v1/",
     TITANDESAGREG_SERVICE: "http://api.intranetoas.udistrital.edu.co:8082/v1/", // titan_api_mid
     CONTRATO_SERVICE: "https://autenticacion.udistrital.edu.co:8244/administrativa_jbpm/v1/",
     NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
@@ -97,7 +97,7 @@ var conf_preproduccion = {
     FINANCIERA_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/financiera_mid_api/v1/",
     FINANCIERA_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/financiera_crud_api/v1/",
     MODELS_SERVICE: "scripts/models/",
-    OIKOS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/oikos_crud_api/v2/",
+    OIKOS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/oikos_crud_api/v1/",
     TITANDESAGREG_SERVICE: "http://api.intranetoas.udistrital.edu.co:8082/v1/", // titan_api_mid
     CONTRATO_SERVICE: "https://autenticacion.udistrital.edu.co:8244/administrativa_jbpm/v1/",
     NUXEO_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/nuxeo_api/v1",
@@ -182,7 +182,7 @@ var conf_local = {
     // FINANCIERA_MID_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_mid_api/v1/",
     // FINANCIERA_SERVICE: "https://tuleap.udistrital.edu.co/go_api/financiera_api/v1/", // financiara crud_api
     MODELS_SERVICE: "scripts/models/",
-    OIKOS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/oikos_crud_api/v2/", //oikos_crud_api
+    OIKOS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/oikos_crud_api/v1/", //oikos_crud_api
     // OIKOS_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_api/v1/", //oikos_crud_api
     // OIKOS_AMAZON_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_amazon_api/v1", parece que no se usa
     // RESOLUCION_SERVICE: "http://10.20.0.254/resoluciones_crud/v1/", // recicio debe ser probado si esta en autenticacion.
@@ -355,7 +355,7 @@ var conf_resoluciones = {
     FINANCIERA_MID_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8089/v1/",
     FINANCIERA_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8084/v1/",
     MODELS_SERVICE: "scripts/models/",
-    OIKOS_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8087/v2/",
+    OIKOS_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8087/v1/",
     //OIKOS_AMAZON_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_amazon_api/v1",
     //TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
     //TITANDESAGREG_SERVICE : "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
