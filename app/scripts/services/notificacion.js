@@ -9,7 +9,7 @@
  */
 //10.20.0.254/notificacion_api/register?id=1&profile=admin
 
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .factory('notificacion', function($websocket) {
         var dataStream = $websocket(); //"ws://localhost:8080/register?id=2&profile=admin"
         var log = [];

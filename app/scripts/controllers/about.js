@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name contractualClienteApp.controller:AboutCtrl
+ * @name resolucionesClienteApp.controller:AboutCtrl
  * @description
  * # AboutCtrl
- * Controller of the contractualClienteApp
+ * Controller of the resolucionesClienteApp
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .controller('AboutCtrl', function(token_service, cookie, $scope, $sessionStorage, $http) {
         $scope.sesion = $sessionStorage.expires_at;
         this.awesomeThings = [

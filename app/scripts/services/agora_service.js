@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.agoraService
+ * @name resolucionesClienteApp.agoraService
  * @description
  * # agoraService
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
 angular.module('agoraService', [])
     .factory('agoraRequest', function($http, CONF, token_service) {

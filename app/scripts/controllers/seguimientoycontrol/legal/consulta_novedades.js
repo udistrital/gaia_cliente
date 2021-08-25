@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name contractualClienteApp.controller:SeguimientoycontrolLegalConsultaNovedadesCtrl
+ * @name resolucionesClienteApp.controller:SeguimientoycontrolLegalConsultaNovedadesCtrl
  * @description
  * # SeguimientoycontrolLegalConsultaNovedadesCtrl
- * Controller of the contractualClienteApp
+ * Controller of the resolucionesClienteApp
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .controller('SeguimientoycontrolLegalConsultaNovedadesCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',

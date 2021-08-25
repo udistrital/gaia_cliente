@@ -17,39 +17,37 @@ steps:
      - sonar-scanner-$RELEASE-linux/bin/sonar-scanner
     when:
       branch:
-      - dev
-      - test
-      - master
+      - develop
       event:
       - push
 
-  - name: buildtest
-    image: node:10.7.0
+  - name: buildrelease
+    image: node:14.17.5
     commands:
      - npm install -g grunt-cli bower
      - npm install natives
      - npm install
      - bower install --allow-root
-     - cp -f app/scripts/environment/environment_test.js app/scripts/environment/environment.js
+    # - cp -f app/scripts/environment/environment_test.js app/scripts/environment/environment.js
      - grunt build
     when:
-      branch: [test]
+      branch: [release]
       event: [push, pull_request]
 
   - name: buildmaster
-    image: node:10.7.0
+    image: node:14.17.5
     commands:
      - npm install -g grunt-cli bower
      - npm install natives
      - npm install
      - bower install --allow-root
-     - cp -f app/scripts/environment/environment_prod.js app/scripts/environment/environment.js
+    # - cp -f app/scripts/environment/environment_prod.js app/scripts/environment/environment.js
      - grunt build
     when:
       branch: [master]
       event: [push, pull_request]
 
-  - name: publish-s3-test  
+  - name: publish-s3-release  
     image: plugins/s3
     settings:
       bucket: cliente-pruebas
@@ -63,7 +61,7 @@ steps:
       strip_prefix: dist/
     when:
       branch:
-      - test
+      - release
       event:
       - push
 
@@ -104,7 +102,7 @@ steps:
     when:
       branch:
       - master
-      - test
+      - release
       status:
       - failure
       - success

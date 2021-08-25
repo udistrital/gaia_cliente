@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .factory('pdfMakerNecesidadesService', function ($http, $filter, $translate, necesidadService) {
         var self = this;
 

@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.nuxeoService
+ * @name resolucionesClienteApp.nuxeoService
  * @description
  * # nuxeoService
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .factory('nuxeo', function ($q, CONF) {
     // Service logic
     // ...

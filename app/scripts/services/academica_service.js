@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc service
- * @name financieraClienteApp.academicaService
+ * @name resolucionesClienteApp.academicaService
  * @description
  * # academicaService
  * 

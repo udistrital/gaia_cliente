@@ -39,7 +39,7 @@
 
 </head>
 
-<body ng-app="contractualClienteApp">
+<body ng-app="resolucionesClienteApp">
     <div ng-include="'views/menu.html'" ng-controller="menuCtrl"></div>
     <!--[if lte IE 8]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -65,8 +65,8 @@
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -89,7 +89,6 @@
     <script src="bower_components/angular-moment/angular-moment.js"></script>
     <script src="bower_components/angular-translate/angular-translate.js"></script>
     <script src="bower_components/sweetalert2/dist/sweetalert2.js"></script>
-    <script src="bower_components/angular-timelinejs3/dist/js/ng-timeline.js"></script>
     <script src="bower_components/chart.js/dist/Chart.js"></script>
     <script src="bower_components/vis/dist/vis.js"></script>
     <script src="bower_components/d3/d3.js"></script>
@@ -209,6 +208,7 @@
 <script src="scripts/services/utils/sbisdk-all-production.js"></script>
 <script src="scripts/directives/avances/lista_avances.js"></script>
 <script src="scripts/services/resolucion_service.js"></script>
+<script src="scripts/services/resoluciones_mid_service.js"></script>
 
 <script src="scripts/services/necesidad/necesidad_service.js"></script>
 <script src="scripts/services/roles_service.js"></script>

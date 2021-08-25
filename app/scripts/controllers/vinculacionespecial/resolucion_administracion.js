@@ -7,8 +7,8 @@
 * # ResolucionAdministracionCtrl
 * Controller of the clienteApp
 */
-angular.module('contractualClienteApp')
-  .controller('ResolucionAdministracionCtrl', function (administrativaRequest, adminMidRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
+angular.module('resolucionesClienteApp')
+  .controller('ResolucionAdministracionCtrl', function (adminMidRequest, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
 
     var self = this;
 
@@ -155,8 +155,8 @@ angular.module('contractualClienteApp')
 
     //Funcion para cargar los datos de las resoluciones creadas y almacenadas dentro del sistema
     self.cargarDatosResolucion = function (offset, query) {
-      if (query == undefined) query = "";
-      var req = adminMidRequest.get("gestion_resoluciones/get_resoluciones_aprobadas", $.param({
+      if (query === undefined) query = "";
+      var req = resolucionesMidRequest.get("gestion_resoluciones/get_resoluciones_aprobadas", $.param({
         limit: self.resolucionesAprobadas.paginationPageSize,
         offset: offset,
         query: typeof (query) === "string" ? query : query.join(",")
@@ -208,14 +208,16 @@ angular.module('contractualClienteApp')
     //Función para realizar la cancelación y verificación de la resolución
     self.cancelarResolucion = function (row) {
       //Se verifica que no existan liquidaciones asoociadas a los contratos pertenecientes a la resolucion
+      //Esta función no existe en administrativa_mid, tal vez debe reemplazarse por expedir_resolucion/cancelar en resoluciones_mid 
       adminMidRequest.post("cancelacion_valida/" + row.entity.Id).then(function (response) {
         if (response.data === "OK") {
-          administrativaRequest.get("resolucion/" + row.entity.Id).then(function (response) {
-            var nuevaResolucion = response.data;
+          resolucionRequest.get("resolucion/" + row.entity.Id).then(function (response) {
+            var nuevaResolucion = response.data.Data;
             //Cambio de estado
             nuevaResolucion.Estado = false;
             //Se actualiza el estado de la resolución
-            administrativaRequest.put("resolucion/CancelarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response) {
+            // TODO la función CancelarResolucion se encuentra comentada en el controlador de Resoluciones
+            resolucionRequest.put("resolucion/CancelarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response) {
               if (response.data === "OK") {
                 self.cargarDatosResolucion(self.offset, self.query);
               }
@@ -265,7 +267,7 @@ angular.module('contractualClienteApp')
         Id: row.entity.Id,
         Numero: row.entity.Numero,
         NivelAcademico_nombre: row.entity.NivelAcademico,
-        IdFacultad: row.entity.Facultad,
+        Facultad: row.entity.Facultad,
         Vigencia: row.entity.Vigencia,
         Periodo: row.entity.Periodo,
         NumeroSemanas: row.entity.NumeroSemanas,
@@ -293,14 +295,14 @@ angular.module('contractualClienteApp')
 
     //Función para realizar la restauración y verificación de la resolución
     self.restaurarResolucion = function (row) {
-      administrativaRequest.get("resolucion/" + row.entity.Id).then(function (response) {
-        var nuevaResolucion = response.data;
+      resolucionRequest.get("resolucion/" + row.entity.Id).then(function (response) {
+        var nuevaResolucion = response.data.Data;
         //Cambio de estado y fecha de expedicion de la resolucion en caso de que ya hubiese sido expedida.
         nuevaResolucion.Estado = true;
         nuevaResolucion.FechaExpedicion = null;
         //Se actualizan los datos de la resolución
-        administrativaRequest.put("resolucion/RestaurarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response) {
-          if (response.data === "OK") {
+        resolucionRequest.put("resolucion/RestaurarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response) {
+          if (response.data.Success) {
             self.cargarDatosResolucion(self.offset, self.query);
           }
         });

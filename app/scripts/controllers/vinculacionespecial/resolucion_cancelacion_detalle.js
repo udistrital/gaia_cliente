@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('contractualClienteApp')
-  .controller('ResolucionCancelacionDetalleCtrl', function (administrativaRequest, financieraRequest, resolucion, adminMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
+angular.module('resolucionesClienteApp')
+  .controller('ResolucionCancelacionDetalleCtrl', function (resolucionRequest, financieraRequest, resolucion, resolucionesMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
 
     var self = this;
 
@@ -66,9 +66,9 @@ angular.module('contractualClienteApp')
       self.defaultSelectedPrecont = self.proyectos[0].Id;
     });
 
-    administrativaRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNueva:" + self.resolucionNueva.Id).then(function (response) {
-      self.resolucionVieja.Id = response.data[0].ResolucionAnterior;
-      self.id_modificacion_resolucion = response.data[0].Id;
+    resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId:" + self.resolucionNueva.Id).then(function (response) {
+      self.resolucionVieja.Id = response.data.Data[0].ResolucionAnteriorId;
+      self.id_modificacion_resolucion = response.data.Data[0].Id;
       self.get_docentes_vinculados().then(function () {
         //   //refresca una vez cargados los docentes precontratados
         self.precontratados.gridApi.core.refresh();
@@ -78,8 +78,8 @@ angular.module('contractualClienteApp')
     self.get_docentes_vinculados = function () {
 
       self.estado = true;
-      var r = adminMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.resolucionNueva.Id).then(function (response) {
-        self.precontratados.data = response.data;
+      var r = resolucionesMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.resolucionNueva.Id).then(function (response) {
+        self.precontratados.data = response.data.Data;
         self.estado = false;
       });
 
@@ -124,13 +124,13 @@ angular.module('contractualClienteApp')
         Id: row.entity.Id,
         NumeroContrato: row.entity.NumeroContrato,
         Vigencia: row.entity.Vigencia,
-        IdPersona: row.entity.IdPersona,
+        PersonaId: row.entity.IdPersona,
         NumeroHorasSemanales: row.entity.NumeroHorasSemanales,
         NumeroSemanas: row.entity.NumeroSemanas,
-        IdResolucion: { Id: self.resolucionVieja.Id },
-        IdDedicacion: { Id: row.entity.IdDedicacion.Id },
-        IdProyectoCurricular: row.entity.IdProyectoCurricular,
-        Estado: Boolean(true),
+        ResolucionVinculacionDocenteId: { Id: self.resolucionVieja.Id },
+        DedicacionId: { Id: row.entity.IdDedicacion.Id },
+        ProyectoCurricularId: row.entity.IdProyectoCurricular,
+        Activo: Boolean(true),
         FechaRegistro: self.fecha,
         ValorContrato: row.entity.ValorContrato,
         Categoria: row.entity.Categoria,
@@ -146,16 +146,13 @@ angular.module('contractualClienteApp')
       };
 
       //Se cambia la lógica de la anulación para que sea igual a la de adiciones, debido a que se cambió la vinculación de la misma manera
-      adminMidRequest.post("gestion_desvinculaciones/anular_adicion", objeto_a_enviar).then(function (response) {
-        if (response.data === "OK") {
-
-
+      resolucionesMidRequest.post("gestion_desvinculaciones/anular_adicion", objeto_a_enviar).then(function (response) {
+        if (response.data.Data === "OK") {
           swal({
             text: $translate.instant('ALERTA_ANULACION_EXITOSA'),
             type: 'success',
             confirmButtonText: $translate.instant('ACEPTAR'),
             allowOutsideClick: false
-
           });
           $window.location.reload();
         } else {
@@ -166,11 +163,8 @@ angular.module('contractualClienteApp')
             confirmButtonText: $translate.instant('ACEPTAR'),
             allowOutsideClick: false
           });
-
         }
-
       });
-
     };
 
     self.volver = function () {

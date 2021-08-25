@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.coreAmazonApi
+ * @name resolucionesClienteApp.coreAmazonApi
  * @description
  * # coreAmazonApi
- * Service in the contractualClienteApp.
+ * Service in the resolucionesClienteApp.
  */
 angular.module('coreAmazonService', [])
     .factory('coreAmazonRequest', function($http, token_service, CONF) {

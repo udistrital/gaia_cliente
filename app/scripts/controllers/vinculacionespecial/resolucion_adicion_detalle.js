@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('contractualClienteApp')
-  .controller('ResolucionAdicionDetalleCtrl', function (administrativaRequest, financieraRequest, resolucion, adminMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
+angular.module('resolucionesClienteApp')
+  .controller('ResolucionAdicionDetalleCtrl', function (resolucionRequest, financieraRequest, resolucion, resolucionesMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
 
     var self = this;
 
@@ -71,8 +71,8 @@ angular.module('contractualClienteApp')
       self.defaultSelectedPrecont = self.proyectos[0].Id;
     });
 
-    administrativaRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNueva:" + self.resolucion.Id).then(function (response) {
-      self.resolucion.Id = response.data[0].ResolucionAnterior;
+    resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId.Id:" + self.resolucion.Id).then(function (response) {
+      self.resolucion.Id = response.data.Data[0].ResolucionAnterior;
       self.resolucion_id_nueva = response.data[0].ResolucionNueva;
       self.id_modificacion_resolucion = response.data[0].Id;
       self.get_docentes_vinculados_adicion().then(function () {
@@ -84,8 +84,8 @@ angular.module('contractualClienteApp')
     self.get_docentes_vinculados_adicion = function () {
 
       self.estado = true;
-      var r = adminMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.resolucion_id_nueva).then(function (response) {
-        self.precontratados_adicion.data = response.data;
+      var r = resolucionesMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.resolucion_id_nueva).then(function (response) {
+        self.precontratados_adicion.data = response.data.Data;
         self.estado = false;
 
       });
@@ -126,14 +126,14 @@ angular.module('contractualClienteApp')
 
       var docente_a_anular = {
         Id: row.entity.Id,
-        IdPersona: row.entity.IdPersona,
+        PersonaId: row.entity.IdPersona,
         NumeroHorasSemanales: row.entity.NumeroHorasSemanales,
         NumeroSemanas: row.entity.NumeroSemanas,
-        IdResolucion: { Id: self.resolucion.Id },
-        IdDedicacion: { Id: row.entity.IdDedicacion.Id },
-        IdProyectoCurricular: row.entity.IdProyectoCurricular,
-        Estado: Boolean(true),
-        FechaRegistro: self.fecha,
+        ResolucionVinculacionDocenteId: { Id: self.resolucion.Id },
+        DedicacionId: { Id: row.entity.IdDedicacion.Id },
+        ProyectoCurricularId: row.entity.IdProyectoCurricular,
+        Activo: Boolean(true),
+        FechaInicio: self.fecha,
         ValorContrato: row.entity.ValorContrato,
         Categoria: row.entity.Categoria,
         DependenciaAcademica: row.entity.DependenciaAcademica,
@@ -148,10 +148,8 @@ angular.module('contractualClienteApp')
       };
 
 
-      adminMidRequest.post("gestion_desvinculaciones/anular_adicion", objeto_a_enviar).then(function (response) {
-        if (response.data === "OK") {
-
-
+      resolucionesMidRequest.post("gestion_desvinculaciones/anular_adicion", objeto_a_enviar).then(function (response) {
+        if (response.data.Data === "OK") {
           swal({
             text: $translate.instant('ALERTA_ANULACION_EXITOSA'),
             type: 'success',

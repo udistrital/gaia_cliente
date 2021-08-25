@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name financieraClienteApp.directive:verSolicitud
+ * @name resolucionesClienteApp.directive:verSolicitud
  * @description
  * # verSolicitud
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .directive('verSolicitud', function() {
         return {
             restrict: 'E',

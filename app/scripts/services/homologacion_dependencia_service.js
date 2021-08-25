@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.homologacionDependenciaService
+ * @name resolucionesClienteApp.homologacionDependenciaService
  * @description
  * # homologacionDependenciaService
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .factory('homologacionDependenciaService', function ($http, token_service, CONF) {
       // Service logic
       // ...

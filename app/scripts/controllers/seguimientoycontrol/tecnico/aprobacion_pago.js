@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name contractualClienteApp.controller:AprobacionPagoCtrl
+ * @name resolucionesClienteApp.controller:AprobacionPagoCtrl
  * @description
  * # AprobacionPagoCtrl
- * Controller of the contractualClienteApp
+ * Controller of the resolucionesClienteApp
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .controller('AprobacionPagoCtrl', function ($scope, oikosRequest, $http, uiGridConstants, contratoRequest, $translate, administrativaRequest,$routeParams,adminMidRequest, gridApiService) {
 
 
@@ -25,7 +25,7 @@ angular.module('contractualClienteApp')
 
       self.periodo = '';
 
-    self.periodos= ['2018-3','2019-1'];
+      self.periodos= ['2021-3', '2021-1', '2020-3']; //, '2020-1', '2019-3', '2019-1', '2018-3'];
 
 
       self.meses = [{

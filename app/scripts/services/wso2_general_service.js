@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.wso2GeneralService
+ * @name resolucionesClienteApp.wso2GeneralService
  * @description
  * # wso2GeneralService
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .factory('wso2GeneralService', function ($http, token_service, CONF) {
     // Service logic
     // ...

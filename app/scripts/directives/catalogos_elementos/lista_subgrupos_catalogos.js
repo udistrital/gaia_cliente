@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name contractualClienteApp.directive:catalogosElementos/listaSubgruposCatalogos
+ * @name resolucionesClienteApp.directive:catalogosElementos/listaSubgruposCatalogos
  * @description
  * # catalogosElementos/listaSubgruposCatalogos
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .directive('listaSubgruposCatalogos', function(administrativaRequest, $translate) {
         return {
             restrict: 'E',

@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.argoNosqlService
+ * @name resolucionesClienteApp.argoNosqlService
  * @description
  * # argoNosqlService
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .factory('argoNosqlRequest', function($http, token_service, CONF) {
         var path = CONF.GENERAL.ARGO_NOSQL_SERVICE;
         //var path = "http://localhost:8084/v1/";

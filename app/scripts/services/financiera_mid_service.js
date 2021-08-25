@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name financieraClienteApp.financieraMidService
+ * @name resolucionesClienteApp.financieraMidService
  * @description
  * # financieraMidService
- * Service in the financieraClienteApp.
+ * Service in the resolucionesClienteApp.
  */
 angular.module('financieraMidService', [])
     .factory('financieraMidRequest', function($http, $q, token_service, CONF) {

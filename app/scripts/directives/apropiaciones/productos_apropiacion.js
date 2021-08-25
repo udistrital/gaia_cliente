@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name contractualClienteApp.directive:apropiaciones/productosApropiacion
+ * @name resolucionesClienteApp.directive:apropiaciones/productosApropiacion
  * @description
  * # apropiaciones/productosApropiacion
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .directive('productosApropiacion', function (financieraRequest) {
     return {
       restrict: 'E',

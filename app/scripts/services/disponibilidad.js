@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.disponibilidad
+ * @name resolucionesClienteApp.disponibilidad
  * @description
  * # disponibilidad
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .factory('disponibilidad', function () {
     return [];
     });

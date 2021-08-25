@@ -7,8 +7,8 @@
  * # ResolucionGeneracionCtrl
  * Controller of the clienteApp
  */
-angular.module('contractualClienteApp')
-  .controller('ResolucionDetalleCtrl', function (administrativaRequest, oikosRequest, titandesagregRequest, coreRequest, adminMidRequest, colombiaHolidaysService, pdfMakerService, $mdDialog, $scope, $translate, $window) {
+angular.module('resolucionesClienteApp')
+  .controller('ResolucionDetalleCtrl', function (resolucionRequest, oikosRequest, titandesagregRequest, coreRequest, resolucionesMidRequest, colombiaHolidaysService, pdfMakerService, $mdDialog, $scope, $translate, $window) {
 
     var self = this;
     var docentes_desagregados = [];
@@ -31,10 +31,10 @@ angular.module('contractualClienteApp')
     });
 
 
-    adminMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucion.Id + "&id_facultad=" + self.resolucion.IdDependenciaFirma).then(function (response) {
-      self.contenidoResolucion = response.data;
-      adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
-        self.contratados = response.data;
+    resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucion.Id + "&id_facultad=" + self.resolucion.IdDependenciaFirma).then(function (response) {
+      self.contenidoResolucion = response.data.Data;
+      resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
+        self.contratados = response.data.Data;
        /* if (self.contratados.length > 0)
           {
             self.incluirDesagregacion(); 
@@ -183,7 +183,7 @@ angular.module('contractualClienteApp')
     };
 
     self.adicionarArticulo = function (texto) {
-      administrativaRequest.get("resolucion/" + self.resolucion.Id).then(function (/*response*/) {
+      resolucionRequest.get("resolucion/" + self.resolucion.Id).then(function (/*response*/) {
         if (self.contenidoResolucion.Articulos) {
           self.contenidoResolucion.Articulos.push({
             Texto: texto,
@@ -239,7 +239,7 @@ angular.module('contractualClienteApp')
     };
 
     self.adicionarParagrafo = function (num, texto) {
-      administrativaRequest.get("resolucion/" + self.resolucion.Id).then(function (/*response*/) {
+      resolucionRequest.get("resolucion/" + self.resolucion.Id).then(function (/*response*/) {
         if (self.contenidoResolucion.Articulos[num].Paragrafos) {
           self.contenidoResolucion.Articulos[num].Paragrafos.push({ Texto: texto });
         } else {
@@ -258,8 +258,8 @@ angular.module('contractualClienteApp')
           NivelAcademico: self.resolucion.NivelAcademico_nombre
         };
         self.contenidoResolucion.Vinculacion = ResolucionVinculacionDocente;
-        administrativaRequest.get("resolucion" + "/" + self.resolucion.Id).then(function (response) {
-          var res = response.data;
+        resolucionRequest.get("resolucion/" + self.resolucion.Id).then(function (response) {
+          var res = response.data.Data;
           res.FechaExpedicion = self.resolucion.FechaExpedicion;
 
           var localRes = JSON.parse(localStorage.getItem("resolucion"));
@@ -279,16 +279,16 @@ angular.module('contractualClienteApp')
             res.FechaRegistro = Date('0001-01-01').toJSON();
           }
           
-          return administrativaRequest.put("resolucion", self.resolucion.Id, res);
+          return resolucionRequest.put("resolucion", self.resolucion.Id, res);
         }).then(function (response) {
           
-           if (response.statusText !== "OK") {
+           if (!response.data.Success) {
              throw response.data;
            }
-          return administrativaRequest.put("contenido_resolucion", self.resolucion.Id, self.contenidoResolucion);
+          return resolucionRequest.put("contenido_resolucion", self.resolucion.Id, self.contenidoResolucion);
         }).then(function (response) {
          
-          if (response.statusText !== "OK") {
+          if (!response.data.Success) {
             throw response.data;
           }
           swal({

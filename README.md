@@ -1,4 +1,4 @@
-# Gaia-cliente
+# Resoluciones-cliente
 
 En este repositorio se encuentra el cliente del modulo de resoluciones.
 Se hace uso de :
@@ -11,11 +11,11 @@ Se hace uso de :
 
 * Clonar el repositorio: 
     ```shell 
-        git clone https://github.com/udistrital/gaia_cliente
+        git clone https://github.com/udistrital/resoluciones_cliente
     ```
 * entrar a la carpeta del repositorio: 
     ```shell 
-        cd gaia_cliente
+        cd resoluciones_cliente
     ```
 * Ir al rama "resoluciones_cliente":
     ```shell 
@@ -37,11 +37,11 @@ Se hace uso de :
 
 ## Ejecución del proyecto
 
-Para ejcutar el proyecto localmente se debe verificar en el archivo “config.js”, ubicado en la carpeta app/scripts/services/, que las apis estén correactamente configuradas y que estén deplegadas.
+Para ejcutar el proyecto localmente se debe verificar en el archivo “config.js”, ubicado en la carpeta app/scripts/services/, que las apis estén correactamente configuradas y que estén desplegadas.
 
 **conf_local**:
 ```
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .constant('CONF', {
         GENERAL: conf_pruebas
     });
@@ -65,3 +65,9 @@ La pruebas se relizan con [karma](https://karma-runner.github.io/latest/index.ht
     ```
         grunt test
     ```
+
+## Estado CI
+
+| Develop | Relese | Master |
+| -- | -- | -- |
+| [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/resoluciones_cliente/status.svg?ref=refs/heads/develop)](https://hubci.portaloas.udistrital.edu.co/udistrital/resoluciones_cliente) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/resoluciones_cliente/status.svg?ref=refs/heads/release)](https://hubci.portaloas.udistrital.edu.co/udistrital/resoluciones_cliente) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/resoluciones_cliente/status.svg)](https://hubci.portaloas.udistrital.edu.co/udistrital/resoluciones_cliente) |

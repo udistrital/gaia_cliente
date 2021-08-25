@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .factory('pdfMakerService', function ($http, $translate) {
         var self = {};
         self.imagen = { imagen: "" };
@@ -13,7 +13,7 @@ angular.module('contractualClienteApp')
 
         //función que genera una tabla basica
         //Función para obtener el contenido de las tablas por proyecto currícular de los docentes asociados a la resolución
-        self.getCuerpoTabla = function (idProyecto, nivelAcademico, datos, tipoResolucion) {
+        self.getCuerpoTabla = function (idProyecto, nivelAcademico, datos, tipoResolucion, dedicacion) {
             var cuerpo = [];
             var encabezado = [];
             var modificacion = true;
@@ -25,16 +25,40 @@ angular.module('contractualClienteApp')
                 tituloHoras = 'HORAS_SEMESTRALES'
             }
 
-            columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
-            encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' }, { text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }];
+            if (dedicacion=="HCH"){
+                columnas = ['NombreCompleto', 'IdPersona', 'TipoDocumento', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
+                encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('IDENTIFICACION'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' },{ text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' },{ text: $translate.instant('PERIODO_RECONOCIMIENTO'), style: 'encabezado' }, { text: $translate.instant('VALOR_RECONOCIMIENTO'), style: 'encabezado' }];
+            } else {
+                columnas = ['NombreCompleto', 'IdPersona','TipoDocumento', 'Categoria','LugarExpedicionCedula', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
+                encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('IDENTIFICACION'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' },{ text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' },  { text: $translate.instant(tituloHoras), style: 'encabezado' },{ text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }];
+            }
 
             switch (tipoResolucion) {
                 case "Vinculación": 
                     columnas.push('ValorContratoFormato', 'NumeroDisponibilidad');
                     encabezado.push({ text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' });
                     if (nivelAcademico === 'POSGRADO'){
-                        columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
-                        encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];            
+                        if (dedicacion=="HCH"){ 
+                            columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
+                            encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('NUMERO'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO_POSGRADOS'), style: 'encabezado' }, { text: $translate.instant('CDP'), style: 'encabezado' }];
+                        } else {
+                            columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
+                            encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('NUMERO'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }, { text: $translate.instant('CDP'), style: 'encabezado' }];
+                        }
+                    }
+                    if (nivelAcademico === 'PREGRADO'){ 
+                        if (dedicacion=="HCP"){    
+                            columnas = ['NombreCompleto','TipoDocumento','IdPersona','LugarExpedicionCedula','Categoria','Dedicacion', 'NumeroHorasSemanales','NumeroMeses','ValorContratoFormato','NumeroDisponibilidad'];
+                            encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' },{ text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' },{ text: $translate.instant('CATEGORIA'), style: 'encabezado' },{ text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' },{ text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_RECONOCIMIENTOSP'), style: 'encabezado' },{ text: $translate.instant('CDP'), style: 'encabezado' }];
+                        }
+                        if (dedicacion=="TCO-MTO"){    
+                            columnas = ['NombreCompleto','TipoDocumento','IdPersona','Categoria','LugarExpedicionCedula','Dedicacion', 'NumeroHorasSemanales','NumeroMeses','ValorContratoFormato','NumeroDisponibilidad'];
+                            encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' },{ text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('IDENTIFICACION'), style: 'encabezado' },  { text: $translate.instant('CATEGORIA'), style: 'encabezado' },{ text: $translate.instant('EXPEDICION'), style: 'encabezado' },{ text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' },{ text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' },{ text: $translate.instant('VALOR_VINCULACIONSP'), style: 'encabezado' },{ text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];
+                        }
+                        if (dedicacion=="HCH"){    
+                            columnas = ['NombreCompleto','TipoDocumento','IdPersona','LugarExpedicionCedula','Categoria','Dedicacion', 'NumeroHorasSemanales','NumeroMeses','ValorContratoFormato','NumeroDisponibilidad'];
+                            encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' },{ text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' },{ text: $translate.instant('EXPEDICION'), style: 'encabezado' },{ text: $translate.instant('CATEGORIA'), style: 'encabezado' },{ text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' },{ text: $translate.instant('PERIODO_RECONOCIMIENTO'), style: 'encabezado' }, { text: $translate.instant('VALOR_RECONOCIMIENTO'), style: 'encabezado' },{ text: $translate.instant('CDP'), style: 'encabezado' }];
+                        }
                     }
                     modificacion = false;
                     break;
@@ -52,7 +76,7 @@ angular.module('contractualClienteApp')
                     break;
                 case "Cancelación":
                     columnas.push('ValorContratoInicialFormato', 'ValorModificacionFormato', 'NumeroRp');
-                    segundaFila.push('NumeroHorasSemanales', 'NumeroMesesNuevos', 'ValorContratoFormato');
+                    segundaFila.push('NumeroMesesNuevos', 'ValorContratoFormato');
                     encabezado.push({ text: $translate.instant('VALOR_CONTRATO_REV'), style: 'encabezado' }, { text: $translate.instant('NUMERO_REGISTRO_PRESUPUESTAL'), style: 'encabezado' });
                     break;
                 default: break;
@@ -414,10 +438,10 @@ angular.module('contractualClienteApp')
             var cantidadColumnas = columnas.length;
 
             for (var i = 0, j = 0; i < cantidadColumnas; i++){
-                if (i < 6 || i > 9) {
+                if (i < 7 || i > 8) {
                     datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '', rowSpan: 3 });
                 }
-                if (i > 5 && i < 10) {
+                if (i > 6 && i < 9) {
                     datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '' });
                     segunda[i] = fila[segundaFila[j]] != undefined ? fila[segundaFila[j]].toString() : '';
                     tercera[i] = fila[terceraFila[j]] != undefined ? fila[terceraFila[j]].toString() : '';
@@ -494,8 +518,11 @@ angular.module('contractualClienteApp')
             if (contenidoResolucion.Articulos) {
                 var index = 1;
                 contenidoResolucion.Articulos.forEach(function (articulo) {
-                    contenido.push(self.getArticuloTexto(articulo, numero));
+                    //contenido.push(self.getArticuloTexto(articulo, numero));
                     if (index === 1) {
+                        //Variable que contiene el texto del párrafo 1
+                        var auxi = [{ text: $translate.instant('ARTICULO') + " " + (numero + 1) + 'º. ', style: 'texto_numeracion' }, articulo.Texto ];
+                        contenido.push({ text: auxi, style: 'texto' });
                         proyectos.forEach(function (proyecto) {
                             var proyectoVisible = false;
                             if (contratados) {
@@ -515,6 +542,17 @@ angular.module('contractualClienteApp')
                             }
 
                         });
+                        if (articulo.Paragrafos){
+                            //Variable que contiene el texto del parágrafo del párrafo 1 
+                            auxi=[{ text: " " + $translate.instant('PARAGRAFO') + ". ", style: 'texto_numeracion' }];
+                            auxi.push(articulo.Paragrafos[0].Texto);
+                            contenido.push({
+                                text: auxi,
+                                style: 'texto'
+                            });
+                        }
+                    } else {
+                        contenido.push(self.getArticuloTexto(articulo, numero));
                     }
                     index++;
                     numero++;
@@ -536,7 +574,7 @@ angular.module('contractualClienteApp')
                 text: '-- ' + contenidoResolucion.OrdenadorGasto.Cargo + ' --',
                 style: 'nombre_cargo'
             });
-            contenido.push(self.getTablaRevision());
+            contenido.push(self.getTablaRevision(resolucion.NivelAcademico_nombre));
             return contenido;
         };
 
@@ -666,32 +704,51 @@ angular.module('contractualClienteApp')
         };
 
         //Función para obtener la estructura de la tabla de contratados
-        self.getTabla = function (idProyecto, nivelAcademico, datos, tipoResolucion, dedicacionResolucion) {
+        self.getTabla = function (idProyecto, nivelAcademico, datos, tipoResolucion, dedicacionResolucion, dedicacion) {
             return {
                 style: 'tabla',
                 table: {
                     headerRows: 1,
-                    body: self.getCuerpoTabla(idProyecto, nivelAcademico, datos, tipoResolucion, dedicacionResolucion)
+                    body: self.getCuerpoTabla(idProyecto, nivelAcademico, datos, tipoResolucion, dedicacionResolucion, dedicacion)
                 }
             };
         };
 
         //Obtener tabla del final
-        self.getTablaRevision = function () {
-            return {
-                style: 'tabla_revision',
-                table: {
-                    headerRows: 1,
-                    widths: [80, 150, 150, 80],
-                    body: [
-                        ['', { text: $translate.instant('NOMBRE_COMPLETO'), style: 'tabla_revision' }, { text: $translate.instant('CARGO_PDF'), style: 'tabla_revision' }, { text: $translate.instant('FIRMA'), style: 'tabla_revision' }],
-                        [{ text: $translate.instant('ELABORO'), style: 'tabla_revision' }, { text: 'Edilberto Fernández Santos', style: 'tabla_revision' }, { text: 'Auxiliar administrativo DRH', style: 'tabla_revision' }, ''],
-                        [{ text: $translate.instant('REVISO_APROBO'), style: 'tabla_revision' }, { text: 'Diana Mireya Parra Cardona', style: 'tabla_revision' }, { text: 'Jefe Oficina Asesora Jurídica', style: 'tabla_revision' }, ''],
-                        [{ text: $translate.instant('REVISO_APROBO'), style: 'tabla_revision' }, { text: 'Camilo Andrés Bustos Parra', style: 'tabla_revision' }, { text: 'Secretario general', style: 'tabla_revision' }, ''],
-                    ]
-                }
-            };
-        };
+        self.getTablaRevision = function (resolucionNivelAcademico) {
+            if(resolucionNivelAcademico === "PREGRADO") {
+                return {
+                    style: 'tabla_revision',
+                    table: {
+                        headerRows: 1,
+                        widths: [80, 150, 150, 80],
+                        body: [
+                            ['', { text: $translate.instant('NOMBRE'), style: 'tabla_revision' }, { text: $translate.instant('CARGO_PDF'), style: 'tabla_revision' }, { text: $translate.instant('FIRMA'), style: 'tabla_revision' }],
+                            [{ text: $translate.instant('ELABORO'), style: 'tabla_revision' }, { text: 'Grupo de trabajo contratación docente facultades e ILUD', style: 'tabla_revision' }, { text: 'Funcionarios y Contratistas', style: 'tabla_revision' }, ''],
+                            [{ text: $translate.instant('REVISO_APROBO'), style: 'tabla_revision' }, { text: 'Javier Bolaños Zambrano', style: 'tabla_revision' }, { text: 'Jefe Oficina Asesora Jurídica', style: 'tabla_revision' }, ''],
+                            [{ text: $translate.instant('REVISO_APROBO'), style: 'tabla_revision' }, { text: 'Adriana Marcela Sandoval Castiblanco', style: 'tabla_revision' }, { text: 'Secretaria General', style: 'tabla_revision' }, ''],
+                            [{ text: $translate.instant('REVISO_APROBO'), style: 'tabla_revision' }, { text: 'William Fernando Castrillón Cardona', style: 'tabla_revision' }, { text: 'Vicerrector Académico', style: 'tabla_revision' }, ''],
+                        ]
+                    }
+                };
+            } else {
+                return {
+                    style: 'tabla_revision',
+                    table: {
+                        headerRows: 1,
+                        widths: [80, 150, 150, 80],
+                        body: [
+                            ['', { text: $translate.instant('NOMBRE_COMPLETO'), style: 'tabla_revision' }, { text: $translate.instant('CARGO_PDF'), style: 'tabla_revision' }, { text: $translate.instant('FIRMA'), style: 'tabla_revision' }],
+                            [{ text: $translate.instant('ELABORO'), style: 'tabla_revision' }, { text: 'Grupo de trabajo contratación docente facultades e ILUD', style: 'tabla_revision' }, { text: 'Funcionarios y Contratistas', style: 'tabla_revision' }, ''],
+                            [{ text: $translate.instant('REVISO_AJUSTO'), style: 'tabla_revision' }, { text: 'Diana Ximena Pirachicán Martinez', style: 'tabla_revision' }, { text: 'Asesor CPS OAJ', style: 'tabla_revision' }, ''],
+                            [{ text: $translate.instant('REVISO2'), style: 'tabla_revision' }, { text: 'Milena Isabel Rubiano Rojas', style: 'tabla_revision' }, { text: 'Jefe Oficina Asesora Jurídica(E)', style: 'tabla_revision' }, ''],
+                            [{ text: $translate.instant('REVISO_APROBO'), style: 'tabla_revision' }, { text: 'Adriana Marcela Sandoval Castiblanco', style: 'tabla_revision' }, { text: 'Secretaria General', style: 'tabla_revision' }, ''],
+                            [{ text: $translate.instant('REVISO_APROBO'), style: 'tabla_revision' }, { text: 'William Fernando Castrillón Cardona', style: 'tabla_revision' }, { text: 'Vicerrector Académico', style: 'tabla_revision' }, ''],
+                        ]
+                    }
+                };
+            }
+        }
 
         //Función para obtener el texto del preámbulo dentro de una estructura
         self.getPreambuloTexto = function (preambulo) {

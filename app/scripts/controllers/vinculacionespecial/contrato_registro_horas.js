@@ -7,8 +7,8 @@
  * # ContratoRegistroHorasCtrl
  * Controller of the clienteApp
  */
-angular.module('contractualClienteApp')
-    .controller('ContratoRegistroHorasCtrl', function (amazonAdministrativaRequest, administrativaRequest, adminMidRequest, oikosRequest, coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, coreRequest, $mdDialog, lista, resolucion, $translate, $window, $scope) {
+angular.module('resolucionesClienteApp')
+    .controller('ContratoRegistroHorasCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucionesMidRequest, oikosRequest, coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, coreRequest, $mdDialog, lista, resolucion, $translate, $window, $scope) {
 
         var self = this;
         self.contratoGeneralBase = {};
@@ -21,18 +21,18 @@ angular.module('contractualClienteApp')
         self.FechaExpedicion = null;
         self.resolucionTest = JSON.parse(localStorage.getItem("resolucion"));
 
-        administrativaRequest.get('resolucion/' + self.idResolucion).then(function (response) {
+        resolucionRequest.get('resolucion/' + self.idResolucion).then(function (response) {
             self.resolucionActual = response.data;
             if (self.resolucionActual.FechaExpedicion != undefined && self.resolucionActual.FechaExpedicion !== "0001-01-01T00:00:00Z") {
                 self.FechaExpedicion = new Date(self.resolucionActual.FechaExpedicion);
             }
-            return administrativaRequest.get('tipo_resolucion/' + self.resolucionActual.IdTipoResolucion.Id);
+            return resolucionRequest.get('tipo_resolucion/' + self.resolucionActual.IdTipoResolucion.Id);
         }).then(function (response) {
             self.resolucionActual.IdTipoResolucion.NombreTipoResolucion = response.data.NombreTipoResolucion;
-            adminMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.IdDependenciaFirma).then(function (response) {
-                self.contenidoResolucion = response.data;
-                adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
-                    self.contratadosPdf = response.data;
+            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.IdDependenciaFirma).then(function (response) {
+                self.contenidoResolucion = response.data.Data;
+                resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
+                    self.contratadosPdf = response.data.Data;
                 });
             });
         });
@@ -41,21 +41,21 @@ angular.module('contractualClienteApp')
             resolucion.FacultadNombre = response.data.Nombre;
         });
 
-        administrativaRequest.get("modificacion_resolucion/", "query=ResolucionNueva:" + self.idResolucion).then(function (response) {
-            self.resolucionModificada = response.data[0].ResolucionAnterior;
-            administrativaRequest.get("resolucion/" + self.resolucionModificada).then(function (response) {
+        resolucionRequest.get("modificacion_resolucion/", "query=ResolucionNuevaId.Id:" + self.idResolucion).then(function (response) {
+            self.resolucionModificada = response.data.Data[0].ResolucionAnterior;
+            resolucionRequest.get("resolucion/" + self.resolucionModificada).then(function (response) {
                 self.numeroResolucionModificada = response.data.NumeroResolucion;
             });
         });
 
-        administrativaRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
+        resolucionRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
             self.datosFiltro = response.data;
             oikosRequest.get("dependencia/" + self.datosFiltro.IdFacultad.toString()).then(function (response) {
                 self.contratoGeneralBase.Contrato.SedeSolicitante = response.data.Id.toString();
                 self.sede_solicitante_defecto = response.data.Nombre;
             });
-            adminMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response) {
-                self.contratados = response.data;
+            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response) {
+                self.contratados = response.data.Data;
             });
             oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.Facultad + "/" + self.datosFiltro.NivelAcademico, "").then(function (response) {
                 self.proyectos = response.data;
@@ -217,12 +217,11 @@ angular.module('contractualClienteApp')
                     FechaExpedicion: self.FechaExpedicion
                 };
                 resolucion.FechaExpedicion = self.FechaExpedicion;
-                adminMidRequest.post("expedir_resolucion/validar_datos_expedicion", expedicionResolucion).then(function (response) {
-                    if (response.status === 201) {
-
-                        adminMidRequest.post("expedir_resolucion/expedirModificacion", expedicionResolucion).then(function (response) {
+                resolucionesMidRequest.post("expedir_resolucion/validar_datos_expedicion", expedicionResolucion).then(function (response) {
+                    if (response.data.Data === "OK") {
+                        resolucionesMidRequest.post("expedir_resolucion/expedirModificacion", expedicionResolucion).then(function (response) {
                             self.estado = false;
-                            if (response.status === 233) {
+                            if (response.data.Status !== 201) {
                                 swal({
                                     text: response.data,
                                     title: "Alerta",

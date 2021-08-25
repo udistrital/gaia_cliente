@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
 .controller("footerCtrl", function($scope) {
     //var ctrl = this;
     $scope.enlaces_universitarios = [{

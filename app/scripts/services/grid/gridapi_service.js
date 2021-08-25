@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name financieraClienteApp.grid/gridapiService
+ * @name resolucionesClienteApp.grid/gridapiService
  * @description
  * # grid/gridapiService
- * Service in the financieraClienteApp.
+ * Service in the resolucionesClienteApp.
  */
 angular.module('gridApiService', [])
     /**
@@ -76,7 +76,11 @@ angular.module('gridApiService', [])
                     if (response.data === null) {
                         table.data = [];
                     } else {
-                        table.data = response.data;
+                        if (response.data.Data === undefined) {
+                            table.data = response.data;
+                        } else {
+                            table.data = response.data.Data;
+                        }
                         table.totalItems = offset + table.data.length + 1;
                     }
                 };

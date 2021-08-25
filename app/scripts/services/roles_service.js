@@ -2,20 +2,20 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.rolesService
+ * @name resolucionesClienteApp.rolesService
  * @description
  * # rolesService
- * Service in the contractualClienteApp.
+ * Service in the resolucionesClienteApp.
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .service('rolesService', function ($http, token_service) {
         // AngularJS will instantiate a singleton by calling "new" on this function
         self = this;
 
         /**
         * @ngdoc method
-        * @name contractualClienteApp.rolesService#roles //.# 
-        * @methodOf contractualClienteApp.rolesService // .
+        * @name resolucionesClienteApp.rolesService#roles //.# 
+        * @methodOf resolucionesClienteApp.rolesService // .
         * @returns {Array} retorna la tista de roles para esta sesion
         */
         self.roles = function () {
@@ -36,8 +36,8 @@ angular.module('contractualClienteApp')
 
         /**
         * @ngdoc method
-        * @name contractualClienteApp.rolesService#buttons //.# 
-        * @methodOf contractualClienteApp.rolesService // .
+        * @name resolucionesClienteApp.rolesService#buttons //.# 
+        * @methodOf resolucionesClienteApp.rolesService // .
         * @param {controller, roles=}   // devuelve los bottones a partir del controlador y del array de roles
         * @returns {object} lista de botones asociados al controlador, cada boton tiene su matriz de roles (true,false)
         *                   si se especifica roles, debuelve un objeto con los botones habilitados para esos roles y controlador

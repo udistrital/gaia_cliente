@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('contractualClienteApp')
-  .controller('ResolucionReduccionDetalleCtrl', function (administrativaRequest, financieraRequest, resolucion, adminMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
+angular.module('resolucionesClienteApp')
+  .controller('ResolucionReduccionDetalleCtrl', function (resolucionRequest, financieraRequest, resolucion, resolucionesMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
 
     var self = this;
 
@@ -71,10 +71,10 @@ angular.module('contractualClienteApp')
       self.defaultSelectedPrecont = self.proyectos[0].Id;
     });
 
-    administrativaRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNueva:" + self.resolucion.Id).then(function (response) {
-      self.resolucion.Id = response.data[0].ResolucionAnterior;
-      self.resolucion_id_nueva = response.data[0].ResolucionNueva;
-      self.id_modificacion_resolucion = response.data[0].Id;
+    resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId:" + self.resolucion.Id).then(function (response) {
+      self.resolucion.Id = response.data.Data[0].ResolucionAnteriorId;
+      self.resolucion_id_nueva = response.data[0].ResolucionNuevaId;
+      self.id_modificacion_resolucion = response.data.Data[0].Id;
       self.get_docentes_vinculados_adicion().then(function () {
         //   //refresca una vez cargados los docentes precontratados
         self.precontratados_adicion.gridApi.core.refresh();
@@ -82,17 +82,14 @@ angular.module('contractualClienteApp')
     });
     //Función para visualizar docentes ya vinculados a resolución
     self.get_docentes_vinculados_adicion = function () {
-
       self.estado = true;
-      var r = adminMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.resolucion_id_nueva).then(function (response) {
-        self.precontratados_adicion.data = response.data;
+      var r = resolucionesMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.resolucion_id_nueva).then(function (response) {
+        self.precontratados_adicion.data = response.data.Data;
         self.estado = false;
-
       });
 
       self.precontratados_adicion.columnDefs[12].filter.term = self.term;
       return r;
-
     };
 
     $scope.verAnularAdicion = function (row) {
@@ -122,17 +119,15 @@ angular.module('contractualClienteApp')
     };
 
     self.AnularAdicionDocente = function (row) {
-
-
       var docente_a_anular = {
         Id: row.entity.Id,
-        IdPersona: row.entity.IdPersona,
+        PersonaId: row.entity.IdPersona,
         NumeroHorasSemanales: row.entity.NumeroHorasSemanales,
         NumeroSemanas: row.entity.NumeroSemanas,
-        IdResolucion: { Id: self.resolucion.Id },
-        IdDedicacion: { Id: row.entity.IdDedicacion.Id },
-        IdProyectoCurricular: row.entity.IdProyectoCurricular,
-        Estado: Boolean(true),
+        ResolucionVinculacionDocenteId: { Id: self.resolucion.Id },
+        DedicacionId: { Id: row.entity.IdDedicacion.Id },
+        ProyectoCurricularId: row.entity.IdProyectoCurricular,
+        Activo: Boolean(true),
         FechaRegistro: self.fecha,
         ValorContrato: row.entity.ValorContrato,
         Categoria: row.entity.Categoria,
@@ -147,16 +142,12 @@ angular.module('contractualClienteApp')
         DocentesDesvincular: desvinculacionesData
       };
 
-
-      adminMidRequest.post("gestion_desvinculaciones/anular_adicion", objeto_a_enviar).then(function (response) {
-        if (response.data === "OK") {
-
-
+      resolucionesMidRequest.post("gestion_desvinculaciones/anular_adicion", objeto_a_enviar).then(function (response) {
+        if (response.data.Data === "OK") {
           swal({
             text: $translate.instant('ALERTA_ANULACION_EXITOSA'),
             type: 'success',
             confirmButtonText: $translate.instant('ACEPTAR')
-
           });
           $window.location.reload();
         } else {
@@ -166,11 +157,7 @@ angular.module('contractualClienteApp')
             type: 'error',
             confirmButtonText: $translate.instant('ACEPTAR')
           });
-
         }
-
       });
-
     };
-
   });

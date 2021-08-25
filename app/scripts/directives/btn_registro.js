@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name contractualClienteApp.directive:btnRegistro
+ * @name resolucionesClienteApp.directive:btnRegistro
  * @description
  * # btnRegistro
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .directive('btnRegistro', function() {
         return {
             restrict: 'E',
