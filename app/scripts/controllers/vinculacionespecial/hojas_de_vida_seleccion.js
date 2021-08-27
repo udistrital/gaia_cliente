@@ -104,7 +104,7 @@ angular.module('resolucionesClienteApp')
             visible: false
         },
         ];
-        if (self.resolucion.NivelAcademico_nombre !== "PREGRADO") {
+        if (self.resolucion.NivelAcademico !== "PREGRADO") {
             self.datosDocentesCargaLectiva.columnDefs.push({
                 displayName: $translate.instant('OPCIONES'),
                 field: 'edit',
@@ -143,16 +143,16 @@ angular.module('resolucionesClienteApp')
             columnDefs: [
                 { field: 'Id', visible: false, exporterSuppressExport: true, enableHiding: false },
                 { field: 'NombreCompleto', width: '20%', displayName: $translate.instant('NOMBRE') },
-                { field: 'IdPersona', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
+                { field: 'PersonaId', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
                 { field: 'Categoria', width: '10%', displayName: $translate.instant('CATEGORIA') },
-                { field: 'IdDedicacion.NombreDedicacion', width: '10%', displayName: $translate.instant('DEDICACION') },
-                { field: 'IdDedicacion.Id', visible: false, exporterSuppressExport: true, enableHiding: false },
+                { field: 'DedicacionId.NombreDedicacion', width: '10%', displayName: $translate.instant('DEDICACION') },
+                { field: 'DedicacionId.Id', visible: false, exporterSuppressExport: true, enableHiding: false },
                 { field: 'NumeroHorasSemanales', width: '8%', displayName: $translate.instant('HORAS_SEMANALES') },
                 { field: 'NumeroSemanas', width: '7%', displayName: $translate.instant('SEMANAS') },
                 { field: 'NumeroDisponibilidad', width: '15%', displayName: $translate.instant('NUM_DISPO_DOCENTE') },
                 { field: 'ValorContrato', width: '15%', displayName: $translate.instant('VALOR_CONTRATO'), cellClass: "valorEfectivo", cellFilter: "currency:$" },
                 {
-                    field: 'IdProyectoCurricular', visible: false, exporterSuppressExport: true, enableHiding: false,
+                    field: 'ProyectoCurricularId', visible: false, exporterSuppressExport: true, enableHiding: false,
                     filter: {
                         term: self.term
                     }
@@ -296,8 +296,8 @@ angular.module('resolucionesClienteApp')
                 vigencia: self.resolucion.VigenciaCarga,
                 periodo: self.resolucion.PeriodoCarga,
                 tipo_vinculacion: self.resolucion.Dedicacion,
-                facultad: self.resolucion.IdFacultad,
-                nivel_academico: self.resolucion.NivelAcademico_nombre,
+                facultad: self.resolucion.FacultadId,
+                nivel_academico: self.resolucion.NivelAcademico,
                 //limit: self.datosDocentesCargaLectiva.paginationPageSize,
                 //offset: offset,
                 //query: query
@@ -328,7 +328,7 @@ angular.module('resolucionesClienteApp')
             self.total_contratos_x_vin = 0;
         });
 
-        oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
+        oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.FacultadId + "/" + self.resolucion.NivelAcademico, "").then(function (response) {
             self.proyectos = response.data;
             self.defaultSelectedPrecont = self.proyectos[0].Id;
         });
@@ -393,7 +393,7 @@ angular.module('resolucionesClienteApp')
                     ProyectoCurricularId: parseInt(personaSeleccionada.id_proyecto),
                     Categoria: personaSeleccionada.CategoriaNombre.toUpperCase(),
                     Dedicacion: personaSeleccionada.tipo_vinculacion_nombre.toUpperCase(),
-                    NivelAcademico: self.resolucion.NivelAcademico_nombre,
+                    NivelAcademico: self.resolucion.NivelAcademico,
                     Disponibilidad: self.apropiacion_elegida[0].Id,
                     DependenciaAcademica: personaSeleccionada.DependenciaAcademica,
                     Vigencia: parseInt(self.resolucion.Vigencia),
@@ -534,17 +534,17 @@ angular.module('resolucionesClienteApp')
                     });
                 self.personasSeleccionadasAgregar.forEach(function (personaSeleccionada) {
                     var vinculacionDocente = {
-                        IdPersona: personaSeleccionada.docente_documento,
+                        PersonaId: personaSeleccionada.docente_documento,
                         NumeroHorasSemanales: parseInt(personaSeleccionada.horas_lectivas),
                         NumeroSemanas: parseInt(self.resolucion.NumeroSemanas),
-                        IdResolucion: { Id: parseInt(self.resolucion.Id) },
-                        IdDedicacion: { Id: parseInt(personaSeleccionada.id_tipo_vinculacion) },
-                        IdProyectoCurricular: parseInt(personaSeleccionada.id_proyecto),
+                        ResolucionVinculacionDocenteId: { Id: parseInt(self.resolucion.Id) },
+                        DedicacionId: { Id: parseInt(personaSeleccionada.id_tipo_vinculacion) },
+                        ProyectoCurricularId: parseInt(personaSeleccionada.id_proyecto),
                         Categoria: personaSeleccionada.CategoriaNombre.toUpperCase(),
                         Dedicacion: personaSeleccionada.tipo_vinculacion_nombre.toUpperCase(),
-                        NivelAcademico: self.resolucion.NivelAcademico_nombre,
+                        NivelAcademico: self.resolucion.NivelAcademico,
                         DependenciaAcademica: personaSeleccionada.DependenciaAcademica,
-                        Vigencia: { Int64: parseInt(self.resolucion.Vigencia), valid: true },
+                        Vigencia: parseInt(self.resolucion.Vigencia),
                         Periodo: self.resolucion.Periodo
                     };
 
@@ -555,9 +555,7 @@ angular.module('resolucionesClienteApp')
                 resolucionesMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos_seleccionados ", vinculacionesData).then(function (response) {
                 console.info('calcular_valor_contratos_seleccionados');                    
                     console.info(response)
-                    console.info(response.data.Data)
                     self.total_contratos_seleccionados = response.data.Data;
-
                 });
 
                 $('#modal_disponibilidad').modal('show');
@@ -594,7 +592,7 @@ angular.module('resolucionesClienteApp')
                     ProyectoCurricularId: parseInt(personaSeleccionada.id_proyecto),
                     Categoria: personaSeleccionada.CategoriaNombre.toUpperCase(),
                     Dedicacion: personaSeleccionada.tipo_vinculacion_nombre.toUpperCase(),
-                    NivelAcademico: self.resolucion.NivelAcademico_nombre,
+                    NivelAcademico: self.resolucion.NivelAcademico,
                     Disponibilidad: self.apropiacion_elegida[0].Id,
                     DependenciaAcademica: personaSeleccionada.DependenciaAcademica,
                     Vigencia: parseInt(self.resolucion.Vigencia),
@@ -630,11 +628,11 @@ angular.module('resolucionesClienteApp')
         // filtro para eliminar del grid datosDocentesCargaLectiva los docentes precontratados
         self.filtrarPrecontratados = function (rows) {
             rows.forEach(function (row) {
-                if (self.precontratados.data.length == 0 && self.estado) {
+                if (self.precontratados.data.length === 0 && self.estado) {
                     row.visible = false;
                 }
                 self.precontratados.data.forEach(function (p) {
-                    if (p.IdPersona == row.entity.docente_documento && p.IdProyectoCurricular == row.entity.id_proyecto) {
+                    if (p.PersonaId === row.entity.docente_documento && p.ProyectoCurricularId === row.entity.id_proyecto) {
                         row.visible = false;
                         return;
                     }

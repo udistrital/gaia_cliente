@@ -26,19 +26,19 @@ angular.module('resolucionesClienteApp')
       enableSelectAll: false,
       columnDefs: [
         { field: 'Id', visible: false },
-        { field: 'FechaRegistro', visible: false },
+        { field: 'FechaCreacion', visible: false },
         { field: 'NombreCompleto', width: '15%', displayName: $translate.instant('NOMBRE') },
-        { field: 'IdPersona', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
+        { field: 'PersonaId', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
         { field: 'Categoria', width: '10%', displayName: $translate.instant('CATEGORIA') },
         { field: 'Dedicacion', width: '15%', displayName: $translate.instant('DEDICACION') },
-        { field: 'IdDedicacion.Id', visible: false },
+        { field: 'DedicacionId.Id', visible: false },
         { field: 'Disponibilidad', visible: false },
         { field: 'NumeroHorasSemanales', width: '10%', displayName: $translate.instant('LABEL_HORAS_A_ADICIONAR') },
         { field: 'NumeroSemanas', width: '10%', displayName: $translate.instant('LABEL_SEMANAS_A_ADICIONAR') },
         { field: 'NumeroDisponibilidad', width: '10%', displayName: $translate.instant('NUM_DISPO_DOCENTE') },
         { field: 'ValorContrato', width: '10%', displayName: $translate.instant('LABEL_VALOR_ADICIONAR'), cellClass: "valorEfectivo", cellFilter: "currency" },
         {
-          field: 'IdProyectoCurricular', visible: false, filter: {
+          field: 'ProyectoCurricularId', visible: false, filter: {
             term: self.term
           }
         },
@@ -66,7 +66,7 @@ angular.module('resolucionesClienteApp')
 
 
 
-    oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
+    oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.FacultadId + "/" + self.resolucion.NivelAcademico, "").then(function (response) {
       self.proyectos = response.data;
       self.defaultSelectedPrecont = self.proyectos[0].Id;
     });
@@ -87,12 +87,9 @@ angular.module('resolucionesClienteApp')
       var r = resolucionesMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.resolucion_id_nueva).then(function (response) {
         self.precontratados_adicion.data = response.data.Data;
         self.estado = false;
-
       });
-
       self.precontratados_adicion.columnDefs[12].filter.term = self.term;
       return r;
-
     };
 
     $scope.verAnularAdicion = function (row) {
@@ -122,16 +119,14 @@ angular.module('resolucionesClienteApp')
     };
 
     self.AnularAdicionDocente = function (row) {
-
-
       var docente_a_anular = {
         Id: row.entity.Id,
-        PersonaId: row.entity.IdPersona,
+        PersonaId: row.entity.PersonaId,
         NumeroHorasSemanales: row.entity.NumeroHorasSemanales,
         NumeroSemanas: row.entity.NumeroSemanas,
         ResolucionVinculacionDocenteId: { Id: self.resolucion.Id },
-        DedicacionId: { Id: row.entity.IdDedicacion.Id },
-        ProyectoCurricularId: row.entity.IdProyectoCurricular,
+        DedicacionId: { Id: row.entity.DedicacionId.Id },
+        ProyectoCurricularId: row.entity.ProyectoCurricularId,
         Activo: Boolean(true),
         FechaInicio: self.fecha,
         ValorContrato: row.entity.ValorContrato,

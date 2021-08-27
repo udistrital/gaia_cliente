@@ -1,3 +1,4 @@
+'use strict'
 /** SpagoBI, the Open Source Business Intelligence suite
 
  * Copyright (C) 2012 Engineering Ingegneria Informatica S.p.A. - SpagoBI Competency Center
@@ -20,7 +21,7 @@ Sbi.sdk.apply = function(o, c, defaults){
         // no "this" reference for friendly out of scope calls
         Sbi.sdk.apply(o, defaults);
     }
-    if(o && c && typeof c == 'object'){
+    if(o && c && typeof c === 'object'){
         for(var p in c){
             o[p] = c[p];
         }
@@ -47,7 +48,7 @@ Sbi.sdk.namespace =  function() {
         d=a[i].split(".");
         rt = d[0];
         try {
-            if (typeof window[rt] == "undefined"){window[rt] = {};} o = window[rt];
+            if (typeof window[rt] === "undefined"){window[rt] = {};} o = window[rt];
             for (j=1; j<d.length; ++j) {
                 o[d[j]]=o[d[j]] || {};
                 o=o[d[j]];
@@ -73,9 +74,9 @@ Sbi.sdk.urlEncode = function(o){
     for(var key in o){
         var ov = o[key], k = encodeURIComponent(key);
         var type = typeof ov;
-        if(type == 'undefined'){
+        if(type === 'undefined'){
             buf.push(k, "=&");
-        }else if(type != "function" && type != "object"){
+        }else if(type !== "function" && type !== "object"){
             buf.push(k, "=", encodeURIComponent(ov), "&");
         }else if(ov instanceof Array){
             if (ov.length) {
@@ -109,9 +110,9 @@ Sbi.sdk.urlDecode = function(string, overwrite){
         name = decodeURIComponent(pair[0]);
         value = decodeURIComponent(pair[1]);
         if(overwrite !== true){
-            if(typeof obj[name] == "undefined"){
+            if(typeof obj[name] === "undefined"){
                 obj[name] = value;
-            }else if(typeof obj[name] == "string"){
+            }else if(typeof obj[name] === "string"){
                 obj[name] = [obj[name]];
                 obj[name].push(value);
             }else{
@@ -143,7 +144,7 @@ Sbi.sdk.apply(Function.prototype, {
             if(appendArgs === true){
                 callArgs = Array.prototype.slice.call(arguments, 0);
                 callArgs = callArgs.concat(args);
-            }else if(typeof appendArgs == "number"){
+            }else if(typeof appendArgs === "number"){
                 callArgs = Array.prototype.slice.call(arguments, 0); // copy arguments first
                 var applyArgs = [appendArgs, 0].concat(args); // create method call params
                 Array.prototype.splice.apply(callArgs, applyArgs); // splice them in
@@ -199,7 +200,7 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
                 }else if(options.jsonData){
                     this.initHeader('Content-Type', 'text/javascript', false);
                     method = 'POST';
-                    data = typeof options.jsonData == 'object' ? Ext.encode(options.jsonData) : options.jsonData;
+                    data = typeof options.jsonData === 'object' ? Ext.encode(options.jsonData) : options.jsonData;
                 }
             }
 
@@ -207,7 +208,7 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
         },
 
         serializeForm : function(form) {
-            if(typeof form == 'string') {
+            if(typeof form === 'string') {
                 form = (document.getElementById(form) || document.forms[form]);
             }
 
@@ -250,7 +251,7 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
 
                             break;
                         case 'submit':
-                            if(hasSubmit == false) {
+                            if(hasSubmit === false) {
                                 data += encodeURIComponent(name) + '=' + encodeURIComponent(val) + '&';
                                 hasSubmit = true;
                             }
@@ -306,7 +307,7 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
 
         setPollingInterval:function(i)
         {
-            if (typeof i == 'number' && isFinite(i)) {
+            if (typeof i === 'number' && isFinite(i)) {
                 this.pollInterval = i;
             }
         },
@@ -399,7 +400,7 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
 
             this.poll[o.tId] = window.setInterval(
                     function() {
-                        if (o.conn && o.conn.readyState == 4) {
+                        if (o.conn && o.conn.readyState === 4) {
                             window.clearInterval(oConn.poll[o.tId]);
                             delete oConn.poll[o.tId];
 
@@ -426,7 +427,7 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
 
             try
             {
-                if (o.conn.status !== undefined && o.conn.status != 0) {
+                if (o.conn.status !== undefined && o.conn.status !== 0) {
                     httpStatus = o.conn.status;
                 }
                 else {
@@ -499,7 +500,7 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
                 var header = headerStr.split('\n');
                 for (var i = 0; i < header.length; i++) {
                     var delimitPos = header[i].indexOf(':');
-                    if (delimitPos != -1) {
+                    if (delimitPos !== -1) {
                         headerObj[header[i].substring(0, delimitPos)] = header[i].substring(delimitPos + 2);
                     }
                 }
@@ -622,7 +623,7 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
 
 
             if (o.conn) {
-                return o.conn.readyState != 4 && o.conn.readyState != 0;
+                return o.conn.readyState !== 4 && o.conn.readyState !== 0;
             }
             else {
 
@@ -669,7 +670,7 @@ Sbi.sdk.apply(Sbi.sdk.jsonp, {
 		}
 	
         if(this.nocache){
-        	uri += (uri.indexOf("?") != -1 ? "&" : "?") + "_dc=" + (new Date().getTime());
+        	uri += (uri.indexOf("?") !== -1 ? "&" : "?") + "_dc=" + (new Date().getTime());
         }
         
         var transId = ++this.trans_id;
@@ -690,7 +691,7 @@ Sbi.sdk.apply(Sbi.sdk.jsonp, {
             conn.handleResponse(o, trans);
         };
 
-        uri += (uri.indexOf("?") != -1 ? "&" : "?") + this.callbackParam + "=" + trans.cb;
+        uri += (uri.indexOf("?") !== -1 ? "&" : "?") + this.callbackParam + "=" + trans.cb;
         
         if(this.autoAbort !== false){
             this.abort();

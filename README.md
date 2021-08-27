@@ -2,7 +2,7 @@
 
 Este proyecto es un gestor de resoluciones de vinculación docente
 
-## Especificaciones técnicas
+## Especificaciones Técnicas
 
 ### Tecnologías Implementadas y Versiones
 En este repositorio se encuentra el cliente del modulo de resoluciones.

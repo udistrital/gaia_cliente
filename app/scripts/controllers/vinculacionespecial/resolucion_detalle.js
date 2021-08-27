@@ -17,16 +17,16 @@ angular.module('resolucionesClienteApp')
     if (self.resolucion.FechaExpedicion === "0001-01-01T00:00:00Z") {
       self.resolucion.FechaExpedicion = undefined;
     }
-    if (self.resolucion.FechaExpedicion != undefined) {
+    if (self.resolucion.FechaExpedicion !== undefined) {
       self.resolucion.FechaExpedicion = Date(self.resolucion.FechaExpedicion);
     }
     self.proyectos = [];
 
-    oikosRequest.get("dependencia", "query=Id:" + self.resolucion.IdFacultad + "&limit=-1").then(function (response) {
+    oikosRequest.get("dependencia", "query=Id:" + self.resolucion.FacultadId + "&limit=-1").then(function (response) {
       self.facultad = response.data[0].Nombre;
     });
 
-    oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
+    oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.FacultadId + "/" + self.resolucion.NivelAcademico, "").then(function (response) {
       self.proyectos = response.data;
     });
 
@@ -69,7 +69,7 @@ angular.module('resolucionesClienteApp')
                 
 
         const datosDocenteSalario = {
-          NumDocumento:  Number(docentes.IdPersona),
+          NumDocumento:  Number(docentes.PersonaId),
           ValorTotalContrato: valor_totalContrato,
           VigenciaContrato: self.resolucion.Vigencia,
         }
@@ -80,7 +80,7 @@ angular.module('resolucionesClienteApp')
           docentes_desagregados[contador] = result_desagreg;
           contador++;
 
-          if (contador == self.contratados.length)
+          if (contador === self.contratados.length)
           {
             self.generarResolucion();
           }
@@ -253,9 +253,9 @@ angular.module('resolucionesClienteApp')
 
         var ResolucionVinculacionDocente = {
           Id: self.resolucion.Id,
-          IdFacultad: self.resolucion.IdFacultad,
+          FacultadId: self.resolucion.FacultadId,
           Dedicacion: self.resolucion.Dedicacion,
-          NivelAcademico: self.resolucion.NivelAcademico_nombre
+          NivelAcademico: self.resolucion.NivelAcademico
         };
         self.contenidoResolucion.Vinculacion = ResolucionVinculacionDocente;
         resolucionRequest.get("resolucion/" + self.resolucion.Id).then(function (response) {
@@ -266,28 +266,26 @@ angular.module('resolucionesClienteApp')
           localRes.FechaExpedicion = res.FechaExpedicion;
           var local = JSON.stringify(localRes);
           localStorage.setItem('resolucion', local);
-          if (self.resolucion.FechaExpedicion != undefined) {
+          if (self.resolucion.FechaExpedicion !== undefined) {
             res.FechaExpedicion = res.FechaExpedicion.toJSON();
           } else {
             res.FechaExpedicion = new Date('0001-01-01').toJSON();
           }
-          if (res.FechaRegistro !== undefined)
+          if (res.FechaCreacion !== undefined)
           {
-            var auxFecha = res.FechaRegistro.split(" ");
-            res.FechaRegistro = auxFecha[0];
+            var auxFecha = res.FechaCreacion.split(" ");
+            res.FechaCreacion = auxFecha[0];
           }else{
-            res.FechaRegistro = Date('0001-01-01').toJSON();
+            res.FechaCreacion = Date('0001-01-01').toJSON();
           }
           
           return resolucionRequest.put("resolucion", self.resolucion.Id, res);
         }).then(function (response) {
-          
            if (!response.data.Success) {
              throw response.data;
            }
           return resolucionRequest.put("contenido_resolucion", self.resolucion.Id, self.contenidoResolucion);
         }).then(function (response) {
-         
           if (!response.data.Success) {
             throw response.data;
           }

@@ -28,13 +28,13 @@ angular.module('resolucionesClienteApp')
             enableSelectAll: false,
             columnDefs: [
                 { field: 'Id', visible: false },
-                { field: 'FechaRegistro', visible: false },
+                { field: 'FechaCreacion', visible: false },
                 { field: 'FechaInicio', visible: false },
                 { field: 'NombreCompleto', width: '15%', displayName: $translate.instant('NOMBRE') },
-                { field: 'IdPersona', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
+                { field: 'PersonaId', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
                 { field: 'Categoria', width: '10%', displayName: $translate.instant('CATEGORIA') },
                 { field: 'ProyectoNombre', width: '23%', displayName: $translate.instant('PROYECTO_CURRICULAR') },
-                { field: 'IdDedicacion.Id', visible: false },
+                { field: 'DedicacionId.Id', visible: false },
                 { field: 'Disponibilidad', visible: false },
                 { field: 'DependenciaAcademica', visible: false },
                 { field: 'NumeroHorasSemanales', width: '8%', displayName: $translate.instant('HORAS_SEMANALES') },
@@ -42,7 +42,7 @@ angular.module('resolucionesClienteApp')
                 { field: 'NumeroDisponibilidad', width: '9%', displayName: $translate.instant('NUM_DISPO_DOCENTE') },
                 { field: 'ValorContrato', width: '11%', displayName: $translate.instant('VALOR_CONTRATO'), cellClass: "valorEfectivo", cellFilter: "currency" },
                 {
-                    field: 'IdProyectoCurricular',
+                    field: 'ProyectoCurricularId',
                     visible: false,
                     filter: {
                         term: self.term
@@ -92,9 +92,9 @@ angular.module('resolucionesClienteApp')
                 displayName: $translate.instant('VIGENCIA_DISP')
             },
             {
-                field: 'FechaRegistro',
+                field: 'FechaCreacion',
                 displayName: $translate.instant('FECHA_DISP'),
-                cellTemplate: '<span>{{row.entity.FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span>'
+                cellTemplate: '<span>{{row.entity.FechaCreacion| date:"yyyy-MM-dd":"+0900"}}</span>'
             }
             ],
 
@@ -142,7 +142,7 @@ angular.module('resolucionesClienteApp')
             }
         };
 
-        oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
+        oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.FacultadId + "/" + self.resolucion.NivelAcademico, "").then(function (response) {
             self.proyectos = response.data;
             self.defaultSelectedPrecont = self.proyectos[0].Id;
         });
@@ -174,15 +174,15 @@ angular.module('resolucionesClienteApp')
                     self.disponibilidad_actual_id = row.entity.Disponibilidad;
                     self.disponibilidad_nueva_id = { Id: row.entity.Disponibilidad };
                     self.getRPs(self.persona_a_modificar.NumeroContrato.String, self.persona_a_modificar.Vigencia, self.persona_a_modificar.PersonaId);
-                    self.mostrarSemanas = row.entity.ResolucionId.NivelAcademico == "PREGRADO" ? true : false;
-                    self.maximoHorasReducir = row.entity.ResolucionId.NivelAcademico == "PREGRADO" ? self.horas_actuales - 1 : self.horas_actuales;
+                    self.mostrarSemanas = row.entity.ResolucionId.NivelAcademico === "PREGRADO" ? true : false;
+                    self.maximoHorasReducir = row.entity.ResolucionId.NivelAcademico === "PREGRADO" ? self.horas_actuales - 1 : self.horas_actuales;
                     amazonAdministrativaRequest.get("acta_inicio", $.param({
                         query: 'NumeroContrato:' + self.persona_a_modificar.NumeroContrato.String + ',Vigencia:' + self.persona_a_modificar.Vigencia
                     })).then(function (response) {
                         self.acta = response.data[0];
                         self.fechaIni = new Date(self.acta.FechaInicio);
                         self.fechaActa = self.fechaUtc(self.fechaIni);
-                        if (self.FechaInicio == undefined) {
+                        if (self.FechaInicio === undefined) {
                             self.calculoSemanasTranscurridas(self.fecha);
                             self.maximoSemanasSugeridas = self.semanas_actuales - self.semanasTranscurridas;
                             self.maximoSugeridasInicial = self.maximoSemanasSugeridas;
@@ -209,7 +209,7 @@ angular.module('resolucionesClienteApp')
         };
 
         self.RecargarDatosPersonas = function () {
-            resolucionesMidRequest.get("gestion_previnculacion/Precontratacion/docentes_x_carga_horaria", "vigencia=" + self.resolucion.Vigencia + "&periodo=" + self.resolucion.Periodo + "&tipo_vinculacion=" + self.resolucion.Dedicacion + "&facultad=" + self.resolucion.IdFacultad + "&nivel_academico=" + self.resolucion.NivelAcademico_nombre).then(function (response) {
+            resolucionesMidRequest.get("gestion_previnculacion/Precontratacion/docentes_x_carga_horaria", "vigencia=" + self.resolucion.Vigencia + "&periodo=" + self.resolucion.Periodo + "&tipo_vinculacion=" + self.resolucion.Dedicacion + "&facultad=" + self.resolucion.FacultadId + "&nivel_academico=" + self.resolucion.NivelAcademico).then(function (response) {
                 self.datosDocentesCargaLectiva.data = response.data.Data;
             });
         };
@@ -217,7 +217,6 @@ angular.module('resolucionesClienteApp')
         self.RecargarDisponibilidades = function () {
             financieraRequest.get('disponibilidad', "limit=-1?query=Vigencia:" + self.vigencia_data).then(function (response) {
                 self.Disponibilidades.data = response.data;
-
             });
         };
 
@@ -241,7 +240,7 @@ angular.module('resolucionesClienteApp')
         };
 
         self.realizar_nueva_vinculacion = function () {
-            if ((self.semanas_a_adicionar != undefined || !self.mostrarSemanas) && !self.mostrarFechaInvalida && self.horas_a_adicionar != undefined && self.FechaInicio != undefined && self.persona_a_modificar.InformacionRp != undefined) { 
+            if ((self.semanas_a_adicionar !== undefined || !self.mostrarSemanas) && !self.mostrarFechaInvalida && self.horas_a_adicionar !== undefined && self.FechaInicio !== undefined && self.persona_a_modificar.InformacionRp !== undefined) { 
                 if (self.saldo_disponible) {
                     self.mostrar_modificar = false;
                     self.calculoSemanasTranscurridas(self.FechaInicio);
@@ -251,20 +250,20 @@ angular.module('resolucionesClienteApp')
                     self.persona_a_modificar.InformacionRp.vigencia = parseInt(self.persona_a_modificar.InformacionRp.vigencia,10);
                     var vinculacionDocente = {
                         Id: self.persona_a_modificar.Id,
-                        FechaRegistro: self.persona_a_modificar.FechaRegistro,
-                        PersonaId: self.persona_a_modificar.IdPersona,
+                        FechaCreacion: self.persona_a_modificar.FechaCreacion,
+                        PersonaId: self.persona_a_modificar.PersonaId,
                         NumeroHorasSemanales: parseInt(self.horas_actuales),
                         NumeroHorasNuevas: parseInt(self.horas_a_adicionar),
                         NumeroSemanas: parseInt(self.semanas_actuales),
                         NumeroSemanasNuevas: self.mostrarSemanas ? parseInt(self.semanas_a_adicionar) : parseInt(self.semanas_actuales),
                         NumeroSemanasRestantes: parseInt(self.semanasRestantes),
-                        ResolucionVinculacionDocenteId: { Id: parseInt(self.persona_a_modificar.IdResolucion.Id) },
-                        DedicacionId: { Id: parseInt(self.persona_a_modificar.IdDedicacion.Id) },
-                        ProyectoCurricularId: parseInt(self.persona_a_modificar.IdProyectoCurricular),
+                        ResolucionVinculacionDocenteId: { Id: parseInt(self.persona_a_modificar.ResolucionId.Id) },
+                        DedicacionId: { Id: parseInt(self.persona_a_modificar.DedicacionId.Id) },
+                        ProyectoCurricularId: parseInt(self.persona_a_modificar.ProyectoCurricularId),
                         Categoria: self.persona_a_modificar.Categoria.toUpperCase(),
                         ValorContrato: self.persona_a_modificar.ValorContrato,
-                        Dedicacion: self.persona_a_modificar.IdDedicacion.NombreDedicacion.toUpperCase(),
-                        NivelAcademico: self.resolucion.NivelAcademico_nombre,
+                        Dedicacion: self.persona_a_modificar.DedicacionId.NombreDedicacion.toUpperCase(),
+                        NivelAcademico: self.resolucion.NivelAcademico,
                         Disponibilidad: parseInt(self.disponibilidad_actual_id),
                         Vigencia: parseInt(self.resolucion.Vigencia),
                         NumeroContrato: self.persona_a_modificar.NumeroContrato,

@@ -257,7 +257,7 @@ angular.module('resolucionesClienteApp')
         TipoResolucion: row.entity.TipoResolucion,
         IdDependenciaFirma: row.entity.IdDependenciaFirma,
         FacultadFirmaNombre: row.entity.FacultadFirmaNombre,
-        Activo: row.entity.Estado,
+        Estado: row.entity.Estado,
         VigenciaCarga: row.entity.VigenciaCarga,
         PeriodoCarga: row.entity.PeriodoCarga
       };
@@ -349,7 +349,7 @@ angular.module('resolucionesClienteApp')
       resolucionRequest.get("resolucion/" + row.entity.Id).then(function (response) {
         var Resolucion = response.data.Data;
         var resolucion_estado = {
-          FechaRegistro: self.CurrentDate,
+          FechaCreacion: self.CurrentDate,
           Usuario: "",
           EstadoResolucionId: {
             Id: 6,
