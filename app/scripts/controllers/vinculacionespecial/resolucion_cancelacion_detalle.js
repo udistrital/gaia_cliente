@@ -67,7 +67,7 @@ angular.module('resolucionesClienteApp')
     });
 
     resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId:" + self.resolucionNueva.Id).then(function (response) {
-      self.resolucionVieja.Id = response.data.Data[0].ResolucionAnteriorId;
+      self.resolucionVieja.Id = response.data.Data[0].ResolucionAnteriorId.Id;
       self.id_modificacion_resolucion = response.data.Data[0].Id;
       self.get_docentes_vinculados().then(function () {
         //   //refresca una vez cargados los docentes precontratados
