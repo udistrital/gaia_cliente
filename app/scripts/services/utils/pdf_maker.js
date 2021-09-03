@@ -22,14 +22,14 @@ angular.module('resolucionesClienteApp')
             var columnas = [];
             var tituloHoras = 'HORAS_SEMANALES';
             if (nivelAcademico === 'POSGRADO') {
-                tituloHoras = 'HORAS_SEMESTRALES'
+                tituloHoras = 'HORAS_SEMESTRALES';
             }
 
-            if (dedicacion=="HCH"){
-                columnas = ['NombreCompleto', 'IdPersona', 'TipoDocumento', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
+            if (dedicacion === "HCH"){
+                columnas = ['NombreCompleto', 'PersonaId', 'TipoDocumento', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
                 encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('IDENTIFICACION'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' },{ text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' },{ text: $translate.instant('PERIODO_RECONOCIMIENTO'), style: 'encabezado' }, { text: $translate.instant('VALOR_RECONOCIMIENTO'), style: 'encabezado' }];
             } else {
-                columnas = ['NombreCompleto', 'IdPersona','TipoDocumento', 'Categoria','LugarExpedicionCedula', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
+                columnas = ['NombreCompleto', 'PersonaId','TipoDocumento', 'Categoria','LugarExpedicionCedula', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
                 encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('IDENTIFICACION'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' },{ text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' },  { text: $translate.instant(tituloHoras), style: 'encabezado' },{ text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }];
             }
 
@@ -38,25 +38,25 @@ angular.module('resolucionesClienteApp')
                     columnas.push('ValorContratoFormato', 'NumeroDisponibilidad');
                     encabezado.push({ text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' });
                     if (nivelAcademico === 'POSGRADO'){
-                        if (dedicacion=="HCH"){ 
-                            columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
+                        if (dedicacion === "HCH"){ 
+                            columnas = ['NombreCompleto', 'TipoDocumento', 'PersonaId', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
                             encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('NUMERO'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO_POSGRADOS'), style: 'encabezado' }, { text: $translate.instant('CDP'), style: 'encabezado' }];
                         } else {
-                            columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
+                            columnas = ['NombreCompleto', 'TipoDocumento', 'PersonaId', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
                             encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('NUMERO'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }, { text: $translate.instant('CDP'), style: 'encabezado' }];
                         }
                     }
                     if (nivelAcademico === 'PREGRADO'){ 
-                        if (dedicacion=="HCP"){    
-                            columnas = ['NombreCompleto','TipoDocumento','IdPersona','LugarExpedicionCedula','Categoria','Dedicacion', 'NumeroHorasSemanales','NumeroMeses','ValorContratoFormato','NumeroDisponibilidad'];
+                        if (dedicacion === "HCP"){    
+                            columnas = ['NombreCompleto','TipoDocumento','PersonaId','LugarExpedicionCedula','Categoria','Dedicacion', 'NumeroHorasSemanales','NumeroMeses','ValorContratoFormato','NumeroDisponibilidad'];
                             encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' },{ text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' },{ text: $translate.instant('CATEGORIA'), style: 'encabezado' },{ text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' },{ text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_RECONOCIMIENTOSP'), style: 'encabezado' },{ text: $translate.instant('CDP'), style: 'encabezado' }];
                         }
-                        if (dedicacion=="TCO-MTO"){    
-                            columnas = ['NombreCompleto','TipoDocumento','IdPersona','Categoria','LugarExpedicionCedula','Dedicacion', 'NumeroHorasSemanales','NumeroMeses','ValorContratoFormato','NumeroDisponibilidad'];
+                        if (dedicacion === "TCO-MTO"){    
+                            columnas = ['NombreCompleto','TipoDocumento','PersonaId','Categoria','LugarExpedicionCedula','Dedicacion', 'NumeroHorasSemanales','NumeroMeses','ValorContratoFormato','NumeroDisponibilidad'];
                             encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' },{ text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('IDENTIFICACION'), style: 'encabezado' },  { text: $translate.instant('CATEGORIA'), style: 'encabezado' },{ text: $translate.instant('EXPEDICION'), style: 'encabezado' },{ text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' },{ text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' },{ text: $translate.instant('VALOR_VINCULACIONSP'), style: 'encabezado' },{ text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];
                         }
-                        if (dedicacion=="HCH"){    
-                            columnas = ['NombreCompleto','TipoDocumento','IdPersona','LugarExpedicionCedula','Categoria','Dedicacion', 'NumeroHorasSemanales','NumeroMeses','ValorContratoFormato','NumeroDisponibilidad'];
+                        if (dedicacion === "HCH"){    
+                            columnas = ['NombreCompleto','TipoDocumento','PersonaId','LugarExpedicionCedula','Categoria','Dedicacion', 'NumeroHorasSemanales','NumeroMeses','ValorContratoFormato','NumeroDisponibilidad'];
                             encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' },{ text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' },{ text: $translate.instant('EXPEDICION'), style: 'encabezado' },{ text: $translate.instant('CATEGORIA'), style: 'encabezado' },{ text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' },{ text: $translate.instant('PERIODO_RECONOCIMIENTO'), style: 'encabezado' }, { text: $translate.instant('VALOR_RECONOCIMIENTO'), style: 'encabezado' },{ text: $translate.instant('CDP'), style: 'encabezado' }];
                         }
                     }
@@ -86,11 +86,11 @@ angular.module('resolucionesClienteApp')
             if (datos) {
                 datos.forEach(function (fila) {
                     //Se veriica que el docente este asociado al proyecto curricular actual
-                    if (fila.IdProyectoCurricular === idProyecto) {
+                    if (fila.ProyectoCurricularId === idProyecto) {
                         //Si la resolución es de cancelación, adición o reducción la tabla es diferente
                         if (modificacion) {
                             var tablaModificacion = [];
-                            if (tipoResolucion == 'Cancelación'){
+                            if (tipoResolucion === 'Cancelación'){
                                 tablaModificacion = self.tablaCancelacion(columnas, fila, segundaFila);                            
                             } else {
                                 tablaModificacion = self.tablaModificacionHoras(columnas, fila, segundaFila, terceraFila);
@@ -143,10 +143,10 @@ angular.module('resolucionesClienteApp')
             if ((dedicacionResolucion == 'HCH')||(tipoResolucion == 'Adición')||(tipoResolucion === 'Reducción')||(tipoResolucion === 'Cancelación'))
             {
                 //console.log('Entro al metodo de resolucion tipo HCH')
-                columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
+                columnas = ['NombreCompleto', 'TipoDocumento', 'PersonaId', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses'];
                 encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' }, { text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }];
             }else{
-                columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses','NSueldoBasico', 'SueldoBasico'];
+                columnas = ['NombreCompleto', 'TipoDocumento', 'PersonaId', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NumeroMeses','NSueldoBasico', 'SueldoBasico'];
                 encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant(tituloHoras), style: 'encabezado' }, { text: $translate.instant('PERIODO_VINCULACION'), style: 'encabezado' }, { text: $translate.instant('PRESTACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_PRESTACION'), style: 'encabezado' }];
             }
             
@@ -163,11 +163,11 @@ angular.module('resolucionesClienteApp')
                     if (nivelAcademico === 'POSGRADO'){
                         if (dedicacionResolucion == 'HCH')
                         {
-                            columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
+                            columnas = ['NombreCompleto', 'TipoDocumento', 'PersonaId', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'ValorContratoFormato', 'NumeroDisponibilidad'];
                             encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('VALOR_CONTRATO'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];                
                         }else{
                             encabezado = [{ text: $translate.instant('NOMBRE'), style: 'encabezado' }, { text: $translate.instant('TIPO_DOCUMENTO'), style: 'encabezado' }, { text: $translate.instant('CEDULA'), style: 'encabezado' }, { text: $translate.instant('EXPEDICION'), style: 'encabezado' }, { text: $translate.instant('CATEGORIA'), style: 'encabezado' }, { text: $translate.instant('DEDICACION'), style: 'encabezado' }, { text: $translate.instant('HORAS_SEMESTRALES'), style: 'encabezado' }, { text: $translate.instant('PRESTACION'), style: 'encabezado' }, { text: $translate.instant('VALOR_PRESTACION'), style: 'encabezado' }, { text: $translate.instant('DISPONIBILIDAD_PDF'), style: 'encabezado' }];
-                            columnas = ['NombreCompleto', 'TipoDocumento', 'IdPersona', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NSueldoBasico', 'SueldoBasico','NumeroDisponibilidad'];    
+                            columnas = ['NombreCompleto', 'TipoDocumento', 'PersonaId', 'LugarExpedicionCedula', 'Categoria', 'Dedicacion', 'NumeroHorasSemanales', 'NSueldoBasico', 'SueldoBasico','NumeroDisponibilidad'];    
                         }   
                     }
                     modificacion = false;
@@ -445,7 +445,7 @@ angular.module('resolucionesClienteApp')
                     datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '' });
                     segunda[i] = fila[segundaFila[j]] != undefined ? fila[segundaFila[j]].toString() : '';
                     tercera[i] = fila[terceraFila[j]] != undefined ? fila[terceraFila[j]].toString() : '';
-                    tercera[i] = i == 6 ? 'Total ' + tercera[i] : tercera[i] ;
+                    tercera[i] = i === 6 ? 'Total ' + tercera[i] : tercera[i] ;
                     j++;
                 }
             }
@@ -480,7 +480,7 @@ angular.module('resolucionesClienteApp')
             if (fechaExpedicion != undefined && typeof fechaExpedicion === "object") {
                 fechaExpedicion = fechaExpedicion.toJSON();
             }
-            if (fechaExpedicion == undefined || fechaExpedicion === "0001-01-01T00:00:00Z") {
+            if (fechaExpedicion === undefined || fechaExpedicion === "0001-01-01T00:00:00Z") {
                 fechaParaPDF = "Fecha de expedición pendiente";
             }
             else {
@@ -527,7 +527,7 @@ angular.module('resolucionesClienteApp')
                             var proyectoVisible = false;
                             if (contratados) {
                                 contratados.forEach(function (fila) {
-                                    if (fila.IdProyectoCurricular === proyecto.Id) {
+                                    if (fila.ProyectoCurricularId === proyecto.Id) {
                                         proyectoVisible = true;
                                     }
                                 });
@@ -537,7 +537,7 @@ angular.module('resolucionesClienteApp')
                                     text: proyecto.Nombre,
                                     style: 'texto'
                                 });
-                                contenido.push(self.getTabla(proyecto.Id, resolucion.NivelAcademico_nombre, contratados, resolucion.TipoResolucion, resolucion.Dedicacion));
+                                contenido.push(self.getTabla(proyecto.Id, resolucion.NivelAcademico, contratados, resolucion.TipoResolucion, resolucion.Dedicacion));
                                 //contenido.push(self.getTabla(proyecto.Id, resolucion.NivelAcademico_nombre, contratados, resolucion.TipoResolucion));
                             }
 
@@ -574,7 +574,7 @@ angular.module('resolucionesClienteApp')
                 text: '-- ' + contenidoResolucion.OrdenadorGasto.Cargo + ' --',
                 style: 'nombre_cargo'
             });
-            contenido.push(self.getTablaRevision(resolucion.NivelAcademico_nombre));
+            contenido.push(self.getTablaRevision(resolucion.NivelAcademico));
             return contenido;
         };
 

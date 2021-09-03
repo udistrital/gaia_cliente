@@ -60,7 +60,7 @@ angular.module('resolucionesClienteApp')
                             query: "Necesidad:" + response.data[0].Id,
                         })).then(function (response) {
                             self.solicitud_disponibilidad =  
-                            (response.data != null && response.data.length > 0) ?
+                            (response.data !== null && response.data.length > 0) ?
                                 response.data[0]: {Numero: ''};
                         });
 

@@ -266,7 +266,7 @@ angular.module('resolucionesClienteApp')
       var resolucion = {
         Id: row.entity.Id,
         Numero: row.entity.Numero,
-        NivelAcademico_nombre: row.entity.NivelAcademico,
+        NivelAcademico: row.entity.NivelAcademico,
         Facultad: row.entity.Facultad,
         Vigencia: row.entity.Vigencia,
         Periodo: row.entity.Periodo,

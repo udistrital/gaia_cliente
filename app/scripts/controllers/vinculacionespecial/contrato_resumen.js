@@ -8,7 +8,7 @@
  * Controller of the resolucionesClienteApp
  */
 angular.module('resolucionesClienteApp')
-  .controller('ContratoResumenCtrl', function ($scope, $translate, amazonAdministrativaRequest, coreRequest, oikosRequest, adminMidRequest, idResolucion, $mdDialog) {
+  .controller('ContratoResumenCtrl', function ($scope, $translate, amazonAdministrativaRequest, resolucionRequest, oikosRequest, adminMidRequest, idResolucion, $mdDialog) {
 
     var self = this;
 
@@ -46,12 +46,12 @@ angular.module('resolucionesClienteApp')
       self.precontratados.data = JSON.parse(JSON.stringify(self.precontratados.data));
     };
 
-    amazonAdministrativaRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
-      self.datosFiltro = response.data;
-      self.datosFiltro.IdFacultad = self.datosFiltro.IdFacultad.toString();
-      oikosRequest.get("proyecto_curricular/" + self.datosFiltro.NivelAcademico.toLowerCase() + "/" + self.datosFiltro.IdFacultad).then(function (response) {
+    resolucionRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
+      self.datosFiltro = response.data.Data;
+      self.datosFiltro.FacultadId = self.datosFiltro.FacultadId.toString();
+      oikosRequest.get("proyecto_curricular/" + self.datosFiltro.NivelAcademico.toLowerCase() + "/" + self.datosFiltro.FacultadId).then(function (response) {
         if (response.data === null) {
-          oikosRequest.get("facultad/" + self.datosFiltro.IdFacultad).then(function (response) {
+          oikosRequest.get("facultad/" + self.datosFiltro.FacultadId).then(function (response) {
             self.proyectos = [response.data];
           });
         } else {

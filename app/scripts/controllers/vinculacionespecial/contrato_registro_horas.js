@@ -22,13 +22,13 @@ angular.module('resolucionesClienteApp')
         self.resolucionTest = JSON.parse(localStorage.getItem("resolucion"));
 
         resolucionRequest.get('resolucion/' + self.idResolucion).then(function (response) {
-            self.resolucionActual = response.data;
-            if (self.resolucionActual.FechaExpedicion != undefined && self.resolucionActual.FechaExpedicion !== "0001-01-01T00:00:00Z") {
+            self.resolucionActual = response.data.Data;
+            if (self.resolucionActual.FechaExpedicion !== undefined && self.resolucionActual.FechaExpedicion !== "0001-01-01T00:00:00Z") {
                 self.FechaExpedicion = new Date(self.resolucionActual.FechaExpedicion);
             }
-            return resolucionRequest.get('tipo_resolucion/' + self.resolucionActual.IdTipoResolucion.Id);
+            return resolucionRequest.get('tipo_resolucion/' + self.resolucionActual.TipoResolucionId.Id);
         }).then(function (response) {
-            self.resolucionActual.IdTipoResolucion.NombreTipoResolucion = response.data.NombreTipoResolucion;
+            self.resolucionActual.TipoResolucionId.NombreTipoResolucion = response.data.NombreTipoResolucion;
             resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.IdDependenciaFirma).then(function (response) {
                 self.contenidoResolucion = response.data.Data;
                 resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
@@ -37,30 +37,30 @@ angular.module('resolucionesClienteApp')
             });
         });
 
-        oikosRequest.get('dependencia/' + resolucion.Facultad).then(function (response) {
+        oikosRequest.get('dependencia/' + resolucion.FacultadId).then(function (response) {
             resolucion.FacultadNombre = response.data.Nombre;
         });
 
         resolucionRequest.get("modificacion_resolucion/", "query=ResolucionNuevaId.Id:" + self.idResolucion).then(function (response) {
             self.resolucionModificada = response.data.Data[0].ResolucionAnterior;
             resolucionRequest.get("resolucion/" + self.resolucionModificada).then(function (response) {
-                self.numeroResolucionModificada = response.data.NumeroResolucion;
+                self.numeroResolucionModificada = response.data.Data.NumeroResolucion;
             });
         });
 
         resolucionRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
-            self.datosFiltro = response.data;
-            oikosRequest.get("dependencia/" + self.datosFiltro.IdFacultad.toString()).then(function (response) {
+            self.datosFiltro = response.data.Data;
+            oikosRequest.get("dependencia/" + self.datosFiltro.FacultadId.toString()).then(function (response) {
                 self.contratoGeneralBase.Contrato.SedeSolicitante = response.data.Id.toString();
                 self.sede_solicitante_defecto = response.data.Nombre;
             });
             resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response) {
                 self.contratados = response.data.Data;
             });
-            oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.Facultad + "/" + self.datosFiltro.NivelAcademico, "").then(function (response) {
+            oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.FacultadId + "/" + self.datosFiltro.NivelAcademico, "").then(function (response) {
                 self.proyectos = response.data;
             });
-            coreAmazonRequest.get("ordenador_gasto", "query=DependenciaId%3A" + self.datosFiltro.IdFacultad.toString()).then(function (response) {
+            coreAmazonRequest.get("ordenador_gasto", "query=DependenciaId%3A" + self.datosFiltro.FacultadId.toString()).then(function (response) {
                 if (response.data === null) {
                     coreAmazonRequest.get("ordenador_gasto/1").then(function (response) {
                         self.ordenadorGasto = response.data;
@@ -188,8 +188,8 @@ angular.module('resolucionesClienteApp')
                     var contratoGeneral = JSON.parse(JSON.stringify(self.contratoGeneralBase.Contrato));
                     var actaI = JSON.parse(JSON.stringify(self.acta));
                     actaI.FechaInicio = contratado.FechaInicio;
-                    contratoGeneral.Contratista = parseInt(contratado.IdPersona);
-                    contratoGeneral.DependenciaSolicitante = contratado.IdProyectoCurricular.toString();
+                    contratoGeneral.Contratista = parseInt(contratado.PersonaId);
+                    contratoGeneral.DependenciaSolicitante = contratado.ProyectoCurricularId.toString();
                     contratoGeneral.PlazoEjecucion = parseInt(contratado.NumeroHorasSemanales);
                     contratoGeneral.OrdenadorGasto = self.ordenadorGasto.Id;
                     contratoGeneral.ValorContrato = parseInt(contratado.ValorContrato);
@@ -200,7 +200,7 @@ angular.module('resolucionesClienteApp')
                             Id: parseInt(contratado.Id),
                             NumeroSemanasNuevas: contratado.NumeroSemanasNuevas,
                             NumeroHorasNuevas: contratado.NumeroHorasNuevas,
-                            NivelAcademico: self.resolucionTest.NivelAcademico_nombre,
+                            NivelAcademico: self.resolucionTest.NivelAcademico,
                             Dedicacion: self.resolucionTest.Dedicacion
                         }
                     };
@@ -264,7 +264,7 @@ angular.module('resolucionesClienteApp')
          * Genera el documento de la resolución en formato blob y lo carga en nuexeo, posteriormente lo guarda en la tabla documento del core
          */
         self.guardarResolucionNuxeo = function () {
-            resolucion.NivelAcademico_nombre = resolucion.NivelAcademico;
+            resolucion.NivelAcademico = resolucion.NivelAcademico;
             var documento = pdfMakerService.getDocumento(self.contenidoResolucion, resolucion, self.contratadosPdf, self.proyectos);
             pdfMake.createPdf(documento).getBlob(function (blobDoc) {
                 var aux = nuxeoClient.createDocument("ResolucionDVE" + self.idResolucion, "Resolución DVE expedida", blobDoc, function(url) {
@@ -291,7 +291,7 @@ angular.module('resolucionesClienteApp')
                     coreRequest.post('documento', self.objeto_documento).then(function(response) {
                         self.id_documento = response.data.Id;
                         console.log(self.id_documento);
-                        if (self.id_documento != null && self.id_documento != undefined) {
+                        if (self.id_documento !== null && self.id_documento !== undefined) {
                             swal({
                                 title: $translate.instant('EXPEDIDA'),
                                 text: $translate.instant('DATOS_REGISTRADOS'),

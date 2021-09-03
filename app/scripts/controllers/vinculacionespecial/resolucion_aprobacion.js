@@ -151,7 +151,7 @@ angular.module('resolucionesClienteApp')
 
         //Funcion para cargar los datos de las resoluciones creadas y almacenadas dentro del sistema
         self.cargarDatosResolucion = function (offset, query) {
-            if(query == undefined) query = "";
+            if(query === undefined) query = "";
             var req = resolucionesMidRequest.get("gestion_resoluciones/get_resoluciones_inscritas", $.param({
                 limit: self.resolucionesInscritas.paginationPageSize,
                 offset: offset,
@@ -166,7 +166,7 @@ angular.module('resolucionesClienteApp')
             resolucionRequest.get("resolucion/" + row.entity.Id).then(function (response) {
                 var Resolucion = response.data.Data;
                 var resolucion_estado = {
-                    FechaRegistro: self.CurrentDate,
+                    FechaCreacion: self.CurrentDate,
                     Usuario: "",
                     Estado: {
                         Id: idEstado,
@@ -226,8 +226,8 @@ angular.module('resolucionesClienteApp')
             var resolucion = {
                 Id: row.entity.Id,
                 Numero: row.entity.Numero,
-                NivelAcademico_nombre: row.entity.NivelAcademico,
-                IdFacultad: row.entity.Facultad,
+                NivelAcademico: row.entity.NivelAcademico,
+                FacultadId: row.entity.Facultad,
                 Vigencia: row.entity.Vigencia,
                 Periodo: row.entity.Periodo,
                 NumeroSemanas: row.entity.NumeroSemanas,

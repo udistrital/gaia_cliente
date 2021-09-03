@@ -141,7 +141,7 @@ angular.module('resolucionesClienteApp')
                     displayName: $translate.instant('VIGENCIA'),
                 },
                 {
-                    field: 'Resolucion.IdTipoResolucion.NombreTipoResolucion',
+                    field: 'Resolucion.TipoResolucionId.NombreTipoResolucion',
                     displayName: $translate.instant('TIPO_RESOLUCION'),
                 },
                 {
@@ -412,7 +412,7 @@ angular.module('resolucionesClienteApp')
         };
 
         self.buscar_personas = function(numContrato, vigenciaContrato, existe_contrato, vinculacion_docente) {
-            amazonAdministrativaRequest.get('proveedor_contrato_persona/' + numContrato.String + "/" + vigenciaContrato.Int64, "", "").then(function(response) {
+            amazonAdministrativaRequest.get('proveedor_contrato_persona/' + numContrato.String + "/" + vigenciaContrato, "", "").then(function(response) {
                 if (response.data !== null) {
                     existe_contrato = true;
                     resoluciones.push(response.data[0]);
@@ -507,7 +507,7 @@ angular.module('resolucionesClienteApp')
         self.generar_txt_cdp = function(numContrato, vigenciaContrato, vinculacion_docente) {
 
             
-            amazonAdministrativaRequest.get('proveedor_contrato_persona/' + numContrato.String + "/" + vigenciaContrato.Int64 , "").then(function(response) {
+            amazonAdministrativaRequest.get('proveedor_contrato_persona/' + numContrato.String + "/" + vigenciaContrato , "").then(function(response) {
                 if (response.data !== null) {
                     self.contrato.push(response.data[0]);
                 } else {

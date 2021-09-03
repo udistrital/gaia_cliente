@@ -31,17 +31,17 @@ angular.module('resolucionesClienteApp')
             columnDefs: [
                 { field: 'Id', visible: false },
                 { field: 'NombreCompleto', width: '17%', displayName: $translate.instant('NOMBRE') },
-                { field: 'IdPersona', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
+                { field: 'PersonaId', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
                 { field: 'Categoria', width: '10%', displayName: $translate.instant('CATEGORIA') },
                 { field: 'ProyectoNombre', width: '22%', displayName: $translate.instant('PROYECTO_CURRICULAR') },
-                { field: 'IdDedicacion.Id', visible: false },
+                { field: 'DedicacionId.Id', visible: false },
                 { field: 'Disponibilidad', visible: false },
                 { field: 'DependenciaAcademica', visible: false },
                 { field: 'NumeroHorasSemanales', width: '10%', displayName: $translate.instant('HORAS_SEMANALES') },
                 { field: 'NumeroSemanas', width: '7%', displayName: $translate.instant('SEMANAS') },
                 { field: 'NumeroDisponibilidad', width: '9%', displayName: $translate.instant('NUM_DISPO_DOCENTE') },
                 { field: 'ValorContrato', width: '13%', displayName: $translate.instant('VALOR_CONTRATO'), cellClass: "valorEfectivo", cellFilter: "currency" },
-                { field: 'IdProyectoCurricular', visible: false },
+                { field: 'ProyectoCurricularId', visible: false },
                 { field: 'Vigencia', visible: false },
                 { field: 'NumeroContrato', visible: false },
             ],
@@ -52,14 +52,14 @@ angular.module('resolucionesClienteApp')
                     self.personasSeleccionadas = gridApi.selection.getSelectedRows();
                     self.rps = [];
                     self.personasSeleccionadas.forEach(function (persona, indice) {
-                        oikosRequest.get("dependencia/" + persona.IdProyectoCurricular).then(function (response) {
+                        oikosRequest.get("dependencia/" + persona.ProyectoCurricularId).then(function (response) {
                             persona.Proyecto = response.data.Nombre;
                         });
-                       self.getRPs(persona.NumeroContrato.String,persona.Vigencia.Int64, persona.IdPersona, indice);
+                       self.getRPs(persona.NumeroContrato.String, persona.Vigencia, persona.PersonaId, indice);
                     });
                     if (self.personasSeleccionadas.length > 0) {
                         amazonAdministrativaRequest.get("acta_inicio", $.param({
-                            query: 'NumeroContrato:' + self.personasSeleccionadas[0].NumeroContrato.String + ',Vigencia:' + self.personasSeleccionadas[0].Vigencia.Int64
+                            query: 'NumeroContrato:' + self.personasSeleccionadas[0].NumeroContrato.String + ',Vigencia:' + self.personasSeleccionadas[0].Vigencia
                         })).then(function (response) {
                             self.acta = response.data[0];
                             self.fechaIni = new Date(self.acta.FechaInicio);
@@ -89,7 +89,7 @@ angular.module('resolucionesClienteApp')
             });
         });
 
-        oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
+        oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.FacultadId + "/" + self.resolucion.NivelAcademico, "").then(function (response) {
             self.proyectos = response.data;
             self.defaultSelectedPrecont = self.proyectos[0].Id;
         });
@@ -151,23 +151,23 @@ angular.module('resolucionesClienteApp')
                 personaSeleccionada.InformacionRp.vigencia =parseInt(personaSeleccionada.InformacionRp.vigencia,10);
                 var docente_a_desvincular = {
                     Id: personaSeleccionada.Id,
-                    PersonaId: personaSeleccionada.IdPersona,
+                    PersonaId: personaSeleccionada.PersonaId,
                     NumeroHorasSemanales: personaSeleccionada.NumeroHorasSemanales,
                     NumeroSemanas: personaSeleccionada.NumeroSemanas,
                     NumeroSemanasNuevas: self.semanasReversar,
-                    ResolucionVinculacionDocenteId: { Id: personaSeleccionada.IdResolucion.Id },
-                    DedicacionId: { Id: personaSeleccionada.IdDedicacion.Id },
-                    ProyectoCurricularId: personaSeleccionada.IdProyectoCurricular,
+                    ResolucionVinculacionDocenteId: { Id: personaSeleccionada.ResolucionId.Id },
+                    DedicacionId: { Id: personaSeleccionada.DedicacionId.Id },
+                    ProyectoCurricularId: personaSeleccionada.ProyectoCurricularId,
                     Activo: Boolean(false),
-                    FechaRegistro: self.fecha,
+                    FechaCreacion: self.fecha,
                     ValorContrato: personaSeleccionada.ValorContrato,
                     Categoria: personaSeleccionada.Categoria,
                     Disponibilidad: personaSeleccionada.Disponibilidad,
                     Vigencia: personaSeleccionada.Vigencia,
                     DependenciaAcademica: personaSeleccionada.DependenciaAcademica,
                     NumeroContrato: personaSeleccionada.NumeroContrato,
-                    Dedicacion: personaSeleccionada.IdDedicacion.NombreDedicacion.toUpperCase(),
-                    NivelAcademico: personaSeleccionada.IdResolucion.NivelAcademico,
+                    Dedicacion: personaSeleccionada.DedicacionId.NombreDedicacion.toUpperCase(),
+                    NivelAcademico: personaSeleccionada.ResolucionId.NivelAcademico,
                     NumeroRp: personaSeleccionada.InformacionRp.rp,
                     VigenciaRp: personaSeleccionada.InformacionRp.vigencia,
                     FechaInicio: personaSeleccionada.FechaInicio

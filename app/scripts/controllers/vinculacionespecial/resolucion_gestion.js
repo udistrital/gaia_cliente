@@ -257,7 +257,7 @@ angular.module('resolucionesClienteApp')
         TipoResolucion: row.entity.TipoResolucion,
         IdDependenciaFirma: row.entity.IdDependenciaFirma,
         FacultadFirmaNombre: row.entity.FacultadFirmaNombre,
-        Activo: row.entity.Estado,
+        Estado: row.entity.Estado,
         VigenciaCarga: row.entity.VigenciaCarga,
         PeriodoCarga: row.entity.PeriodoCarga
       };
@@ -349,7 +349,7 @@ angular.module('resolucionesClienteApp')
       resolucionRequest.get("resolucion/" + row.entity.Id).then(function (response) {
         var Resolucion = response.data.Data;
         var resolucion_estado = {
-          FechaRegistro: self.CurrentDate,
+          FechaCreacion: self.CurrentDate,
           Usuario: "",
           EstadoResolucionId: {
             Id: 6,
@@ -376,8 +376,8 @@ angular.module('resolucionesClienteApp')
 
     //Función para cambiar el estado de la resolución
     self.cambiarEstado = function (resolucion_estado) {
-      resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + resolucion_estado.Resolucion.Id.toString()).then(function (response) {
-        if (response.data.Data.length === 0 || resolucion_estado.Resolucion.TipoResolucionId.Id === 1) {
+      resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + resolucion_estado.ResolucionId.Id.toString()).then(function (response) {
+        if (response.data.Data.length === 0 || resolucion_estado.ResolucionId.TipoResolucionId.Id === 1) {
           resolucionRequest.post("resolucion_estado", resolucion_estado).then(function (response) {
             if (response.data.Success) {
               self.cargarDatosResolucion($scope.offset, $scope.query);

@@ -14,6 +14,7 @@ var conf_cloud = {
     ADMINISTRATIVA_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/api/administrativa_mid_api/v1/",
     ADMINISTRATIVA_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/api/administrativa_crud_api/v1/",
     RESOLUCIONES_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_crud/v1/",
+    RESOLUCIONES_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_mid/v1/",
     ADMINISTRATIVA_PRUEBAS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/api/administrativa_amazon_api/v1/",
     CONFIGURACION_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/api/configuracion_crud_api/v1/",
     CORE_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/api/core_api/v1/",
@@ -90,6 +91,7 @@ var conf_preproduccion = {
     ADMINISTRATIVA_MID_SERVICE: " https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_mid_api/v1/",
     ADMINISTRATIVA_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_crud_api/v1/",
     RESOLUCIONES_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_crud/v1/",
+    RESOLUCIONES_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_mid/v1/",
     ADMINISTRATIVA_PRUEBAS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_amazon_api/v1/",
     CONFIGURACION_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/configuracion_crud_api/v1/",
     CORE_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/core_api/v1/",
@@ -166,10 +168,11 @@ var conf_local = {
     // pruebas
     ADMINISTRATIVA_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_mid_api/v1/",
     ADMINISTRATIVA_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_crud_api/v1/",
+    //RESOLUCIONES_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_mid/v1/",
     RESOLUCIONES_MID_SERVICE: "http://localhost:8521/v1/",
-    RESOLUCIONES_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_crud/v1/",
+    RESOLUCIONES_SERVICE: "http://localhost:8516/v1/",
     //RESOLUCIONES_SERVICE: "http://pruebasapi2.intranetoas.udistrital.edu.co:8516/v1/",
-    //RESOLUCIONES_SERVICE: "http://localhost:8516/v1/",
+    //RESOLUCIONES_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_crud/v1/",
 
     ADMINISTRATIVA_PRUEBAS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_amazon_api/v1/",
     // CONFIGURACION_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/api/configuracion_crud_api/v1/",
@@ -262,6 +265,7 @@ var conf_resoluciones_preprod = {
     ADMINISTRATIVA_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_mid_api/v1/",
     //ADMINISTRATIVA_MID_SERVICE: "http://localhost:8091/v1/",
     ADMINISTRATIVA_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_crud_api/v1/",
+    RESOLUCIONES_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_mid/v1/",
     RESOLUCIONES_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_crud/v1/",
     CORE_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/core_api/v1/",
     CORE_AMAZON_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/core_amazon_crud/v1/",
@@ -270,7 +274,7 @@ var conf_resoluciones_preprod = {
     FINANCIERA_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/financiera_mid_api/v1/",
     FINANCIERA_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/financiera_crud_api/v1/",
     MODELS_SERVICE: "scripts/models/",
-    OIKOS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/oikos_crud_api/v2/",
+    OIKOS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/oikos_crud_api/v1/",
     //OIKOS_AMAZON_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_amazon_api/v1",
     //TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
     //TITANDESAGREG_SERVICE : "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
@@ -425,6 +429,6 @@ var conf_resoluciones = {
 
 angular.module('resolucionesClienteApp')
     .constant('CONF', {
-        //GENERAL: conf_resoluciones_preprod,
-        GENERAL: conf_local,
+        GENERAL: conf_resoluciones_preprod,
+        //GENERAL: conf_local,
     });

@@ -24,12 +24,12 @@ angular.module('resolucionesClienteApp')
     self.generarDocumentoPdfMake = function () {
       
 
-      if (self.resolucion.FechaExpedicion != undefined && self.resolucion.FechaExpedicion !== "0001-01-01T00:00:00Z") {
+      if (self.resolucion.FechaExpedicion !== undefined && self.resolucion.FechaExpedicion !== "0001-01-01T00:00:00Z") {
         self.resolucion.FechaExpedicion = new Date(self.resolucion.FechaExpedicion);
       }
 
       self.proyectos = [];
-      oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
+      oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.FacultadId + "/" + self.resolucion.NivelAcademico, "").then(function (response) {
         self.proyectos = response.data;
       });
       resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucion.Id + "&id_facultad=" + self.resolucion.IdDependenciaFirma).then(function (response) {
@@ -77,7 +77,7 @@ angular.module('resolucionesClienteApp')
                 
 
         const datosDocenteSalario = {
-          NumDocumento:  docentes.IdPersona,
+          NumDocumento:  docentes.PersonaId,
           ValorContrato: valor_totalContrato.toString(),
           VigenciaContrato: self.resolucion.Vigencia.toString(),
           MesesContrato: meses_contrato,

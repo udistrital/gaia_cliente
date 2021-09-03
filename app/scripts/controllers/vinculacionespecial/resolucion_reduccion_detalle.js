@@ -26,19 +26,19 @@ angular.module('resolucionesClienteApp')
       enableSelectAll: false,
       columnDefs: [
         { field: 'Id', visible: false },
-        { field: 'FechaRegistro', visible: false },
+        { field: 'FechaCreacion', visible: false },
         { field: 'NombreCompleto', width: '15%', displayName: $translate.instant('NOMBRE') },
-        { field: 'IdPersona', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
+        { field: 'PersonaId', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
         { field: 'Categoria', width: '10%', displayName: $translate.instant('CATEGORIA') },
         { field: 'Dedicacion', width: '15%', displayName: $translate.instant('DEDICACION') },
-        { field: 'IdDedicacion.Id', visible: false },
+        { field: 'DedicacionId.Id', visible: false },
         { field: 'Disponibilidad', visible: false },
         { field: 'NumeroHorasSemanales', width: '10%', displayName: $translate.instant('HORAS_REVERSAR') },
         { field: 'NumeroSemanas', width: '10%', displayName: $translate.instant('SEMANAS_REV') },
         { field: 'NumeroDisponibilidad', width: '10%', displayName: $translate.instant('NUM_DISPO_DOCENTE') },
         { field: 'ValorContrato', width: '10%', displayName: $translate.instant('VALOR_CONTRATO_REV'), cellClass: "valorEfectivo", cellFilter: "currency" },
         {
-          field: 'IdProyectoCurricular', visible: false, filter: {
+          field: 'ProyectoCurricularId', visible: false, filter: {
             term: self.term
           }
         },
@@ -66,7 +66,7 @@ angular.module('resolucionesClienteApp')
 
 
 
-    oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
+    oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.FacultadId + "/" + self.resolucion.NivelAcademico, "").then(function (response) {
       self.proyectos = response.data;
       self.defaultSelectedPrecont = self.proyectos[0].Id;
     });
@@ -121,14 +121,14 @@ angular.module('resolucionesClienteApp')
     self.AnularAdicionDocente = function (row) {
       var docente_a_anular = {
         Id: row.entity.Id,
-        PersonaId: row.entity.IdPersona,
+        PersonaId: row.entity.PersonaId,
         NumeroHorasSemanales: row.entity.NumeroHorasSemanales,
         NumeroSemanas: row.entity.NumeroSemanas,
         ResolucionVinculacionDocenteId: { Id: self.resolucion.Id },
-        DedicacionId: { Id: row.entity.IdDedicacion.Id },
-        ProyectoCurricularId: row.entity.IdProyectoCurricular,
+        DedicacionId: { Id: row.entity.DedicacionId.Id },
+        ProyectoCurricularId: row.entity.ProyectoCurricularId,
         Activo: Boolean(true),
-        FechaRegistro: self.fecha,
+        FechaCreacion: self.fecha,
         ValorContrato: row.entity.ValorContrato,
         Categoria: row.entity.Categoria,
         DependenciaAcademica: row.entity.DependenciaAcademica,
