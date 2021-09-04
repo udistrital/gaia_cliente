@@ -1,7 +1,7 @@
 kind: pipeline
 name: cliente_deploy
 
-steps: 
+steps:
 
 - name: check_readme
   image: jjvargass/qa_develoment:latest
@@ -97,7 +97,7 @@ steps:
     event:
     - push
 
-- name: publish-s3-master  
+- name: publish-s3-master 
   image: plugins/s3
   settings:
     bucket: cliente-pruebas
