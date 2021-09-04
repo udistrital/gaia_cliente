@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .factory('pdfMakerNecesidadesService', function ($http, $filter, $translate, necesidadService) {
         var self = this;
 
@@ -141,7 +141,7 @@ angular.module('contractualClienteApp')
                                                 columnGap: 10,
                                                 columns: [
                                                     { style: "title2", text: "Duración:", width: "auto" },
-                                                    { text: (trNecesidad.Necesidad.DiasDuracion == 0) ? 'PAGO ÚNICO' : 'Años: ' + dataDias.anos + ', Meses: ' + dataDias.meses + ', Días: ' + dataDias.dias }
+                                                    { text: (trNecesidad.Necesidad.DiasDuracion === 0) ? 'PAGO ÚNICO' : 'Años: ' + dataDias.anos + ', Meses: ' + dataDias.meses + ', Días: ' + dataDias.dias }
                                                 ]
                                             },
                                             {
@@ -227,7 +227,7 @@ angular.module('contractualClienteApp')
                                                         ]
                                                     }
                                                 ]).concat(
-                                                    apg.Productos != null ? apg.Productos.map(function (p) {
+                                                    apg.Productos !== null ? apg.Productos.map(function (p) {
                                                         return {
                                                             columnGap: 10,
                                                             columns: [

@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name financieraClienteApp.directive:loading
+ * @name resolucionesClienteApp.directive:loading
  * @description
  * # loading
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .directive('loading', function() {
         return {
             restrict: 'E',

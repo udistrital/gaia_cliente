@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('contractualClienteApp')
-    .controller('HojasDeVidaSeleccionCtrl', function (financieraMidRequest, administrativaRequest, financieraRequest, resolucion, adminMidRequest, oikosRequest, gridApiService, $localStorage, $scope, $mdDialog, $translate, $window) {
+angular.module('resolucionesClienteApp')
+    .controller('HojasDeVidaSeleccionCtrl', function (resolucionRequest, financieraRequest, resolucion, adminMidRequest, resolucionesMidRequest, oikosRequest, gridApiService, $localStorage, $scope, $mdDialog, $translate, $window) {
 
         var self = this;
 
@@ -104,7 +104,7 @@ angular.module('contractualClienteApp')
             visible: false
         },
         ];
-        if (self.resolucion.NivelAcademico_nombre !== "PREGRADO") {
+        if (self.resolucion.NivelAcademico !== "PREGRADO") {
             self.datosDocentesCargaLectiva.columnDefs.push({
                 displayName: $translate.instant('OPCIONES'),
                 field: 'edit',
@@ -143,16 +143,16 @@ angular.module('contractualClienteApp')
             columnDefs: [
                 { field: 'Id', visible: false, exporterSuppressExport: true, enableHiding: false },
                 { field: 'NombreCompleto', width: '20%', displayName: $translate.instant('NOMBRE') },
-                { field: 'IdPersona', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
+                { field: 'PersonaId', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
                 { field: 'Categoria', width: '10%', displayName: $translate.instant('CATEGORIA') },
-                { field: 'IdDedicacion.NombreDedicacion', width: '10%', displayName: $translate.instant('DEDICACION') },
-                { field: 'IdDedicacion.Id', visible: false, exporterSuppressExport: true, enableHiding: false },
+                { field: 'DedicacionId.NombreDedicacion', width: '10%', displayName: $translate.instant('DEDICACION') },
+                { field: 'DedicacionId.Id', visible: false, exporterSuppressExport: true, enableHiding: false },
                 { field: 'NumeroHorasSemanales', width: '8%', displayName: $translate.instant('HORAS_SEMANALES') },
                 { field: 'NumeroSemanas', width: '7%', displayName: $translate.instant('SEMANAS') },
                 { field: 'NumeroDisponibilidad', width: '15%', displayName: $translate.instant('NUM_DISPO_DOCENTE') },
                 { field: 'ValorContrato', width: '15%', displayName: $translate.instant('VALOR_CONTRATO'), cellClass: "valorEfectivo", cellFilter: "currency:$" },
                 {
-                    field: 'IdProyectoCurricular', visible: false, exporterSuppressExport: true, enableHiding: false,
+                    field: 'ProyectoCurricularId', visible: false, exporterSuppressExport: true, enableHiding: false,
                     filter: {
                         term: self.term
                     }
@@ -296,13 +296,13 @@ angular.module('contractualClienteApp')
                 vigencia: self.resolucion.VigenciaCarga,
                 periodo: self.resolucion.PeriodoCarga,
                 tipo_vinculacion: self.resolucion.Dedicacion,
-                facultad: self.resolucion.IdFacultad,
-                nivel_academico: self.resolucion.NivelAcademico_nombre,
-                limit: self.datosDocentesCargaLectiva.paginationPageSize,
-                offset: offset,
-                query: query
+                facultad: self.resolucion.FacultadId,
+                nivel_academico: self.resolucion.NivelAcademico,
+                //limit: self.datosDocentesCargaLectiva.paginationPageSize,
+                //offset: offset,
+                //query: query
             });
-            var req = adminMidRequest.get("gestion_previnculacion/Precontratacion/docentes_x_carga_horaria", p);
+            var req = resolucionesMidRequest.get("gestion_previnculacion/Precontratacion/docentes_x_carga_horaria", p);
             // console.info(req);
             req.then(gridApiService.paginationFunc(self.datosDocentesCargaLectiva, offset));
             return req;
@@ -322,13 +322,13 @@ angular.module('contractualClienteApp')
             self.Apropiaciones.data = [];
         };
 
-        administrativaRequest.get("vinculacion_docente/get_total_contratos_x_resolucion/" + self.resolucion.Id + "/" + self.resolucion.Dedicacion, "").then(function (response) {
-            self.total_contratos_x_vin = response.data[0].Valor;
+        resolucionRequest.get("vinculacion_docente/get_total_contratos_x_resolucion/" + self.resolucion.Id + "/" + self.resolucion.Dedicacion, "").then(function (response) {
+            self.total_contratos_x_vin = response.data.Data[0].Valor;
         }).catch(function (response) {
             self.total_contratos_x_vin = 0;
-        }) ;
+        });
 
-        oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
+        oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.FacultadId + "/" + self.resolucion.NivelAcademico, "").then(function (response) {
             self.proyectos = response.data;
             self.defaultSelectedPrecont = self.proyectos[0].Id;
         });
@@ -336,8 +336,8 @@ angular.module('contractualClienteApp')
         //Función para visualizar docentes ya vinculados a resolución
         self.get_docentes_vinculados = function () {
             self.estado = true;
-            var r = adminMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.resolucion.Id).then(function (response) {
-                self.precontratados.data = response.data;
+            var r = resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.resolucion.Id).then(function (response) {
+                self.precontratados.data = response.data.Data;
                 self.estado = false;
             });
             self.precontratados.columnDefs[10].filter.term = self.term;
@@ -385,28 +385,28 @@ angular.module('contractualClienteApp')
             vinculacionesData = [];            
             self.personasSeleccionadasAgregar.forEach(function (personaSeleccionada) {
                 var vinculacionDocente = {
-                    IdPersona: personaSeleccionada.docente_documento,
+                    PersonaId: personaSeleccionada.docente_documento,
                     NumeroHorasSemanales: parseInt(personaSeleccionada.horas_lectivas),
                     NumeroSemanas: parseInt(self.resolucion.NumeroSemanas),
-                    IdResolucion: { Id: parseInt(self.resolucion.Id) },
-                    IdDedicacion: { Id: parseInt(personaSeleccionada.id_tipo_vinculacion) },
-                    IdProyectoCurricular: parseInt(personaSeleccionada.id_proyecto),
+                    ResolucionVinculacionDocenteId : { Id: parseInt(self.resolucion.Id) },
+                    DedicacionId: { Id: parseInt(personaSeleccionada.id_tipo_vinculacion) },
+                    ProyectoCurricularId: parseInt(personaSeleccionada.id_proyecto),
                     Categoria: personaSeleccionada.CategoriaNombre.toUpperCase(),
                     Dedicacion: personaSeleccionada.tipo_vinculacion_nombre.toUpperCase(),
-                    NivelAcademico: self.resolucion.NivelAcademico_nombre,
+                    NivelAcademico: self.resolucion.NivelAcademico,
                     Disponibilidad: self.apropiacion_elegida[0].Id,
                     DependenciaAcademica: personaSeleccionada.DependenciaAcademica,
-                    Vigencia: { Int64: parseInt(self.resolucion.Vigencia), valid: true }
+                    Vigencia: parseInt(self.resolucion.Vigencia),
                 };
 
                 vinculacionesData.push(vinculacionDocente);
 
             });
 
-            adminMidRequest.post("gestion_previnculacion/Precontratacion/insertar_previnculaciones", vinculacionesData).then(function (response) {
+            resolucionesMidRequest.post("gestion_previnculacion/Precontratacion/insertar_previnculaciones", vinculacionesData).then(function (response) {
                 console.info(response)
-                console.info(response.data[0].Valor)
-                if (typeof response.data[0].Valor === "number") {
+                console.info(response.data.Data)
+                if (typeof response.data.Data === "number") {
 
                     self.datosDocentesCargaLectiva.data = [];
                     swal({
@@ -489,10 +489,8 @@ angular.module('contractualClienteApp')
         };
 
         self.desvincularDocente = function (row) {
-
-
-            administrativaRequest.delete("vinculacion_docente", row.Id).then(function (response) {
-                if (response.data === "OK") {
+            resolucionRequest.delete("vinculacion_docente", row.Id).then(function (response) {
+                if (response.data.Success) {
                     swal({
                         text: $translate.instant('DESVINCULACION_EXITOSA'),
                         type: 'success',
@@ -536,17 +534,17 @@ angular.module('contractualClienteApp')
                     });
                 self.personasSeleccionadasAgregar.forEach(function (personaSeleccionada) {
                     var vinculacionDocente = {
-                        IdPersona: personaSeleccionada.docente_documento,
+                        PersonaId: personaSeleccionada.docente_documento,
                         NumeroHorasSemanales: parseInt(personaSeleccionada.horas_lectivas),
                         NumeroSemanas: parseInt(self.resolucion.NumeroSemanas),
-                        IdResolucion: { Id: parseInt(self.resolucion.Id) },
-                        IdDedicacion: { Id: parseInt(personaSeleccionada.id_tipo_vinculacion) },
-                        IdProyectoCurricular: parseInt(personaSeleccionada.id_proyecto),
+                        ResolucionVinculacionDocenteId: { Id: parseInt(self.resolucion.Id) },
+                        DedicacionId: { Id: parseInt(personaSeleccionada.id_tipo_vinculacion) },
+                        ProyectoCurricularId: parseInt(personaSeleccionada.id_proyecto),
                         Categoria: personaSeleccionada.CategoriaNombre.toUpperCase(),
                         Dedicacion: personaSeleccionada.tipo_vinculacion_nombre.toUpperCase(),
-                        NivelAcademico: self.resolucion.NivelAcademico_nombre,
+                        NivelAcademico: self.resolucion.NivelAcademico,
                         DependenciaAcademica: personaSeleccionada.DependenciaAcademica,
-                        Vigencia: { Int64: parseInt(self.resolucion.Vigencia), valid: true },
+                        Vigencia: parseInt(self.resolucion.Vigencia),
                         Periodo: self.resolucion.Periodo
                     };
 
@@ -554,12 +552,10 @@ angular.module('contractualClienteApp')
 
                 });
 
-                adminMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos_seleccionados ", vinculacionesData).then(function (response) {
+                resolucionesMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos_seleccionados ", vinculacionesData).then(function (response) {
                 console.info('calcular_valor_contratos_seleccionados');                    
                     console.info(response)
-                    console.info(response.data[0].Valor)
-                    self.total_contratos_seleccionados = response.data[0].Valor;
-
+                    self.total_contratos_seleccionados = response.data.Data;
                 });
 
                 $('#modal_disponibilidad').modal('show');
@@ -588,18 +584,18 @@ angular.module('contractualClienteApp')
 
             self.personasSeleccionadasAgregar.forEach(function (personaSeleccionada) {
                 var vinculacionDocente = {
-                    IdPersona: personaSeleccionada.docente_documento,
+                    PersonaId: personaSeleccionada.docente_documento,
                     NumeroHorasSemanales: parseInt(personaSeleccionada.horas_lectivas),
                     NumeroSemanas: parseInt(self.resolucion.NumeroSemanas),
-                    IdResolucion: { Id: parseInt(self.resolucion.Id) },
-                    IdDedicacion: { Id: parseInt(personaSeleccionada.id_tipo_vinculacion) },
-                    IdProyectoCurricular: parseInt(personaSeleccionada.id_proyecto),
+                    ResolucionVinculacionDocenteId: { Id: parseInt(self.resolucion.Id) },
+                    DedicacionId: { Id: parseInt(personaSeleccionada.id_tipo_vinculacion) },
+                    ProyectoCurricularId: parseInt(personaSeleccionada.id_proyecto),
                     Categoria: personaSeleccionada.CategoriaNombre.toUpperCase(),
                     Dedicacion: personaSeleccionada.tipo_vinculacion_nombre.toUpperCase(),
-                    NivelAcademico: self.resolucion.NivelAcademico_nombre,
+                    NivelAcademico: self.resolucion.NivelAcademico,
                     Disponibilidad: self.apropiacion_elegida[0].Id,
                     DependenciaAcademica: personaSeleccionada.DependenciaAcademica,
-                    Vigencia: { Int64: parseInt(self.resolucion.Vigencia), valid: true },
+                    Vigencia: parseInt(self.resolucion.Vigencia),
                     Periodo: self.resolucion.Periodo
                 };
 
@@ -607,10 +603,10 @@ angular.module('contractualClienteApp')
 
             });
 
-            adminMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos", vinculacionesData).then(function (response) {
+            resolucionesMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos", vinculacionesData).then(function (response) {
                 console.info('calcular_valor_contratos');
-                console.info(response.data[0].Valor)
-                if (response.data[0].Valor > parseInt(self.apropiacion_elegida[0].Apropiacion.Saldo)) {
+                console.info(response.data.Data)
+                if (response.data.Data > parseInt(self.apropiacion_elegida[0].Apropiacion.Saldo)) {
                     self.saldo_disponible = false;
 
                 } else {
@@ -632,11 +628,11 @@ angular.module('contractualClienteApp')
         // filtro para eliminar del grid datosDocentesCargaLectiva los docentes precontratados
         self.filtrarPrecontratados = function (rows) {
             rows.forEach(function (row) {
-                if (self.precontratados.data.length == 0 && self.estado) {
+                if (self.precontratados.data.length === 0 && self.estado) {
                     row.visible = false;
                 }
                 self.precontratados.data.forEach(function (p) {
-                    if (p.IdPersona == row.entity.docente_documento && p.IdProyectoCurricular == row.entity.id_proyecto) {
+                    if (p.PersonaId === row.entity.docente_documento && p.ProyectoCurricularId === row.entity.id_proyecto) {
                         row.visible = false;
                         return;
                     }

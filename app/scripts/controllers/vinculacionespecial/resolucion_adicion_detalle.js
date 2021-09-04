@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('contractualClienteApp')
-  .controller('ResolucionAdicionDetalleCtrl', function (administrativaRequest, financieraRequest, resolucion, adminMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
+angular.module('resolucionesClienteApp')
+  .controller('ResolucionAdicionDetalleCtrl', function (resolucionRequest, financieraRequest, resolucion, resolucionesMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
 
     var self = this;
 
@@ -26,19 +26,19 @@ angular.module('contractualClienteApp')
       enableSelectAll: false,
       columnDefs: [
         { field: 'Id', visible: false },
-        { field: 'FechaRegistro', visible: false },
+        { field: 'FechaCreacion', visible: false },
         { field: 'NombreCompleto', width: '15%', displayName: $translate.instant('NOMBRE') },
-        { field: 'IdPersona', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
+        { field: 'PersonaId', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
         { field: 'Categoria', width: '10%', displayName: $translate.instant('CATEGORIA') },
         { field: 'Dedicacion', width: '15%', displayName: $translate.instant('DEDICACION') },
-        { field: 'IdDedicacion.Id', visible: false },
+        { field: 'DedicacionId.Id', visible: false },
         { field: 'Disponibilidad', visible: false },
         { field: 'NumeroHorasSemanales', width: '10%', displayName: $translate.instant('LABEL_HORAS_A_ADICIONAR') },
         { field: 'NumeroSemanas', width: '10%', displayName: $translate.instant('LABEL_SEMANAS_A_ADICIONAR') },
         { field: 'NumeroDisponibilidad', width: '10%', displayName: $translate.instant('NUM_DISPO_DOCENTE') },
         { field: 'ValorContrato', width: '10%', displayName: $translate.instant('LABEL_VALOR_ADICIONAR'), cellClass: "valorEfectivo", cellFilter: "currency" },
         {
-          field: 'IdProyectoCurricular', visible: false, filter: {
+          field: 'ProyectoCurricularId', visible: false, filter: {
             term: self.term
           }
         },
@@ -66,13 +66,13 @@ angular.module('contractualClienteApp')
 
 
 
-    oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
+    oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.FacultadId + "/" + self.resolucion.NivelAcademico, "").then(function (response) {
       self.proyectos = response.data;
       self.defaultSelectedPrecont = self.proyectos[0].Id;
     });
 
-    administrativaRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNueva:" + self.resolucion.Id).then(function (response) {
-      self.resolucion.Id = response.data[0].ResolucionAnterior;
+    resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId.Id:" + self.resolucion.Id).then(function (response) {
+      self.resolucion.Id = response.data.Data[0].ResolucionAnterior;
       self.resolucion_id_nueva = response.data[0].ResolucionNueva;
       self.id_modificacion_resolucion = response.data[0].Id;
       self.get_docentes_vinculados_adicion().then(function () {
@@ -84,15 +84,12 @@ angular.module('contractualClienteApp')
     self.get_docentes_vinculados_adicion = function () {
 
       self.estado = true;
-      var r = adminMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.resolucion_id_nueva).then(function (response) {
-        self.precontratados_adicion.data = response.data;
+      var r = resolucionesMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.resolucion_id_nueva).then(function (response) {
+        self.precontratados_adicion.data = response.data.Data;
         self.estado = false;
-
       });
-
       self.precontratados_adicion.columnDefs[12].filter.term = self.term;
       return r;
-
     };
 
     $scope.verAnularAdicion = function (row) {
@@ -122,18 +119,16 @@ angular.module('contractualClienteApp')
     };
 
     self.AnularAdicionDocente = function (row) {
-
-
       var docente_a_anular = {
         Id: row.entity.Id,
-        IdPersona: row.entity.IdPersona,
+        PersonaId: row.entity.PersonaId,
         NumeroHorasSemanales: row.entity.NumeroHorasSemanales,
         NumeroSemanas: row.entity.NumeroSemanas,
-        IdResolucion: { Id: self.resolucion.Id },
-        IdDedicacion: { Id: row.entity.IdDedicacion.Id },
-        IdProyectoCurricular: row.entity.IdProyectoCurricular,
-        Estado: Boolean(true),
-        FechaRegistro: self.fecha,
+        ResolucionVinculacionDocenteId: { Id: self.resolucion.Id },
+        DedicacionId: { Id: row.entity.DedicacionId.Id },
+        ProyectoCurricularId: row.entity.ProyectoCurricularId,
+        Activo: Boolean(true),
+        FechaInicio: self.fecha,
         ValorContrato: row.entity.ValorContrato,
         Categoria: row.entity.Categoria,
         DependenciaAcademica: row.entity.DependenciaAcademica,
@@ -148,10 +143,8 @@ angular.module('contractualClienteApp')
       };
 
 
-      adminMidRequest.post("gestion_desvinculaciones/anular_adicion", objeto_a_enviar).then(function (response) {
-        if (response.data === "OK") {
-
-
+      resolucionesMidRequest.post("gestion_desvinculaciones/anular_adicion", objeto_a_enviar).then(function (response) {
+        if (response.data.Data === "OK") {
           swal({
             text: $translate.instant('ALERTA_ANULACION_EXITOSA'),
             type: 'success',

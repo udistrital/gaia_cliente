@@ -7,8 +7,8 @@
 * # ResolucionReportesCtrl
 * Controller of the clienteApp
 */
-angular.module('contractualClienteApp')
-  .controller('ResolucionReportesCtrl', function (oikosRequest, adminMidRequest, resolucion, administrativaRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
+angular.module('resolucionesClienteApp')
+  .controller('ResolucionReportesCtrl', function (oikosRequest, adminMidRequest, resolucion, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
     var self = this;
     self.nombreReporte = "";
     self.resolucionId = 0;
@@ -21,7 +21,6 @@ angular.module('contractualClienteApp')
 
     oikosRequest.get('dependencia_tipo_dependencia', $.param({
       query: "TipoDependenciaId.Id:2",
-      fields: "DependenciaId",
       limit: -1
     })).then(function (response) {
         self.facultades = response.data;
@@ -29,22 +28,22 @@ angular.module('contractualClienteApp')
 
     self.consultarReporte = function() {
       if (self.facultad && self.numeroResolucion && self.vigencia) {
-        administrativaRequest.get("resolucion", $.param({
-          query: "IdDependencia:" + self.facultad + ",Vigencia:" + self.vigencia + ",NumeroResolucion:" + self.numeroResolucion,
+        resolucionRequest.get("resolucion", $.param({
+          query: "DependenciaId:" + self.facultad + ",Vigencia:" + self.vigencia + ",NumeroResolucion:" + self.numeroResolucion,
           limit: 1,
-          sortby: "id_resolucion",
+          sortby: "Id",
           order: "desc"
         }, true)).then(function (resolucion) {
-          if (resolucion.data !== null ){
-            if (resolucion.data[0].IdTipoResolucion.Id === 1){
-              administrativaRequest.get("resolucion_estado", $.param({
-                query: "Resolucion.Id:" + resolucion.data[0].Id,
+          if (resolucion.data.Success){
+            if (resolucion.data.Data[0].TipoResolucionId.Id === 1){
+              resolucionRequest.get("resolucion_estado", $.param({
+                query: "ResolucionId.Id:" + resolucion.data.Data[0].Id,
                 limit: 1,
                 sortby: "Id",
                 order: "desc"
               }, true)).then(function (estado) {
-                if (estado.data[0].Estado.Id === 2){
-                  self.resolucionId = resolucion.data[0].Id;
+                if (estado.data.Data[0].EstadoResolucionId.Id === 2){
+                  self.resolucionId = resolucion.data.Data[0].Id;
                 } else {
                   swal({
                     title: $translate.instant('ERROR'),
@@ -80,5 +79,4 @@ angular.module('contractualClienteApp')
         })
       }
     }
-
   });

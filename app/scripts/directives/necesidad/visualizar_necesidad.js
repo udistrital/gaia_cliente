@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name contractualClienteApp.directive:necesidad/visualizarNecesidad
+ * @name resolucionesClienteApp.directive:necesidad/visualizarNecesidad
  * @description
  * # necesidad/visualizarNecesidad
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .directive('visualizarNecesidad', function () {
         return {
             restrict: 'E',
@@ -60,7 +60,7 @@ angular.module('contractualClienteApp')
                             query: "Necesidad:" + response.data[0].Id,
                         })).then(function (response) {
                             self.solicitud_disponibilidad =  
-                            (response.data != null && response.data.length > 0) ?
+                            (response.data !== null && response.data.length > 0) ?
                                 response.data[0]: {Numero: ''};
                         });
 

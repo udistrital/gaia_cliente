@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name contractualClienteApp.directive:apropiaciones/listaApropiaciones
+ * @name resolucionesClienteApp.directive:apropiaciones/listaApropiaciones
  * @description
  * # apropiaciones/listaApropiaciones
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .directive('listaApropiaciones', function (financieraRequest, $translate) {
         return {
             restrict: 'E',

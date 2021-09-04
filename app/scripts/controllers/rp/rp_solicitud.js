@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name contractualClienteApp.controller:RpSolicitudCtrl
+ * @name resolucionesClienteApp.controller:RpSolicitudCtrl
  * @description
  * # RpSolicitudCtrl
- * Controller of the contractualClienteApp
+ * Controller of the resolucionesClienteApp
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .controller('RpSolicitudCtrl', function(coreRequest, gridOptionsService, resolucion, $window, contrato, disponibilidad, administrativaRequest, amazonAdministrativaRequest, $scope, financieraRequest, financieraMidRequest, $translate) {
         var self = this;
 

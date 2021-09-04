@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.orden
+ * @name resolucionesClienteApp.orden
  * @description
  * # orden
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .factory('orden', function () {
     return [];
     });

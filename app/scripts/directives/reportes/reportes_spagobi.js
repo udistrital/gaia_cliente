@@ -2,11 +2,11 @@
 
 /**
 * @ngdoc directive
-* @name contractualClienteApp.reportesSpagobi
+* @name resolucionesClienteApp.reportesSpagobi
 * @description
 * # reportesSpagobi
 */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .directive('reportesSpagobi', function () {
     return {
       restrict: "E",

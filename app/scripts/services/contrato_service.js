@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.contratoService
+ * @name resolucionesClienteApp.contratoService
  * @description
  * # contratoService
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
 angular.module('contratoService', [])
     .factory('contratoRequest', function($http, token_service, CONF) {

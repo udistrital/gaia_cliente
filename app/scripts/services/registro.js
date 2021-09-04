@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name contractualClienteApp.registro
+ * @name resolucionesClienteApp.registro
  * @description
  * # registro
- * Factory in the contractualClienteApp.
+ * Factory in the resolucionesClienteApp.
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .factory('registro', function () {
     return [];
     });

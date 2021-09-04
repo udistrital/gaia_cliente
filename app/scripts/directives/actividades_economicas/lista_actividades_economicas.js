@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name contractualClienteApp.listaActividadesEconomicas
+ * @name resolucionesClienteApp.listaActividadesEconomicas
  * @description
  * # listaActividadesEconomicas
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .directive('listaActividadesEconomicas', function (coreRequest, $translate) {
     return {
       restrict: 'E',

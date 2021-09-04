@@ -7,8 +7,8 @@
  * # ResolucionAprobacionCtrl
  * Controller of the clienteApp
  */
-angular.module('contractualClienteApp')
-    .controller('ResolucionAprobacionCtrl', function (administrativaRequest, adminMidRequest, gridApiService, $scope, $window, $mdDialog, $translate) {
+angular.module('resolucionesClienteApp')
+    .controller('ResolucionAprobacionCtrl', function (resolucionRequest, resolucionesMidRequest, gridApiService, $scope, $window, $mdDialog, $translate) {
 
         var self = this;
         self.CurrentDate = new Date();
@@ -151,8 +151,8 @@ angular.module('contractualClienteApp')
 
         //Funcion para cargar los datos de las resoluciones creadas y almacenadas dentro del sistema
         self.cargarDatosResolucion = function (offset, query) {
-            if(query == undefined) query = "";
-            var req = adminMidRequest.get("gestion_resoluciones/get_resoluciones_inscritas", $.param({
+            if(query === undefined) query = "";
+            var req = resolucionesMidRequest.get("gestion_resoluciones/get_resoluciones_inscritas", $.param({
                 limit: self.resolucionesInscritas.paginationPageSize,
                 offset: offset,
                 query: typeof (query) === "string" ? query : query.join(",")
@@ -163,10 +163,10 @@ angular.module('contractualClienteApp')
 
         //Función para realizar la aprobación de la resolución
         $scope.verModificarEstado = function (row, nombreEstado, idEstado) {
-            administrativaRequest.get("resolucion/" + row.entity.Id).then(function (response) {
-                var Resolucion = response.data;
+            resolucionRequest.get("resolucion/" + row.entity.Id).then(function (response) {
+                var Resolucion = response.data.Data;
                 var resolucion_estado = {
-                    FechaRegistro: self.CurrentDate,
+                    FechaCreacion: self.CurrentDate,
                     Usuario: "",
                     Estado: {
                         Id: idEstado,
@@ -226,8 +226,8 @@ angular.module('contractualClienteApp')
             var resolucion = {
                 Id: row.entity.Id,
                 Numero: row.entity.Numero,
-                NivelAcademico_nombre: row.entity.NivelAcademico,
-                IdFacultad: row.entity.Facultad,
+                NivelAcademico: row.entity.NivelAcademico,
+                FacultadId: row.entity.Facultad,
                 Vigencia: row.entity.Vigencia,
                 Periodo: row.entity.Periodo,
                 NumeroSemanas: row.entity.NumeroSemanas,
@@ -256,14 +256,14 @@ angular.module('contractualClienteApp')
 
         //Función para realizar la restauración y verificación de la resolución
         self.restaurarResolucion = function (row) {
-            administrativaRequest.get("resolucion/" + row.entity.Id).then(function (response) {
-                var nuevaResolucion = response.data;
+            resolucionRequest.get("resolucion/" + row.entity.Id).then(function (response) {
+                var nuevaResolucion = response.data.Data;
                 //Cambio de estado y fecha de expedicion de la resolucion en caso de que ya hubiese sido expedida.
-                nuevaResolucion.Estado = true;
+                nuevaResolucion.Activo = true;
                 nuevaResolucion.FechaExpedicion = null;
                 //Se actualizan los datos de la resolución
-                administrativaRequest.put("resolucion/RestaurarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response) {
-                    if (response.data === "OK") {
+                resolucionRequest.put("resolucion/RestaurarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response) {
+                    if (response.data.Success) {
                         self.cargarDatosResolucion(self.offset, self.query);
                     }
                 });
@@ -277,8 +277,8 @@ angular.module('contractualClienteApp')
 
         //Función para cambiar el estado de la resolución
         self.cambiarEstado = function (resolucion_estado, estadoNuevo) {
-            administrativaRequest.post("resolucion_estado", resolucion_estado).then(function (response) {
-                if (response.statusText === "Created") {
+            resolucionRequest.post("resolucion_estado", resolucion_estado).then(function (response) {
+                if (response.data.Success) {
                     self.cargarDatosResolucion(self.offset, self.query);
                     swal(
                         'Felicidades',

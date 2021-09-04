@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('contractualClienteApp')
-    .controller('ResolucionAdicionCtrl', function (financieraMidRequest, amazonAdministrativaRequest, administrativaRequest, financieraRequest, resolucion, adminMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window, gridApiService) {
+angular.module('resolucionesClienteApp')
+    .controller('ResolucionAdicionCtrl', function (financieraMidRequest, amazonAdministrativaRequest, resolucionRequest, financieraRequest, resolucion, adminMidRequest, resolucionesMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window, gridApiService) {
 
         var self = this;
 
@@ -29,13 +29,13 @@ angular.module('contractualClienteApp')
             enableSelectAll: false,
             columnDefs: [
                 { field: 'Id', visible: false },
-                { field: 'FechaRegistro', visible: false },
+                { field: 'FechaCreacion', visible: false },
                 { field: 'FechaInicio', visible: false },
                 { field: 'NombreCompleto', width: '15%', displayName: $translate.instant('NOMBRE') },
-                { field: 'IdPersona', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
+                { field: 'PersonaId', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
                 { field: 'Categoria', width: '10%', displayName: $translate.instant('CATEGORIA') },
                 { field: 'ProyectoNombre', width: '23%', displayName: $translate.instant('PROYECTO_CURRICULAR') },
-                { field: 'IdDedicacion.Id', visible: false },
+                { field: 'DedicacionId.Id', visible: false },
                 { field: 'Disponibilidad', visible: false },
                 { field: 'DependenciaAcademica', visible: false },
                 { field: 'NumeroHorasSemanales', width: '8%', displayName: $translate.instant('HORAS_SEMANALES') },
@@ -43,7 +43,7 @@ angular.module('contractualClienteApp')
                 { field: 'NumeroDisponibilidad', width: '9%', displayName: $translate.instant('NUM_DISPO_DOCENTE') },
                 { field: 'ValorContrato', width: '11%', displayName: $translate.instant('VALOR_CONTRATO'), cellClass: "valorEfectivo", cellFilter: "currency" },
                 {
-                    field: 'IdProyectoCurricular',
+                    field: 'ProyectoCurricularId',
                     visible: false,
                     filter: {
                         term: self.term
@@ -93,9 +93,9 @@ angular.module('contractualClienteApp')
                 displayName: $translate.instant('VIGENCIA_DISP')
             },
             {
-                field: 'FechaRegistro',
+                field: 'FechaCreacion',
                 displayName: $translate.instant('FECHA_DISP'),
-                cellTemplate: '<span>{{row.entity.FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span>'
+                cellTemplate: '<span>{{row.entity.FechaCreacion| date:"yyyy-MM-dd":"+0900"}}</span>'
             }
             ],
 
@@ -103,7 +103,7 @@ angular.module('contractualClienteApp')
                 self.gridApi = gridApi;
                 gridApi.selection.on.rowSelectionChanged($scope, function () {
                     self.disponibilidad_elegida = gridApi.selection.getSelectedRows();
-                    if (self.disponibilidad_elegida.length == 0) {
+                    if (self.disponibilidad_elegida.length === 0) {
                         self.disponibilidad_nueva = self.disponibilidad_anterior;
                     } else {
                         self.disponibilidad_nueva = [];
@@ -146,7 +146,7 @@ angular.module('contractualClienteApp')
                 self.gridApi = gridApi;
                 gridApi.selection.on.rowSelectionChanged($scope, function () {
                     self.apropiacion_elegida = gridApi.selection.getSelectedRows();
-                    if (self.apropiacion_elegida.length != 0) {
+                    if (self.apropiacion_elegida.length !== 0) {
                         self.disponibilidad_nueva = self.apropiacion_elegida[0];
                     } else {
                         self.disponibilidad_nueva = [];
@@ -155,12 +155,12 @@ angular.module('contractualClienteApp')
             }
         };
 
-        oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
+        oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.FacultadId + "/" + self.resolucion.NivelAcademico, "").then(function (response) {
             self.proyectos = response.data;
             self.defaultSelectedPrecont = self.proyectos[0].Id;
         });
 
-        administrativaRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNueva:" + self.resolucion.Id).then(function (response) {
+        resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId.Id:" + self.resolucion.Id).then(function (response) {
             self.resolucionModificacion = self.resolucion.Id;
             self.resolucion.Id = response.data[0].ResolucionAnterior;
             self.resolucion_id_nueva = response.data[0].ResolucionNueva;
@@ -174,23 +174,20 @@ angular.module('contractualClienteApp')
         self.get_docentes_vinculados = function () {
 
             self.estado = true;
-            adminMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.resolucion.Id).then(function (response) {
-                self.precontratados.data = response.data;
+            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.resolucion.Id).then(function (response) {
+                self.precontratados.data = response.data.Data;
                 self.estado = false;
-
             });
 
             self.precontratados.columnDefs[12].filter.term = self.term;
-
-
         };
 
 
         $scope.mostrar_modal_adicion = function (row) {
             self.persona_a_modificar = row.entity;
             //Consulta si el semáforo está completo (nueva carga académica aprobada)
-            adminMidRequest.post("gestion_desvinculaciones/consultar_categoria", self.persona_a_modificar).then(function (response) {
-                if (response.data[0].Descripcion === "OK") {
+            resolucionesMidRequest.post("gestion_desvinculaciones/consultar_categoria", self.persona_a_modificar).then(function (response) {
+                if (response.data.Data === "OK") {
                     self.cambio_disp = false;
                     self.Apropiaciones.data = [];
                     self.horas_actuales = row.entity.NumeroHorasSemanales;
@@ -204,12 +201,12 @@ angular.module('contractualClienteApp')
                             self.actualizarLista(self.offset, '');
                         });
                     amazonAdministrativaRequest.get("acta_inicio", $.param({
-                        query: 'NumeroContrato:' + self.persona_a_modificar.NumeroContrato.String + ',Vigencia:' + self.persona_a_modificar.Vigencia.Int64
+                        query: 'NumeroContrato:' + self.persona_a_modificar.NumeroContrato.String + ',Vigencia:' + self.persona_a_modificar.Vigencia
                     })).then(function (response) {
                         self.acta = response.data[0];
                         self.fechaIni = new Date(self.acta.FechaInicio);
                         self.fechaActa = self.fechaUtc(self.fechaIni);
-                        if (self.FechaInicio == undefined) {
+                        if (self.FechaInicio === undefined) {
                             self.calculoSemanasTranscurridas(self.fecha);
                             self.maximoSemanasSugeridas = self.semanas_actuales - self.semanasTranscurridas;
                             self.maximoSugeridasInicial = self.maximoSemanasSugeridas;
@@ -254,9 +251,8 @@ angular.module('contractualClienteApp')
         };
 
         self.RecargarDatosPersonas = function () {
-            adminMidRequest.get("gestion_previnculacion/Precontratacion/docentes_x_carga_horaria", "vigencia=" + self.resolucion.Vigencia + "&periodo=" + self.resolucion.Periodo + "&tipo_vinculacion=" + self.resolucion.Dedicacion + "&facultad=" + self.resolucion.IdFacultad).then(function (response) {
-                self.datosDocentesCargaLectiva.data = response.data;
-
+            resolucionesMidRequest.get("gestion_previnculacion/Precontratacion/docentes_x_carga_horaria", "vigencia=" + self.resolucion.Vigencia + "&periodo=" + self.resolucion.Periodo + "&tipo_vinculacion=" + self.resolucion.Dedicacion + "&facultad=" + self.resolucion.FacultadId + "&nivel_academico=" + self.resolucion.NivelAcademico).then(function (response) {
+                self.datosDocentesCargaLectiva.data = response.data.Data;
             });
         };
 
@@ -287,28 +283,28 @@ angular.module('contractualClienteApp')
         };
 
         self.realizar_nueva_vinculacion = function () {
-            if (self.disponibilidad_nueva != undefined && self.disponibilidad_nueva.length != 0){
-                if (self.semanas_a_adicionar != undefined && self.horas_a_adicionar != undefined && self.FechaInicio != undefined) {
+            if (self.disponibilidad_nueva !== undefined && self.disponibilidad_nueva.length !== 0){
+                if (self.semanas_a_adicionar !== undefined && self.horas_a_adicionar !== undefined && self.FechaInicio !== undefined) {
                     if (self.semanas_a_adicionar <= self.semanasRestantes) {
                         self.mostrar_modificar = false;
                         var vinculacionDocente = {
                             Id: self.persona_a_modificar.Id,
-                            FechaRegistro: self.persona_a_modificar.FechaRegistro,
-                            IdPersona: self.persona_a_modificar.IdPersona,
+                            FechaCreacion: self.persona_a_modificar.FechaCreacion,
+                            PersonaId: self.persona_a_modificar.PersonaId,
                             NumeroHorasSemanales: parseInt(self.horas_actuales),
                             NumeroHorasNuevas: parseInt(self.horas_a_adicionar),
                             NumeroSemanas: parseInt(self.semanas_actuales),
                             NumeroSemanasNuevas: parseInt(self.semanas_a_adicionar),
                             NumeroSemanasRestantes: parseInt(self.semanasRestantes),
-                            IdResolucion: { Id: self.persona_a_modificar.IdResolucion.Id },
-                            IdDedicacion: { Id: parseInt(self.persona_a_modificar.IdDedicacion.Id) },
-                            IdProyectoCurricular: parseInt(self.persona_a_modificar.IdProyectoCurricular),
+                            ResolucionVinculacionDocenteId: { Id: self.persona_a_modificar.ResolucionId.Id },
+                            DedicacionId: { Id: parseInt(self.persona_a_modificar.DedicacionId.Id) },
+                            ProyectoCurricularId: parseInt(self.persona_a_modificar.ProyectoCurricularId),
                             Categoria: self.persona_a_modificar.Categoria.toUpperCase(),
                             ValorContrato: self.persona_a_modificar.ValorContrato,
-                            Dedicacion: self.persona_a_modificar.IdDedicacion.NombreDedicacion.toUpperCase(),
-                            NivelAcademico: self.resolucion.NivelAcademico_nombre,
+                            Dedicacion: self.persona_a_modificar.DedicacionId.NombreDedicacion.toUpperCase(),
+                            NivelAcademico: self.resolucion.NivelAcademico,
                             Disponibilidad: parseInt(self.disponibilidad_actual_id),
-                            Vigencia: { Int64: parseInt(self.resolucion.Vigencia), valid: true },
+                            Vigencia: parseInt(self.resolucion.Vigencia),
                             NumeroContrato: self.persona_a_modificar.NumeroContrato,
                             FechaInicio: self.persona_a_modificar.FechaInicio,
                             FechaInicioNueva: self.FechaInicio,
@@ -324,9 +320,9 @@ angular.module('contractualClienteApp')
                             TipoDesvinculacion: "Adición",
                             DocentesDesvincular: desvinculacionesData
                         };
-                        adminMidRequest.post("gestion_desvinculaciones/validar_saldo_cdp", objeto_a_enviar).then(function (response) {
+                        resolucionesMidRequest.post("gestion_desvinculaciones/validar_saldo_cdp", objeto_a_enviar).then(function (response) {
                             self.mostrar_modificar = true;
-                            if (response.data[0].Descripcion == "OK") {
+                            if (response.data.Data === "OK") {
                                 self.realizarAdicion(objeto_a_enviar);
                             } else {
                                 swal({
@@ -363,13 +359,12 @@ angular.module('contractualClienteApp')
         };
 
         self.realizarAdicion = function (objetoAdicion) {
-            adminMidRequest.post("gestion_desvinculaciones/adicionar_horas", objetoAdicion).then(function (response) {
-                if (response.data == "OK") {
+            resolucionesMidRequest.post("gestion_desvinculaciones/adicionar_horas", objetoAdicion).then(function (response) {
+                if (response.data === "OK") {
                     swal({
                         text: $translate.instant('ALERTA_ADICION_EXITOSA'),
                         type: 'success',
                         confirmButtonText: $translate.instant('ACEPTAR')
-
                     });
                     //LIMPIAR GRID
                     desvinculacionesData = [];

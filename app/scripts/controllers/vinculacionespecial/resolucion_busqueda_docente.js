@@ -6,8 +6,8 @@
 * @description
 * # ResolucionBusquedaDocenteCtrl
 */
-angular.module('contractualClienteApp')
-  .controller('ResolucionBusquedaDocenteCtrl', function (adminMidRequest, resolucion, administrativaRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
+angular.module('resolucionesClienteApp')
+  .controller('ResolucionBusquedaDocenteCtrl', function (adminMidRequest, resolucion, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
     $scope.listaResoluciones = [];
     $scope.idDocente = "";
 
@@ -19,20 +19,20 @@ angular.module('contractualClienteApp')
 
       var q = $.param({
         limit: -1,
-        query: "IdPersona:" + intId.toString()
+        query: "PersonaId:" + intId.toString()
       });
 
-      var resultados = administrativaRequest.get("vinculacion_docente/", q).then(function (lista) {
+      resolucionRequest.get("vinculacion_docente/", q).then(function (response) {
         $scope.listaResoluciones = [];
-        if (lista.data == null || lista.data.length === 0) {
+        if (!response.data.Success) {
           return;
         }
         var idResolucionesConsultadas = [];
-        lista.data.forEach(function (elem) {
-          var idResolucion = elem.IdResolucion.Id;
+        response.data.Data.forEach(function (elem) {
+          var idResolucion = elem.ResolucionVinculacionDocenteId.Id;
           if (!idResolucionesConsultadas.includes(idResolucion)) {
-            administrativaRequest.get("resolucion/" + idResolucion).then(function (res) {
-              var NumeroResolucion = res.data.NumeroResolucion;
+            resolucionRequest.get("resolucion/" + idResolucion).then(function (res) {
+              var NumeroResolucion = res.data.Data.NumeroResolucion;
               if (!$scope.listaResoluciones.includes(NumeroResolucion)) {
                 $scope.listaResoluciones.push(NumeroResolucion);
               }
@@ -42,7 +42,5 @@ angular.module('contractualClienteApp')
         });
       });
     };
-
-
 
   });

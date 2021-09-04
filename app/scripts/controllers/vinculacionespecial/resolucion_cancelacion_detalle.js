@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('contractualClienteApp')
-  .controller('ResolucionCancelacionDetalleCtrl', function (administrativaRequest, financieraRequest, resolucion, adminMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
+angular.module('resolucionesClienteApp')
+  .controller('ResolucionCancelacionDetalleCtrl', function (resolucionRequest, financieraRequest, resolucion, resolucionesMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
 
     var self = this;
 
@@ -25,17 +25,17 @@ angular.module('contractualClienteApp')
       columnDefs: [
         { field: 'Id', visible: false },
         { field: 'NombreCompleto', width: '15%', displayName: $translate.instant('NOMBRE') },
-        { field: 'IdPersona', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
+        { field: 'PersonaId', width: '10%', displayName: $translate.instant('DOCUMENTO_DOCENTES') },
         { field: 'Categoria', width: '10%', displayName: $translate.instant('CATEGORIA') },
-        { field: 'IdDedicacion.NombreDedicacion', width: '10%', displayName: $translate.instant('DEDICACION') },
-        { field: 'IdDedicacion.Id', visible: false },
+        { field: 'DedicacionId.NombreDedicacion', width: '10%', displayName: $translate.instant('DEDICACION') },
+        { field: 'DedicacionId.Id', visible: false },
         { field: 'Disponibilidad', visible: false },
         { field: 'NumeroHorasSemanales', width: '8%', displayName: $translate.instant('HORAS_SEMANALES') },
         { field: 'NumeroSemanas', width: '10%', displayName: $translate.instant('SEMANAS_REV') },
         { field: 'NumeroDisponibilidad', width: '12%', displayName: $translate.instant('NUM_DISPO_DOCENTE') },
         { field: 'ValorContrato', width: '15%', displayName: $translate.instant('VALOR_CONTRATO_REV'), cellClass: "valorEfectivo", cellFilter: "currency" },
         {
-          field: 'IdProyectoCurricular', visible: false, filter: {
+          field: 'ProyectoCurricularId', visible: false, filter: {
             term: self.term
           }
         },
@@ -61,14 +61,14 @@ angular.module('contractualClienteApp')
       }
     };
 
-    oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucionNueva.IdFacultad + "/" + self.resolucionNueva.NivelAcademico_nombre, "").then(function (response) {
+    oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucionNueva.FacultadId + "/" + self.resolucionNueva.NivelAcademico, "").then(function (response) {
       self.proyectos = response.data;
       self.defaultSelectedPrecont = self.proyectos[0].Id;
     });
 
-    administrativaRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNueva:" + self.resolucionNueva.Id).then(function (response) {
-      self.resolucionVieja.Id = response.data[0].ResolucionAnterior;
-      self.id_modificacion_resolucion = response.data[0].Id;
+    resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId:" + self.resolucionNueva.Id).then(function (response) {
+      self.resolucionVieja.Id = response.data.Data[0].ResolucionAnteriorId.Id;
+      self.id_modificacion_resolucion = response.data.Data[0].Id;
       self.get_docentes_vinculados().then(function () {
         //   //refresca una vez cargados los docentes precontratados
         self.precontratados.gridApi.core.refresh();
@@ -78,8 +78,8 @@ angular.module('contractualClienteApp')
     self.get_docentes_vinculados = function () {
 
       self.estado = true;
-      var r = adminMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.resolucionNueva.Id).then(function (response) {
-        self.precontratados.data = response.data;
+      var r = resolucionesMidRequest.get("gestion_desvinculaciones/docentes_desvinculados", "id_resolucion=" + self.resolucionNueva.Id).then(function (response) {
+        self.precontratados.data = response.data.Data;
         self.estado = false;
       });
 
@@ -124,14 +124,14 @@ angular.module('contractualClienteApp')
         Id: row.entity.Id,
         NumeroContrato: row.entity.NumeroContrato,
         Vigencia: row.entity.Vigencia,
-        IdPersona: row.entity.IdPersona,
+        PersonaId: row.entity.PersonaId,
         NumeroHorasSemanales: row.entity.NumeroHorasSemanales,
         NumeroSemanas: row.entity.NumeroSemanas,
-        IdResolucion: { Id: self.resolucionVieja.Id },
-        IdDedicacion: { Id: row.entity.IdDedicacion.Id },
-        IdProyectoCurricular: row.entity.IdProyectoCurricular,
-        Estado: Boolean(true),
-        FechaRegistro: self.fecha,
+        ResolucionVinculacionDocenteId: { Id: self.resolucionVieja.Id },
+        DedicacionId: { Id: row.entity.DedicacionId.Id },
+        ProyectoCurricularId: row.entity.ProyectoCurricularId,
+        Activo: Boolean(true),
+        FechaCreacion: self.fecha,
         ValorContrato: row.entity.ValorContrato,
         Categoria: row.entity.Categoria,
         DependenciaAcademica: row.entity.DependenciaAcademica,
@@ -146,16 +146,13 @@ angular.module('contractualClienteApp')
       };
 
       //Se cambia la lógica de la anulación para que sea igual a la de adiciones, debido a que se cambió la vinculación de la misma manera
-      adminMidRequest.post("gestion_desvinculaciones/anular_adicion", objeto_a_enviar).then(function (response) {
-        if (response.data === "OK") {
-
-
+      resolucionesMidRequest.post("gestion_desvinculaciones/anular_adicion", objeto_a_enviar).then(function (response) {
+        if (response.data.Data === "OK") {
           swal({
             text: $translate.instant('ALERTA_ANULACION_EXITOSA'),
             type: 'success',
             confirmButtonText: $translate.instant('ACEPTAR'),
             allowOutsideClick: false
-
           });
           $window.location.reload();
         } else {
@@ -166,11 +163,8 @@ angular.module('contractualClienteApp')
             confirmButtonText: $translate.instant('ACEPTAR'),
             allowOutsideClick: false
           });
-
         }
-
       });
-
     };
 
     self.volver = function () {

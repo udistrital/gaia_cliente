@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name contractualClienteApp.controller:MinutaGeneracionMinutaCtrl
+ * @name resolucionesClienteApp.controller:MinutaGeneracionMinutaCtrl
  * @description
  * # MinutaGeneracionMinutaCtrl
- * Controller of the contractualClienteApp
+ * Controller of the resolucionesClienteApp
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
     .controller('GeneracionPlantillaCtrl', function($translate, $timeout, $scope, administrativaRequest, pdfMake) {
         var self = this;
         //var anchoImg = 70;

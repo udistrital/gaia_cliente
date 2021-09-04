@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name contractualClienteApp.directive:marcoLegal/listaDocumentosLegales
+ * @name resolucionesClienteApp.directive:marcoLegal/listaDocumentosLegales
  * @description
  * # marcoLegal/listaDocumentosLegales
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .directive('listaDocumentosLegales', function (administrativaRequest, $translate) {
     return {
       restrict: 'E',

@@ -7,8 +7,8 @@
 * # ResolucionVistaCtrl
 * Controller of the clienteApp
 */
-angular.module('contractualClienteApp')
-  .controller('ResolucionVistaCtrl', function (administrativaRequest, oikosRequest,titandesagregRequest, coreRequest, adminMidRequest, pdfMakerService, nuxeoClient, $mdDialog, $scope, $http, $translate) {
+angular.module('resolucionesClienteApp')
+  .controller('ResolucionVistaCtrl', function (administrativaRequest, oikosRequest,titandesagregRequest, coreRequest, resolucionesMidRequest, pdfMakerService, nuxeoClient, $mdDialog, $scope, $http, $translate) {
 
     var self = this;
     var docentes_contratados = this;
@@ -24,27 +24,26 @@ angular.module('contractualClienteApp')
     self.generarDocumentoPdfMake = function () {
       
 
-      if (self.resolucion.FechaExpedicion != undefined && self.resolucion.FechaExpedicion !== "0001-01-01T00:00:00Z") {
+      if (self.resolucion.FechaExpedicion !== undefined && self.resolucion.FechaExpedicion !== "0001-01-01T00:00:00Z") {
         self.resolucion.FechaExpedicion = new Date(self.resolucion.FechaExpedicion);
       }
 
       self.proyectos = [];
-      oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.IdFacultad + "/" + self.resolucion.NivelAcademico_nombre, "").then(function (response) {
+      oikosRequest.get("dependencia/proyectosPorFacultad/" + self.resolucion.FacultadId + "/" + self.resolucion.NivelAcademico, "").then(function (response) {
         self.proyectos = response.data;
       });
-      adminMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucion.Id + "&id_facultad=" + self.resolucion.IdDependenciaFirma).then(function (response) {
-        self.contenidoResolucion = response.data;
-        adminMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
-          self.contratados = response.data;
+      resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucion.Id + "&id_facultad=" + self.resolucion.IdDependenciaFirma).then(function (response) {
+        self.contenidoResolucion = response.data.Data;
+        resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
+          self.contratados = response.data.Data;
           // Si existen valores dentro de contratados se ejecuta la desagregación
-          if (self.contratados.length > 0)
-          {
-            self.incluirDesagregacion(); 
-          }else{
-            self.generarResolucion();
-          }
-          
-          
+          //if (self.contratados.length > 0)
+          //{
+          //  self.incluirDesagregacion(); 
+          //}else{
+          //  self.generarResolucion();
+          //}
+          self.generarResolucion();
         });
       });
     };
@@ -78,7 +77,7 @@ angular.module('contractualClienteApp')
                 
 
         const datosDocenteSalario = {
-          NumDocumento:  docentes.IdPersona,
+          NumDocumento:  docentes.PersonaId,
           ValorContrato: valor_totalContrato.toString(),
           VigenciaContrato: self.resolucion.Vigencia.toString(),
           MesesContrato: meses_contrato,
@@ -90,15 +89,11 @@ angular.module('contractualClienteApp')
           docentes_desagregados[contador] = result_desagreg;
           contador++;
 
-          if (contador == self.contratados.length)
-          {
+          if (contador === self.contratados.length) {
             self.generarResolucion();
           }
-          
-         });
-
+        });
       });
-      
     };
     
     /**
@@ -108,7 +103,10 @@ angular.module('contractualClienteApp')
      */
     self.generarResolucion = function () {
       //console.log(docentes_desagregados)
-      var documento = pdfMakerService.getDocumento(self.contenidoResolucion, self.resolucion, docentes_desagregados, self.proyectos);
+      //se cambia docentes_desagregados por docentes contratados
+     // var documento = pdfMakerService.getDocumento(self.contenidoResolucion, self.resolucion, docentes_desagregados, self.proyectos);
+      var documento = pdfMakerService.getDocumento(self.contenidoResolucion, self.resolucion, self.contratados, self.proyectos);
+
       //Se hace uso de la libreria pdfMake para generar el documento y se asigna a la etiqueta con el id vistaPDF
       pdfMake.createPdf(documento).getDataUrl(function (outDoc) {
         document.getElementById('vistaPDF').src = outDoc;
@@ -123,11 +121,13 @@ angular.module('contractualClienteApp')
     self.consultarDocumentoNuxeo = function () {
       coreRequest.get('documento', $.param ({
         query: "Nombre:ResolucionDVE" + self.resolucion.Id,
-        limit:0
+        //query: "Nombre:ResolucionDVE2043",
+        limit:1
       })).then(function(response) {
         if (response.data !== null) {
           var documentoResolucion = response.data[0];
           var idNuxeoResolucion = JSON.parse(documentoResolucion.Contenido).IdNuxeo;
+          console.log("ide nuxeo ",idNuxeoResolucion);
           nuxeoClient.getDocument(idNuxeoResolucion).then(function(doc) {
             document.getElementById('vistaPDF').src = doc.url;
           });

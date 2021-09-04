@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name contractualClienteApp.directive:plantillas/textoEnriquecido
+ * @name resolucionesClienteApp.directive:plantillas/textoEnriquecido
  * @description
  * # plantillas/textoEnriquecido
  */
-angular.module('contractualClienteApp')
+angular.module('resolucionesClienteApp')
   .directive('textoEnriquecido', function () {
     return {
       restrict: 'E',
