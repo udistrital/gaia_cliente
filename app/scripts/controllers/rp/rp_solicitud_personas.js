@@ -129,25 +129,25 @@ angular.module('resolucionesClienteApp')
             multiSelect: false,
             rowHeight: 40,
             columnDefs: [{
-                    field: 'Resolucion.Id',
+                    field: 'ResolucionId.Id',
                     visible: false
                 },
                 {
-                    field: 'Resolucion.NumeroResolucion',
+                    field: 'ResolucionId.NumeroResolucion',
                     displayName: $translate.instant('NUMERO_RESOLUCION'),
                 },
                 {
-                    field: 'Resolucion.Vigencia',
+                    field: 'ResolucionId.Vigencia',
                     displayName: $translate.instant('VIGENCIA'),
                 },
                 {
-                    field: 'Resolucion.TipoResolucionId.NombreTipoResolucion',
+                    field: 'ResolucionId.TipoResolucionId.NombreTipoResolucion',
                     displayName: $translate.instant('TIPO_RESOLUCION'),
                 },
                 {
-                    field: 'Resolucion.FechaExpedicion',
+                    field: 'ResolucionId.FechaExpedicion',
                     displayName: $translate.instant('FECHA'),
-                    cellTemplate: '<div align="center">{{row.entity.Resolucion.FechaExpedicion | date:"dd-MM-yyyy":"+0900" }}</div>'
+                    cellTemplate: '<div align="center">{{row.entity.ResolucionId.FechaExpedicion | date:"dd-MM-yyyy":"+0900" }}</div>'
                 },
                 {
                     field: 'Boton',
@@ -206,7 +206,7 @@ angular.module('resolucionesClienteApp')
                 { field: 'Vigencia', displayName: $translate.instant('VIGENCIA'), enableFiltering: false },
                 { field: 'NumeroDisponibilidad', displayName: $translate.instant('DISPONIBILIDAD') },
                 { field: 'Estado.Nombre', displayName: $translate.instant('ESTADO') },
-                { field: 'Solicitud.SolicitudDisponibilidad.Numero', displayName: $translate.instant('SOLICITUD'), enableFiltering: false },
+                { field: 'Solicitud', displayName: $translate.instant('SOLICITUD'), enableFiltering: false },
                 {
                     field: 'FechaRegistro',
                     displayName: $translate.instant('FECHA_REGISTRO'),
@@ -377,7 +377,7 @@ angular.module('resolucionesClienteApp')
             }
         };
 
-        self.setResolucion = function(resolucion) {
+        self.setResolucion = function(row) {
             var existe_contrato = false;
             self.gridOptionsResolucionPersonas.data = [];
             var vinculacion_docente = [];
@@ -386,11 +386,11 @@ angular.module('resolucionesClienteApp')
             var numContrato = "";
             var vigenciaContrato;
             //variables para mostrar en el modal
-            self.resolucionId = resolucion.NumeroResolucion;
-            self.resolucionVigencia = resolucion.Vigencia;
+            self.resolucionId = row.ResolucionId.NumeroResolucion;
+            self.resolucionVigencia = row.ResolucionId.Vigencia;
             //
             //peticion para traer los docentes asociados a una resolucion
-            resolucionRequest.get('vinculacion_docente', "limit=-1&query=ResolucionVinculacionDocenteId.Id:" + resolucion.Resolucion.Id + ",Activo:true").then(function(response) {
+            resolucionRequest.get('vinculacion_docente', "limit=-1&query=ResolucionVinculacionDocenteId.Id:" + row.ResolucionId.Id + ",Activo:true").then(function(response) {
                 if (response.data !== null) {
                     vinculacion_docente = response.data.Data;
                     //consulta para traer la informacion de las personas de los docentes asociados a una resolucion
@@ -412,7 +412,7 @@ angular.module('resolucionesClienteApp')
         };
 
         self.buscar_personas = function(numContrato, vigenciaContrato, existe_contrato, vinculacion_docente) {
-            amazonAdministrativaRequest.get('proveedor_contrato_persona/' + numContrato.String + "/" + vigenciaContrato, "", "").then(function(response) {
+            amazonAdministrativaRequest.get('proveedor_contrato_persona/' + numContrato + "/" + vigenciaContrato, "", "").then(function(response) {
                 if (response.data !== null) {
                     existe_contrato = true;
                     resoluciones.push(response.data[0]);
