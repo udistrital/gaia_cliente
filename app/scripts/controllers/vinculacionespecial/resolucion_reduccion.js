@@ -147,9 +147,9 @@ angular.module('resolucionesClienteApp')
             self.defaultSelectedPrecont = self.proyectos[0].Id;
         });
 
-        resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId:" + self.resolucion.Id).then(function (response) {
-            self.resolucion.Id = response.data.Data[0].ResolucionAnteriorId;
-            self.resolucion_id_nueva = response.data.Data[0].ResolucionNuevaId;
+        resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId.Id:" + self.resolucion.Id).then(function (response) {
+            self.resolucion.Id = response.data.Data[0].ResolucionAnteriorId.Id;
+            self.resolucion_id_nueva = response.data.Data[0].ResolucionNuevaId.Id;
             self.id_modificacion_resolucion = response.data.Data[0].Id;
             self.get_docentes_vinculados();
         });
@@ -161,7 +161,7 @@ angular.module('resolucionesClienteApp')
                 self.estado = false;
                 console.log(self.precontratados)
             });
-            self.precontratados.columnDefs[12].filter.term = self.term;
+            self.precontratados.columnDefs[14].filter.term = self.term;
         };
 
         $scope.mostrar_modal_adicion = function (row) {
@@ -173,11 +173,11 @@ angular.module('resolucionesClienteApp')
                     self.disponibilidad_actual = row.entity.NumeroDisponibilidad;
                     self.disponibilidad_actual_id = row.entity.Disponibilidad;
                     self.disponibilidad_nueva_id = { Id: row.entity.Disponibilidad };
-                    self.getRPs(self.persona_a_modificar.NumeroContrato.String, self.persona_a_modificar.Vigencia, self.persona_a_modificar.PersonaId);
-                    self.mostrarSemanas = row.entity.ResolucionId.NivelAcademico === "PREGRADO" ? true : false;
-                    self.maximoHorasReducir = row.entity.ResolucionId.NivelAcademico === "PREGRADO" ? self.horas_actuales - 1 : self.horas_actuales;
+                    self.getRPs(self.persona_a_modificar.NumeroContrato.match(/(\d+)/)[0], self.persona_a_modificar.Vigencia, self.persona_a_modificar.PersonaId);
+                    self.mostrarSemanas = row.entity.ResolucionVinculacionDocenteId.NivelAcademico === "PREGRADO" ? true : false;
+                    self.maximoHorasReducir = row.entity.ResolucionVinculacionDocenteId.NivelAcademico === "PREGRADO" ? self.horas_actuales - 1 : self.horas_actuales;
                     amazonAdministrativaRequest.get("acta_inicio", $.param({
-                        query: 'NumeroContrato:' + self.persona_a_modificar.NumeroContrato.String + ',Vigencia:' + self.persona_a_modificar.Vigencia
+                        query: 'NumeroContrato:' + self.persona_a_modificar.NumeroContrato + ',Vigencia:' + self.persona_a_modificar.Vigencia
                     })).then(function (response) {
                         self.acta = response.data[0];
                         self.fechaIni = new Date(self.acta.FechaInicio);
