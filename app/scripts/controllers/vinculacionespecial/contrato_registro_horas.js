@@ -42,7 +42,7 @@ angular.module('resolucionesClienteApp')
         });
 
         resolucionRequest.get("modificacion_resolucion/", "query=ResolucionNuevaId.Id:" + self.idResolucion).then(function (response) {
-            self.resolucionModificada = response.data.Data[0].ResolucionAnterior;
+            self.resolucionModificada = response.data.Data[0].ResolucionAnteriorId.Id;
             resolucionRequest.get("resolucion/" + self.resolucionModificada).then(function (response) {
                 self.numeroResolucionModificada = response.data.Data.NumeroResolucion;
             });

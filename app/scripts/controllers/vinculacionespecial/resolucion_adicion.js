@@ -162,13 +162,10 @@ angular.module('resolucionesClienteApp')
 
         resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId.Id:" + self.resolucion.Id).then(function (response) {
             self.resolucionModificacion = self.resolucion.Id;
-            self.resolucion.Id = response.data[0].ResolucionAnterior;
-            self.resolucion_id_nueva = response.data[0].ResolucionNueva;
-            self.id_modificacion_resolucion = response.data[0].Id;
-            self.get_docentes_vinculados().then(function () {
-                //   //refresca una vez cargados los docentes precontratados
-                self.precontratados.gridApi.core.refresh();
-            });
+            self.resolucion.Id = response.data.Data[0].ResolucionAnteriorId.Id;
+            self.resolucion_id_nueva = response.data.Data[0].ResolucionNuevaId.Id;
+            self.id_modificacion_resolucion = response.data.Data[0].Id;
+            self.get_docentes_vinculados()
         });
         //Función para visualizar docentes ya vinculados a resolución
         self.get_docentes_vinculados = function () {
@@ -177,9 +174,11 @@ angular.module('resolucionesClienteApp')
             resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.resolucion.Id).then(function (response) {
                 self.precontratados.data = response.data.Data;
                 self.estado = false;
+            }).then(function () {
+                //refresca una vez cargados los docentes precontratados
+                self.gridApi.core.refresh();
             });
-
-            self.precontratados.columnDefs[12].filter.term = self.term;
+            self.precontratados.columnDefs[14].filter.term = self.term;
         };
 
 
@@ -201,7 +200,7 @@ angular.module('resolucionesClienteApp')
                             self.actualizarLista(self.offset, '');
                         });
                     amazonAdministrativaRequest.get("acta_inicio", $.param({
-                        query: 'NumeroContrato:' + self.persona_a_modificar.NumeroContrato.String + ',Vigencia:' + self.persona_a_modificar.Vigencia
+                        query: 'NumeroContrato:' + self.persona_a_modificar.NumeroContrato + ',Vigencia:' + self.persona_a_modificar.Vigencia
                     })).then(function (response) {
                         self.acta = response.data[0];
                         self.fechaIni = new Date(self.acta.FechaInicio);

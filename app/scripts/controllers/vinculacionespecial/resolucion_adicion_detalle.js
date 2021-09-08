@@ -72,9 +72,9 @@ angular.module('resolucionesClienteApp')
     });
 
     resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId.Id:" + self.resolucion.Id).then(function (response) {
-      self.resolucion.Id = response.data.Data[0].ResolucionAnterior;
-      self.resolucion_id_nueva = response.data[0].ResolucionNueva;
-      self.id_modificacion_resolucion = response.data[0].Id;
+      self.resolucion.Id = response.data.Data[0].ResolucionAnteriorId.Id;
+      self.resolucion_id_nueva = response.data.Data[0].ResolucionNuevaId.Id;
+      self.id_modificacion_resolucion = response.data.Data[0].Id;
       self.get_docentes_vinculados_adicion().then(function () {
         //   //refresca una vez cargados los docentes precontratados
         self.precontratados_adicion.gridApi.core.refresh();

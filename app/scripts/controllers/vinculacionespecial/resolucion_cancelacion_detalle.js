@@ -66,7 +66,7 @@ angular.module('resolucionesClienteApp')
       self.defaultSelectedPrecont = self.proyectos[0].Id;
     });
 
-    resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId:" + self.resolucionNueva.Id).then(function (response) {
+    resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId.Id:" + self.resolucionNueva.Id).then(function (response) {
       self.resolucionVieja.Id = response.data.Data[0].ResolucionAnteriorId.Id;
       self.id_modificacion_resolucion = response.data.Data[0].Id;
       self.get_docentes_vinculados().then(function () {
