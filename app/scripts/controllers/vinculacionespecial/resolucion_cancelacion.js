@@ -94,9 +94,9 @@ angular.module('resolucionesClienteApp')
             self.defaultSelectedPrecont = self.proyectos[0].Id;
         });
 
-        resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId:" + self.resolucion.Id).then(function (response) {
+        resolucionRequest.get("modificacion_resolucion", "limit=-1&query=ResolucionNuevaId.Id:" + self.resolucion.Id).then(function (response) {
             self.resolucionModificacion = self.resolucion.Id;
-            self.resolucion.Id = response.data.Data[0].ResolucionAnteriorId;
+            self.resolucion.Id = response.data.Data[0].ResolucionAnteriorId.Id;
             self.id_modificacion_resolucion = response.data.Data[0].Id;
 
         });
