@@ -8,9 +8,10 @@
 * Controller of the clienteApp
 */
 angular.module('resolucionesClienteApp')
-  .controller('ResolucionAdministracionCtrl', function (adminMidRequest, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
+  .controller('ResolucionAdministracionCtrl', function (adminMidRequest, resolucionesMidRequest, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
 
     var self = this;
+    self.offset = 0
 
     //Tabla para mostrar los datos básicos de las resoluciones almacenadas dentro del sistema
     self.resolucionesAprobadas = {
@@ -267,7 +268,7 @@ angular.module('resolucionesClienteApp')
         Id: row.entity.Id,
         Numero: row.entity.Numero,
         NivelAcademico: row.entity.NivelAcademico,
-        Facultad: row.entity.Facultad,
+        FacultadId: row.entity.Facultad,
         Vigencia: row.entity.Vigencia,
         Periodo: row.entity.Periodo,
         NumeroSemanas: row.entity.NumeroSemanas,

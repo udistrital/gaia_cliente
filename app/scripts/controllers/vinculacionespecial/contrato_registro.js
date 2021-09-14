@@ -21,7 +21,6 @@ angular.module('resolucionesClienteApp')
         self.esconderBoton = false;
         self.idResolucion = idResolucion;
         self.FechaExpedicion = null;
-
         var docentes_desagregados = [];
 
         resolucionRequest.get('resolucion/' + self.idResolucion).then(function (response) {
@@ -32,7 +31,7 @@ angular.module('resolucionesClienteApp')
             return resolucionRequest.get('tipo_resolucion/' + self.resolucionActual.TipoResolucionId.Id);
         }).then(function (response) {
             self.resolucionActual.TipoResolucionId.NombreTipoResolucion = response.data.Data.NombreTipoResolucion;
-            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.IdDependenciaFirma).then(function (response) {
+            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.DependenciaFirmaId).then(function (response) {
                 self.contenidoResolucion = response.data.Data;
                 resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
                     self.contratadosPdf = response.data.Data;
@@ -40,23 +39,23 @@ angular.module('resolucionesClienteApp')
             });
         });
 
-        oikosRequest.get('dependencia/' + resolucion.FacultadId).then(function (response) {
+        oikosRequest.get('dependencia/' + resolucion.Facultad).then(function (response) {
             resolucion.FacultadNombre = response.data.Nombre;
         });
 
         resolucionRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
             self.datosFiltro = response.data.Data;
-            oikosRequest.get("dependencia/" + self.datosFiltro.FacultadId.toString()).then(function (response) {
+            oikosRequest.get("dependencia/" + self.datosFiltro.FacultadId).then(function (response) {
                 self.contratoGeneralBase.Contrato.SedeSolicitante = response.data.Id.toString();
                 self.sede_solicitante_defecto = response.data.Nombre;
             });
             resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response) {
                 self.contratados = response.data.Data;
             });
-            oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.FacultadId + "/" + self.datosFiltro.NivelAcademico, "").then(function (response) {
+            oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.Facultad + "/" + self.datosFiltro.NivelAcademico, "").then(function (response) {
                 self.proyectos = response.data;
             });
-            coreAmazonRequest.get("ordenador_gasto", "query=DependenciaId:" + self.datosFiltro.FacultadId.toString()).then(function (response) {
+            coreAmazonRequest.get("ordenador_gasto", "query=DependenciaId:" + self.datosFiltro.FacultadId).then(function (response) {
                 if (response.data === null) {
                     coreAmazonRequest.get("ordenador_gasto/1").then(function (response) {
                         self.ordenadorGasto = response.data;
@@ -110,10 +109,10 @@ angular.module('resolucionesClienteApp')
         self.asignarValoresDefecto();
 
         //TODO: cambiar a la informacion en Oikos: oikosRequest.get('dependencia' ... teniendo en cuenta produccion
-        financieraRequest.get("unidad_ejecutora/1").then(function (response) {
+        /* financieraRequest.get("unidad_ejecutora/1", "").then(function (response) {
             console.log('aqui es el problema');
             self.unidad_ejecutora_defecto = response.data;
-        });
+        }); */
         amazonAdministrativaRequest.get("parametros/240").then(function (response) {
             self.forma_pago_defecto = response.data;
         });

@@ -55,11 +55,11 @@ angular.module('resolucionesClienteApp')
                         oikosRequest.get("dependencia/" + persona.ProyectoCurricularId).then(function (response) {
                             persona.Proyecto = response.data.Nombre;
                         });
-                       self.getRPs(persona.NumeroContrato.String, persona.Vigencia, persona.PersonaId, indice);
+                       self.getRPs(persona.NumeroContrato.match(/(\d+)/)[0], persona.Vigencia, persona.PersonaId, indice);
                     });
                     if (self.personasSeleccionadas.length > 0) {
                         amazonAdministrativaRequest.get("acta_inicio", $.param({
-                            query: 'NumeroContrato:' + self.personasSeleccionadas[0].NumeroContrato.String + ',Vigencia:' + self.personasSeleccionadas[0].Vigencia
+                            query: 'NumeroContrato:' + self.personasSeleccionadas[0].NumeroContrato + ',Vigencia:' + self.personasSeleccionadas[0].Vigencia
                         })).then(function (response) {
                             self.acta = response.data[0];
                             self.fechaIni = new Date(self.acta.FechaInicio);
@@ -76,9 +76,9 @@ angular.module('resolucionesClienteApp')
         self.estado = true;
         resolucionRequest.get('modificacion_resolucion', $.param({
             limit: -1,
-            query: 'ResolucionNuevaId:' + self.resolucion.Id
+            query: 'ResolucionNuevaId.Id:' + self.resolucion.Id
         })).then(function (response) {
-            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados?id_resolucion=" + response.data.Data[0].ResolucionAnteriorId).then(function (response2) {
+            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados?id_resolucion=" + response.data.Data[0].ResolucionAnteriorId.Id).then(function (response2) {
                 self.precontratados.data = response2.data.Data;
                 self.estado = false;
                 self.carga = true;
@@ -98,11 +98,10 @@ angular.module('resolucionesClienteApp')
             self.resolucionModificacion = self.resolucion.Id;
             self.resolucion.Id = response.data.Data[0].ResolucionAnteriorId.Id;
             self.id_modificacion_resolucion = response.data.Data[0].Id;
-
+            self.get_docentes_vinculados();
         });
         //Función para visualizar docentes ya vinculados a resolución
         self.get_docentes_vinculados = function () {
-
             self.estado = true;
             resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.resolucion.Id).then(function (response) {
                 self.precontratados.data = response.data.Data;
