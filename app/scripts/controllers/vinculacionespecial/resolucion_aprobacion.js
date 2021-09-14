@@ -12,6 +12,7 @@ angular.module('resolucionesClienteApp')
 
         var self = this;
         self.CurrentDate = new Date();
+        self.offset = 0;
 
         //Tabla para mostrar los datos básicos de las resoluciones almacenadas dentro del sistema
         self.resolucionesInscritas = {
@@ -168,10 +169,11 @@ angular.module('resolucionesClienteApp')
                 var resolucion_estado = {
                     FechaCreacion: self.CurrentDate,
                     Usuario: "",
-                    Estado: {
+                    EstadoResolucionId: {
                         Id: idEstado,
                     },
-                    Resolucion: Resolucion
+                    ResolucionId: Resolucion,
+                    Activo: true,
                 };
                 swal({
                     title: $translate.instant('CONFIRMAR_' + nombreEstado),
