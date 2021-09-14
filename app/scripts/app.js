@@ -93,7 +93,7 @@ angular
                 controllerAs: 'main'
             })
             .when('/notificaciones', {
-                templateUrl: 'views/notificacisones.html',
+                templateUrl: 'views/notificaciones.html',
                 controller: 'NotificacionesCtrl',
                 controllerAs: 'notificaciones'
 
