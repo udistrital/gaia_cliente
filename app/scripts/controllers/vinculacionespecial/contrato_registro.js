@@ -214,7 +214,7 @@ angular.module('resolucionesClienteApp')
                             console.log("hace el post para expedir una resolucion");
                             console.log(response.data)
                             self.estado = false;
-                            if (response.data.Status !== 201) {
+                            if (response.data.Status !== "201") {
                                 swal({
                                     text: response.data,
                                     title: "Alerta",
