@@ -221,7 +221,7 @@ angular.module('resolucionesClienteApp')
                     if (response.data.Data === "OK") {
                         resolucionesMidRequest.post("expedir_resolucion/expedirModificacion", expedicionResolucion).then(function (response) {
                             self.estado = false;
-                            if (response.data.Status !== 201) {
+                            if (response.data.Status !== "201") {
                                 swal({
                                     text: response.data,
                                     title: "Alerta",
