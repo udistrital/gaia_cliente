@@ -67,7 +67,6 @@ angular.module('resolucionesClienteApp')
                 self.gridApi = gridApi;
                 gridApi.selection.on.rowSelectionChanged($scope, function () {
                     self.personasSeleccionadas = gridApi.selection.getSelectedRows();
-
                 });
             }
         };
@@ -104,8 +103,6 @@ angular.module('resolucionesClienteApp')
                     self.disponibilidad_elegida = gridApi.selection.getSelectedRows();
                     self.DisponibilidadApropiacion = self.disponibilidad_elegida[0].DisponibilidadApropiacion;
                     self.listar_apropiaciones();
-
-
                 });
             }
         };
@@ -159,7 +156,6 @@ angular.module('resolucionesClienteApp')
             resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.resolucion.Id).then(function (response) {
                 self.precontratados.data = response.data.Data;
                 self.estado = false;
-                console.log(self.precontratados)
             });
             self.precontratados.columnDefs[14].filter.term = self.term;
         };
@@ -240,14 +236,14 @@ angular.module('resolucionesClienteApp')
         };
 
         self.realizar_nueva_vinculacion = function () {
-            if ((self.semanas_a_adicionar !== undefined || !self.mostrarSemanas) && !self.mostrarFechaInvalida && self.horas_a_adicionar !== undefined && self.FechaInicio !== undefined && self.persona_a_modificar.InformacionRp !== undefined) { 
+            if ((self.semanas_a_adicionar !== undefined || !self.mostrarSemanas) && !self.mostrarFechaInvalida && self.horas_a_adicionar !== undefined && self.FechaInicio !== undefined) {// && self.persona_a_modificar.InformacionRp !== undefined) { 
                 if (self.saldo_disponible) {
                     self.mostrar_modificar = false;
                     self.calculoSemanasTranscurridas(self.FechaInicio);
                     self.semanasRestantes = self.semanas_totales - self.semanasTranscurridas;
-                    self.persona_a_modificar.InformacionRp = JSON.parse( self.persona_a_modificar.InformacionRp);
-                    self.persona_a_modificar.InformacionRp.rp = parseInt(self.persona_a_modificar.InformacionRp.rp,10);
-                    self.persona_a_modificar.InformacionRp.vigencia = parseInt(self.persona_a_modificar.InformacionRp.vigencia,10);
+                    self.persona_a_modificar.InformacionRp = JSON.parse(`{"rp": 0, "vigencia": 0}`);
+                    self.persona_a_modificar.InformacionRp.rp = parseInt(self.persona_a_modificar.NumeroRp,10);
+                    self.persona_a_modificar.InformacionRp.vigencia = parseInt(self.persona_a_modificar.VigenciaRp,10);
                     var vinculacionDocente = {
                         Id: self.persona_a_modificar.Id,
                         FechaCreacion: self.persona_a_modificar.FechaCreacion,
@@ -257,7 +253,7 @@ angular.module('resolucionesClienteApp')
                         NumeroSemanas: parseInt(self.semanas_actuales),
                         NumeroSemanasNuevas: self.mostrarSemanas ? parseInt(self.semanas_a_adicionar) : parseInt(self.semanas_actuales),
                         NumeroSemanasRestantes: parseInt(self.semanasRestantes),
-                        ResolucionVinculacionDocenteId: { Id: parseInt(self.persona_a_modificar.ResolucionId.Id) },
+                        ResolucionVinculacionDocenteId: { Id: parseInt(self.persona_a_modificar.ResolucionVinculacionDocenteId.Id) },
                         DedicacionId: { Id: parseInt(self.persona_a_modificar.DedicacionId.Id) },
                         ProyectoCurricularId: parseInt(self.persona_a_modificar.ProyectoCurricularId),
                         Categoria: self.persona_a_modificar.Categoria.toUpperCase(),

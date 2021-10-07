@@ -385,7 +385,7 @@ angular.module('resolucionesClienteApp')
             vinculacionesData = [];            
             self.personasSeleccionadasAgregar.forEach(function (personaSeleccionada) {
                 var vinculacionDocente = {
-                    PersonaId: personaSeleccionada.docente_documento,
+                    PersonaId: parseInt(personaSeleccionada.docente_documento),
                     NumeroHorasSemanales: parseInt(personaSeleccionada.horas_lectivas),
                     NumeroSemanas: parseInt(self.resolucion.NumeroSemanas),
                     ResolucionVinculacionDocenteId : { Id: parseInt(self.resolucion.Id) },
@@ -534,7 +534,7 @@ angular.module('resolucionesClienteApp')
                     });
                 self.personasSeleccionadasAgregar.forEach(function (personaSeleccionada) {
                     var vinculacionDocente = {
-                        PersonaId: personaSeleccionada.docente_documento,
+                        PersonaId: parseInt(personaSeleccionada.docente_documento),
                         NumeroHorasSemanales: parseInt(personaSeleccionada.horas_lectivas),
                         NumeroSemanas: parseInt(self.resolucion.NumeroSemanas),
                         ResolucionVinculacionDocenteId: { Id: parseInt(self.resolucion.Id) },
@@ -584,7 +584,7 @@ angular.module('resolucionesClienteApp')
 
             self.personasSeleccionadasAgregar.forEach(function (personaSeleccionada) {
                 var vinculacionDocente = {
-                    PersonaId: personaSeleccionada.docente_documento,
+                    PersonaId: parseInt(personaSeleccionada.docente_documento),
                     NumeroHorasSemanales: parseInt(personaSeleccionada.horas_lectivas),
                     NumeroSemanas: parseInt(self.resolucion.NumeroSemanas),
                     ResolucionVinculacionDocenteId: { Id: parseInt(self.resolucion.Id) },
@@ -604,8 +604,6 @@ angular.module('resolucionesClienteApp')
             });
 
             resolucionesMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos", vinculacionesData).then(function (response) {
-                console.info('calcular_valor_contratos');
-                console.info(response.data.Data)
                 if (response.data.Data > parseInt(self.apropiacion_elegida[0].Apropiacion.Saldo)) {
                     self.saldo_disponible = false;
 

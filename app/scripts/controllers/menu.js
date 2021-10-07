@@ -19,7 +19,7 @@ angular.module('resolucionesClienteApp')
         $scope.token_service = token_service;
         $scope.breadcrumb = [];
 
-        $scope.perfil = "ADMINISTRADOR ARGO";
+        $scope.perfil = "ADMINISTRADOR_RESOLUCIONES";
 
         //Rama cumplidos
         $scope.logout = function(){
@@ -45,7 +45,7 @@ angular.module('resolucionesClienteApp')
                 }
     
                 roles = roles.replace(/,/g, '%2C');
-                configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Argo','').then(function(response) {
+                configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Resoluciones','').then(function(response) {
                     console.info(response);
                     console.info("se hizo la peticion");
                     $rootScope.my_menu = response.data;

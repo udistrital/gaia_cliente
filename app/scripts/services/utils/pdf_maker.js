@@ -459,10 +459,10 @@ angular.module('resolucionesClienteApp')
             var cantidadColumnas = columnas.length;
 
             for (var i = 0, j = 0; i < cantidadColumnas; i++){
-                if (i < 6 || i > 8) {
+                if (i < 7 || i > 8) {
                     datoFila.push({ text: fila[columnas[i]].toString(), rowSpan:2 });
                 }
-                if (i > 5 && i < 9) {
+                if (i > 6 && i < 9) {
                     datoFila.push({ text: fila[columnas[i]].toString() });
                     segunda[i] = 'Pasa a '+fila[segundaFila[j]].toString();
                     j++;
