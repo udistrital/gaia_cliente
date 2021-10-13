@@ -295,7 +295,7 @@ angular.module('resolucionesClienteApp')
                             NumeroSemanas: parseInt(self.semanas_actuales),
                             NumeroSemanasNuevas: parseInt(self.semanas_a_adicionar),
                             NumeroSemanasRestantes: parseInt(self.semanasRestantes),
-                            ResolucionVinculacionDocenteId: { Id: self.persona_a_modificar.ResolucionId.Id },
+                            ResolucionVinculacionDocenteId: { Id: self.persona_a_modificar.ResolucionVinculacionDocenteId.Id },
                             DedicacionId: { Id: parseInt(self.persona_a_modificar.DedicacionId.Id) },
                             ProyectoCurricularId: parseInt(self.persona_a_modificar.ProyectoCurricularId),
                             Categoria: self.persona_a_modificar.Categoria.toUpperCase(),
@@ -359,7 +359,7 @@ angular.module('resolucionesClienteApp')
 
         self.realizarAdicion = function (objetoAdicion) {
             resolucionesMidRequest.post("gestion_desvinculaciones/adicionar_horas", objetoAdicion).then(function (response) {
-                if (response.data === "OK") {
+                if (response.data.Data === "OK") {
                     swal({
                         text: $translate.instant('ALERTA_ADICION_EXITOSA'),
                         type: 'success',

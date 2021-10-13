@@ -145,16 +145,16 @@ angular.module('resolucionesClienteApp')
         self.desvincularDocente = function () {
             self.mostrar_cancelar = false;
             self.personasSeleccionadas.forEach(function (personaSeleccionada) {
-                personaSeleccionada.InformacionRp = JSON.parse( personaSeleccionada.InformacionRp);
-                personaSeleccionada.InformacionRp.rp =parseInt(personaSeleccionada.InformacionRp.rp,10);
-                personaSeleccionada.InformacionRp.vigencia =parseInt(personaSeleccionada.InformacionRp.vigencia,10);
+                personaSeleccionada.InformacionRp = JSON.parse(`{"rp": 0, "vigencia": 0}`);
+                personaSeleccionada.InformacionRp.rp = parseInt(personaSeleccionada.NumeroRp,10);
+                personaSeleccionada.InformacionRp.vigencia =parseInt(personaSeleccionada.VigenciaRp,10);
                 var docente_a_desvincular = {
                     Id: personaSeleccionada.Id,
                     PersonaId: personaSeleccionada.PersonaId,
                     NumeroHorasSemanales: personaSeleccionada.NumeroHorasSemanales,
                     NumeroSemanas: personaSeleccionada.NumeroSemanas,
                     NumeroSemanasNuevas: self.semanasReversar,
-                    ResolucionVinculacionDocenteId: { Id: personaSeleccionada.ResolucionId.Id },
+                    ResolucionVinculacionDocenteId: { Id: personaSeleccionada.ResolucionVinculacionDocenteId.Id },
                     DedicacionId: { Id: personaSeleccionada.DedicacionId.Id },
                     ProyectoCurricularId: personaSeleccionada.ProyectoCurricularId,
                     Activo: Boolean(false),
@@ -166,7 +166,7 @@ angular.module('resolucionesClienteApp')
                     DependenciaAcademica: personaSeleccionada.DependenciaAcademica,
                     NumeroContrato: personaSeleccionada.NumeroContrato,
                     Dedicacion: personaSeleccionada.DedicacionId.NombreDedicacion.toUpperCase(),
-                    NivelAcademico: personaSeleccionada.ResolucionId.NivelAcademico,
+                    NivelAcademico: self.resolucion.NivelAcademico,
                     NumeroRp: personaSeleccionada.InformacionRp.rp,
                     VigenciaRp: personaSeleccionada.InformacionRp.vigencia,
                     FechaInicio: personaSeleccionada.FechaInicio

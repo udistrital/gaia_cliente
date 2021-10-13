@@ -7,7 +7,7 @@
  * # cdp/listaCdp
  */
 angular.module('resolucionesClienteApp')
-    .directive('listaCdp', function(financieraRequest, financieraMidRequest, agoraRequest, administrativaRequest) {
+    .directive('listaCdp', function(financieraRequest, financieraMidRequest, administrativaRequest) {
         return {
             restrict: 'E',
             scope: {

@@ -49,20 +49,13 @@ angular
         'coreService',
         'coreAmazonService',
         'administrativaService',
-        'agoraService',
         'oikosService',
-        'oikosAmazonService',
         'financieraMidService',
         'adminMidService',
         'resolucionesMidService',
-        'sicapitalService',
-        'titan_service',
         'amazonAdministrativaService',
-        'academicaService',
-        'contratoService',
         'gridOptionsService',
         'configuracionService',
-        'requestService',
         'implicitToken',
         'gridApiService',
         'colombiaHolidaysService',
@@ -96,7 +89,6 @@ angular
                 templateUrl: 'views/notificaciones.html',
                 controller: 'NotificacionesCtrl',
                 controllerAs: 'notificaciones'
-
             })
             .when('/about', {
                 templateUrl: 'views/about.html',
@@ -207,16 +199,6 @@ angular
                 templateUrl: 'views/vinculacionespecial/resolucion_aprobacion.html',
                 controller: 'ResolucionAprobacionCtrl',
                 controllerAs: 'resolucionAprobacion'
-            })
-            .when('/plantillas/generacion_minuta', {
-                templateUrl: 'views/plantillas/generacion_plantilla.html',
-                controller: 'GeneracionPlantillaCtrl',
-                controllerAs: 'generacionPlantilla'
-            })
-            .when('/plantillas/lista_plantillas', {
-                templateUrl: 'views/plantillas/lista_plantillas.html',
-                controller: 'ListaPlantillasCtrl',
-                controllerAs: 'listaPlantillas'
             })
             .otherwise({
                 redirectTo: '/'
