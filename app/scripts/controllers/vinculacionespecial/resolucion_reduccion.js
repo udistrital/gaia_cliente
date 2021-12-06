@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('resolucionesClienteApp')
-    .controller('ResolucionReduccionCtrl', function (amazonAdministrativaRequest, resolucionRequest, financieraRequest, resolucion, adminMidRequest, resolucionesMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window) {
+    .controller('ResolucionReduccionCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucion, resolucionesMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window) {
 
         var self = this;
 
@@ -211,8 +211,8 @@ angular.module('resolucionesClienteApp')
         };
 
         self.RecargarDisponibilidades = function () {
-            financieraRequest.get('disponibilidad', "limit=-1?query=Vigencia:" + self.vigencia_data).then(function (response) {
-                self.Disponibilidades.data = response.data;
+            resolucionesMidRequest.get('disponibilidad', "limit=-1?query=Vigencia:" + self.vigencia_data).then(function (response) {
+                self.Disponibilidades.data = response.data.Data;
             });
         };
 

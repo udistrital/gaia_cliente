@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('resolucionesClienteApp')
-  .controller('ResolucionCancelacionDetalleCtrl', function (resolucionRequest, financieraRequest, resolucion, resolucionesMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
+  .controller('ResolucionCancelacionDetalleCtrl', function (resolucionRequest, resolucion, resolucionesMidRequest, oikosRequest, $localStorage, $scope, $mdDialog, $translate, $window) {
 
     var self = this;
 

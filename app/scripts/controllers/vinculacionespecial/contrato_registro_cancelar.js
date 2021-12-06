@@ -9,7 +9,7 @@
  */
 
 angular.module('resolucionesClienteApp')
-    .controller('ContratoRegistroCancelarCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucionesMidRequest, oikosRequest, coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, coreRequest, $scope, $mdDialog, lista, resolucion, $translate, $window) {
+    .controller('ContratoRegistroCancelarCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucionesMidRequest, oikosRequest, coreAmazonRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, coreRequest, $scope, $mdDialog, lista, resolucion, $translate, $window) {
 
         var self = this;
         self.contratoCanceladoBase = {};

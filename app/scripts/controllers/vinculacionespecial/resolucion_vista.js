@@ -8,7 +8,7 @@
 * Controller of the clienteApp
 */
 angular.module('resolucionesClienteApp')
-  .controller('ResolucionVistaCtrl', function (administrativaRequest, oikosRequest,titandesagregRequest, coreRequest, resolucionesMidRequest, pdfMakerService, nuxeoClient, $mdDialog, $scope, $http, $translate) {
+  .controller('ResolucionVistaCtrl', function (oikosRequest,titandesagregRequest, coreRequest, resolucionesMidRequest, pdfMakerService, nuxeoClient, $mdDialog, $scope, $http, $translate) {
 
     var self = this;
     var docentes_contratados = this;
