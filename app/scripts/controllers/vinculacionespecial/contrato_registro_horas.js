@@ -8,7 +8,7 @@
  * Controller of the clienteApp
  */
 angular.module('resolucionesClienteApp')
-    .controller('ContratoRegistroHorasCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucionesMidRequest, oikosRequest, coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, coreRequest, $mdDialog, lista, resolucion, $translate, $window, $scope) {
+    .controller('ContratoRegistroHorasCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucionesMidRequest, oikosRequest, coreAmazonRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, coreRequest, $mdDialog, lista, resolucion, $translate, $window, $scope) {
 
         var self = this;
         self.contratoGeneralBase = {};
@@ -113,9 +113,6 @@ angular.module('resolucionesClienteApp')
 
         self.asignarValoresDefecto();
 
-        /* financieraRequest.get("unidad_ejecutora/1").then(function (response) {
-            self.unidad_ejecutora_defecto = response.data;
-        }); */
         amazonAdministrativaRequest.get("parametros/240").then(function (response) {
             self.forma_pago_defecto = response.data;
         });

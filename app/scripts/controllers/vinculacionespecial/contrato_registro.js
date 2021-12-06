@@ -10,7 +10,7 @@
 
 //TODO: unificar contrato_registro, contrato_registro_horas y contrato_resistro_cancelar
 angular.module('resolucionesClienteApp')
-    .controller('ContratoRegistroCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucionesMidRequest, oikosRequest,titandesagregRequest , coreAmazonRequest, financieraRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, $mdDialog, lista, resolucion, coreRequest, $translate, $window, $scope) {
+    .controller('ContratoRegistroCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucionesMidRequest, oikosRequest,titandesagregRequest , coreAmazonRequest, idResolucion, colombiaHolidaysService, pdfMakerService, nuxeoClient, $mdDialog, lista, resolucion, coreRequest, $translate, $window, $scope) {
 
         var self = this;
         self.contratoGeneralBase = {};
@@ -108,11 +108,6 @@ angular.module('resolucionesClienteApp')
 
         self.asignarValoresDefecto();
 
-        //TODO: cambiar a la informacion en Oikos: oikosRequest.get('dependencia' ... teniendo en cuenta produccion
-        /* financieraRequest.get("unidad_ejecutora/1", "").then(function (response) {
-            console.log('aqui es el problema');
-            self.unidad_ejecutora_defecto = response.data;
-        }); */
         amazonAdministrativaRequest.get("parametros/240").then(function (response) {
             self.forma_pago_defecto = response.data;
         });

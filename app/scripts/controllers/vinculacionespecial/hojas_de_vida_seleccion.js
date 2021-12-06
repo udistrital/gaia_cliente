@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('resolucionesClienteApp')
-    .controller('HojasDeVidaSeleccionCtrl', function (resolucionRequest, financieraRequest, resolucion, adminMidRequest, resolucionesMidRequest, oikosRequest, gridApiService, $localStorage, $scope, $mdDialog, $translate, $window) {
+    .controller('HojasDeVidaSeleccionCtrl', function (resolucionRequest, resolucion, adminMidRequest, resolucionesMidRequest, oikosRequest, gridApiService, $localStorage, $scope, $mdDialog, $translate, $window) {
 
         var self = this;
 
@@ -233,23 +233,13 @@ angular.module('resolucionesClienteApp')
                 self.actualizarLista(self.offset, query);
             });
         };
-
-        // self.actualizarLista = function (offset, query) {
-        //     financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + self.resolucion.Vigencia, 'limit=' + self.Disponibilidades.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=1").then(function (response) {
-        //         if (response.data.Type !== undefined) {
-        //             self.Disponibilidades.data = [];
-        //         } else {
-        //             self.Disponibilidades.data = response.data;
-        //         }
-        //     });
-        // };
         
         self.actualizarLista = function (offset, query) {
             var unidadEjecutoraQuery = ",DisponibilidadApropiacion.Apropiacion.Rubro.UnidadEjecutora:" +1;
             var limitQuery ="&limit=" + self.Disponibilidades.paginationPageSize;
             var offsetQuery ="&offset=" + offset;
             var peticion = "query=vigencia:" +  self.vigencia_data + unidadEjecutoraQuery + limitQuery+ offsetQuery;
-            var req = financieraRequest.get('disponibilidad?' + peticion);
+            var req = resolucionesMidRequest.get('disponibilidad?' + peticion);
             req.then(gridApiService.paginationFunc(self.Disponibilidades, offset));
             return req;
         };
@@ -313,8 +303,8 @@ angular.module('resolucionesClienteApp')
                 limit: "",
                 query: "Vigencia:" + self.vigencia_data
             });
-            financieraRequest.get('disponibilidad', p).then(function (response) {
-                self.Disponibilidades.data = response.data;
+            resolucionesMidRequest.get('disponibilidad', p).then(function (response) {
+                self.Disponibilidades.data = response.data.Data;
             });
         };
 
@@ -406,19 +396,33 @@ angular.module('resolucionesClienteApp')
             resolucionesMidRequest.post("gestion_previnculacion/Precontratacion/insertar_previnculaciones", vinculacionesData).then(function (response) {
                 console.info(response)
                 console.info(response.data.Data)
-                if (typeof response.data.Data === "number") {
+                if (response.data.Success) {
 
                     self.datosDocentesCargaLectiva.data = [];
-                    swal({
-                        text: $translate.instant('VINCULACION_EXITOSA'),
-                        type: 'success',
-                        confirmButtonText: $translate.instant('ACEPTAR'),
-                        allowOutsideClick: false
-                    }).then(function () {
-                        $window.location.reload();
-                        self.personasSeleccionadasAgregar = [];
-                        vinculacionesData = [];
-                    });
+                    if (response.data.Data === 0) {
+                        swal({
+                            title: $translate.instant('ERROR'),
+                            text: $translate.instant('ALERTA_PREVIN_ERROR2'),
+                            type: 'info',
+                            confirmButtonText: $translate.instant('ACEPTAR'),
+                            allowOutsideClick: false
+                        }).then(function () {
+                            $window.location.reload();
+                            self.personasSeleccionadasAgregar = [];
+                            vinculacionesData = [];
+                        });
+                    } else {
+                        swal({
+                            text: $translate.instant('VINCULACION_EXITOSA'),
+                            type: 'success',
+                            confirmButtonText: $translate.instant('ACEPTAR'),
+                            allowOutsideClick: false
+                        }).then(function () {
+                            $window.location.reload();
+                            self.personasSeleccionadasAgregar = [];
+                            vinculacionesData = [];
+                        });
+                    }
 
                 } else {
                     swal({
@@ -527,9 +531,9 @@ angular.module('resolucionesClienteApp')
                 self.total_contratos_seleccionados = 0;
                 self.apropiacion_elegida = [];
                 self.Apropiaciones.data = [];
-                financieraRequest.get("disponibilidad/TotalDisponibilidades/" + self.resolucion.Vigencia, 'UnidadEjecutora=1') //formato de entrada  https://golang.org/src/time/format.go
-                    .then(function (response) { //error con el success
-                        self.Disponibilidades.totalItems = response.data;
+                resolucionesMidRequest.get("disponibilidad/TotalDisponibilidades/" + self.resolucion.Vigencia, 'UnidadEjecutora=1') //formato de entrada  https://golang.org/src/time/format.go
+                    .then(function (response) {
+                        self.Disponibilidades.totalItems = response.data.Data;
                         self.actualizarLista(self.offset, '');
                     });
                 self.personasSeleccionadasAgregar.forEach(function (personaSeleccionada) {
@@ -553,8 +557,6 @@ angular.module('resolucionesClienteApp')
                 });
 
                 resolucionesMidRequest.post("gestion_previnculacion/Precontratacion/calcular_valor_contratos_seleccionados ", vinculacionesData).then(function (response) {
-                console.info('calcular_valor_contratos_seleccionados');                    
-                    console.info(response)
                     self.total_contratos_seleccionados = response.data.Data;
                 });
 

@@ -45,12 +45,9 @@ angular
         'file-model',
         'angularBootstrapFileinput',
         // Servicios
-        'financieraService',
         'coreService',
         'coreAmazonService',
-        'administrativaService',
         'oikosService',
-        'financieraMidService',
         'adminMidService',
         'resolucionesMidService',
         'amazonAdministrativaService',
@@ -94,16 +91,6 @@ angular
                 templateUrl: 'views/about.html',
                 controller: 'AboutCtrl',
                 controllerAs: 'about'
-            })
-            .when('/rp_solicitud_personas', {
-                templateUrl: 'views/rp/rp_solicitud_personas.html',
-                controller: 'RpSolicitudPersonasCtrl',
-                controllerAs: 'rpSolicitudPersonas'
-            })
-            .when('/rp/rp_solicitud/', {
-                templateUrl: 'views/rp/rp_solicitud.html',
-                controller: 'RpSolicitudCtrl',
-                controllerAs: 'rpSolicitud'
             })
             .when('/vinculacionespecial/resolucion_generacion', {
                 templateUrl: 'views/vinculacionespecial/resolucion_generacion.html',

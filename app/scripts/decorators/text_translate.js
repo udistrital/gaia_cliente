@@ -502,6 +502,7 @@ var text_es = {
     ERROR_DISP: "La apropiación elegida no tiene saldo suficiente",
     ERROR_ELEG_DISP: "Elija una disponibilidad",
     ALERTA_PREVIN_ERROR: "Error al previncular docente",
+    ALERTA_PREVIN_ERROR2: "Los docentes seleccionados ya se encuentran contratados",
     MODIFICAR_HORAS_BTN: "Modificar horas",
     GUARDAR_HORAS_BTN: "Guardar horas",
     CANCELAR_MOD_BTN: "Cancelar modificación",

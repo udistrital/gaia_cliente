@@ -29,7 +29,7 @@ angular.module('resolucionesClienteApp')
             $scope.token = token_service.getPayload();
             if (!angular.isUndefined($scope.token.role)){
                 console.info("entro al undefined");
-                console.info($scope.token.role)
+                console.info($scope.token.role);
                 var roles="";
                 if ( typeof $scope.token.role === "object" ) {
                     console.info("entro all if object");
