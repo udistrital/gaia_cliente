@@ -8,7 +8,7 @@
 * Controller of the clienteApp
 */
 angular.module('resolucionesClienteApp')
-  .controller('ResolucionAdministracionCtrl', function (adminMidRequest, resolucionesMidRequest, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
+  .controller('ResolucionAdministracionCtrl', function (resolucionesMidRequest, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
 
     var self = this;
     self.offset = 0
@@ -203,33 +203,6 @@ angular.module('resolucionesClienteApp')
         clickOutsideToClose: false,
         fullscreen: true,
         locals: { idResolucion: row.entity.Id, lista: self, resolucion: row.entity }
-      });
-    };
-
-    //Función para realizar la cancelación y verificación de la resolución
-    self.cancelarResolucion = function (row) {
-      //Se verifica que no existan liquidaciones asoociadas a los contratos pertenecientes a la resolucion
-      //Esta función no existe en administrativa_mid, tal vez debe reemplazarse por expedir_resolucion/cancelar en resoluciones_mid 
-      adminMidRequest.post("cancelacion_valida/" + row.entity.Id).then(function (response) {
-        if (response.data === "OK") {
-          resolucionRequest.get("resolucion/" + row.entity.Id).then(function (response) {
-            var nuevaResolucion = response.data.Data;
-            //Cambio de estado
-            nuevaResolucion.Estado = false;
-            //Se actualiza el estado de la resolución
-            // TODO la función CancelarResolucion se encuentra comentada en el controlador de Resoluciones
-            resolucionRequest.put("resolucion/CancelarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response) {
-              if (response.data === "OK") {
-                self.cargarDatosResolucion(self.offset, self.query);
-              }
-            });
-          });
-        } else {
-          swal({
-            text: $translate.instant('NO_CANCELADA_PAGOS'),
-            type: 'warning'
-          });
-        }
       });
     };
 

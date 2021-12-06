@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('resolucionesClienteApp')
-    .controller('ResolucionAdicionCtrl', function (financieraMidRequest, amazonAdministrativaRequest, resolucionRequest, financieraRequest, resolucion, adminMidRequest, resolucionesMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window, gridApiService) {
+    .controller('ResolucionAdicionCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucion, resolucionesMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window, gridApiService) {
 
         var self = this;
 
@@ -194,9 +194,9 @@ angular.module('resolucionesClienteApp')
                     self.disponibilidad_actual = row.entity.NumeroDisponibilidad;
                     self.disponibilidad_actual_id = row.entity.Disponibilidad;
                     
-                    financieraRequest.get("disponibilidad/TotalDisponibilidades/" + self.vigencia_data, 'UnidadEjecutora=1')
+                    resolucionesMidRequest.get("disponibilidad/TotalDisponibilidades/" + self.vigencia_data, 'UnidadEjecutora=1')
                         .then(function (response) {
-                            self.Disponibilidades.totalItems = response.data;
+                            self.Disponibilidades.totalItems = response.data.Data;
                             self.actualizarLista(self.offset, '');
                         });
                     amazonAdministrativaRequest.get("acta_inicio", $.param({
@@ -211,8 +211,8 @@ angular.module('resolucionesClienteApp')
                             self.maximoSugeridasInicial = self.maximoSemanasSugeridas;
                             self.maximoSemanasAdicionar = self.semanas_actuales;
                         }
-                        financieraRequest.get("disponibilidad/", $.param({query: "DisponibilidadApropiacion.Id:" + self.disponibilidad_actual_id})).then(function (response) {
-                            self.disponibilidad_anterior = response.data[0].DisponibilidadApropiacion[0];
+                        resolucionesMidRequest.get("disponibilidad/", $.param({query: "DisponibilidadApropiacion.Id:" + self.disponibilidad_actual_id})).then(function (response) {
+                            self.disponibilidad_anterior = response.data.Data[0].DisponibilidadApropiacion[0];
                             self.disponibilidad_nueva = self.disponibilidad_anterior;
                             $('#modal_adicion').modal('show');
                         });
@@ -229,7 +229,7 @@ angular.module('resolucionesClienteApp')
         };
 
         self.actualizarLista = function (offset, query) {
-            var req = financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + self.vigencia_data,
+            var req = resolucionesMidRequest.get('disponibilidad/ListaDisponibilidades/' + self.vigencia_data,
                 $.param({
                     limit: self.Disponibilidades.paginationPageSize,
                     offset: offset,
@@ -256,9 +256,8 @@ angular.module('resolucionesClienteApp')
         };
 
         self.RecargarDisponibilidades = function () {
-            financieraRequest.get('disponibilidad', "limit=-1?query=Vigencia:" + self.vigencia_data).then(function (response) {
-                self.Disponibilidades.data = response.data;
-
+            resolucionesMidRequest.get('disponibilidad', "limit=-1?query=Vigencia:" + self.vigencia_data).then(function (response) {
+                self.Disponibilidades.data = response.data.Data;
             });
         };
 
