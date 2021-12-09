@@ -19,7 +19,7 @@ angular.module('resolucionesClienteApp')
       self.resolucion.FechaExpedicion = undefined;
     }
     if (self.resolucion.FechaExpedicion !== undefined) {
-      self.resolucion.FechaExpedicion = Date(self.resolucion.FechaExpedicion);
+      self.resolucion.FechaExpedicion = new Date(self.resolucion.FechaExpedicion);
     }
     self.proyectos = [];
 
