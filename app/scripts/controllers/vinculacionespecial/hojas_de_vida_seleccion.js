@@ -111,13 +111,13 @@ angular.module('resolucionesClienteApp')
                 enableFiltering: false, enableSorting: false,
                 cellTemplate: '<center>' +
                     '<a class="ver"  ng-show="!row.entity.editrow" ng-click="grid.appScope.modificar_horas(row.entity)">' +
-                    '<i title="{{\'MODIFICAR_HORAS_BTN\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover"></i></a> ' +
+                    '<em title="{{\'MODIFICAR_HORAS_BTN\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover"></em></a> ' +
 
                     '<a class="ver"  ng-show="row.entity.editrow" ng-click="grid.appScope.guardar_horas_modificadas(row.entity)">' +
-                    '<i title="{{\'GUARDAR_HORAS_BTN\' | translate }}" class="fa fa-floppy-o fa-lg  faa-shake animated-hover"></i></a> ' +
+                    '<em title="{{\'GUARDAR_HORAS_BTN\' | translate }}" class="fa fa-floppy-o fa-lg  faa-shake animated-hover"></em></a> ' +
 
                     '<a class="ver"  ng-show="row.entity.editrow" ng-click="grid.appScope.cancelar_modificacion(row.entity)">' +
-                    '<i title="{{\'CANCELAR_MOD_BTN\' | translate }}" class="fa fa-ban fa-lg  faa-shake animated-hover"></i></a> ' +
+                    '<em title="{{\'CANCELAR_MOD_BTN\' | translate }}" class="fa fa-ban fa-lg  faa-shake animated-hover"></em></a> ' +
 
                     '</center>'
             });

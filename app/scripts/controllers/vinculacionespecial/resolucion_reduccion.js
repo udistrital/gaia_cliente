@@ -58,7 +58,7 @@ angular.module('resolucionesClienteApp')
                     displayName: $translate.instant('OPCIONES'),
                     cellTemplate: '<center>' +
                         '<a class="borrar" ng-click="grid.appScope.mostrar_modal_adicion(row)">' +
-                        '<i title="{{\'REDUCIR_BTN\' | translate }}" class="fa fa-minus-circle  faa-shake animated-hover"></i></a></div>' +
+                        '<em title="{{\'REDUCIR_BTN\' | translate }}" class="fa fa-minus-circle  faa-shake animated-hover"></em></a></div>' +
                         '</center>'
                 }
             ],
@@ -174,8 +174,8 @@ angular.module('resolucionesClienteApp')
                     self.maximoHorasReducir = row.entity.ResolucionVinculacionDocenteId.NivelAcademico === "PREGRADO" ? self.horas_actuales - 1 : self.horas_actuales;
                     amazonAdministrativaRequest.get("acta_inicio", $.param({
                         query: 'NumeroContrato:' + self.persona_a_modificar.NumeroContrato + ',Vigencia:' + self.persona_a_modificar.Vigencia
-                    })).then(function (response) {
-                        self.acta = response.data[0];
+                    })).then(function (response2) {
+                        self.acta = response2.data[0];
                         self.fechaIni = new Date(self.acta.FechaInicio);
                         self.fechaActa = self.fechaUtc(self.fechaIni);
                         if (self.FechaInicio === undefined) {

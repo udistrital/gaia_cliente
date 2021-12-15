@@ -135,15 +135,15 @@ angular.module('resolucionesClienteApp')
           //Los botones son mostrados de acuerdo alestado de las resoluciones (ver,expedir,restaurar)
           cellTemplate: '<center>' +
             '<a class="ver" ng-click="grid.appScope.verVisualizarResolucion(row)">' +
-            '<i title="{{\'VER_BTN\' | translate }}" class="fa fa-eye fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'VER_BTN\' | translate }}" class="fa fa-eye fa-lg  faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.Estado==\'Aprobada\'&&row.entity.TipoResolucion==\'Vinculación\'" class="ver" ng-click="grid.appScope.verRealizarExpedicion(row)">' +
-            '<i title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.Estado==\'Aprobada\'&&row.entity.TipoResolucion==\'Adición\'" class="ver" ng-click="grid.appScope.verRealizarExpedicionHoras(row)">' +
-            '<i title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.Estado==\'Aprobada\'&&row.entity.TipoResolucion==\'Reducción\'" class="ver" ng-click="grid.appScope.verRealizarExpedicionHoras(row)">' +
-            '<i title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.Estado==\'Aprobada\'&&row.entity.TipoResolucion==\'Cancelación\'" class="ver" ng-click="grid.appScope.verRealizarExpedicionCancelar(row)">' +
-            '<i title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></em></a> ' +
             '</center>'
         }
       ],
@@ -275,8 +275,8 @@ angular.module('resolucionesClienteApp')
         nuevaResolucion.Estado = true;
         nuevaResolucion.FechaExpedicion = null;
         //Se actualizan los datos de la resolución
-        resolucionRequest.put("resolucion/RestaurarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response) {
-          if (response.data.Success) {
+        resolucionRequest.put("resolucion/RestaurarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response2) {
+          if (response2.data.Success) {
             self.cargarDatosResolucion(self.offset, self.query);
           }
         });

@@ -61,7 +61,7 @@ angular.module('resolucionesClienteApp')
                         self.ordenadorGasto = response6.data;
                     });
                 } else {
-                    self.ordenadorGasto = response6.data[0];
+                    self.ordenadorGasto = response5.data[0];
                 }
             });
         });
@@ -205,11 +205,10 @@ angular.module('resolucionesClienteApp')
                 
                 resolucionesMidRequest.post("expedir_resolucion/validar_datos_expedicion", expedicionResolucion).then(function (response) {                    
                     if (response.data.Data === "OK") {
-                        resolucionesMidRequest.post("expedir_resolucion/expedir", expedicionResolucion).then(function (response) {
+                        resolucionesMidRequest.post("expedir_resolucion/expedir", expedicionResolucion).then(function (response2) {
                             console.log("hace el post para expedir una resolucion");
-                            console.log(response.data)
                             self.estado = false;
-                            if (response.data.Status !== "201") {
+                            if (response2.data.Status !== "201") {
                                 swal({
                                     text: response.data,
                                     title: "Alerta",
@@ -280,11 +279,8 @@ angular.module('resolucionesClienteApp')
                 var valor_totalContrato = Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,""));
                 var meses_contrato = docentes.NumeroMeses.split(' ')[0];
                 
-                if (valor_totalContrato < 0)
-                {
+                if (valor_totalContrato < 0){
                     valor_totalContrato = 0;
-                }else{
-                    valor_totalContrato = valor_totalContrato;
                 }
                 const datosDocenteSalario = {
                     NumDocumento:  docentes.PersonaId,
@@ -385,7 +381,7 @@ angular.module('resolucionesClienteApp')
             var documento = pdfMakerService.getDocumento(self.contenidoResolucion, resolucion, self.contratadosPdf, self.proyectos);
 
             pdfMake.createPdf(documento).getBlob(function (blobDoc) {
-                var aux = nuxeoClient.createDocument("ResolucionDVE" + self.idResolucion, "Resolución DVE expedida", blobDoc, function(url) {
+                nuxeoClient.createDocument("ResolucionDVE" + self.idResolucion, "Resolución DVE expedida", blobDoc, function(url) {
                     var date = new Date();
                     date = moment(date).format('DD_MMM_YYYY_HH:mm:ss');
                     self.objeto_documento = {

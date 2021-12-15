@@ -34,8 +34,8 @@ angular.module('resolucionesClienteApp')
 
     resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucion.Id + "&id_facultad=" + self.resolucion.IdDependenciaFirma).then(function (response) {
       self.contenidoResolucion = response.data.Data;
-      resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
-        self.contratados = response.data.Data;
+      resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response2) {
+        self.contratados = response2.data.Data;
        /* if (self.contratados.length > 0)
           {
             self.incluirDesagregacion(); 
@@ -61,11 +61,8 @@ angular.module('resolucionesClienteApp')
         
         var valor_totalContrato = Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,""));
         
-        if (valor_totalContrato < 0)
-        {
+        if (valor_totalContrato < 0) {
           valor_totalContrato = 0;
-        }else{
-          valor_totalContrato = valor_totalContrato;
         }
                 
 

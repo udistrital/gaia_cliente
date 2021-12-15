@@ -165,30 +165,30 @@ angular.module('resolucionesClienteApp')
           //Los botones son mostrados de acuerdo alestado de las resoluciones (ver,editar,configurar)
           cellTemplate: '<center>' +
             '<a class="ver" ng-click="grid.appScope.verVisualizarResolucion(row)">' +
-            '<i title="{{\'VER_DOC_BTN\' | translate }}" class="fa fa-file-pdf-o fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'VER_DOC_BTN\' | translate }}" class="fa fa-file-pdf-o fa-lg  faa-shake animated-hover"></em></a> ' +
 
             '<a ng-if="row.entity.TipoResolucion==\'Vinculación\' && row.entity.Estado==\'Solicitada\' " class="editar" ng-click="grid.appScope.verEditarDocentes(row)">' +
-            '<i title="{{\'VINCULAR_BTN\' | translate }}" class="fa fa-user-plus fa-lg faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'VINCULAR_BTN\' | translate }}" class="fa fa-user-plus fa-lg faa-shake animated-hover"></em></a> ' +
 
             '<a ng-if="row.entity.TipoResolucion==\'Cancelación\' && row.entity.Estado==\'Solicitada\'" class="editar" ng-click="grid.appScope.verEditarDocentes(row)">' +
-            '<i title="{{\'CANCELAR_VIN_BTN\' | translate }}" class="fa fa-user-times fa-lg faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'CANCELAR_VIN_BTN\' | translate }}" class="fa fa-user-times fa-lg faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.TipoResolucion==\'Cancelación\' && row.entity.Estado==\'Solicitada\'" class="editar" ng-click="grid.appScope.verListarDocentesCancelacion(row)">' +
-            '<i title="{{\'CONSULTAR_CAN_BTN\' | translate }}" class="fa fa-table fa-lg faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'CONSULTAR_CAN_BTN\' | translate }}" class="fa fa-table fa-lg faa-shake animated-hover"></em></a> ' +
 
             '<a ng-if="row.entity.TipoResolucion==\'Adición\' && row.entity.Estado==\'Solicitada\' "  class="editar" ng-click="grid.appScope.verEditarDocentes(row)">' +
-            '<i title="{{\'ADICIONAR_BTN\' | translate }}" class="fa fa-plus-circle fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'ADICIONAR_BTN\' | translate }}" class="fa fa-plus-circle fa-lg  faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.TipoResolucion==\'Adición\' && row.entity.Estado==\'Solicitada\' " class="editar" ng-click="grid.appScope.verListarDocentesAdicion(row)">' +
-            '<i title="{{\'VER_DOCENTES_VIN_BTN\' | translate }}" class="fa fa-table fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'VER_DOCENTES_VIN_BTN\' | translate }}" class="fa fa-table fa-lg  faa-shake animated-hover"></em></a> ' +
 
             '<a ng-if="row.entity.TipoResolucion==\'Reducción\' && row.entity.Estado==\'Solicitada\' "  class="editar" ng-click="grid.appScope.verEditarDocentes(row)">' +
-            '<i title="{{\'REDUCIR_BTN\' | translate }}" class="fa fa-minus-circle fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'REDUCIR_BTN\' | translate }}" class="fa fa-minus-circle fa-lg  faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.TipoResolucion==\'Reducción\'&& row.entity.Estado==\'Solicitada\' "  class="editar" ng-click="grid.appScope.verListarDocentesReduccion(row)">' +
-            '<i title="{{\'VER_DOCENTES_VIN_BTN\' | translate }}" class="fa fa-table fa-lg  faa-shake animated-hover""></i></a> ' +
+            '<em title="{{\'VER_DOCENTES_VIN_BTN\' | translate }}" class="fa fa-table fa-lg  faa-shake animated-hover""></em></a> ' +
 
             '<a ng-if="row.entity.Estado==\'Solicitada\'" class="editar" ng-click="grid.appScope.verEditarResolucion(row)">' +
-            '<i title="{{\'CONFIGURAR_DOC_BTN\' | translate }}" class="fa fa-pencil-square-o fa-lg faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'CONFIGURAR_DOC_BTN\' | translate }}" class="fa fa-pencil-square-o fa-lg faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.Estado==\'Solicitada\'" class="ver" ng-click="grid.appScope.verRealizarAnulacion(row)">' +
-            '<i title="{{\'ANULADA_BTN\' | translate }}" class="fa fa-times-circle fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'ANULADA_BTN\' | translate }}" class="fa fa-times-circle fa-lg  faa-shake animated-hover"></em></a> ' +
 
             '</center>'
 
@@ -218,24 +218,24 @@ angular.module('resolucionesClienteApp')
       self.resolucionesInscritas.data = response.data.Data;
 
       if (self.resolucionesInscritas.data !== null) {
-        self.resolucionesInscritas.data.forEach(function (resolucion) {
+        self.resolucionesInscritas.data.forEach(function (resol) {
           if (resolucion.FechaExpedicion !== null) {
             //dado que el servicio no está almacenando la Feha de expedición directamente como null, se toma el valor "0001-01-01T00:00:00Z" como tal
-            if (resolucion.FechaExpedicion.toString() === "0001-01-01T00:00:00Z") {
-              resolucion.FechaExpedicion = null;
-              resolucion.EstadoTexto = "Creada";
+            if (resol.FechaExpedicion.toString() === "0001-01-01T00:00:00Z") {
+              resol.FechaExpedicion = null;
+              resol.EstadoTexto = "Creada";
             } else {
-              if (resolucion.Estado) {
-                resolucion.EstadoTexto = "Expedida";
+              if (resol.Estado) {
+                resol.EstadoTexto = "Expedida";
               } else {
-                resolucion.EstadoTexto = "Cancelada";
+                resol.EstadoTexto = "Cancelada";
               }
             }
           } else {
-            if (resolucion.Estado) {
-              resolucion.EstadoTexto = "Expedida";
+            if (resol.Estado) {
+              resol.EstadoTexto = "Expedida";
             } else {
-              resolucion.EstadoTexto = "Cancelada";
+              resol.EstadoTexto = "Cancelada";
             }
           }
         });
@@ -243,7 +243,7 @@ angular.module('resolucionesClienteApp')
     });
 
     self.registrarResolucion = function (row) {
-      var resolucion = {
+      var resolucion2 = {
         Id: row.entity.Id,
         Numero: row.entity.Numero,
         NivelAcademico: row.entity.NivelAcademico,
@@ -262,7 +262,7 @@ angular.module('resolucionesClienteApp')
         PeriodoCarga: row.entity.PeriodoCarga
       };
 
-      var local = JSON.stringify(resolucion);
+      var local = JSON.stringify(resolucion2);
       localStorage.setItem('resolucion', local);
     };
 
@@ -378,8 +378,8 @@ angular.module('resolucionesClienteApp')
     self.cambiarEstado = function (resolucion_estado) {
       resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + resolucion_estado.ResolucionId.Id.toString()).then(function (response) {
         if (response.data.Data.length === 0 || resolucion_estado.ResolucionId.TipoResolucionId.Id === 1) {
-          resolucionRequest.post("resolucion_estado", resolucion_estado).then(function (response) {
-            if (response.data.Success) {
+          resolucionRequest.post("resolucion_estado", resolucion_estado).then(function (response2) {
+            if (response2.data.Success) {
               self.cargarDatosResolucion($scope.offset, $scope.query);
               swal(
                 'Felicidades',
@@ -397,10 +397,10 @@ angular.module('resolucionesClienteApp')
             }
           });
         } else {
-          resolucionesMidRequest.post("gestion_desvinculaciones/anular_modificaciones", response.data.Data).then(function (response) {
-            if (response.data.Data === "OK") {
-              resolucionRequest.post("resolucion_estado", resolucion_estado).then(function (response) {
-                if (response.data.Success) {
+          resolucionesMidRequest.post("gestion_desvinculaciones/anular_modificaciones", response.data.Data).then(function (response2) {
+            if (response2.data.Data === "OK") {
+              resolucionRequest.post("resolucion_estado", resolucion_estado).then(function (response3) {
+                if (response3.data.Success) {
                   self.cargarDatosResolucion($scope.offset, $scope.query);
                   swal(
                     'Felicidades',

@@ -8,7 +8,7 @@
 * Controller of the clienteApp
 */
 angular.module('resolucionesClienteApp')
-  .controller('ResolucionReportesCtrl', function (oikosRequest, resolucion, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
+  .controller('ResolucionReportesCtrl', function (oikosRequest, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
     var self = this;
     self.nombreReporte = "";
     self.resolucionId = 0;

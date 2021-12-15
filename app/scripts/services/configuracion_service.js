@@ -35,18 +35,18 @@ angular.module('configuracionService', [])
          * @ngdoc function
          * @name configuracionService.service:configuracionRequest#get_acciones
          * @methodOf configuracionService.service:configuracionRequest
-         * @param {string} path url del menu a consultar opciones
+         * @param {string} path2 url del menu a consultar opciones
          * @param {string} a menu
          * @description Metodo get_acciones para obtener las acciones ejecutables en un modulo
          */
-        get_acciones: function(path, a) {
+        get_acciones: function(path2, a) {
             a = a || [];
             for (var i = 0; i < a.length; i++) {
-                if (a[i].Url === path) {
+                if (a[i].Url === path2) {
                     return a[i];
                 } else if (a[i].Opciones !== null) {
-                    var y;
-                    if ((y = this.get_acciones(path, a[i].Opciones)) && y !== null) {
+                    var y = this.get_acciones(path2, a[i].Opciones);
+                    if (y !== null) {
                         return y;
                     }
                 }

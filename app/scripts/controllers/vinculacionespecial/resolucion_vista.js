@@ -11,7 +11,6 @@ angular.module('resolucionesClienteApp')
   .controller('ResolucionVistaCtrl', function (oikosRequest,titandesagregRequest, coreRequest, resolucionesMidRequest, pdfMakerService, nuxeoClient, $mdDialog, $scope, $http, $translate) {
 
     var self = this;
-    var docentes_contratados = this;
     var docentes_desagregados = [];
     self.resolucion = JSON.parse(localStorage.getItem("resolucion"));
     
@@ -34,8 +33,8 @@ angular.module('resolucionesClienteApp')
       });
       resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucion.Id + "&id_facultad=" + self.resolucion.IdDependenciaFirma).then(function (response) {
         self.contenidoResolucion = response.data.Data;
-        resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
-          self.contratados = response.data.Data;
+        resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response2) {
+          self.contratados = response2.data.Data;
           // Si existen valores dentro de contratados se ejecuta la desagregación
           //if (self.contratados.length > 0)
           //{
@@ -68,11 +67,8 @@ angular.module('resolucionesClienteApp')
 
         console.log(meses_contrato)
         
-        if (valor_totalContrato < 0)
-        {
+        if (valor_totalContrato < 0) {
           valor_totalContrato = 0;
-        }else{
-          valor_totalContrato = valor_totalContrato;
         }
                 
 

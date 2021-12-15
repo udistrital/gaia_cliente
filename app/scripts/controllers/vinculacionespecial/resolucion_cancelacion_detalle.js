@@ -47,7 +47,7 @@ angular.module('resolucionesClienteApp')
           displayName: $translate.instant('OPCIONES'),
           cellTemplate: '<center>' +
             '<a class="borrar" ng-click="grid.appScope.verAnularDesvinculacion(row)">' +
-            '<i title="{{\'ANULAR_BTN\' | translate }}" class="fa fa-times-circle-o fa-lg  faa-shake animated-hover"></i></a></div>' +
+            '<em title="{{\'ANULAR_BTN\' | translate }}" class="fa fa-times-circle-o fa-lg  faa-shake animated-hover"></em></a></div>' +
             '</center>'
         }
       ],
