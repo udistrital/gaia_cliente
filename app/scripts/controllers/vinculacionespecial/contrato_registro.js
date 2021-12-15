@@ -31,10 +31,10 @@ angular.module('resolucionesClienteApp')
             return resolucionRequest.get('tipo_resolucion/' + self.resolucionActual.TipoResolucionId.Id);
         }).then(function (response) {
             self.resolucionActual.TipoResolucionId.NombreTipoResolucion = response.data.Data.NombreTipoResolucion;
-            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.DependenciaFirmaId).then(function (response) {
-                self.contenidoResolucion = response.data.Data;
-                resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
-                    self.contratadosPdf = response.data.Data;
+            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.DependenciaFirmaId).then(function (response2) {
+                self.contenidoResolucion = response2.data.Data;
+                resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response3) {
+                    self.contratadosPdf = response3.data.Data;
                 });
             });
         });
@@ -45,23 +45,23 @@ angular.module('resolucionesClienteApp')
 
         resolucionRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
             self.datosFiltro = response.data.Data;
-            oikosRequest.get("dependencia/" + self.datosFiltro.FacultadId).then(function (response) {
-                self.contratoGeneralBase.Contrato.SedeSolicitante = response.data.Id.toString();
-                self.sede_solicitante_defecto = response.data.Nombre;
+            oikosRequest.get("dependencia/" + self.datosFiltro.FacultadId).then(function (response2) {
+                self.contratoGeneralBase.Contrato.SedeSolicitante = response2.data.Id.toString();
+                self.sede_solicitante_defecto = response2.data.Nombre;
             });
-            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response) {
-                self.contratados = response.data.Data;
+            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response3) {
+                self.contratados = response3.data.Data;
             });
-            oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.Facultad + "/" + self.datosFiltro.NivelAcademico, "").then(function (response) {
-                self.proyectos = response.data;
+            oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.Facultad + "/" + self.datosFiltro.NivelAcademico, "").then(function (response4) {
+                self.proyectos = response4.data;
             });
-            coreAmazonRequest.get("ordenador_gasto", "query=DependenciaId:" + self.datosFiltro.FacultadId).then(function (response) {
-                if (response.data === null) {
-                    coreAmazonRequest.get("ordenador_gasto/1").then(function (response) {
-                        self.ordenadorGasto = response.data;
+            coreAmazonRequest.get("ordenador_gasto", "query=DependenciaId:" + self.datosFiltro.FacultadId).then(function (response5) {
+                if (response5.data === null) {
+                    coreAmazonRequest.get("ordenador_gasto/1").then(function (response6) {
+                        self.ordenadorGasto = response6.data;
                     });
                 } else {
-                    self.ordenadorGasto = response.data[0];
+                    self.ordenadorGasto = response6.data[0];
                 }
             });
         });
