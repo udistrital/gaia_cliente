@@ -70,7 +70,7 @@ angular.module('resolucionesClienteApp')
           NumDocumento:  Number(docentes.PersonaId),
           ValorTotalContrato: valor_totalContrato,
           VigenciaContrato: self.resolucion.Vigencia,
-        }
+        };
 
         titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
           var SalarioDesagreg = response.data;
@@ -296,7 +296,7 @@ angular.module('resolucionesClienteApp')
           }).then(function () {
             $window.location.reload();
           });
-        }).catch(function (err) {
+        }).catch(function () {
           //console.log(err);
           swal({
             title: $translate.instant('ALERTA'),
@@ -315,10 +315,10 @@ angular.module('resolucionesClienteApp')
     };
 
     self.resolucionValida = function (contenidoResolucion) {
-      if (!contenidoResolucion.Numero) return false
-      if (!contenidoResolucion.Titulo) return false;
-      if (!contenidoResolucion.Preambulo) return false;
-      if (!contenidoResolucion.Consideracion) return false;
+      if (!contenidoResolucion.Numero) {return false;}
+      if (!contenidoResolucion.Titulo) {return false;}
+      if (!contenidoResolucion.Preambulo) {return false;}
+      if (!contenidoResolucion.Consideracion) {return false;}
 
       var resolucionValida = true;
       if (contenidoResolucion.Articulos) {
@@ -384,7 +384,7 @@ angular.module('resolucionesClienteApp')
     self.isEdit = false;
 
     if (self.contenidoResolucion){
-      if (self.contenidoResolucion.CuadroResponsabilidades == ""){
+      if (self.contenidoResolucion.CuadroResponsabilidades === ""){
         self.contenidoResolucion.CuadroResponsabilidades = buildTable();
       }else{
         self.table = JSON.parse(self.contenidoResolucion.CuadroResponsabilidades);

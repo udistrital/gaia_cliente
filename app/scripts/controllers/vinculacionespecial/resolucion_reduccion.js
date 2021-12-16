@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('resolucionesClienteApp')
-    .controller('ResolucionReduccionCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucion, resolucionesMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window) {
+    .controller('ResolucionReduccionCtrl', function (amazonAdministrativaRequest, resolucionRequest, adminMidRequest, resolucion, resolucionesMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window) {
 
         var self = this;
 
@@ -344,7 +344,7 @@ angular.module('resolucionesClienteApp')
                 var hoy = new Date (self.fecha.getFullYear(),self.fecha.getMonth(),self.fecha.getDate(),0,0,0);
                 self.mostrarFechaInvalida = self.FechaInicio < hoy ? true : false;
             }
-        }
+        };
         
         //Función para convertir las fechas a UTC declaradas desde el cliente (Las que vengan por gets corregirlas desde los apis)
         self.fechaUtc = function (fecha) {
@@ -356,6 +356,6 @@ angular.module('resolucionesClienteApp')
             resolucionesMidRequest.get("gestion_previnculacion/rp_docente/"+vinculacion+"/"+vigencia+"/"+identificacion, "").then(function (response) {
             self.rps = response.data.Data.cdp_rp_docente.cdp_rp;
             });
-        }
+        };
         $scope.validarFecha = colombiaHolidaysService.validateDate;
     });

@@ -152,12 +152,12 @@ angular.module('resolucionesClienteApp')
 
         //Funcion para cargar los datos de las resoluciones creadas y almacenadas dentro del sistema
         self.cargarDatosResolucion = function (offset, query) {
-            if(query === undefined) query = "";
+            if(query === undefined) {query = "";}
             var req = resolucionesMidRequest.get("gestion_resoluciones/get_resoluciones_inscritas", $.param({
                 limit: self.resolucionesInscritas.paginationPageSize,
                 offset: offset,
                 query: typeof (query) === "string" ? query : query.join(",")
-            }), true)
+            }), true);
             req.then(gridApiService.paginationFunc(self.resolucionesInscritas, offset));
             return req;
         };

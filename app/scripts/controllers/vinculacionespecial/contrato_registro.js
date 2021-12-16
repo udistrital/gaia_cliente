@@ -206,7 +206,7 @@ angular.module('resolucionesClienteApp')
                 resolucionesMidRequest.post("expedir_resolucion/validar_datos_expedicion", expedicionResolucion).then(function (response) {                    
                     if (response.data.Data === "OK") {
                         resolucionesMidRequest.post("expedir_resolucion/expedir", expedicionResolucion).then(function (response2) {
-                            console.log("hace el post para expedir una resolucion");
+                            //console.log("hace el post para expedir una resolucion");
                             self.estado = false;
                             if (response2.data.Status !== "201") {
                                 swal({
@@ -260,7 +260,7 @@ angular.module('resolucionesClienteApp')
                 self.generarResolucion();
             }*/
             self.generarResolucion();
-            console.log(self.contratadosPdf)
+            //console.log(self.contratadosPdf);
             
         };
         $scope.validarFecha = colombiaHolidaysService.validateDate;
@@ -287,7 +287,7 @@ angular.module('resolucionesClienteApp')
                     ValorContrato: valor_totalContrato.toString(),
                     VigenciaContrato: resolucion.Vigencia.toString(),
                     MesesContrato: meses_contrato,
-                }
+                };
 
                 titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
                 var SalarioDesagreg = response.data;
@@ -311,8 +311,8 @@ angular.module('resolucionesClienteApp')
          * Escribe los valores de desagregación en cada vector de docente
          */
         self.EscribirDesagregacion = function (docentes_recibido,desagregacion) {
-            console.log(docentes_recibido)
-            console.log(desagregacion)
+            //console.log(docentes_recibido);
+            //console.log(desagregacion);
     
             
         desagregacion.forEach(function(resultado_desagreg){
@@ -404,7 +404,7 @@ angular.module('resolucionesClienteApp')
                     //Post a la tabla documento del core
                     coreRequest.post('documento', self.objeto_documento).then(function(response) {
                         self.id_documento = response.data.Id;
-                        console.log(self.id_documento);
+                        //console.log(self.id_documento);
                         if (self.id_documento !== null && self.id_documento !== undefined) {
                             swal({
                                 title: $translate.instant('EXPEDIDA'),
@@ -420,6 +420,6 @@ angular.module('resolucionesClienteApp')
                 });
             });
             
-        }
+        };
 
     });

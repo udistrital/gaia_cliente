@@ -229,7 +229,7 @@ angular.module('resolucionesClienteApp')
                     //Post a la tabla documento del core
                     coreRequest.post('documento', self.objeto_documento).then(function(response) {
                         self.id_documento = response.data.Id;
-                        console.log(self.id_documento);
+                        //console.log(self.id_documento);
                         if (self.id_documento !== null && self.id_documento !== undefined) {
                             swal({
                                 title: $translate.instant('EXPEDIDA'),

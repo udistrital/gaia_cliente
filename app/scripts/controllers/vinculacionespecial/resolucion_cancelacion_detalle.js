@@ -169,5 +169,5 @@ angular.module('resolucionesClienteApp')
 
     self.volver = function () {
       $window.location.href = '#/vinculacionespecial/resolucion_gestion';
-    }
+    };
   });

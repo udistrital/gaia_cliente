@@ -207,7 +207,7 @@ angular.module('resolucionesClienteApp')
         limit: self.resolucionesInscritas.paginationPageSize,
         offset: offset,
         query: typeof(query) === "string" ? query : query.join(",")
-      }, true)) //Usar true para que $.param use query=...&query=.... etc
+      }, true)); //Usar true para que $.param use query=...&query=.... etc
       req.then(gridApiService.paginationFunc(self.resolucionesInscritas, offset));
       return req;
     };

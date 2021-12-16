@@ -8,7 +8,7 @@
 * Controller of the clienteApp
 */
 angular.module('resolucionesClienteApp')
-  .controller('ResolucionVistaCtrl', function (oikosRequest,titandesagregRequest, coreRequest, resolucionesMidRequest, pdfMakerService, nuxeoClient, $mdDialog, $scope, $http, $translate) {
+  .controller('ResolucionVistaCtrl', function (oikosRequest,titandesagregRequest, coreRequest, resolucionesMidRequest, pdfMakerService, nuxeoClient) {
 
     var self = this;
     var docentes_desagregados = [];
@@ -60,12 +60,12 @@ angular.module('resolucionesClienteApp')
 
       self.contratados.forEach(function (docentes) {
         
-        console.log(docentes)
+        //console.log(docentes)
 
         var valor_totalContrato = Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,""));
         var meses_contrato = docentes.NumeroMeses.split(' ')[0];
 
-        console.log(meses_contrato)
+        //console.log(meses_contrato)
         
         if (valor_totalContrato < 0) {
           valor_totalContrato = 0;
@@ -77,7 +77,7 @@ angular.module('resolucionesClienteApp')
           ValorContrato: valor_totalContrato.toString(),
           VigenciaContrato: self.resolucion.Vigencia.toString(),
           MesesContrato: meses_contrato,
-        }
+        };
 
         titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
           var SalarioDesagreg = response.data;
@@ -123,7 +123,7 @@ angular.module('resolucionesClienteApp')
         if (response.data !== null) {
           var documentoResolucion = response.data[0];
           var idNuxeoResolucion = JSON.parse(documentoResolucion.Contenido).IdNuxeo;
-          console.log("ide nuxeo ",idNuxeoResolucion);
+          //console.log("ide nuxeo ",idNuxeoResolucion);
           nuxeoClient.getDocument(idNuxeoResolucion).then(function(doc) {
             document.getElementById('vistaPDF').src = doc.url;
           });

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('resolucionesClienteApp')
-    .controller('ResolucionAdicionCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucion, resolucionesMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window, gridApiService) {
+    .controller('ResolucionAdicionCtrl', function (amazonAdministrativaRequest, adminMidRequest, resolucionRequest, resolucion, resolucionesMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window, gridApiService) {
 
         var self = this;
 
@@ -165,7 +165,7 @@ angular.module('resolucionesClienteApp')
             self.resolucion.Id = response.data.Data[0].ResolucionAnteriorId.Id;
             self.resolucion_id_nueva = response.data.Data[0].ResolucionNuevaId.Id;
             self.id_modificacion_resolucion = response.data.Data[0].Id;
-            self.get_docentes_vinculados()
+            self.get_docentes_vinculados();
         });
         //Función para visualizar docentes ya vinculados a resolución
         self.get_docentes_vinculados = function () {
@@ -339,7 +339,7 @@ angular.module('resolucionesClienteApp')
                                 }).then(function () {
                                     self.mostrar_modificar = false;
                                     self.realizarAdicion(objeto_a_enviar);
-                                }, function (dismiss) {
+                                }, function () {
                                     self.mostrar_modificar = true;
                                 });
                             }
@@ -379,7 +379,7 @@ angular.module('resolucionesClienteApp')
                     $window.location.reload();
                 }
             });
-        }
+        };
 
         //Función para hacer el cálculo de semanas entre la fecha de inicio original hasta la fecha de inicio de la adición
         //Función para hacer el cálculo de semanas en dos casos:
@@ -407,7 +407,7 @@ angular.module('resolucionesClienteApp')
             if (self.FechaInicio > self.fecha) {
                 self.maximoSemanasSugeridas = self.semanasRestantes;
             }
-        }
+        };
 
         //Función para convertir las fechas a UTC declaradas desde el cliente (Las que vengan por gets corregirlas desde los apis)
         self.fechaUtc = function (fecha) {

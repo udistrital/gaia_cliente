@@ -7,7 +7,7 @@
 * # ResolucionBusquedaDocenteCtrl
 */
 angular.module('resolucionesClienteApp')
-  .controller('ResolucionBusquedaDocenteCtrl', function (resolucion, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
+  .controller('ResolucionBusquedaDocenteCtrl', function (resolucionRequest, $scope) {
     $scope.listaResoluciones = [];
     $scope.idDocente = "";
 

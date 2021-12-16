@@ -11,7 +11,7 @@ angular.module('resolucionesClienteApp')
   .controller('ResolucionAdministracionCtrl', function (resolucionesMidRequest, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
 
     var self = this;
-    self.offset = 0
+    self.offset = 0;
 
     //Tabla para mostrar los datos básicos de las resoluciones almacenadas dentro del sistema
     self.resolucionesAprobadas = {
@@ -156,12 +156,12 @@ angular.module('resolucionesClienteApp')
 
     //Funcion para cargar los datos de las resoluciones creadas y almacenadas dentro del sistema
     self.cargarDatosResolucion = function (offset, query) {
-      if (query === undefined) query = "";
+      if (query === undefined) {query = "";}
       var req = resolucionesMidRequest.get("gestion_resoluciones/get_resoluciones_aprobadas", $.param({
         limit: self.resolucionesAprobadas.paginationPageSize,
         offset: offset,
         query: typeof (query) === "string" ? query : query.join(",")
-      }), true)
+      }), true);
       req.then(gridApiService.paginationFunc(self.resolucionesAprobadas, offset));
       return req;
     };

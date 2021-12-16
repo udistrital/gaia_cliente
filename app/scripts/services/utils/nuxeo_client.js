@@ -43,7 +43,7 @@ angular.module('nuxeoClient',[])
               })
               .then(function(doc) {
                 if(!angular.isUndefined(callback)){
-                  callback(doc.uid)
+                  callback(doc.uid);
                 }
                 defer.resolve(doc.uid);
               })
@@ -78,17 +78,17 @@ angular.module('nuxeoClient',[])
           .input(uid)
           .execute()
           .then(function(responseBlob){
-            return responseBlob.blob()
+            return responseBlob.blob();
           })
           .then(function(blob){
             var document = {
               url : URL.createObjectURL(blob),
               blob : blob,
-            }
+            };
             defer.resolve(document);
           })
           .catch(function(error){
-              defer.reject(error)
+              defer.reject(error);
           });
         return defer.promise;
       },
