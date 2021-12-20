@@ -7,7 +7,7 @@
 * # ResolucionBusquedaDocenteCtrl
 */
 angular.module('resolucionesClienteApp')
-  .controller('ResolucionBusquedaDocenteCtrl', function (resolucionRequest, $scope) {
+  .controller('ResolucionBusquedaDocenteCtrl', function (resolucionesMidRequest, $scope) {
     $scope.listaResoluciones = [];
     $scope.idDocente = "";
 
@@ -17,29 +17,13 @@ angular.module('resolucionesClienteApp')
       // valida la cedula de la persona
       var intId = parseInt(query);
 
-      var q = $.param({
-        limit: -1,
-        query: "PersonaId:" + intId.toString()
-      });
-
-      resolucionRequest.get("vinculacion_docente/", q).then(function (response) {
-        $scope.listaResoluciones = [];
-        if (!response.data.Success) {
+      resolucionesMidRequest.get("gestion_resoluciones/consulta_docente/" + intId.toString()).then(function (response) {
+        if (response.data.Success) {
+          $scope.listaResoluciones = response.data.Data;
+        } else {
           return;
         }
-        var idResolucionesConsultadas = [];
-        response.data.Data.forEach(function (elem) {
-          var idResolucion = elem.ResolucionVinculacionDocenteId.Id;
-          if (!idResolucionesConsultadas.includes(idResolucion)) {
-            resolucionRequest.get("resolucion/" + idResolucion).then(function (res) {
-              var NumeroResolucion = res.data.Data.NumeroResolucion;
-              if (!$scope.listaResoluciones.includes(NumeroResolucion)) {
-                $scope.listaResoluciones.push(NumeroResolucion);
-              }
-            });
-          }
-          idResolucionesConsultadas.push(idResolucion);
-        });
+
       });
     };
 
