@@ -41,11 +41,11 @@ angular.module('nuxeoClient',[])
                   schemas: ['dublincore', 'file']
                 });
               })
-              .then(function(doc) {
+              .then(function(doc2) {
                 if(!angular.isUndefined(callback)){
-                  callback(doc.uid);
+                  callback(doc2.uid);
                 }
-                defer.resolve(doc.uid);
+                defer.resolve(doc2.uid);
               })
               .catch(function(error) {
                 defer.reject(error);

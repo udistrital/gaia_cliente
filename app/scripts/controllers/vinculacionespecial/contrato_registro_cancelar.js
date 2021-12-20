@@ -33,10 +33,10 @@ angular.module('resolucionesClienteApp')
             return resolucionRequest.get('tipo_resolucion/' + self.resolucionActual.TipoResolucionId.Id);
         }).then(function (response) {
             self.resolucionActual.TipoResolucionId.NombreTipoResolucion = response.data.Data.NombreTipoResolucion;
-            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.DependenciaFirmaId).then(function (response) {
-                self.contenidoResolucion = response.data.Data;
-                resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
-                    self.contratadosPdf = response.data.Data;
+            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.DependenciaFirmaId).then(function (response2) {
+                self.contenidoResolucion = response2.data.Data;
+                resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response3) {
+                    self.contratadosPdf = response3.data.Data;
                 });
             });
         });

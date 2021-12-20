@@ -259,7 +259,7 @@ angular.module('resolucionesClienteApp')
         resolucionRequest.get("resolucion/" + self.resolucion.Id).then(function (response) {
           var res = response.data.Data;
           res.FechaExpedicion = self.resolucion.FechaExpedicion;
-
+          res.Titulo = self.contenidoResolucion.Titulo;
           var localRes = JSON.parse(localStorage.getItem("resolucion"));
           localRes.FechaExpedicion = res.FechaExpedicion;
           var local = JSON.stringify(localRes);
@@ -274,7 +274,7 @@ angular.module('resolucionesClienteApp')
             var auxFecha = res.FechaCreacion.split(" ");
             res.FechaCreacion = auxFecha[0];
           }else{
-            res.FechaCreacion = Date('0001-01-01').toJSON();
+            res.FechaCreacion = new Date('0001-01-01').toJSON();
           }
           
           return resolucionRequest.put("resolucion", self.resolucion.Id, res);

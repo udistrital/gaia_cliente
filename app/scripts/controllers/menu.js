@@ -28,10 +28,10 @@ angular.module('resolucionesClienteApp')
         if(token_service.live_token()){
             $scope.token = token_service.getPayload();
             if (!angular.isUndefined($scope.token.role)){
-                console.info("entro al undefined");
+                //console.info("entro al undefined");
                 var roles="";
                 if ( typeof $scope.token.role === "object" ) {
-                    console.info("entro all if object");
+                    //console.info("entro all if object");
                   var rl = [];
                   for (var index = 0; index < $scope.token.role.length; index++) {
                     if ($scope.token.role[index].indexOf("/") < 0 ){
@@ -45,15 +45,15 @@ angular.module('resolucionesClienteApp')
     
                 roles = roles.replace(/,/g, '%2C');
                 configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + roles + '/Resoluciones','').then(function(response) {
-                    console.info(response);
-                    console.info("se hizo la peticion");
+                    //console.info(response);
+                    //console.info("se hizo la peticion");
                     $rootScope.my_menu = response.data;
     
                 })
                 .catch(
                     function(response) {
-                        console.info(response);
-                        console.info("catch");
+                        //console.info(response);
+                        //console.info("catch");
                         $rootScope.my_menu = response.data;
         
                     });
@@ -126,13 +126,10 @@ angular.module('resolucionesClienteApp')
 
         $scope.redirect_url = function (path) {
             var path_sub = path.substring(0, 4);
-            switch (path_sub.toUpperCase()) {
-                case "HTTP":
-                    $window.open(path, "_blank");
-                    break;
-                default:
-                    $location.path(path);
-                    break;
+            if (path_sub.toUpperCase() === "HTTP") {
+                $window.open(path, "_blank");
+            } else {
+                $location.path(path);
             }
         };
 

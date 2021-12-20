@@ -139,15 +139,14 @@ angular.module('implicitToken', [])
       logoutValid: function () {
         var state;
         var valid = true;
-        var queryString = location.search.substring(1);
-        var regex = /([^&=]+)=([^&]*)/g;
-        var m;
-        while (!!(m = regex.exec(queryString))) {
-          state = decodeURIComponent(m[2]);
+        var queryString2 = location.search.substring(1);
+        var regex2 = /([^&=]+)=([^&]*)/g;
+        var m2;
+        while (!!(m2 = regex2.exec(queryString2))) {
+          state = decodeURIComponent(m2[2]);
         }
         if (window.localStorage.getItem('state') === state) {
           window.localStorage.clear();
-          valid = true;
         } else {
           valid = false;
         }

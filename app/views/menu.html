@@ -23,8 +23,8 @@
       </li>
       <li ng-repeat="nivel_1 in ::my_menu" class="dropdown">
         <a ng-if="nivel_1.Opciones !== null && nivel_1.TipoOpcion === 'Menú'" class="dropdown-toggle" data-toggle="dropdown">
-          {{nivel_1.Nombre}} <b class="caret">
-        </b>
+          <strong class="caret">{{nivel_1.Nombre}}
+          </strong>
       </a>
         <ul class="dropdown-menu">
           <li ng-repeat="nivel_2 in nivel_1.Opciones">
@@ -137,7 +137,7 @@
     <md-sidenav class="md-sidenav-left" md-component-id="left">
       <md-content>
         <a ng-repeat="app in menu_app" title="{{app.title}}" ng-click="redirect_url(app.url)" target="_blank">
-                    <img class="menu-app" id="{{app.id}}"></img>
+                    <img class="menu-app" id="{{app.id}}" alt=""></img>
                 </a>
       </md-content>
     </md-sidenav>

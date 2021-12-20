@@ -162,6 +162,7 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
      -webkit-transform: scale(1.1);
      -moz-transform: scale(1.1);
      -o-transform: scale(1.1);
+     transform: scale(1.1);
  }
 
 
@@ -191,7 +192,7 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
   position: fixed!important;
   position: absolute;
   width:100%;
-  top: expression((0-(footer.offsetHeight)+ (document.documentElement.clientHeight? document.documentElement.clientHeight: document.body.clientHeight)+(ignoreMe=document.documentElement.scrollTop? document.documentElement.scrollTop: document. body.scrollTop))+'px');
+  top: expression((0-(footer.offsetHeight) + (document.documentElement.clientHeight? document.documentElement.clientHeight: document.body.clientHeight)+(ignoreMe=document.documentElement.scrollTop? document.documentElement.scrollTop: document. body.scrollTop))+'px');
   text-align: center;
   visibility: visible;
 }
@@ -381,7 +382,6 @@ body {
 
 .btn-primary.btn-outline {
   color: rgba(0, 159, 227, 0.9);
-  ;
 }
 
 .btn-success.btn-outline {

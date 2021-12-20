@@ -90,7 +90,7 @@ Sbi.sdk.urlEncode = function(o){
     }
     buf.pop();
     return buf.join("");
-},
+};
 
 /**
   * Takes an encoded URL and and converts it to an object. e.g. Ext.urlDecode("foo=1&bar=2"); would return {foo: 1, bar: 2} or Ext.urlDecode("foo=1&bar=2&bar=3&bar=4", true); would return {foo: 1, bar: [2, 3, 4]}.
@@ -123,7 +123,7 @@ Sbi.sdk.urlDecode = function(string, overwrite){
         }
     }
     return obj;
-},
+};
 
 Sbi.sdk.apply(Function.prototype, {
     
@@ -333,7 +333,7 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
                         obj = { conn:http, tId:transactionId };
                         break;
                     }
-                    catch(e) {
+                    catch(e2) {
                     }
                 }
             }
@@ -485,7 +485,6 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
             }
 
             this.releaseObject(o);
-            responseObject = null;
         },
 
         createResponseObject:function(o, callbackArg)
@@ -637,7 +636,6 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
 
             o.conn = null;
 
-            o = null;
         },
 
         activeX:[
@@ -815,7 +813,6 @@ Sbi.sdk.apply(Sbi.sdk.services, {
         if(this.services[serviceName] === undefined) {
             swal("", 'ERROR: Service [' + + '] does not exist', 'error');
         } else {
-            urlStr = '';
             urlStr = this.baseUrl.protocol + '://' + this.baseUrl.host + ":" + this.baseUrl.port + '/' + this.baseUrl.contextPath + '/' + this.baseUrl.controllerPath;
             var params;
             if(this.services[serviceName].type === 'PAGE'){
