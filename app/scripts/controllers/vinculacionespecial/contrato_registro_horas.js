@@ -29,10 +29,10 @@ angular.module('resolucionesClienteApp')
             return resolucionRequest.get('tipo_resolucion/' + self.resolucionActual.TipoResolucionId.Id);
         }).then(function (response) {
             self.resolucionActual.TipoResolucionId.NombreTipoResolucion = response.data.Data.NombreTipoResolucion;
-            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.DependenciaFirmaId).then(function (response) {
-                self.contenidoResolucion = response.data.Data;
-                resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
-                    self.contratadosPdf = response.data.Data;
+            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.DependenciaFirmaId).then(function (response2) {
+                self.contenidoResolucion = response2.data.Data;
+                resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response3) {
+                    self.contratadosPdf = response3.data.Data;
                 });
             });
         });
@@ -43,30 +43,30 @@ angular.module('resolucionesClienteApp')
 
         resolucionRequest.get("modificacion_resolucion/", "query=ResolucionNuevaId.Id:" + self.idResolucion).then(function (response) {
             self.resolucionModificada = response.data.Data[0].ResolucionAnteriorId.Id;
-            resolucionRequest.get("resolucion/" + self.resolucionModificada).then(function (response) {
-                self.numeroResolucionModificada = response.data.Data.NumeroResolucion;
+            resolucionRequest.get("resolucion/" + self.resolucionModificada).then(function (response2) {
+                self.numeroResolucionModificada = response2.data.Data.NumeroResolucion;
             });
         });
 
         resolucionRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
             self.datosFiltro = response.data.Data;
-            oikosRequest.get("dependencia/" + self.datosFiltro.FacultadId.toString()).then(function (response) {
-                self.contratoGeneralBase.Contrato.SedeSolicitante = response.data.Id.toString();
-                self.sede_solicitante_defecto = response.data.Nombre;
+            oikosRequest.get("dependencia/" + self.datosFiltro.FacultadId.toString()).then(function (response2) {
+                self.contratoGeneralBase.Contrato.SedeSolicitante = response2.data.Id.toString();
+                self.sede_solicitante_defecto = response2.data.Nombre;
             });
-            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response) {
-                self.contratados = response.data.Data;
+            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response2) {
+                self.contratados = response2.data.Data;
             });
-            oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.Facultad + "/" + self.datosFiltro.NivelAcademico, "").then(function (response) {
-                self.proyectos = response.data;
+            oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.Facultad + "/" + self.datosFiltro.NivelAcademico, "").then(function (response2) {
+                self.proyectos = response2.data;
             });
-            coreAmazonRequest.get("ordenador_gasto", "query=DependenciaId%3A" + self.datosFiltro.FacultadId.toString()).then(function (response) {
-                if (response.data === null) {
-                    coreAmazonRequest.get("ordenador_gasto/1").then(function (response) {
-                        self.ordenadorGasto = response.data;
+            coreAmazonRequest.get("ordenador_gasto", "query=DependenciaId%3A" + self.datosFiltro.FacultadId.toString()).then(function (response2) {
+                if (response2.data === null) {
+                    coreAmazonRequest.get("ordenador_gasto/1").then(function (response3) {
+                        self.ordenadorGasto = response3.data;
                     });
                 } else {
-                    self.ordenadorGasto = response.data[0];
+                    self.ordenadorGasto = response2.data[0];
                 }
             });
         });
@@ -216,9 +216,9 @@ angular.module('resolucionesClienteApp')
                 resolucion.FechaExpedicion = self.FechaExpedicion;
                 resolucionesMidRequest.post("expedir_resolucion/validar_datos_expedicion", expedicionResolucion).then(function (response) {
                     if (response.data.Data === "OK") {
-                        resolucionesMidRequest.post("expedir_resolucion/expedirModificacion", expedicionResolucion).then(function (response) {
+                        resolucionesMidRequest.post("expedir_resolucion/expedirModificacion", expedicionResolucion).then(function (response2) {
                             self.estado = false;
-                            if (response.data.Status !== "201") {
+                            if (response2.data.Status !== "201") {
                                 swal({
                                     text: response.data,
                                     title: "Alerta",
@@ -261,10 +261,9 @@ angular.module('resolucionesClienteApp')
          * Genera el documento de la resolución en formato blob y lo carga en nuexeo, posteriormente lo guarda en la tabla documento del core
          */
         self.guardarResolucionNuxeo = function () {
-            resolucion.NivelAcademico = resolucion.NivelAcademico;
             var documento = pdfMakerService.getDocumento(self.contenidoResolucion, resolucion, self.contratadosPdf, self.proyectos);
             pdfMake.createPdf(documento).getBlob(function (blobDoc) {
-                var aux = nuxeoClient.createDocument("ResolucionDVE" + self.idResolucion, "Resolución DVE expedida", blobDoc, function(url) {
+                nuxeoClient.createDocument("ResolucionDVE" + self.idResolucion, "Resolución DVE expedida", blobDoc, function(url) {
                     var date = new Date();
                     date = moment(date).format('DD_MMM_YYYY_HH:mm:ss');
                     self.objeto_documento = {
@@ -287,7 +286,7 @@ angular.module('resolucionesClienteApp')
                     //Post a la tabla documento del core
                     coreRequest.post('documento', self.objeto_documento).then(function(response) {
                         self.id_documento = response.data.Id;
-                        console.log(self.id_documento);
+                        //console.log(self.id_documento);
                         if (self.id_documento !== null && self.id_documento !== undefined) {
                             swal({
                                 title: $translate.instant('EXPEDIDA'),

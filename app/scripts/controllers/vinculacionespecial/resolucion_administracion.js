@@ -11,7 +11,7 @@ angular.module('resolucionesClienteApp')
   .controller('ResolucionAdministracionCtrl', function (resolucionesMidRequest, resolucionRequest, $scope, $window, $mdDialog, $translate, gridApiService) {
 
     var self = this;
-    self.offset = 0
+    self.offset = 0;
 
     //Tabla para mostrar los datos básicos de las resoluciones almacenadas dentro del sistema
     self.resolucionesAprobadas = {
@@ -135,15 +135,15 @@ angular.module('resolucionesClienteApp')
           //Los botones son mostrados de acuerdo alestado de las resoluciones (ver,expedir,restaurar)
           cellTemplate: '<center>' +
             '<a class="ver" ng-click="grid.appScope.verVisualizarResolucion(row)">' +
-            '<i title="{{\'VER_BTN\' | translate }}" class="fa fa-eye fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'VER_BTN\' | translate }}" class="fa fa-eye fa-lg  faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.Estado==\'Aprobada\'&&row.entity.TipoResolucion==\'Vinculación\'" class="ver" ng-click="grid.appScope.verRealizarExpedicion(row)">' +
-            '<i title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.Estado==\'Aprobada\'&&row.entity.TipoResolucion==\'Adición\'" class="ver" ng-click="grid.appScope.verRealizarExpedicionHoras(row)">' +
-            '<i title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.Estado==\'Aprobada\'&&row.entity.TipoResolucion==\'Reducción\'" class="ver" ng-click="grid.appScope.verRealizarExpedicionHoras(row)">' +
-            '<i title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></em></a> ' +
             '<a ng-if="row.entity.Estado==\'Aprobada\'&&row.entity.TipoResolucion==\'Cancelación\'" class="ver" ng-click="grid.appScope.verRealizarExpedicionCancelar(row)">' +
-            '<i title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></i></a> ' +
+            '<em title="{{\'EXPEDIR_BTN\' | translate }}" class="fa fa-file-text fa-lg  faa-shake animated-hover"></em></a> ' +
             '</center>'
         }
       ],
@@ -156,12 +156,12 @@ angular.module('resolucionesClienteApp')
 
     //Funcion para cargar los datos de las resoluciones creadas y almacenadas dentro del sistema
     self.cargarDatosResolucion = function (offset, query) {
-      if (query === undefined) query = "";
+      if (query === undefined) {query = "";}
       var req = resolucionesMidRequest.get("gestion_resoluciones/get_resoluciones_aprobadas", $.param({
         limit: self.resolucionesAprobadas.paginationPageSize,
         offset: offset,
         query: typeof (query) === "string" ? query : query.join(",")
-      }), true)
+      }), true);
       req.then(gridApiService.paginationFunc(self.resolucionesAprobadas, offset));
       return req;
     };
@@ -275,8 +275,8 @@ angular.module('resolucionesClienteApp')
         nuevaResolucion.Estado = true;
         nuevaResolucion.FechaExpedicion = null;
         //Se actualizan los datos de la resolución
-        resolucionRequest.put("resolucion/RestaurarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response) {
-          if (response.data.Success) {
+        resolucionRequest.put("resolucion/RestaurarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response2) {
+          if (response2.data.Success) {
             self.cargarDatosResolucion(self.offset, self.query);
           }
         });

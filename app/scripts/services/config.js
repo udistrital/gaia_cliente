@@ -161,11 +161,11 @@ var conf_local = {
     WSO2_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services", //preguntar
     // pruebas
     ADMINISTRATIVA_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_mid_api/v1/",
-    //RESOLUCIONES_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_mid/v1/",
-    RESOLUCIONES_MID_SERVICE: "http://localhost:8521/v1/",
-    RESOLUCIONES_SERVICE: "http://localhost:8550/v1/",
+    RESOLUCIONES_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_mid/v1/",
+    //RESOLUCIONES_MID_SERVICE: "http://localhost:8521/v1/",
+    //RESOLUCIONES_SERVICE: "http://localhost:8550/v1/",
     //RESOLUCIONES_SERVICE: "http://pruebasapi2.intranetoas.udistrital.edu.co:8516/v1/",
-    //RESOLUCIONES_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_crud/v1/",
+    RESOLUCIONES_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_crud/v1/",
     ADMINISTRATIVA_PRUEBAS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_amazon_api/v1/",
     // CONFIGURACION_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/api/configuracion_crud_api/v1/",
     CONFIGURACION_SERVICE: " https://autenticacion.portaloas.udistrital.edu.co/apioas/configuracion_crud_api/v1/",
@@ -410,6 +410,6 @@ var conf_resoluciones = {
 
 angular.module('resolucionesClienteApp')
     .constant('CONF', {
-        GENERAL: conf_resoluciones_preprod,
-        //GENERAL: conf_local,
+        //GENERAL: conf_resoluciones_preprod,
+        GENERAL: conf_local,
     });

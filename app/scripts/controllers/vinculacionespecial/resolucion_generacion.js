@@ -102,8 +102,7 @@ angular.module('resolucionesClienteApp')
             query: "TipoDependenciaId.Id:2",
             limit: -1
         })).then(function (response) {
-            self.facultades= response.data
-            
+            self.facultades= response.data;
         });
 
         resolucionRequest.get("resolucion_vinculacion/expedidas_vigencia_periodo_vinculacion", "vigencia=" + self.anioPeriodo).then(function (response) {
@@ -216,11 +215,11 @@ angular.module('resolucionesClienteApp')
                 //Usuario: self.token.sub,
             };
             
-            console.info(objeto_resolucion)
+            //console.info(objeto_resolucion)
 
             resolucionesMidRequest.post("gestion_resoluciones/insertar_resolucion_completa", objeto_resolucion).then(function (response) {
                 if (response.data.Success) {
-                    console.info(response.data);
+                    //console.info(response.data);
                     self.resolucion_creada = response.data.Data;
                     swal({
                         text: $translate.instant('ALERTA_RESOLUCION_EXITOSA'),

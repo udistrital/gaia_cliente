@@ -111,13 +111,13 @@ angular.module('resolucionesClienteApp')
                 enableFiltering: false, enableSorting: false,
                 cellTemplate: '<center>' +
                     '<a class="ver"  ng-show="!row.entity.editrow" ng-click="grid.appScope.modificar_horas(row.entity)">' +
-                    '<i title="{{\'MODIFICAR_HORAS_BTN\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover"></i></a> ' +
+                    '<em title="{{\'MODIFICAR_HORAS_BTN\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover"></em></a> ' +
 
                     '<a class="ver"  ng-show="row.entity.editrow" ng-click="grid.appScope.guardar_horas_modificadas(row.entity)">' +
-                    '<i title="{{\'GUARDAR_HORAS_BTN\' | translate }}" class="fa fa-floppy-o fa-lg  faa-shake animated-hover"></i></a> ' +
+                    '<em title="{{\'GUARDAR_HORAS_BTN\' | translate }}" class="fa fa-floppy-o fa-lg  faa-shake animated-hover"></em></a> ' +
 
                     '<a class="ver"  ng-show="row.entity.editrow" ng-click="grid.appScope.cancelar_modificacion(row.entity)">' +
-                    '<i title="{{\'CANCELAR_MOD_BTN\' | translate }}" class="fa fa-ban fa-lg  faa-shake animated-hover"></i></a> ' +
+                    '<em title="{{\'CANCELAR_MOD_BTN\' | translate }}" class="fa fa-ban fa-lg  faa-shake animated-hover"></em></a> ' +
 
                     '</center>'
             });
@@ -314,7 +314,7 @@ angular.module('resolucionesClienteApp')
 
         resolucionRequest.get("vinculacion_docente/get_total_contratos_x_resolucion/" + self.resolucion.Id + "/" + self.resolucion.Dedicacion, "").then(function (response) {
             self.total_contratos_x_vin = response.data.Data[0].Valor;
-        }).catch(function (response) {
+        }).catch(function () {
             self.total_contratos_x_vin = 0;
         });
 
@@ -354,7 +354,7 @@ angular.module('resolucionesClienteApp')
                     }).then(function () {
                         self.esconderBoton = true;
                         self.insertarVinculaciones();
-                    }, function (dismiss) {
+                    }, function () {
                         self.esconderBoton = false;
                     });
                 } else {
@@ -394,8 +394,8 @@ angular.module('resolucionesClienteApp')
             });
 
             resolucionesMidRequest.post("gestion_previnculacion/Precontratacion/insertar_previnculaciones", vinculacionesData).then(function (response) {
-                console.info(response)
-                console.info(response.data.Data)
+                //console.info(response)
+                //console.info(response.data.Data)
                 if (response.data.Success) {
 
                     self.datosDocentesCargaLectiva.data = [];
@@ -438,7 +438,7 @@ angular.module('resolucionesClienteApp')
                     });
                 }
             });
-        }
+        };
 
         //* ----------------------------- *//
 

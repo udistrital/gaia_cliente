@@ -31,10 +31,10 @@ angular.module('resolucionesClienteApp')
             return resolucionRequest.get('tipo_resolucion/' + self.resolucionActual.TipoResolucionId.Id);
         }).then(function (response) {
             self.resolucionActual.TipoResolucionId.NombreTipoResolucion = response.data.Data.NombreTipoResolucion;
-            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.DependenciaFirmaId).then(function (response) {
-                self.contenidoResolucion = response.data.Data;
-                resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response) {
-                    self.contratadosPdf = response.data.Data;
+            resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucionActual.Id + "&id_facultad=" + self.resolucionActual.DependenciaFirmaId).then(function (response2) {
+                self.contenidoResolucion = response2.data.Data;
+                resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucionActual.Id).then(function (response3) {
+                    self.contratadosPdf = response3.data.Data;
                 });
             });
         });
@@ -45,23 +45,23 @@ angular.module('resolucionesClienteApp')
 
         resolucionRequest.get("resolucion_vinculacion_docente/" + self.idResolucion).then(function (response) {
             self.datosFiltro = response.data.Data;
-            oikosRequest.get("dependencia/" + self.datosFiltro.FacultadId).then(function (response) {
-                self.contratoGeneralBase.Contrato.SedeSolicitante = response.data.Id.toString();
-                self.sede_solicitante_defecto = response.data.Nombre;
+            oikosRequest.get("dependencia/" + self.datosFiltro.FacultadId).then(function (response2) {
+                self.contratoGeneralBase.Contrato.SedeSolicitante = response2.data.Id.toString();
+                self.sede_solicitante_defecto = response2.data.Nombre;
             });
-            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response) {
-                self.contratados = response.data.Data;
+            resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados", "id_resolucion=" + self.idResolucion.toString()).then(function (response3) {
+                self.contratados = response3.data.Data;
             });
-            oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.Facultad + "/" + self.datosFiltro.NivelAcademico, "").then(function (response) {
-                self.proyectos = response.data;
+            oikosRequest.get("dependencia/proyectosPorFacultad/" + resolucion.Facultad + "/" + self.datosFiltro.NivelAcademico, "").then(function (response4) {
+                self.proyectos = response4.data;
             });
-            coreAmazonRequest.get("ordenador_gasto", "query=DependenciaId:" + self.datosFiltro.FacultadId).then(function (response) {
-                if (response.data === null) {
-                    coreAmazonRequest.get("ordenador_gasto/1").then(function (response) {
-                        self.ordenadorGasto = response.data;
+            coreAmazonRequest.get("ordenador_gasto", "query=DependenciaId:" + self.datosFiltro.FacultadId).then(function (response5) {
+                if (response5.data === null) {
+                    coreAmazonRequest.get("ordenador_gasto/1").then(function (response6) {
+                        self.ordenadorGasto = response6.data;
                     });
                 } else {
-                    self.ordenadorGasto = response.data[0];
+                    self.ordenadorGasto = response5.data[0];
                 }
             });
         });
@@ -205,11 +205,10 @@ angular.module('resolucionesClienteApp')
                 
                 resolucionesMidRequest.post("expedir_resolucion/validar_datos_expedicion", expedicionResolucion).then(function (response) {                    
                     if (response.data.Data === "OK") {
-                        resolucionesMidRequest.post("expedir_resolucion/expedir", expedicionResolucion).then(function (response) {
-                            console.log("hace el post para expedir una resolucion");
-                            console.log(response.data)
+                        resolucionesMidRequest.post("expedir_resolucion/expedir", expedicionResolucion).then(function (response2) {
+                            //console.log("hace el post para expedir una resolucion");
                             self.estado = false;
-                            if (response.data.Status !== "201") {
+                            if (response2.data.Status !== "201") {
                                 swal({
                                     text: response.data,
                                     title: "Alerta",
@@ -261,7 +260,7 @@ angular.module('resolucionesClienteApp')
                 self.generarResolucion();
             }*/
             self.generarResolucion();
-            console.log(self.contratadosPdf)
+            //console.log(self.contratadosPdf);
             
         };
         $scope.validarFecha = colombiaHolidaysService.validateDate;
@@ -280,18 +279,15 @@ angular.module('resolucionesClienteApp')
                 var valor_totalContrato = Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,""));
                 var meses_contrato = docentes.NumeroMeses.split(' ')[0];
                 
-                if (valor_totalContrato < 0)
-                {
+                if (valor_totalContrato < 0){
                     valor_totalContrato = 0;
-                }else{
-                    valor_totalContrato = valor_totalContrato;
                 }
                 const datosDocenteSalario = {
                     NumDocumento:  docentes.PersonaId,
                     ValorContrato: valor_totalContrato.toString(),
                     VigenciaContrato: resolucion.Vigencia.toString(),
                     MesesContrato: meses_contrato,
-                }
+                };
 
                 titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
                 var SalarioDesagreg = response.data;
@@ -315,8 +311,8 @@ angular.module('resolucionesClienteApp')
          * Escribe los valores de desagregación en cada vector de docente
          */
         self.EscribirDesagregacion = function (docentes_recibido,desagregacion) {
-            console.log(docentes_recibido)
-            console.log(desagregacion)
+            //console.log(docentes_recibido);
+            //console.log(desagregacion);
     
             
         desagregacion.forEach(function(resultado_desagreg){
@@ -385,7 +381,7 @@ angular.module('resolucionesClienteApp')
             var documento = pdfMakerService.getDocumento(self.contenidoResolucion, resolucion, self.contratadosPdf, self.proyectos);
 
             pdfMake.createPdf(documento).getBlob(function (blobDoc) {
-                var aux = nuxeoClient.createDocument("ResolucionDVE" + self.idResolucion, "Resolución DVE expedida", blobDoc, function(url) {
+                nuxeoClient.createDocument("ResolucionDVE" + self.idResolucion, "Resolución DVE expedida", blobDoc, function(url) {
                     var date = new Date();
                     date = moment(date).format('DD_MMM_YYYY_HH:mm:ss');
                     self.objeto_documento = {
@@ -408,7 +404,7 @@ angular.module('resolucionesClienteApp')
                     //Post a la tabla documento del core
                     coreRequest.post('documento', self.objeto_documento).then(function(response) {
                         self.id_documento = response.data.Id;
-                        console.log(self.id_documento);
+                        //console.log(self.id_documento);
                         if (self.id_documento !== null && self.id_documento !== undefined) {
                             swal({
                                 title: $translate.instant('EXPEDIDA'),
@@ -424,6 +420,6 @@ angular.module('resolucionesClienteApp')
                 });
             });
             
-        }
+        };
 
     });

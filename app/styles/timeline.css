@@ -30,16 +30,6 @@
     clear: both;
 }
 
-.timeline > li:before,
-.timeline > li:after {
-    content: " ";
-    display: table;
-}
-
-.timeline > li:after {
-    clear: both;
-}
-
 .timeline > li > .timeline-panel {
     float: left;
     position: relative;
@@ -152,16 +142,13 @@
         width: calc(100% - 90px);
         width: -moz-calc(100% - 90px);
         width: -webkit-calc(100% - 90px);
+        float: right;
     }
 
     ul.timeline > li > .timeline-badge {
         top: 16px;
         left: 15px;
         margin-left: 0;
-    }
-
-    ul.timeline > li > .timeline-panel {
-        float: right;
     }
 
     ul.timeline > li > .timeline-panel:before {

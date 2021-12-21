@@ -41,11 +41,11 @@ angular.module('nuxeoClient',[])
                   schemas: ['dublincore', 'file']
                 });
               })
-              .then(function(doc) {
+              .then(function(doc2) {
                 if(!angular.isUndefined(callback)){
-                  callback(doc.uid)
+                  callback(doc2.uid);
                 }
-                defer.resolve(doc.uid);
+                defer.resolve(doc2.uid);
               })
               .catch(function(error) {
                 defer.reject(error);
@@ -78,17 +78,17 @@ angular.module('nuxeoClient',[])
           .input(uid)
           .execute()
           .then(function(responseBlob){
-            return responseBlob.blob()
+            return responseBlob.blob();
           })
           .then(function(blob){
             var document = {
               url : URL.createObjectURL(blob),
               blob : blob,
-            }
+            };
             defer.resolve(document);
           })
           .catch(function(error){
-              defer.reject(error)
+              defer.reject(error);
           });
         return defer.promise;
       },

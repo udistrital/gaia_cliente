@@ -225,12 +225,12 @@ angular.module('resolucionesClienteApp')
 
         self.volver = function () {
             $window.location.href = '#/vinculacionespecial/resolucion_gestion';
-        }
+        };
 
         self.getRPs = function(vinculacion,vigencia,identificacion, indice){
 
             resolucionesMidRequest.get("gestion_previnculacion/rp_docente/"+vinculacion+"/"+vigencia+"/"+identificacion, "").then(function (response) {
                 self.rps[indice] = response.data.Data.cdp_rp_docente.cdp_rp;
             });
-        }
+        };
     });

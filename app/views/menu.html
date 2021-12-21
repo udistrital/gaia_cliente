@@ -8,7 +8,7 @@
     <span class="icon-bar"></span>
   </button>
     <a href="" class="navbar-brand" ng-click="toggleLeft()">
-            <i class="fa fa-university faa-shake animated-hover" aria-hidden="true"></i>
+            <em class="fa fa-university faa-shake animated-hover" aria-hidden="true"></em>
         </a>
     <a class="navbar-brand" ng-click="redirect_url('/')">
             <label>GAIA</label>
@@ -23,8 +23,8 @@
       </li>
       <li ng-repeat="nivel_1 in ::my_menu" class="dropdown">
         <a ng-if="nivel_1.Opciones !== null && nivel_1.TipoOpcion === 'Menú'" class="dropdown-toggle" data-toggle="dropdown">
-          {{nivel_1.Nombre}} <b class="caret">
-        </b>
+          <strong class="caret">{{nivel_1.Nombre}}
+          </strong>
       </a>
         <ul class="dropdown-menu">
           <li ng-repeat="nivel_2 in nivel_1.Opciones">
@@ -60,22 +60,22 @@
       <!-- /.dropdown Notifications-->
       <li class="dropdown ">
         <a class=" notificacion_vista dropdown-toggle " data-toggle="dropdown" ng-if="notificacion.no_vistos()> 0">
-                    <i class="fa fa-bell fa-fw faa-ring animated"></i>{{notificacion.no_vistos()}}
-                    <i class="fa fa-caret-down"></i>
+                    <em class="fa fa-bell fa-fw faa-ring animated"></em>{{notificacion.no_vistos()}}
+                    <em class="fa fa-caret-down"></em>
                 </a>
         <a class="dropdown-toggle" data-toggle="dropdown" ng-if="notificacion.no_vistos() == 0">
-                    <i class="fa fa-bell fa-fw"></i>
-                    <i class="fa fa-caret-down"></i>
+                    <em class="fa fa-bell fa-fw"></em>
+                    <em class="fa fa-caret-down"></em>
                 </a>
         <ul class="dropdown-menu dropdown-alerts">
           <li ng-repeat=" notificacion in notificacion.log | limitTo:6">
             <a ng-click="notificacion.viewed = true">
               <div>
-                <i ng-if="! notificacion.viewed" class="fa fa-comment fa-fw "></i>
-                <i ng-if="notificacion.viewed" class="fa fa-check-circle"></i>
+                <em ng-if="! notificacion.viewed" class="fa fa-comment fa-fw "></em>
+                <em ng-if="notificacion.viewed" class="fa fa-check-circle"></em>
                 <strong>{{notificacion.user}}</strong>
                 <span class="pull-right text-muted">
-                <em><span am-time-ago="notificacion.FechaCreacion"></span></em>
+                <em><span am-time-ago="notificacion.FechaCreacion"></span></em>>
                 </span>
               </div>
               <div ng-if="! notificacion.viewed">{{notificacion.message | limitTo:100}} ...</div>
@@ -86,7 +86,7 @@
           <li>
             <a class="text-center" ng-click="redirect_url('/notificaciones')">
                             <strong>Ver todas las notificaciones</strong>
-                            <i class="fa fa-angle-right"></i>
+                            <em class="fa fa-angle-right"></em>
                         </a>
           </li>
         </ul>
@@ -94,17 +94,17 @@
       <!-- /.dropdown -->
       <li class="dropdown" ng-show="token_service.live_token()">
         <a class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                        <em class="fa fa-user fa-fw"></em> <em class="fa fa-caret-down"></em>
                     </a>
         <ul class="dropdown-menu dropdown-alerts">
           <li>
             <a ng-click="">
-                 <i class="fa fa-sign-in fa-fw"></i> {{token.sub}}</a>
+                 <em class="fa fa-sign-in fa-fw"></em> {{token.sub}}</a>
             </a>
           </li>
           <li>
             <a ng-click="logout()">
-                <i class="fa fa-gear fa-fw"></i> Logout</a>
+                <em class="fa fa-gear fa-fw"></em> Logout</a>
           </li>
         </ul>
         <!-- /.dropdown-user -->
@@ -119,7 +119,7 @@
 <div id="loading-bar-container"></div>
 <ul class="breadcrumb">
   <li ng-repeat="option in breadcrumb" ng-if="option === ''" class="breadcrumb-item">
-    <a href="#"><i class="fa fa-home" aria-hidden="true"></i>{{option}}</a>
+    <a href="#"><em class="fa fa-home" aria-hidden="true"></em>{{option}}</a>
   </li>
   <li ng-repeat="option in breadcrumb" ng-if="$middle" class="breadcrumb-item">
     <a href="#">{{option}}</a>
@@ -128,8 +128,8 @@
     {{option}}
   </li>
   <div class="pull-right" style="margin-top:-6px">
-    <a id="es" name="es" class="{{language.es}}" ng-click="changeLanguage('es')"></i> es</a>
-    <a id="en" mane="en" class="{{language.en}}" ng-click="changeLanguage('en')"></i> en</a>
+    <a id="es" name="es" class="{{language.es}}" ng-click="changeLanguage('es')"></em> es</a>
+    <a id="en" mane="en" class="{{language.en}}" ng-click="changeLanguage('en')"></em> en</a>
   </div>
 </ul>
 <div layout="column" ng-cloak>
@@ -137,7 +137,7 @@
     <md-sidenav class="md-sidenav-left" md-component-id="left">
       <md-content>
         <a ng-repeat="app in menu_app" title="{{app.title}}" ng-click="redirect_url(app.url)" target="_blank">
-                    <img class="menu-app" id="{{app.id}}"></img>
+                    <img class="menu-app" id="{{app.id}}" alt=""></img>
                 </a>
       </md-content>
     </md-sidenav>

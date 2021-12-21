@@ -56,7 +56,7 @@ angular.module('resolucionesClienteApp')
               });
               $('#frame').html('');
               $('#frame').append(url);
-            };
+            }
 
             sbi.api.authenticate({
               params: {

@@ -29,9 +29,9 @@
 				</div>
 				<br>
 				<div class="col-md-9 col-md-offset-3 ">
-					<div class="col-md-3">
+					<div class="col-md-3 text-center">
 						<label>
-							<center>{{ 'LABEL_TOTAL_X_RESOLUCION' | translate }}</center>
+							{{ 'LABEL_TOTAL_X_RESOLUCION' | translate }}
 						</label>
 					</div>
 					<div class="col-md-4">
@@ -39,10 +39,8 @@
 					</div>
 				</div>
 				<br>
-				<div class="col-md-2">
-					<center>
-						<label> {{ 'SELECCIONE_PROY' | translate }}</label>
-					</center>
+				<div class="col-md-2 text-center">
+					<label> {{ 'SELECCIONE_PROY' | translate }}</label>
 				</div>
 				<br>
 				<div class="col-md-10">
@@ -53,17 +51,14 @@
 					</select>
 				</div>
 				<br>
-				<div class="panel-body">
+				<div class="panel-body text-center">
 					<br>
-					<center>
 						<loading load="hojasDeVidaSeleccion.estado" tam="5" style="position: absolute; z-index: 10; top:50%;"></loading>
-						<center>
 							<div ui-grid="hojasDeVidaSeleccion.precontratados" ui-grid-selection ui-grid-pagination ui-grid-exporter class="grid"></div>
 							<input type="button" class="btn btn-info" value="{{'GENERAR_REPORTE_CSV_DOCENTES' | translate }}" ng-click="exportarCSV()">
 							<input type="button" class="btn btn-info" value="{{'GENERAR_REPORTE_PDF_DOCENTES' | translate }}" ng-click="exportarPDF()">
 							<input type="button" class="btn btn-danger" ng-disabled="hojasDeVidaSeleccion.personasSeleccionadasBorrar.length == 0" value="{{'DESVINCULAR_DOCENTES' | translate }}"
 							 ng-click="verCancelarInscripcionDocentes(hojasDeVidaSeleccion.personasSeleccionadasBorrar)">
-
 				</div>
 			</div>
 		</div>
@@ -92,10 +87,8 @@
 								<div class="col-md-7">
 									<div ui-grid="hojasDeVidaSeleccion.Disponibilidades" ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="grid"
 									 ng-model-options="{ updateOn: 'keyup', debounce : 1000 }"></div>
-									<div ng-hide="hojasDeVidaSeleccion.esconderBoton" class="col-md-4 col-md-offset-4">
-										<center>
-											<input type="submit" class="form-control btn btn-success" value="{{'VINCULAR_DOCENTES' | translate }}" ng-click="hojasDeVidaSeleccion.agregarPrecontratos()">
-										</center>
+									<div ng-hide="hojasDeVidaSeleccion.esconderBoton" class="col-md-4 col-md-offset-4 text-center">
+										<input type="submit" class="form-control btn btn-success" value="{{'VINCULAR_DOCENTES' | translate }}" ng-click="hojasDeVidaSeleccion.agregarPrecontratos()">
 									</div>
 								</div>
 
@@ -111,9 +104,7 @@
 									<br>
 									<div ng-show="hojasDeVidaSeleccion.ver" ui-grid="hojasDeVidaSeleccion.Apropiaciones" ui-grid-selection ui-grid-pagination
 									 ui-grid-auto-resize class="grid"></div>
-									<center>
-										<loading load="hojasDeVidaSeleccion.estado_ap" tam="5"></loading>
-										<center>
+									<loading load="hojasDeVidaSeleccion.estado_ap" tam="5"></loading>
 								</div>
 
 							</div>

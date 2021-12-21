@@ -135,11 +135,11 @@ angular.module('resolucionesClienteApp')
                 //Los botones son mostrados de acuerdo alestado de las resoluciones (ver,aprobar)
                 cellTemplate: '<center>' +
                     '<a class="ver" ng-click="grid.appScope.verVisualizarResolucion(row)">' +
-                    '<i title="{{\'VER_BTN\' | translate }}" class="fa fa-eye fa-lg  faa-shake animated-hover"></i></a> ' +
+                    '<em title="{{\'VER_BTN\' | translate }}" class="fa fa-eye fa-lg  faa-shake animated-hover"></em></a> ' +
                     '<a ng-if="row.entity.Estado==\'Solicitada\'" class="ver" ng-click="grid.appScope.verModificarEstado(row,\'APROBADA\',5)">' +
-                    '<i title="{{\'APROBADA_BTN\' | translate }}" class="fa fa-check fa-lg  faa-shake animated-hover"></i></a> ' +
+                    '<em title="{{\'APROBADA_BTN\' | translate }}" class="fa fa-check fa-lg  faa-shake animated-hover"></em></a> ' +
                     '<a ng-if="row.entity.Estado==\'Aprobada\'" class="ver" ng-click="grid.appScope.verModificarEstado(row,\'DESAPROBADA\',1)">' +
-                    '<i title="{{\'DESAPROBADA_BTN\' | translate }}" class="fa fa-ban fa-lg  faa-shake animated-hover"></i></a> ' +
+                    '<em title="{{\'DESAPROBADA_BTN\' | translate }}" class="fa fa-ban fa-lg  faa-shake animated-hover"></em></a> ' +
                     '</center>'
             }
             ],
@@ -152,12 +152,12 @@ angular.module('resolucionesClienteApp')
 
         //Funcion para cargar los datos de las resoluciones creadas y almacenadas dentro del sistema
         self.cargarDatosResolucion = function (offset, query) {
-            if(query === undefined) query = "";
+            if(query === undefined) {query = "";}
             var req = resolucionesMidRequest.get("gestion_resoluciones/get_resoluciones_inscritas", $.param({
                 limit: self.resolucionesInscritas.paginationPageSize,
                 offset: offset,
                 query: typeof (query) === "string" ? query : query.join(",")
-            }), true)
+            }), true);
             req.then(gridApiService.paginationFunc(self.resolucionesInscritas, offset));
             return req;
         };
@@ -264,8 +264,8 @@ angular.module('resolucionesClienteApp')
                 nuevaResolucion.Activo = true;
                 nuevaResolucion.FechaExpedicion = null;
                 //Se actualizan los datos de la resolución
-                resolucionRequest.put("resolucion/RestaurarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response) {
-                    if (response.data.Success) {
+                resolucionRequest.put("resolucion/RestaurarResolucion", nuevaResolucion.Id, nuevaResolucion).then(function (response2) {
+                    if (response2.data.Success) {
                         self.cargarDatosResolucion(self.offset, self.query);
                     }
                 });
