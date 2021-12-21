@@ -27,7 +27,7 @@ if (window.localStorage.getItem('access_token') === null ||
     window.localStorage.setItem('access_token', params.access_token);
     window.localStorage.setItem('id_token', params.id_token);
     window.localStorage.setItem('state', params.state);
-    window.localStorage.setItem('expires_in', params.expires_in);
+    window.localStorage.setItem('expires_in', params.expires_in * 2);
   } else {
     window.localStorage.clear();
   }

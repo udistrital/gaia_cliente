@@ -11,7 +11,6 @@ module.exports = function(grunt) {
 
   // Test wich SonarQube
   grunt.loadNpmTasks('grunt-sonar-runner');
-  grunt.loadNpmTasks('@keeex/grunt-contrib-imagemin');
   grunt.loadNpmTasks('@lodder/grunt-postcss');
 
   // Time how long tasks take. Can help when optimizing build times
