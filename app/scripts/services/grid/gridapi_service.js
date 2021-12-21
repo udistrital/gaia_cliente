@@ -25,7 +25,7 @@ angular.module('gridApiService', [])
                     var formtstr = value.colDef.name.replace('[0]', '');
                     //console.log("change ", value.filters[0].term);
                     query.push(formtstr + '__icontains:' + value.filters[0].term);
-                };
+                }
             });
             return query;
         };
@@ -40,7 +40,6 @@ angular.module('gridApiService', [])
             * @description Metodo gridApi del servicio
             */
             filter: function (gridApi, consulFunc, $scope) {
-                var self = this;
                 gridApi.core.on.filterChanged($scope, function () {
                     var self = this;
                     $scope.offset = 0;
@@ -48,7 +47,7 @@ angular.module('gridApiService', [])
                     if (angular.isDefined($scope.filterTimeout)) {
                         $timeout.cancel($scope.filterTimeout);
                     }
-                    $scope.filterTimeout = $timeout(function () { consulFunc($scope.offset, filter(self.grid)) }, 500);
+                    $scope.filterTimeout = $timeout(function () { consulFunc($scope.offset, filter(self.grid)); }, 500);
                 });
                 return gridApi;
             },
@@ -61,7 +60,6 @@ angular.module('gridApiService', [])
              * @description Metodo gridApi del servicio
              */
             pagination: function (gridApi, consulFunc, $scope) {
-                var self = this;
 
                 gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
                     var self = this;

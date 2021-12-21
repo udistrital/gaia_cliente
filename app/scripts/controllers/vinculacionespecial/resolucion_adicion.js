@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('resolucionesClienteApp')
-    .controller('ResolucionAdicionCtrl', function (amazonAdministrativaRequest, resolucionRequest, resolucion, resolucionesMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window, gridApiService) {
+    .controller('ResolucionAdicionCtrl', function (amazonAdministrativaRequest, adminMidRequest, resolucionRequest, resolucion, resolucionesMidRequest, oikosRequest, colombiaHolidaysService, $localStorage, $scope, $mdDialog, $translate, $window, gridApiService) {
 
         var self = this;
 
@@ -59,7 +59,7 @@ angular.module('resolucionesClienteApp')
                     displayName: $translate.instant('OPCIONES'),
                     cellTemplate: '<center>' +
                         '<a class="borrar" ng-click="grid.appScope.mostrar_modal_adicion(row)">' +
-                        '<i title="{{\'ADICIONAR_BTN\' | translate }}" class="fa fa-plus-circle  faa-shake animated-hover"></i></a></div>' +
+                        '<em title="{{\'ADICIONAR_BTN\' | translate }}" class="fa fa-plus-circle  faa-shake animated-hover"></em></a></div>' +
                         '</center>'
                 }
             ],
@@ -165,7 +165,7 @@ angular.module('resolucionesClienteApp')
             self.resolucion.Id = response.data.Data[0].ResolucionAnteriorId.Id;
             self.resolucion_id_nueva = response.data.Data[0].ResolucionNuevaId.Id;
             self.id_modificacion_resolucion = response.data.Data[0].Id;
-            self.get_docentes_vinculados()
+            self.get_docentes_vinculados();
         });
         //Función para visualizar docentes ya vinculados a resolución
         self.get_docentes_vinculados = function () {
@@ -195,14 +195,14 @@ angular.module('resolucionesClienteApp')
                     self.disponibilidad_actual_id = row.entity.Disponibilidad;
                     
                     resolucionesMidRequest.get("disponibilidad/TotalDisponibilidades/" + self.vigencia_data, 'UnidadEjecutora=1')
-                        .then(function (response) {
-                            self.Disponibilidades.totalItems = response.data.Data;
+                        .then(function (response2) {
+                            self.Disponibilidades.totalItems = response2.data.Data;
                             self.actualizarLista(self.offset, '');
                         });
                     amazonAdministrativaRequest.get("acta_inicio", $.param({
                         query: 'NumeroContrato:' + self.persona_a_modificar.NumeroContrato + ',Vigencia:' + self.persona_a_modificar.Vigencia
-                    })).then(function (response) {
-                        self.acta = response.data[0];
+                    })).then(function (response2) {
+                        self.acta = response2.data[0];
                         self.fechaIni = new Date(self.acta.FechaInicio);
                         self.fechaActa = self.fechaUtc(self.fechaIni);
                         if (self.FechaInicio === undefined) {
@@ -211,8 +211,8 @@ angular.module('resolucionesClienteApp')
                             self.maximoSugeridasInicial = self.maximoSemanasSugeridas;
                             self.maximoSemanasAdicionar = self.semanas_actuales;
                         }
-                        resolucionesMidRequest.get("disponibilidad/", $.param({query: "DisponibilidadApropiacion.Id:" + self.disponibilidad_actual_id})).then(function (response) {
-                            self.disponibilidad_anterior = response.data.Data[0].DisponibilidadApropiacion[0];
+                        resolucionesMidRequest.get("disponibilidad/", $.param({query: "DisponibilidadApropiacion.Id:" + self.disponibilidad_actual_id})).then(function (response3) {
+                            self.disponibilidad_anterior = response3.data.Data[0].DisponibilidadApropiacion[0];
                             self.disponibilidad_nueva = self.disponibilidad_anterior;
                             $('#modal_adicion').modal('show');
                         });
@@ -339,7 +339,7 @@ angular.module('resolucionesClienteApp')
                                 }).then(function () {
                                     self.mostrar_modificar = false;
                                     self.realizarAdicion(objeto_a_enviar);
-                                }, function (dismiss) {
+                                }, function () {
                                     self.mostrar_modificar = true;
                                 });
                             }
@@ -379,7 +379,7 @@ angular.module('resolucionesClienteApp')
                     $window.location.reload();
                 }
             });
-        }
+        };
 
         //Función para hacer el cálculo de semanas entre la fecha de inicio original hasta la fecha de inicio de la adición
         //Función para hacer el cálculo de semanas en dos casos:
@@ -407,7 +407,7 @@ angular.module('resolucionesClienteApp')
             if (self.FechaInicio > self.fecha) {
                 self.maximoSemanasSugeridas = self.semanasRestantes;
             }
-        }
+        };
 
         //Función para convertir las fechas a UTC declaradas desde el cliente (Las que vengan por gets corregirlas desde los apis)
         self.fechaUtc = function (fecha) {

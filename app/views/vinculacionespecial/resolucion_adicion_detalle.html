@@ -9,10 +9,8 @@
 					<h4 class="intro-text"> {{ ' TITULO_DOC_VIN_RES_AD' | translate }} </h4>
 				</div>
 				<br>
-				<div class="col-md-2">
-					<center>
-						<label> {{ 'SELECCIONE_PROY' | translate }}</label>
-					</center>
+				<div class="col-md-2 text-center">
+					<label> {{ 'SELECCIONE_PROY' | translate }}</label>
 				</div>
 				<div class="col-md-10">
 					<select class="form-control" ng-model="resolucionAdicionDetalle.term" ng-change="resolucionAdicionDetalle.get_docentes_vinculados_adicion()">
@@ -22,12 +20,10 @@
 					</select>
 				</div>
 				<br>
-				<div class="panel-body">
+				<div class="panel-body text-center">
 					<br>
 					<div ui-grid="resolucionAdicionDetalle.precontratados_adicion" ui-grid-selection ui-grid-pagination class="grid"></div>
-					<center>
-						<loading load="resolucionAdicionDetalle.estado" tam="5" style="position: absolute; z-index: 10; top:50%;"></loading>
-						<center>
+					<loading load="resolucionAdicionDetalle.estado" tam="5" style="position: absolute; z-index: 10; top:50%;"></loading>
 				</div>
 
 

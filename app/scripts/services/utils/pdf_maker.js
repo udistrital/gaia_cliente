@@ -97,14 +97,14 @@ angular.module('resolucionesClienteApp')
                             }
                             cuerpo.push(tablaModificacion[0]);
                             cuerpo.push(tablaModificacion[1]);
-                            if (tablaModificacion[2] != undefined) {
+                            if (tablaModificacion[2] !== undefined) {
                                 cuerpo.push(tablaModificacion[2]); 
                             }
                         } else {
                             var datoFila = [];
                             columnas.forEach(function (columna) {
                                 //Cada dato es almacenado como un String dentro de la matriz de la tabla
-                                datoFila.push(fila[columna] != undefined ? fila[columna].toString() : '');
+                                datoFila.push(fila[columna] !== undefined ? fila[columna].toString() : '');
                             });
                             //La fila es agregada a la tabla con los datos correspondientes
                             cuerpo.push(datoFila);
@@ -439,18 +439,18 @@ angular.module('resolucionesClienteApp')
 
             for (var i = 0, j = 0; i < cantidadColumnas; i++){
                 if (i < 7 || i > 8) {
-                    datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '', rowSpan: 3 });
+                    datoFila.push({ text: fila[columnas[i]] !== undefined ? fila[columnas[i]].toString() : '', rowSpan: 3 });
                 }
                 if (i > 6 && i < 9) {
-                    datoFila.push({ text: fila[columnas[i]] != undefined ? fila[columnas[i]].toString() : '' });
-                    segunda[i] = fila[segundaFila[j]] != undefined ? fila[segundaFila[j]].toString() : '';
-                    tercera[i] = fila[terceraFila[j]] != undefined ? fila[terceraFila[j]].toString() : '';
+                    datoFila.push({ text: fila[columnas[i]] !== undefined ? fila[columnas[i]].toString() : '' });
+                    segunda[i] = fila[segundaFila[j]] !== undefined ? fila[segundaFila[j]].toString() : '';
+                    tercera[i] = fila[terceraFila[j]] !== undefined ? fila[terceraFila[j]].toString() : '';
                     tercera[i] = i === 6 ? 'Total ' + tercera[i] : tercera[i] ;
                     j++;
                 }
             }
             return [datoFila, segunda, tercera];
-        }
+        };
 
 
         self.tablaCancelacion = function (columnas, fila, segundaFila, terceraFila) {
@@ -469,7 +469,7 @@ angular.module('resolucionesClienteApp')
                 }
             }
             return [datoFila, segunda];
-        }
+        };
 
         //Función que devuelve en contenido de la resolución en un arreglo de estructuras
         self.getContenido = function (contenidoResolucion, resolucion, contratados, proyectos) {
@@ -477,7 +477,7 @@ angular.module('resolucionesClienteApp')
             var fechaParaPDF = "";
             var fechaExpedicion = resolucion.FechaExpedicion;
             
-            if (fechaExpedicion != undefined && typeof fechaExpedicion === "object") {
+            if (fechaExpedicion !== undefined && typeof fechaExpedicion === "object") {
                 fechaExpedicion = fechaExpedicion.toJSON();
             }
             if (fechaExpedicion === undefined || fechaExpedicion === "0001-01-01T00:00:00Z") {
@@ -565,7 +565,7 @@ angular.module('resolucionesClienteApp')
             contenido.push({
                 text: $translate.instant('DADO_A_LOS'), 
                 style: 'texto'
-            })
+            });
             contenido.push({
                 text: contenidoResolucion.OrdenadorGasto.NombreOrdenador,
                 style: 'nombre_ordenador'
@@ -748,7 +748,7 @@ angular.module('resolucionesClienteApp')
                     }
                 };
             }
-        }
+        };
 
         //Función para obtener el texto del preámbulo dentro de una estructura
         self.getPreambuloTexto = function (preambulo) {
@@ -768,10 +768,11 @@ angular.module('resolucionesClienteApp')
 
         //Funcion para obtener el texto de los artiulos consu paragrafos dentro de una estructura
         self.getArticuloTexto = function (articulo, numero) {
+            var aux;
             if (numero === 0) {
-                var aux = [{ text: $translate.instant('ARTICULO') + " " + (numero + 1) + 'º. ', style: 'texto_numeracion' }, articulo.Texto + "\n \n \n" ];
+                aux = [{ text: $translate.instant('ARTICULO') + " " + (numero + 1) + 'º. ', style: 'texto_numeracion' }, articulo.Texto + "\n \n \n" ];
             } else {
-                var aux = [{ text: $translate.instant('ARTICULO') + " " + (numero + 1) + 'º. ', style: 'texto_numeracion' }, articulo.Texto ];
+                aux = [{ text: $translate.instant('ARTICULO') + " " + (numero + 1) + 'º. ', style: 'texto_numeracion' }, articulo.Texto ];
             }
             //var aux = [{ text: $translate.instant('ARTICULO') + " " + (numero + 1) + 'º. ', style: 'texto_numeracion' }, articulo.Texto ];
             if (articulo.Paragrafos !== null) {

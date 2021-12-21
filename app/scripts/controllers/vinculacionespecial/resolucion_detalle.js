@@ -34,8 +34,8 @@ angular.module('resolucionesClienteApp')
 
     resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucion.Id + "&id_facultad=" + self.resolucion.IdDependenciaFirma).then(function (response) {
       self.contenidoResolucion = response.data.Data;
-      resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response) {
-        self.contratados = response.data.Data;
+      resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response2) {
+        self.contratados = response2.data.Data;
        /* if (self.contratados.length > 0)
           {
             self.incluirDesagregacion(); 
@@ -61,11 +61,8 @@ angular.module('resolucionesClienteApp')
         
         var valor_totalContrato = Number(docentes.ValorContratoFormato.replace(/[^0-9.-]+/g,""));
         
-        if (valor_totalContrato < 0)
-        {
+        if (valor_totalContrato < 0) {
           valor_totalContrato = 0;
-        }else{
-          valor_totalContrato = valor_totalContrato;
         }
                 
 
@@ -73,7 +70,7 @@ angular.module('resolucionesClienteApp')
           NumDocumento:  Number(docentes.PersonaId),
           ValorTotalContrato: valor_totalContrato,
           VigenciaContrato: self.resolucion.Vigencia,
-        }
+        };
 
         titandesagregRequest.post('services/desagregacion_contrato_hcs',datosDocenteSalario).then(function(response) {
           var SalarioDesagreg = response.data;
@@ -262,7 +259,7 @@ angular.module('resolucionesClienteApp')
         resolucionRequest.get("resolucion/" + self.resolucion.Id).then(function (response) {
           var res = response.data.Data;
           res.FechaExpedicion = self.resolucion.FechaExpedicion;
-
+          res.Titulo = self.contenidoResolucion.Titulo;
           var localRes = JSON.parse(localStorage.getItem("resolucion"));
           localRes.FechaExpedicion = res.FechaExpedicion;
           var local = JSON.stringify(localRes);
@@ -277,7 +274,7 @@ angular.module('resolucionesClienteApp')
             var auxFecha = res.FechaCreacion.split(" ");
             res.FechaCreacion = auxFecha[0];
           }else{
-            res.FechaCreacion = Date('0001-01-01').toJSON();
+            res.FechaCreacion = new Date('0001-01-01').toJSON();
           }
           
           return resolucionRequest.put("resolucion", self.resolucion.Id, res);
@@ -299,7 +296,7 @@ angular.module('resolucionesClienteApp')
           }).then(function () {
             $window.location.reload();
           });
-        }).catch(function (err) {
+        }).catch(function () {
           //console.log(err);
           swal({
             title: $translate.instant('ALERTA'),
@@ -318,10 +315,10 @@ angular.module('resolucionesClienteApp')
     };
 
     self.resolucionValida = function (contenidoResolucion) {
-      if (!contenidoResolucion.Numero) return false
-      if (!contenidoResolucion.Titulo) return false;
-      if (!contenidoResolucion.Preambulo) return false;
-      if (!contenidoResolucion.Consideracion) return false;
+      if (!contenidoResolucion.Numero) {return false;}
+      if (!contenidoResolucion.Titulo) {return false;}
+      if (!contenidoResolucion.Preambulo) {return false;}
+      if (!contenidoResolucion.Consideracion) {return false;}
 
       var resolucionValida = true;
       if (contenidoResolucion.Articulos) {
@@ -387,7 +384,7 @@ angular.module('resolucionesClienteApp')
     self.isEdit = false;
 
     if (self.contenidoResolucion){
-      if (self.contenidoResolucion.CuadroResponsabilidades == ""){
+      if (self.contenidoResolucion.CuadroResponsabilidades === ""){
         self.contenidoResolucion.CuadroResponsabilidades = buildTable();
       }else{
         self.table = JSON.parse(self.contenidoResolucion.CuadroResponsabilidades);

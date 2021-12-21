@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 /** SpagoBI, the Open Source Business Intelligence suite
 
  * Copyright (C) 2012 Engineering Ingegneria Informatica S.p.A. - SpagoBI Competency Center
@@ -90,7 +90,7 @@ Sbi.sdk.urlEncode = function(o){
     }
     buf.pop();
     return buf.join("");
-},
+};
 
 /**
   * Takes an encoded URL and and converts it to an object. e.g. Ext.urlDecode("foo=1&bar=2"); would return {foo: 1, bar: 2} or Ext.urlDecode("foo=1&bar=2&bar=3&bar=4", true); would return {foo: 1, bar: [2, 3, 4]}.
@@ -123,7 +123,7 @@ Sbi.sdk.urlDecode = function(string, overwrite){
         }
     }
     return obj;
-},
+};
 
 Sbi.sdk.apply(Function.prototype, {
     
@@ -171,7 +171,7 @@ Sbi.sdk.apply(Function.prototype, {
        fn();
        return 0;
    }
-})
+});
 /** SpagoBI, the Open Source Business Intelligence suite
 
  * Copyright (C) 2012 Engineering Ingegneria Informatica S.p.A. - SpagoBI Competency Center
@@ -333,7 +333,7 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
                         obj = { conn:http, tId:transactionId };
                         break;
                     }
-                    catch(e) {
+                    catch(e2) {
                     }
                 }
             }
@@ -411,8 +411,7 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
 
                             oConn.handleTransactionResponse(o, callback);
                         }
-                    }
-                    , this.pollInterval);
+                    }, this.pollInterval);
         },
 
         handleTransactionResponse:function(o, callback, isAbort)
@@ -486,17 +485,17 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
             }
 
             this.releaseObject(o);
-            responseObject = null;
         },
 
         createResponseObject:function(o, callbackArg)
         {
             var obj = {};
             var headerObj = {};
+            var headerStr;
 
             try
             {
-                var headerStr = o.conn.getAllResponseHeaders();
+                headerStr = o.conn.getAllResponseHeaders();
                 var header = headerStr.split('\n');
                 for (var i = 0; i < header.length; i++) {
                     var delimitPos = header[i].indexOf(':');
@@ -582,9 +581,9 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
             }
 
             if (this.hasHeaders) {
-                for (var prop in this.headers) {
-                    if (this.headers.hasOwnProperty(prop)) {
-                        o.conn.setRequestHeader(prop, this.headers[prop]);
+                for (var prop2 in this.headers) {
+                    if (this.headers.hasOwnProperty(prop2)) {
+                        o.conn.setRequestHeader(prop2, this.headers[prop2]);
                     }
                 }
                 this.headers = {};
@@ -637,7 +636,6 @@ Sbi.sdk.apply(Sbi.sdk.ajax, {
 
             o.conn = null;
 
-            o = null;
         },
 
         activeX:[
@@ -770,17 +768,16 @@ Sbi.sdk.namespace('Sbi.sdk.services');
 
 Sbi.sdk.apply(Sbi.sdk.services, {
 
-    services: null
+    services: null, 
+    baseUrl: {
+		protocol: 'http',     
+		host: 'localhost',
+	    port: '8080',
+	    contextPath: 'SpagoBI',
+	    controllerPath: 'servlet/AdapterHTTP'    
+	},
     
-    , baseUrl:  {
-		protocol: 'http'     
-		, host: 'localhost'
-	    , port: '8080'
-	    , contextPath: 'SpagoBI'
-	    , controllerPath: 'servlet/AdapterHTTP'    
-	}
-    
-    , initServices: function() {
+    initServices: function() {
         this.services = {};
         this.services.authenticate = {
             type: 'ACTION', 
@@ -800,13 +797,13 @@ Sbi.sdk.apply(Sbi.sdk.services, {
             name: 'EXECUTE_DOCUMENT_ACTION', 
             baseParams: {NEW_SESSION: 'TRUE', IGNORE_SUBOBJECTS_VIEWPOINTS_SNAPSHOTS: 'true'}
         };
-    }
+    },
     
-    , setBaseUrl: function(u) {
+    setBaseUrl: function(u) {
         Sbi.sdk.apply(this.baseUrl, u || {});
-    }
+    },
     
-    , getServiceUrl: function(serviceName, p) {
+    getServiceUrl: function(serviceName, p) {
         var urlStr = null;
         
         if(this.services === null) {
@@ -816,7 +813,6 @@ Sbi.sdk.apply(Sbi.sdk.services, {
         if(this.services[serviceName] === undefined) {
             swal("", 'ERROR: Service [' + + '] does not exist', 'error');
         } else {
-            urlStr = '';
             urlStr = this.baseUrl.protocol + '://' + this.baseUrl.host + ":" + this.baseUrl.port + '/' + this.baseUrl.contextPath + '/' + this.baseUrl.controllerPath;
             var params;
             if(this.services[serviceName].type === 'PAGE'){
@@ -844,7 +840,7 @@ Sbi.sdk.apply(Sbi.sdk.services, {
 
 Sbi.sdk.apply(Sbi.sdk.api, {
 	
-	elId: 0
+	elId: 0,
 	
 	/*	
 	config = { 
@@ -861,12 +857,12 @@ Sbi.sdk.apply(Sbi.sdk.api, {
 	}
 	*/
 	
-	, authenticate:  function (config) {	    
+	authenticate:  function (config) {	    
 		var serviceUrl = Sbi.sdk.services.getServiceUrl('authenticate', config.params);
 		Sbi.sdk.jsonp.asyncRequest(serviceUrl, config.callback.fn, config.callback.scope, config.callback.args);
-    }
+    },
 
-	, getDocumentUrl: function( config ) {
+	getDocumentUrl: function( config ) {
 		var documentUrl = null;
 		
 		if(config.documentId === undefined && config.documentLabel === undefined) {
@@ -876,13 +872,13 @@ Sbi.sdk.apply(Sbi.sdk.api, {
 		
 		var params = Sbi.sdk.apply({}, config.parameters || {});
 		
-		if(config.documentId !== undefined) params.OBJECT_ID = config.documentId;
-		if(config.documentLabel !== undefined) params.OBJECT_LABEL = config.documentLabel;
+		if(config.documentId !== undefined) {params.OBJECT_ID = config.documentId;}
+		if(config.documentLabel !== undefined) {params.OBJECT_LABEL = config.documentLabel;}
 		
-		if (config.executionRole !== undefined) params.ROLE = config.executionRole;
-		if (config.displayToolbar !== undefined) params.TOOLBAR_VISIBLE = config.displayToolbar;
-		if (config.displaySliders !== undefined) params.SLIDERS_VISIBLE = config.displaySliders;
-		if (config.theme !== undefined)	params.theme = config.theme;
+		if (config.executionRole !== undefined) {params.ROLE = config.executionRole;}
+		if (config.displayToolbar !== undefined) {params.TOOLBAR_VISIBLE = config.displayToolbar;}
+		if (config.displaySliders !== undefined) {params.SLIDERS_VISIBLE = config.displaySliders;}
+		if (config.theme !== undefined)	{params.theme = config.theme;}
 		
 			//if(config.useExtUI === true) {
 		// no more modality different from ext
@@ -892,9 +888,9 @@ Sbi.sdk.apply(Sbi.sdk.api, {
 			//}
 		
 		return documentUrl;
-	}
+	},
 
-	, getDocumentHtml: function( config ) {
+	getDocumentHtml: function( config ) {
 		
 		var documentHtml;
 		var serviceUrl = this.getDocumentUrl( config );
@@ -910,15 +906,15 @@ Sbi.sdk.apply(Sbi.sdk.api, {
 		documentHtml += '<iframe';
 		documentHtml += ' id = "' + config.iframe.id + '" ';
 		documentHtml += ' src = "' + serviceUrl + '" ';
-		if(config.iframe.style !== undefined) documentHtml += ' style = "' + config.iframe.style + '" ';
-		if(config.iframe.width !== undefined) documentHtml += ' width = "' + config.iframe.width + '" ';
-		if(config.iframe.height !== undefined) documentHtml += ' height = "' + config.iframe.height + '" ';
+		if(config.iframe.style !== undefined) {documentHtml += ' style = "' + config.iframe.style + '" ';}
+		if(config.iframe.width !== undefined) {documentHtml += ' width = "' + config.iframe.width + '" ';}
+		if(config.iframe.height !== undefined) {documentHtml += ' height = "' + config.iframe.height + '" ';}
 		documentHtml += '></iframe>';
 		
 		return documentHtml;
-	}
+	},
 	
-	, injectDocument: function( config ) {
+	injectDocument: function( config ) {
 		var targetEl = config.target || document.body;
 		
 		

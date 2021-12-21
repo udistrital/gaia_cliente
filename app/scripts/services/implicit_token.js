@@ -23,15 +23,15 @@ if (window.localStorage.getItem('access_token') === null ||
   var query = 'https://' + window.location.host + '?' + queryString;
   // console.log(query);
   req.open('GET', query, true);
-  if (params['id_token'] !== null && params['id_token'] !== undefined) {
-    window.localStorage.setItem('access_token', params['access_token']);
-    window.localStorage.setItem('id_token', params['id_token']);
-    window.localStorage.setItem('state', params['state']);
-    window.localStorage.setItem('expires_in', params['expires_in']);
+  if (params.id_token !== null && params.id_token !== undefined) {
+    window.localStorage.setItem('access_token', params.access_token);
+    window.localStorage.setItem('id_token', params.id_token);
+    window.localStorage.setItem('state', params.state);
+    window.localStorage.setItem('expires_in', params.expires_in * 2);
   } else {
     window.localStorage.clear();
   }
-  req.onreadystatechange = function (e) {
+  req.onreadystatechange = function () {
     if (req.readyState === 4) {
       if (req.status === 200) {
         // window.location = params.state;
@@ -139,15 +139,14 @@ angular.module('implicitToken', [])
       logoutValid: function () {
         var state;
         var valid = true;
-        var queryString = location.search.substring(1);
-        var regex = /([^&=]+)=([^&]*)/g;
-        var m;
-        while (!!(m = regex.exec(queryString))) {
-          state = decodeURIComponent(m[2]);
+        var queryString2 = location.search.substring(1);
+        var regex2 = /([^&=]+)=([^&]*)/g;
+        var m2;
+        while (!!(m2 = regex2.exec(queryString2))) {
+          state = decodeURIComponent(m2[2]);
         }
         if (window.localStorage.getItem('state') === state) {
           window.localStorage.clear();
-          valid = true;
         } else {
           valid = false;
         }

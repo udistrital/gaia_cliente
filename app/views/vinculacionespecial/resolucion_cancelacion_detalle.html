@@ -10,10 +10,8 @@
 					<h4 class="intro-text"> {{ 'DOCENTE_VINCULADOS' | translate }} </h4>
 				</div>
 				<br>
-				<div class="col-md-2">
-					<center>
-						<label> {{ 'SELECCIONE_PROY' | translate }}</label>
-					</center>
+				<div class="col-md-2 text-center">
+					<label> {{ 'SELECCIONE_PROY' | translate }}</label>
 				</div>
 				<div class="col-md-10">
 					<select class="form-control" ng-model="resolucionCancelacionDetalle.term" ng-change="resolucionCancelacionDetalle.get_docentes_vinculados()">
@@ -23,12 +21,10 @@
 					</select>
 				</div>
 				<br>
-				<div class="panel-body">
+				<div class="panel-body text-center">
 					<br>
 					<div ui-grid="resolucionCancelacionDetalle.precontratados" ui-grid-selection ui-grid-pagination class="grid"></div>
-					<center>
-						<loading load="resolucionCancelacionDetalle.estado" tam="5"  style="position: absolute; z-index: 10; top:50%;"></loading>
-						<center>
+					<loading load="resolucionCancelacionDetalle.estado" tam="5"  style="position: absolute; z-index: 10; top:50%;"></loading>
 				</div>
 
 			</div>

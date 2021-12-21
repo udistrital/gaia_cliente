@@ -16,7 +16,7 @@ angular.module('resolucionesClienteApp')
             },
 
             template: '<div class="loading" ng-show="load">' +
-                '<i class="fa fa-clock-o fa-spin fa-{{tam}}x faa-burst animated  text-info" aria-hidden="true" ></i>' +
+                '<em class="fa fa-clock-o fa-spin fa-{{tam}}x faa-burst animated  text-info" aria-hidden="true" ></em>' +
                 '</div>',
             controller: function() {},
             controllerAs: 'd_loading'
