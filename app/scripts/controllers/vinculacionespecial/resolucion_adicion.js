@@ -211,7 +211,7 @@ angular.module('resolucionesClienteApp')
                             self.maximoSugeridasInicial = self.maximoSemanasSugeridas;
                             self.maximoSemanasAdicionar = self.semanas_actuales;
                         }
-                        resolucionesMidRequest.get("disponibilidad/", $.param({query: "DisponibilidadApropiacion.Id:" + self.disponibilidad_actual_id})).then(function (response3) {
+                        resolucionesMidRequest.get("disponibilidad", $.param({query: "DisponibilidadApropiacion.Id:" + self.disponibilidad_actual_id})).then(function (response3) {
                             self.disponibilidad_anterior = response3.data.Data[0].DisponibilidadApropiacion[0];
                             self.disponibilidad_nueva = self.disponibilidad_anterior;
                             $('#modal_adicion').modal('show');
