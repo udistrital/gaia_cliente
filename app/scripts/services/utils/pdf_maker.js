@@ -574,7 +574,7 @@ angular.module('resolucionesClienteApp')
                 text: '-- ' + contenidoResolucion.OrdenadorGasto.Cargo + ' --',
                 style: 'nombre_cargo'
             });
-            contenido.push(self.getTablaRevision(resolucion.NivelAcademico));
+            contenido.push(self.getTablaRevision(contenidoResolucion));
             return contenido;
         };
 
@@ -715,8 +715,52 @@ angular.module('resolucionesClienteApp')
         };
 
         //Obtener tabla del final
-        self.getTablaRevision = function (resolucionNivelAcademico) {
-            if(resolucionNivelAcademico === "PREGRADO") {
+        self.getTablaRevision = function (contenido) {
+            if(contenido.CuadroResponsabilidades !== undefined){
+                var cuadroResponsabilidades = JSON.parse(contenido.CuadroResponsabilidades);
+                var columns = cuadroResponsabilidades.columns.map(function (columna) {
+                    return { text: columna.value, style: "tabla_revision" };
+                });
+    
+                var rows = [];
+                cuadroResponsabilidades.rows.forEach(function(fila) {
+                    var celdas = fila.cells.map(function (celda) {
+                        return { text: celda.value, style: "tabla_revision" };
+                    });
+                    rows.push(celdas);
+                });
+    
+                var tabla = [];
+    
+                tabla = tabla.concat([columns], rows);
+                var anchos = [];
+                if (columns.length !== 4) {
+                    columns.forEach(function() {
+                        anchos.push(460/columns.length -1);
+                    });
+                } else {
+                    anchos= [80, 150, 150, 80];
+                }
+    
+                return {
+                    style: 'tabla_revision',
+                        table: {
+                            headerRows: 1,
+                            widths: anchos,
+                            body: tabla
+                        }
+                };
+            } else {
+                return {
+                    style: 'tabla_revision',
+                        table: {
+                            headerRows: 1,
+                            widths: [80, 150, 150, 80],
+                            body: []
+                        }
+                };
+            }
+            /* if(resolucionNivelAcademico === "PREGRADO") {
                 return {
                     style: 'tabla_revision',
                     table: {
@@ -747,7 +791,7 @@ angular.module('resolucionesClienteApp')
                         ]
                     }
                 };
-            }
+            } */
         };
 
         //Función para obtener el texto del preámbulo dentro de una estructura
