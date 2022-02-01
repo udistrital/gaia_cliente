@@ -12,7 +12,7 @@ angular.module('resolucionesClienteApp')
 
     var self = this;
     var docentes_desagregados = [];
-    self.table = buildTable();
+    self.table = {};
     self.resolucion = JSON.parse(localStorage.getItem("resolucion"));
     //TODO: ver porque Json.Parse no transforma las fechas :/
     if (self.resolucion.FechaExpedicion === "0001-01-01T00:00:00Z") {
@@ -34,6 +34,17 @@ angular.module('resolucionesClienteApp')
 
     resolucionesMidRequest.get("gestion_documento_resolucion/get_contenido_resolucion", "id_resolucion=" + self.resolucion.Id + "&id_facultad=" + self.resolucion.IdDependenciaFirma).then(function (response) {
       self.contenidoResolucion = response.data.Data;
+      if (self.contenidoResolucion ? self.contenidoResolucion.CuadroResponsabilidades: false){
+        if (self.contenidoResolucion.CuadroResponsabilidades === ""){
+          self.table = buildTable();
+          self.contenidoResolucion.CuadroResponsabilidades =  JSON.stringify(self.table);
+        } else {
+          self.table = JSON.parse(self.contenidoResolucion.CuadroResponsabilidades);
+        }
+      } else {
+        self.table = buildTable();
+        self.contenidoResolucion['CuadroResponsabilidades']= JSON.stringify(self.table);
+      }
       resolucionesMidRequest.get("gestion_previnculacion/docentes_previnculados_all", "id_resolucion=" + self.resolucion.Id).then(function (response2) {
         self.contratados = response2.data.Data;
        /* if (self.contratados.length > 0)
@@ -383,16 +394,13 @@ angular.module('resolucionesClienteApp')
 
     self.isEdit = false;
 
-    if (self.contenidoResolucion){
-      if (self.contenidoResolucion.CuadroResponsabilidades === ""){
-        self.contenidoResolucion.CuadroResponsabilidades = buildTable();
-      }else{
-        self.table = JSON.parse(self.contenidoResolucion.CuadroResponsabilidades);
-      }
-    }
+    self.guardarCuadro = function () {
+      self.isEdit = !self.isEdit; 
+      localStorage.setItem("cuadroResponsabilidades", JSON.stringify(self.table));
+    };
 
     self.cancel = function () {
-      self.table = buildTable();
+      self.table = JSON.parse(localStorage.getItem("cuadroResponsabilidades"));
       self.isEdit = false;
     };
 
@@ -446,9 +454,19 @@ angular.module('resolucionesClienteApp')
           cells: [{
             value: 'PROYECTÓ'
           }, {
-            value: ''
+            value: 'Grupo de Trabajo Contratación Docente Facultades e ILUD	Funcionarios y Contratistas'
+          }, {
+            value: 'Funcionarios y Contratistas'
           }, {
             value: ''
+          }]
+        }, {
+          cells: [{
+            value: 'REVISÓ'
+          }, {
+            value: 'Diana Ximena Pirachicán Martínez'
+          }, {
+            value: 'Contratista OAJ'
           }, {
             value: ''
           }]
@@ -456,9 +474,9 @@ angular.module('resolucionesClienteApp')
           cells: [{
             value: 'REVISÓ Y APROBÓ'
           }, {
-            value: ''
+            value: 'Javier Bolaños Zambrano'
           }, {
-            value: ''
+            value: 'Jefe Oficina Asesora Jurídica'
           }, {
             value: ''
           }]
@@ -466,9 +484,19 @@ angular.module('resolucionesClienteApp')
           cells: [{
             value: 'REVISÓ Y APROBÓ'
           }, {
-            value: ''
+            value: 'Adriana Marcela Sandoval Castiblanco'
+          }, {
+            value: 'Secretaria General'
           }, {
             value: ''
+          }]
+        },{
+          cells: [{
+            value: 'REVISÓ Y APROBÓ'
+          }, {
+            value: 'William Fernando Castrillón Cardona'
+          }, {
+            value: 'Vicerrector Académico'
           }, {
             value: ''
           }]
