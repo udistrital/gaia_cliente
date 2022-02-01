@@ -410,6 +410,6 @@ var conf_resoluciones = {
 
 angular.module('resolucionesClienteApp')
     .constant('CONF', {
-        //GENERAL: conf_resoluciones_preprod,
-        GENERAL: conf_local,
+        GENERAL: conf_resoluciones_preprod,
+        //GENERAL: conf_local,
     });
