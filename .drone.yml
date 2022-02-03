@@ -79,7 +79,7 @@ steps:
     branch: [master]
     event: [push, pull_request]
 
-- name: publish-s3-release  
+- name: publish_s3_release
   image: plugins/s3
   settings:
     bucket: cliente-pruebas
@@ -89,7 +89,7 @@ steps:
       from_secret: aws_secret_access_key
     region: us-east-1
     source: dist/**/*
-    target: /pruebas${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+    target: /${DRONE_REPO_NAME}
     strip_prefix: dist/
   when:
     branch:
@@ -97,17 +97,17 @@ steps:
     event:
     - push
 
-- name: publish-s3-master 
+- name: publish_s3_master
   image: plugins/s3
   settings:
-    bucket: cliente-pruebas
+    bucket: cliente-prod
     access_key:
       from_secret: aws_access_key_id
     secret_key:
       from_secret: aws_secret_access_key
     region: us-east-1
     source: dist/**/*
-    target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+    target: /${DRONE_REPO_NAME}
     strip_prefix: dist/
   when:
     branch:
