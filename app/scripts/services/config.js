@@ -328,37 +328,28 @@ var conf_resoluciones_preprod = {
 
 
 var conf_resoluciones = {
-    WSO2_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services",
-    // ACADEMICA_SERVICE: "http://10.20.0.127/urano/index.php?data=B-7djBQWvIdLAEEycbH1n6e-3dACi5eLUOb63vMYhGq0kPBs7NGLYWFCL0RSTCu1yTlE5hH854MOgmjuVfPWyvdpaJDUOyByX-ksEPFIrrQQ7t1p4BkZcBuGD2cgJXeD",
-    CONFIGURACION_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8086/v1/",
-    //Servicio apuntando a servidores de la oficina 
-    // ADMINISTRATIVA_MID_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8091/v1/",
-    ADMINISTRATIVA_MID_SERVICE: "http://localhost:8091/v1/",
+    CONFIGURACION_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/configuracion_crud_api/v1/",
+    ADMINISTRATIVA_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_mid_api/v1/",
+    RESOLUCIONES_MID_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_mid/v1/",
     RESOLUCIONES_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/resoluciones_docentes_crud/v1/",
-    CORE_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8092/v1/",
-    CORE_AMAZON_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8106/v1/",
-    // RESOLUCION_SERVICE: "http://10.20.0.254/resoluciones_crud/v1/",
-    ADMINISTRATIVA_PRUEBAS_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8104/v1/",
-    MODELS_SERVICE: "scripts/models/",
-    OIKOS_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8087/v1/",
-    //OIKOS_AMAZON_SERVICE: "https://tuleap.udistrital.edu.co/go_api/oikos_amazon_api/v1",
-    //TITAN_SERVICE: "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
-    //TITANDESAGREG_SERVICE : "https://tuleap.udistrital.edu.co/go_api/titan_api_crud/v1/",
-    TITANDESAGREG_SERVICE: "http://api.intranetoas.udistrital.edu.co:8082/v1/",
-    //SICAPITAL_SERVICE: "http://10.20.0.127/sicws/ws/sicapitalAPI.php/?/",
+    CORE_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/core_api/v1/",
+    CORE_AMAZON_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/core_amazon_crud/v1/",
+    ADMINISTRATIVA_PRUEBAS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_amazon_api/v1/",
+    OIKOS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/oikos_crud_api/v1/",
+    TITANDESAGREG_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/titan_api_mid/v1/",
     CONTRATO_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/",
     NUXEO_SERVICE: "https://documental.portaloas.udistrital.edu.co/nuxeo/",
     HOMOLOGACION_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/dependencias_api/v1/",
     TOKEN: {
         AUTORIZATION_URL: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/authorize",
         URL_USER_INFO: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/userinfo",
-        CLIENTE_ID: "sWe9_P_C76DWGOsLcOY4T7BYH6oa",
-        REDIRECT_URL: "http://localhost:9000/",
+        CLIENTE_ID: "XdBq4QOfEZYT0cl_8qDh3fmF5_Qa",
+        REDIRECT_URL: "https://administrativa.portaloas.udistrital.edu.co",
         RESPONSE_TYPE: "id_token token",
         SCOPE: "openid email documento",
         BUTTON_CLASS: "btn btn-warning btn-sm",
-        SIGN_OUT_URL: "http://localhost:9000/",
-        SIGN_OUT_REDIRECT_URL: "https://pruebasadministrativa.portaloas.udistrital.edu.co",
+        SIGN_OUT_URL: "https://autenticacion.portaloas.udistrital.edu.co/oidc/logout",
+        SIGN_OUT_REDIRECT_URL: "https://administrativa.portaloas.udistrital.edu.co",
         SIGN_OUT_APPEND_TOKEN: "true",
     },
     MENU_APP: [{
@@ -410,6 +401,5 @@ var conf_resoluciones = {
 
 angular.module('resolucionesClienteApp')
     .constant('CONF', {
-        GENERAL: conf_resoluciones_preprod,
-        //GENERAL: conf_local,
+        GENERAL: conf_resoluciones,
     });
