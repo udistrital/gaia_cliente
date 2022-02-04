@@ -260,13 +260,13 @@ var conf_resoluciones_preprod = {
     TOKEN: {
         AUTORIZATION_URL: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/authorize",
         URL_USER_INFO: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/userinfo",
-        CLIENTE_ID: "f0zmi1cih0yKrLwEsoJdqI1vASQa",
-        REDIRECT_URL: "https://pruebasadministrativa.portaloas.udistrital.edu.co",
+        CLIENTE_ID: "IY58o_gpLXWegNtI0VzlugJ9kaQa",
+        REDIRECT_URL: "https://pruebasresoluciones.portaloas.udistrital.edu.co",
         RESPONSE_TYPE: "id_token token",
         SCOPE: "openid email documento",
         BUTTON_CLASS: "btn btn-warning btn-sm",
         SIGN_OUT_URL: "https://autenticacion.portaloas.udistrital.edu.co/oidc/logout",
-        SIGN_OUT_REDIRECT_URL: "https://pruebasadministrativa.portaloas.udistrital.edu.co",
+        SIGN_OUT_REDIRECT_URL: "https://pruebasresoluciones.portaloas.udistrital.edu.co",
         SIGN_OUT_APPEND_TOKEN: "true",
     },
     MENU_APP: [{
